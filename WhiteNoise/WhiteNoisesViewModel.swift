@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFAudio
+import Combine
 
 class WhiteNoisesViewModel: ObservableObject {
 
@@ -21,7 +22,8 @@ class WhiteNoisesViewModel: ObservableObject {
 
     @Published var isPlaying: Bool
 
-    // Initialize your sounds
+    private var cancellables: [AnyCancellable] = []
+
     init() {
         self.isPlaying = false
 
@@ -30,6 +32,19 @@ class WhiteNoisesViewModel: ObservableObject {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print("Setting category to AVAudioSessionCategoryPlayback failed.")
+        }
+
+        soundsViewModels.forEach { soundViewModel in
+            let cancellable = soundViewModel.$isActive
+                .dropFirst()
+                .sink { isActive in
+                    if isActive {
+                        soundViewModel.playSound()
+                    } else {
+                        soundViewModel.stopSound()
+                    }
+                }
+            cancellables.append(cancellable)
         }
     }
 

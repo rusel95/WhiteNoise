@@ -24,6 +24,7 @@ struct SoundView: View {
                 }) {
                     Image(systemName: viewModel.isActive ? "speaker.wave.2.fill" : "speaker.slash.fill")
                         .frame(width: 28, height: 28)
+                        .foregroundColor(.white)
                 }
             }
 

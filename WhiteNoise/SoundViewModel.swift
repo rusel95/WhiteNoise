@@ -28,6 +28,7 @@ class SoundViewModel: ObservableObject, Identifiable {
             }
             player = try AVAudioPlayer(contentsOf: url)
             player?.prepareToPlay()
+            player?.numberOfLoops = -1
             player?.volume = Float(self.volume)
         } catch {
             print("Error loading audio player: \(error)")
