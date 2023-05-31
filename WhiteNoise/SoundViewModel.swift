@@ -2,30 +2,48 @@
 //  SoundViewModel.swift
 //  WhiteNoise
 //
-//  Created by Ruslan Popesku on 30.05.2023.
+//  Created by Ruslan Popesku on 31.05.2023.
 //
 
-import Combine
 import Foundation
-import AVFAudio
+import AVFoundation
 
-class SoundsViewModel: ObservableObject {
-    
-    @Published var sounds = [
-        Sound(name: "Birds", fileName: "birds"),
-        Sound(name: "Whitenoise", fileName: "whitenoise"),
-        Sound(name: "Jungle", fileName: "jungle"),
-        Sound(name: "Sea", fileName: "sea"),
-        Sound(name: "Wind", fileName: "wind"),
-        Sound(name: "Windstorm", fileName: "windstorm")
-    ]
+class SoundViewModel: ObservableObject, Identifiable {
 
-    init() {
+    @Published var sound: Sound
+    @Published var volume: Double
+    @Published var isActive: Bool
+
+    private var player: AVAudioPlayer?
+
+    init(sound: Sound, volume: Double, isActive: Bool) {
+        self.sound = sound
+        self.volume = volume
+        self.isActive = isActive
+        
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
+            guard let url = Bundle.main.url(forResource: sound.fileName, withExtension: "mp3") else {
+                print("Unable to find sound file")
+                return
+            }
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.prepareToPlay()
+            player?.volume = Float(self.volume)
         } catch {
-            print("Setting category to AVAudioSessionCategoryPlayback failed.")
+            print("Error loading audio player: \(error)")
         }
+    }
+
+    func adjustVolume(to volume: Double) {
+        self.volume = volume
+        player?.volume = Float(volume)
+    }
+
+    func playSound() {
+        player?.play()
+    }
+
+    func stopSound() {
+        player?.stop()
     }
 }

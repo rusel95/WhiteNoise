@@ -8,19 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel = SoundsViewModel()
+
+    @ObservedObject var viewModel = WhiteNoisesViewModel()
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack {
-                    ForEach(viewModel.sounds) { sound in
-                        SoundView(sound: sound)
-                            .padding(.vertical)
-                    }
-                }
-                .navigationTitle("Sounds")
-            }
+            WhiteNoisesView(viewModel: WhiteNoisesViewModel())
+                .background(Color.black)
         }
     }
 }

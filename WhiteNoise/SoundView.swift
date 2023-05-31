@@ -2,53 +2,42 @@
 //  SoundView.swift
 //  WhiteNoise
 //
-//  Created by Ruslan Popesku on 30.05.2023.
+//  Created by Ruslan Popesku on 31.05.2023.
 //
 
 import SwiftUI
 
 struct SoundView: View {
 
-    @ObservedObject var sound: Sound
-
-    @State private var isPlaying = false
+    @ObservedObject var viewModel: SoundViewModel
 
     var body: some View {
         VStack {
-            #if os(tvOS)
-            Text(sound.name)
-                .font(.headline)
             HStack {
+                Text(viewModel.sound.name)
+                    .foregroundColor(.white)
+
+                Spacer()
+                
                 Button(action: {
-                    sound.volume = max(sound.volume - 0.1, 0)
+                    viewModel.isActive = !viewModel.isActive
                 }) {
-                    Text("-")
-                }
-                Text("Volume: \(Int(sound.volume * 100))")
-                Button(action: {
-                    sound.volume = min(sound.volume + 0.1, 1)
-                }) {
-                    Text("+")
+                    Image(systemName: viewModel.isActive ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                        .frame(width: 28, height: 28)
                 }
             }
-            Button(action: {
-                if isPlaying {
-                    sound.stopSound()
-                } else {
-                    sound.playSound()
+
+            HStack {
+                #if os(tvOS)
+                FocusableView { isFocused in
+                    viewModel.adjustVolume(to: isFocused ? 1 : 0)
                 }
-                isPlaying.toggle()
-            }) {
-                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                #else
+                Slider(value: $viewModel.volume, in: 0...1, onEditingChanged: { _ in
+                    viewModel.adjustVolume(to: viewModel.volume)
+                })
+                #endif
             }
-            #else
-            Text(sound.name)
-                .font(.headline)
-            Slider(value: $sound.volume, in: 0...1)
-                .padding(.horizontal)
-            #endif
         }
     }
-    
 }
-
