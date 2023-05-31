@@ -14,6 +14,15 @@
 		74349A652A26413F00AB0EF5 /* WhiteNoiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A642A26413F00AB0EF5 /* WhiteNoiseTests.swift */; };
 		74349A6F2A26413F00AB0EF5 /* WhiteNoiseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A6E2A26413F00AB0EF5 /* WhiteNoiseUITests.swift */; };
 		74349A712A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A702A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift */; };
+		74349A7E2A2646D000AB0EF5 /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A7D2A2646D000AB0EF5 /* SoundView.swift */; };
+		74349A802A2646EE00AB0EF5 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A7F2A2646EE00AB0EF5 /* Sound.swift */; };
+		74349A822A26470900AB0EF5 /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A812A26470900AB0EF5 /* SoundViewModel.swift */; };
+		74349AC52A264F4F00AB0EF5 /* sea.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74349ABF2A264F4F00AB0EF5 /* sea.mp3 */; };
+		74349AC62A264F4F00AB0EF5 /* jungle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74349AC02A264F4F00AB0EF5 /* jungle.mp3 */; };
+		74349AC72A264F4F00AB0EF5 /* birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74349AC12A264F4F00AB0EF5 /* birds.mp3 */; };
+		74349AC82A264F4F00AB0EF5 /* whitenoise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74349AC22A264F4F00AB0EF5 /* whitenoise.mp3 */; };
+		74349AC92A264F4F00AB0EF5 /* wind.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74349AC32A264F4F00AB0EF5 /* wind.mp3 */; };
+		74349ACA2A264F4F00AB0EF5 /* windstorm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74349AC42A264F4F00AB0EF5 /* windstorm.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +53,16 @@
 		74349A6A2A26413F00AB0EF5 /* WhiteNoiseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74349A6E2A26413F00AB0EF5 /* WhiteNoiseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseUITests.swift; sourceTree = "<group>"; };
 		74349A702A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		74349A7D2A2646D000AB0EF5 /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
+		74349A7F2A2646EE00AB0EF5 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		74349A812A26470900AB0EF5 /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
+		74349ABF2A264F4F00AB0EF5 /* sea.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sea.mp3; sourceTree = "<group>"; };
+		74349AC02A264F4F00AB0EF5 /* jungle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jungle.mp3; sourceTree = "<group>"; };
+		74349AC12A264F4F00AB0EF5 /* birds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = birds.mp3; sourceTree = "<group>"; };
+		74349AC22A264F4F00AB0EF5 /* whitenoise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = whitenoise.mp3; sourceTree = "<group>"; };
+		74349AC32A264F4F00AB0EF5 /* wind.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wind.mp3; sourceTree = "<group>"; };
+		74349AC42A264F4F00AB0EF5 /* windstorm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = windstorm.mp3; sourceTree = "<group>"; };
+		74349ACB2A2651AC00AB0EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +113,13 @@
 		74349A522A26413C00AB0EF5 /* WhiteNoise */ = {
 			isa = PBXGroup;
 			children = (
+				74349ACB2A2651AC00AB0EF5 /* Info.plist */,
 				74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */,
+				74349A7F2A2646EE00AB0EF5 /* Sound.swift */,
 				74349A552A26413C00AB0EF5 /* ContentView.swift */,
+				74349A7D2A2646D000AB0EF5 /* SoundView.swift */,
+				74349A812A26470900AB0EF5 /* SoundViewModel.swift */,
+				74349A832A26494300AB0EF5 /* Sounds */,
 				74349A572A26413F00AB0EF5 /* Assets.xcassets */,
 				74349A592A26413F00AB0EF5 /* Preview Content */,
 			);
@@ -125,6 +149,19 @@
 				74349A702A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift */,
 			);
 			path = WhiteNoiseUITests;
+			sourceTree = "<group>";
+		};
+		74349A832A26494300AB0EF5 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				74349AC12A264F4F00AB0EF5 /* birds.mp3 */,
+				74349AC02A264F4F00AB0EF5 /* jungle.mp3 */,
+				74349ABF2A264F4F00AB0EF5 /* sea.mp3 */,
+				74349AC22A264F4F00AB0EF5 /* whitenoise.mp3 */,
+				74349AC32A264F4F00AB0EF5 /* wind.mp3 */,
+				74349AC42A264F4F00AB0EF5 /* windstorm.mp3 */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,7 +269,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */,
+				74349AC62A264F4F00AB0EF5 /* jungle.mp3 in Resources */,
+				74349AC92A264F4F00AB0EF5 /* wind.mp3 in Resources */,
+				74349AC82A264F4F00AB0EF5 /* whitenoise.mp3 in Resources */,
+				74349AC52A264F4F00AB0EF5 /* sea.mp3 in Resources */,
 				74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */,
+				74349ACA2A264F4F00AB0EF5 /* windstorm.mp3 in Resources */,
+				74349AC72A264F4F00AB0EF5 /* birds.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +302,9 @@
 			files = (
 				74349A562A26413C00AB0EF5 /* ContentView.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
+				74349A822A26470900AB0EF5 /* SoundViewModel.swift in Sources */,
+				74349A7E2A2646D000AB0EF5 /* SoundView.swift in Sources */,
+				74349A802A2646EE00AB0EF5 /* Sound.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,16 +458,18 @@
 		74349A752A26413F00AB0EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WhiteNoise/Info.plist;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -429,25 +477,31 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
+				TARGETED_DEVICE_FAMILY = "1,2,3";
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 			};
 			name = Debug;
 		};
 		74349A762A26413F00AB0EF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WhiteNoise/Info.plist;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -455,9 +509,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
+				TARGETED_DEVICE_FAMILY = "1,2,3";
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 			};
 			name = Release;
 		};

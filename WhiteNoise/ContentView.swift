@@ -8,14 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var viewModel = SoundsViewModel()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            ScrollView {
+                VStack {
+                    ForEach(viewModel.sounds) { sound in
+                        SoundView(sound: sound)
+                            .padding(.vertical)
+                    }
+                }
+                .navigationTitle("Sounds")
+            }
         }
-        .padding()
     }
 }
 
