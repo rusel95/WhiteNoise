@@ -65,6 +65,21 @@
                   endingLineNumber = "34"
                   offsetFromSymbolStart = "2266">
                </Location>
+               <Location
+                  uuid = "1C124B5A-BE3E-4DA0-86C4-DC049D608EEE - 67c23ac2afad9a37"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WhiteNoise.SoundViewModel.init(sound: WhiteNoise.Sound, volume: Swift.Double, isActive: Swift.Bool) -&gt; WhiteNoise.SoundViewModel"
+                  moduleName = "WhiteNoise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "1984">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -78,28 +93,58 @@
             filePath = "WhiteNoise/WhiteNoisesViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "init()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 349f1617d6fcdb53"
+                  uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 351da69744ec77d"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "WhiteNoise.WhiteNoisesViewModel.init() -&gt; WhiteNoise.WhiteNoisesViewModel"
+                  symbolName = "closure #1 (WhiteNoise.SoundViewModel) -&gt; () in WhiteNoise.WhiteNoisesViewModel.init() -&gt; WhiteNoise.WhiteNoisesViewModel"
                   moduleName = "WhiteNoise"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "1707">
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "244">
                </Location>
                <Location
-                  uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 349f1617d6fcdb53"
+                  uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 351da69744ec77d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (WhiteNoise.SoundViewModel) -&gt; () in WhiteNoise.WhiteNoisesViewModel.init() -&gt; WhiteNoise.WhiteNoisesViewModel"
+                  moduleName = "WhiteNoise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "308">
+               </Location>
+               <Location
+                  uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 491ddbea2a782594"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in closure #1 (WhiteNoise.SoundViewModel) -&gt; () in WhiteNoise.WhiteNoisesViewModel.init() -&gt; WhiteNoise.WhiteNoisesViewModel"
+                  moduleName = "WhiteNoise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 349f1617d6fcda5b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -109,9 +154,39 @@
                   urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "1940">
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "2372">
+               </Location>
+               <Location
+                  uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 349f1617d6fcda5b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WhiteNoise.WhiteNoisesViewModel.init() -&gt; WhiteNoise.WhiteNoisesViewModel"
+                  moduleName = "WhiteNoise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "2920">
+               </Location>
+               <Location
+                  uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 349f1617d6fcda5b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WhiteNoise.WhiteNoisesViewModel.init() -&gt; WhiteNoise.WhiteNoisesViewModel"
+                  moduleName = "WhiteNoise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "3112">
                </Location>
             </Locations>
          </BreakpointContent>

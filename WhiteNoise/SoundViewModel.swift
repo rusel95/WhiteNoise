@@ -44,7 +44,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         player?.play()
     }
 
-    func stopSound() {
-        player?.stop()
+    func pauseSound() {
+        player?.pause()
     }
 }

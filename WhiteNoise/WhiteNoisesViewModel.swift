@@ -11,6 +11,8 @@ import Combine
 
 class WhiteNoisesViewModel: ObservableObject {
 
+    // MARK: Properties
+
     @Published var soundsViewModels: [SoundViewModel] = [
         SoundViewModel(sound: Sound(name: "Birds", fileName: "birds"), volume: 0.3, isActive: true),
         SoundViewModel(sound: Sound(name: "Whitenoise", fileName: "whitenoise"), volume: 0.3, isActive: false),
@@ -22,7 +24,13 @@ class WhiteNoisesViewModel: ObservableObject {
 
     @Published var isPlaying: Bool
 
+    @Published var selectedMinutes = 0
+    @Published var timerRemainingSeconds: Int = 0
+
+    private var timer: Timer?
     private var cancellables: [AnyCancellable] = []
+
+    // MARK: Init
 
     init() {
         self.isPlaying = false
@@ -41,31 +49,48 @@ class WhiteNoisesViewModel: ObservableObject {
                     if isActive {
                         soundViewModel.playSound()
                     } else {
-                        soundViewModel.stopSound()
+                        soundViewModel.pauseSound()
                     }
                 }
             cancellables.append(cancellable)
         }
+
+        let cancellable = $selectedMinutes.dropFirst().sink { [weak self] selectedMinutes in
+            self?.timerRemainingSeconds = selectedMinutes * 60
+        }
+        cancellables.append(cancellable)
     }
 
-    func startTimer() {
-        // Add your timer logic here
-        // For example, you can use Timer.scheduledTimer to start a timer and stop the sounds when the timer expires
-    }
+    // MARK: Methods
 
     func playSounds() {
-        // Go through each sound, and if it is active, create an AVAudioPlayer for it and play it
+        if selectedMinutes > 0 {
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+                guard let self else { return }
+
+                if self.timerRemainingSeconds > 0 {
+                    self.timerRemainingSeconds -= 1
+                } else {
+                    timer.invalidate()
+                    self.pauseSounds()
+                }
+            }
+        }
+
         for soundViewModel in soundsViewModels where soundViewModel.isActive {
             soundViewModel.playSound()
         }
+
         self.isPlaying = true
     }
 
-    func stopSounds() {
-        // Stop all sounds by going through each AVAudioPlayer and calling its stop method
-        // Go through each sound, and if it is active, create an AVAudioPlayer for it and play it
+    func pauseSounds() {
+        timer?.invalidate()
+        timer = nil
+
         for soundViewModel in soundsViewModels where soundViewModel.isActive {
-            soundViewModel.stopSound()
+            soundViewModel.pauseSound()
         }
         self.isPlaying = false
     }
