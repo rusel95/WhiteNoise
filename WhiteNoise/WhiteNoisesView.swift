@@ -14,14 +14,14 @@ struct WhiteNoisesView: View {
     @State private var showPicker = false
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ScrollView {
                 ForEach(viewModel.soundsViewModels) { viewModel in
                     SoundView(viewModel: viewModel)
-                    Divider()
                 }
             }
-            .padding()
+
+            // MARK: - Bottom Controller
 
             HStack {
                 HStack {
@@ -65,6 +65,8 @@ struct WhiteNoisesView: View {
             }
             .frame(maxWidth: .infinity)
             .foregroundColor(Color.white)
+            .background(Color.black)
         }
     }
+
 }

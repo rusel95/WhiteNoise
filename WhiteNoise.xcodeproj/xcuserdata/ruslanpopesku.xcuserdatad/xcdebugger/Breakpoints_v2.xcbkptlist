@@ -110,8 +110,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "173"
             endingLineNumber = "173"
-            landmarkName = "soundsViewModels"
-            landmarkType = "24">
+            landmarkName = "init()"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "BDD969E4-0364-4774-9406-4BFCA46D6DCF - 349f1617d6fcdd0c"

@@ -186,8 +186,8 @@ class WhiteNoisesViewModel: ObservableObject {
             cancellables.append(cancellable)
         }
 
-        let cancellable = $selectedMinutes.dropFirst().sink { [weak self] selectedMinutes in
-            self?.timerRemainingSeconds = selectedMinutes * 60
+        let cancellable = $timerMode.sink { [weak self] timerMode in
+            self?.timerRemainingSeconds = timerMode.minutes * 60
         }
         cancellables.append(cancellable)
     }
@@ -204,7 +204,7 @@ class WhiteNoisesViewModel: ObservableObject {
                     self.timerRemainingSeconds -= 1
                 } else {
                     timer.invalidate()
-                    self.pauseSounds()
+                    self.pauseSounds(with: 5)
                 }
             }
         }
@@ -216,12 +216,12 @@ class WhiteNoisesViewModel: ObservableObject {
         self.isPlaying = true
     }
 
-    func pauseSounds() {
+    func pauseSounds(with fadeDuration: Double? = nil) {
         timer?.invalidate()
         timer = nil
 
         for soundViewModel in soundsViewModels where soundViewModel.isActive {
-            soundViewModel.pauseSound()
+            soundViewModel.pauseSound(with: fadeDuration)
         }
         self.isPlaying = false
     }

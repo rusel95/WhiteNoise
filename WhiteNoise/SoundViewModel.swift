@@ -15,6 +15,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     @Published var isActive: Bool
 
     private var player: AVAudioPlayer?
+    private var fadeTimer: Timer?
 
     init(sound: Sound, volume: Double, isActive: Bool) {
         self.sound = sound
@@ -44,7 +45,20 @@ class SoundViewModel: ObservableObject, Identifiable {
         player?.play()
     }
 
-    func pauseSound() {
-        player?.pause()
+    func pauseSound(with fadeDuration: Double? = nil) {
+        if let fadeDuration = fadeDuration {
+            fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
+                // decrease volume
+                self?.player?.volume -= Float(0.02 / fadeDuration)
+
+                // stop timer and player when volume is 0
+                if self?.player?.volume ?? 0 <= 0 {
+                    self?.fadeTimer?.invalidate()
+                    self?.player?.pause()
+                }
+            }
+        } else {
+            player?.pause()
+        }
     }
 }

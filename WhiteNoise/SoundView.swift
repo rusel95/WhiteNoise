@@ -12,7 +12,7 @@ struct SoundView: View {
     @ObservedObject var viewModel: SoundViewModel
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
                 Text(viewModel.sound.name)
                     .foregroundColor(.white)
@@ -27,6 +27,8 @@ struct SoundView: View {
                         .foregroundColor(.white)
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
 
             HStack {
                 #if os(tvOS)
@@ -39,6 +41,12 @@ struct SoundView: View {
                 })
                 #endif
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
         }
+        .background(Color.black.opacity(0.3))
+        .cornerRadius(16)
+        .padding(.horizontal)
+        .padding(.vertical, 4)
     }
 }
