@@ -50,30 +50,15 @@ struct WhiteNoisesView: View {
                             .frame(width: 36, height: 36)
                     }
                     .padding(8)
-                    .popover(isPresented: $showPicker, arrowEdge: .top) {
-                        VStack {
-                            Picker(selection: $viewModel.selectedMinutes, label: Text("Minutes")) {
-                                ForEach(1..<61) { minute in
-                                    Text("in \(minute) min")
-                                }
-                            }
-                            .labelsHidden()
-                            .pickerStyle(WheelPickerStyle())
 
-                            Button(action: {
-                                showPicker = false
-                            }) {
-                                Text("Done")
-                            }
-                            .padding()
+                    Spacer()
+
+                    Picker(selection: $viewModel.timerMode, label: Text("")) {
+                        ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
+                            Text(mode.description)
                         }
-                        .background(Color.secondary)
                     }
-
-                    if viewModel.timerRemainingSeconds > 0 {
-                        Spacer()
-                        Text("\(viewModel.timerRemainingSeconds)")
-                    }
+                    .pickerStyle(.menu)
 
                     Spacer()
                 }
