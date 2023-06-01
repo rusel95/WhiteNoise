@@ -14,7 +14,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             WhiteNoisesView(viewModel: WhiteNoisesViewModel())
-                .background(Color.black.opacity(0.9))
         }
     }
 }

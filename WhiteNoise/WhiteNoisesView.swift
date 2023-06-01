@@ -36,29 +36,23 @@ struct WhiteNoisesView: View {
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause.circle" : "play.circle")
                             .resizable()
-                            .frame(width: 36, height: 36)
+                            .frame(width: 48, height: 48)
                     }
                     .padding(8)
                 }
 
                 HStack {
-                    Button(action: {
-                        self.showPicker = true
-                    }) {
+                    Menu {
+                        ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
+                            Button(mode.description) {
+                                viewModel.timerMode = mode
+                            }
+                        }
+                    } label: {
                         Image(systemName: "timer.circle")
                             .resizable()
-                            .frame(width: 36, height: 36)
+                            .frame(width: 48, height: 48)
                     }
-                    .padding(8)
-
-                    Spacer()
-
-                    Picker(selection: $viewModel.timerMode, label: Text("")) {
-                        ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
-                            Text(mode.description)
-                        }
-                    }
-                    .pickerStyle(.menu)
 
                     Spacer()
                 }
@@ -67,6 +61,7 @@ struct WhiteNoisesView: View {
             .foregroundColor(Color.white)
             .background(Color.black)
         }
+        .background(Color("black90"))
     }
 
 }

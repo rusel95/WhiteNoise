@@ -37,6 +37,7 @@ struct SoundView: View {
                 }
                 #else
                 Slider(value: $viewModel.volume, in: 0...1)
+                    .accentColor(Color("black30"))
                 #endif
             }
             .padding(.horizontal, 16)
