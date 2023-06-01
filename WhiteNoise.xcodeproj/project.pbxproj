@@ -30,6 +30,7 @@
 		743A959B2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959A2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 */; };
 		743A959D2A28C37700219803 /* Summer forest loop, insects, birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959C2A28C37700219803 /* Summer forest loop, insects, birds.mp3 */; };
 		743A959F2A28C39300219803 /* Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959E2A28C39300219803 /* Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3 */; };
+		743A95A12A28CBFD00219803 /* SoundFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A95A02A28CBFD00219803 /* SoundFactory.swift */; };
 		74846D3D2A278474006627BB /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3C2A278474006627BB /* SoundView.swift */; };
 		74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3E2A2787FB006627BB /* SoundViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -79,6 +80,7 @@
 		743A959A2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3"; sourceTree = "<group>"; };
 		743A959C2A28C37700219803 /* Summer forest loop, insects, birds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Summer forest loop, insects, birds.mp3"; sourceTree = "<group>"; };
 		743A959E2A28C39300219803 /* Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3"; sourceTree = "<group>"; };
+		743A95A02A28CBFD00219803 /* SoundFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundFactory.swift; sourceTree = "<group>"; };
 		74846D3C2A278474006627BB /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
 		74846D3E2A2787FB006627BB /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,6 +137,7 @@
 				74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */,
 				74349A552A26413C00AB0EF5 /* ContentView.swift */,
 				74349A7F2A2646EE00AB0EF5 /* Sound.swift */,
+				743A95A02A28CBFD00219803 /* SoundFactory.swift */,
 				74846D3C2A278474006627BB /* SoundView.swift */,
 				74846D3E2A2787FB006627BB /* SoundViewModel.swift */,
 				74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */,
@@ -339,6 +342,7 @@
 				74846D3D2A278474006627BB /* SoundView.swift in Sources */,
 				74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */,
 				74349A822A26470900AB0EF5 /* WhiteNoisesViewModel.swift in Sources */,
+				743A95A12A28CBFD00219803 /* SoundFactory.swift in Sources */,
 				74349A7E2A2646D000AB0EF5 /* WhiteNoisesView.swift in Sources */,
 				74349A802A2646EE00AB0EF5 /* Sound.swift in Sources */,
 			);

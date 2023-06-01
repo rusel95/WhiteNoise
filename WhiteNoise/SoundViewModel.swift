@@ -7,20 +7,38 @@
 
 import Foundation
 import AVFoundation
+import Combine
 
 class SoundViewModel: ObservableObject, Identifiable {
 
-    @Published var sound: Sound
-    @Published var volume: Double
-    @Published var isActive: Bool
+    let name: String
+    @Published var isActive: Bool {
+        didSet {
+            sound.isActive = isActive
+            saveSound()
+        }
+    }
+    @Published var volume: Double {
+        didSet {
+            player?.volume = Float(volume)
+            sound.volume = volume
+            saveSound()
+        }
+    }
 
     private var player: AVAudioPlayer?
     private var fadeTimer: Timer?
 
-    init(sound: Sound, volume: Double, isActive: Bool) {
+    private let sound: Sound
+
+    private var cancellables: [AnyCancellable] = []
+
+    init(sound: Sound) {
         self.sound = sound
-        self.volume = volume
-        self.isActive = isActive
+
+        self.name = sound.name
+        self.isActive = sound.isActive
+        self.volume = sound.volume
         
         do {
             guard let url = Bundle.main.url(forResource: sound.fileName, withExtension: "mp3") else {
@@ -30,15 +48,10 @@ class SoundViewModel: ObservableObject, Identifiable {
             player = try AVAudioPlayer(contentsOf: url)
             player?.prepareToPlay()
             player?.numberOfLoops = -1
-            player?.volume = Float(self.volume)
+            player?.volume = Float(self.sound.volume)
         } catch {
             print("Error loading audio player: \(error)")
         }
-    }
-
-    func adjustVolume(to volume: Double) {
-        self.volume = volume
-        player?.volume = Float(volume)
     }
 
     func playSound() {
@@ -61,4 +74,15 @@ class SoundViewModel: ObservableObject, Identifiable {
             player?.pause()
         }
     }
+
+    private func saveSound() {
+        do {
+            let soundData = try JSONEncoder().encode(sound)
+            UserDefaults.standard.set(soundData, forKey: String(sound.id))
+            UserDefaults.standard.synchronize()
+        } catch {
+            print("Failed to save sound: \(error)")
+        }
+    }
+    
 }

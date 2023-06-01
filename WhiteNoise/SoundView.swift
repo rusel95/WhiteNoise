@@ -14,7 +14,7 @@ struct SoundView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(viewModel.sound.name)
+                Text(viewModel.name)
                     .foregroundColor(.white)
 
                 Spacer()
@@ -36,9 +36,7 @@ struct SoundView: View {
                     viewModel.adjustVolume(to: isFocused ? 1 : 0)
                 }
                 #else
-                Slider(value: $viewModel.volume, in: 0...1, onEditingChanged: { _ in
-                    viewModel.adjustVolume(to: viewModel.volume)
-                })
+                Slider(value: $viewModel.volume, in: 0...1)
                 #endif
             }
             .padding(.horizontal, 16)
