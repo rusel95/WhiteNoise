@@ -114,8 +114,8 @@ class WhiteNoisesViewModel: ObservableObject {
                 if self.timerRemainingSeconds > 0 {
                     self.timerRemainingSeconds -= 1
                 } else {
-                    timer.invalidate()
-                    self.pauseSounds(with: 5)
+                    pauseSounds(with: 5)
+                    self.timerRemainingSeconds = timerMode.minutes * 60
                 }
             }
         }
