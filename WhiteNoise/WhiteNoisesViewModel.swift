@@ -69,12 +69,16 @@ class WhiteNoisesViewModel: ObservableObject {
     init() {
         self.isPlaying = false
 
+#if os(iOS)
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print("Setting category to AVAudioSessionCategoryPlayback failed.")
         }
+#else
+
+#endif
 
         soundsViewModels = SoundFactory.getSavedSounds().map { SoundViewModel(sound: $0) }
 
@@ -110,8 +114,8 @@ class WhiteNoisesViewModel: ObservableObject {
                 if self.timerRemainingSeconds > 0 {
                     self.timerRemainingSeconds -= 1
                 } else {
-                    timer.invalidate()
-                    self.pauseSounds(with: 5)
+                    pauseSounds(with: 5)
+                    self.timerRemainingSeconds = timerMode.minutes * 60
                 }
             }
         }

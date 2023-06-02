@@ -12,9 +12,7 @@ struct ContentView: View {
     @ObservedObject var viewModel = WhiteNoisesViewModel()
 
     var body: some View {
-        NavigationView {
-            WhiteNoisesView(viewModel: WhiteNoisesViewModel())
-        }
+        WhiteNoisesView(viewModel: WhiteNoisesViewModel())
     }
 }
 
