@@ -34,9 +34,13 @@ struct WhiteNoisesView: View {
                             self.viewModel.playSounds()
                         }
                     }) {
+#if os(macOS)
+                        Image(systemName: viewModel.isPlaying ? "pause" : "play")
+#else
                         Image(systemName: viewModel.isPlaying ? "pause.circle" : "play.circle")
                             .resizable()
                             .frame(width: 48, height: 48)
+#endif
                     }
                     .padding(8)
                 }
@@ -52,6 +56,9 @@ struct WhiteNoisesView: View {
                         Image(systemName: "timer.circle")
                             .resizable()
                             .frame(width: 48, height: 48)
+#if os(macOS)
+                        Text(viewModel.timerMode.description)
+#endif
                     }
 
                     Spacer()
