@@ -39,7 +39,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         self.name = sound.name
         self.isActive = sound.isActive
         self.volume = sound.volume
-        
+
         do {
             guard let url = Bundle.main.url(forResource: sound.fileName, withExtension: "mp3") else {
                 print("Unable to find sound file")

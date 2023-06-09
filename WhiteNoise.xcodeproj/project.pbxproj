@@ -17,19 +17,13 @@
 		74349A7E2A2646D000AB0EF5 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */; };
 		74349A802A2646EE00AB0EF5 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A7F2A2646EE00AB0EF5 /* Sound.swift */; };
 		74349A822A26470900AB0EF5 /* WhiteNoisesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A812A26470900AB0EF5 /* WhiteNoisesViewModel.swift */; };
-		743A95852A28B8C400219803 /* Rain falling in forest with occasional birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95842A28B8C400219803 /* Rain falling in forest with occasional birds.mp3 */; };
-		743A95872A28B91C00219803 /* Medium light constant rain with a rumble of thunder.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95862A28B91C00219803 /* Medium light constant rain with a rumble of thunder.mp3 */; };
-		743A95892A28B9B800219803 /* Medium heavy constant rain with some thunder rumbles.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95882A28B9B800219803 /* Medium heavy constant rain with some thunder rumbles.mp3 */; };
-		743A958B2A28B9E400219803 /* Medium heavy constant rain with drips.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A958A2A28B9E400219803 /* Medium heavy constant rain with drips.mp3 */; };
 		743A958D2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A958C2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 */; };
-		743A958F2A28C18000219803 /* Gentle ocean waves on sandy beach, distant surf, low tide, winter.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A958E2A28C18000219803 /* Gentle ocean waves on sandy beach, distant surf, low tide, winter.mp3 */; };
 		743A95912A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */; };
-		743A95932A28C23900219803 /* Small cascading waterfall, water trickle between rocks.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95922A28C23800219803 /* Small cascading waterfall, water trickle between rocks.mp3 */; };
 		743A95972A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */; };
 		743A95992A28C2DC00219803 /* River or stream, water flowing, running.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */; };
 		743A959B2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959A2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 */; };
-		743A959D2A28C37700219803 /* Summer forest loop, insects, birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959C2A28C37700219803 /* Summer forest loop, insects, birds.mp3 */; };
-		743A959F2A28C39300219803 /* Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959E2A28C39300219803 /* Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3 */; };
+		743A959D2A28C37700219803 /* Summer forest insects and birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959C2A28C37700219803 /* Summer forest insects and birds.mp3 */; };
+		743A959F2A28C39300219803 /* Woodland ambience & several birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959E2A28C39300219803 /* Woodland ambience & several birds.mp3 */; };
 		743A95A12A28CBFD00219803 /* SoundFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A95A02A28CBFD00219803 /* SoundFactory.swift */; };
 		74846D3D2A278474006627BB /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3C2A278474006627BB /* SoundView.swift */; };
 		74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3E2A2787FB006627BB /* SoundViewModel.swift */; };
@@ -68,19 +62,13 @@
 		74349A7F2A2646EE00AB0EF5 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		74349A812A26470900AB0EF5 /* WhiteNoisesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesViewModel.swift; sourceTree = "<group>"; };
 		74349ACB2A2651AC00AB0EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		743A95842A28B8C400219803 /* Rain falling in forest with occasional birds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Rain falling in forest with occasional birds.mp3"; sourceTree = "<group>"; };
-		743A95862A28B91C00219803 /* Medium light constant rain with a rumble of thunder.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Medium light constant rain with a rumble of thunder.mp3"; sourceTree = "<group>"; };
-		743A95882A28B9B800219803 /* Medium heavy constant rain with some thunder rumbles.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Medium heavy constant rain with some thunder rumbles.mp3"; sourceTree = "<group>"; };
-		743A958A2A28B9E400219803 /* Medium heavy constant rain with drips.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Medium heavy constant rain with drips.mp3"; sourceTree = "<group>"; };
 		743A958C2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Springtime rain and thunder and lightning.mp3"; sourceTree = "<group>"; };
-		743A958E2A28C18000219803 /* Gentle ocean waves on sandy beach, distant surf, low tide, winter.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Gentle ocean waves on sandy beach, distant surf, low tide, winter.mp3"; sourceTree = "<group>"; };
 		743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3"; sourceTree = "<group>"; };
-		743A95922A28C23800219803 /* Small cascading waterfall, water trickle between rocks.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Small cascading waterfall, water trickle between rocks.mp3"; sourceTree = "<group>"; };
 		743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3"; sourceTree = "<group>"; };
 		743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "River or stream, water flowing, running.mp3"; sourceTree = "<group>"; };
 		743A959A2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3"; sourceTree = "<group>"; };
-		743A959C2A28C37700219803 /* Summer forest loop, insects, birds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Summer forest loop, insects, birds.mp3"; sourceTree = "<group>"; };
-		743A959E2A28C39300219803 /* Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3"; sourceTree = "<group>"; };
+		743A959C2A28C37700219803 /* Summer forest insects and birds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Summer forest insects and birds.mp3"; sourceTree = "<group>"; };
+		743A959E2A28C39300219803 /* Woodland ambience & several birds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Woodland ambience & several birds.mp3"; sourceTree = "<group>"; };
 		743A95A02A28CBFD00219803 /* SoundFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundFactory.swift; sourceTree = "<group>"; };
 		74846D3C2A278474006627BB /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
 		74846D3E2A2787FB006627BB /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
@@ -178,19 +166,13 @@
 		74349A832A26494300AB0EF5 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				743A95842A28B8C400219803 /* Rain falling in forest with occasional birds.mp3 */,
-				743A95862A28B91C00219803 /* Medium light constant rain with a rumble of thunder.mp3 */,
-				743A95882A28B9B800219803 /* Medium heavy constant rain with some thunder rumbles.mp3 */,
-				743A958A2A28B9E400219803 /* Medium heavy constant rain with drips.mp3 */,
 				743A958C2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 */,
-				743A958E2A28C18000219803 /* Gentle ocean waves on sandy beach, distant surf, low tide, winter.mp3 */,
 				743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */,
-				743A95922A28C23800219803 /* Small cascading waterfall, water trickle between rocks.mp3 */,
 				743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */,
 				743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */,
 				743A959A2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 */,
-				743A959C2A28C37700219803 /* Summer forest loop, insects, birds.mp3 */,
-				743A959E2A28C39300219803 /* Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3 */,
+				743A959C2A28C37700219803 /* Summer forest insects and birds.mp3 */,
+				743A959E2A28C39300219803 /* Woodland ambience & several birds.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -301,18 +283,12 @@
 			files = (
 				743A959B2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 in Resources */,
 				743A95992A28C2DC00219803 /* River or stream, water flowing, running.mp3 in Resources */,
-				743A958B2A28B9E400219803 /* Medium heavy constant rain with drips.mp3 in Resources */,
-				743A95892A28B9B800219803 /* Medium heavy constant rain with some thunder rumbles.mp3 in Resources */,
 				74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */,
-				743A95932A28C23900219803 /* Small cascading waterfall, water trickle between rocks.mp3 in Resources */,
 				743A95912A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 in Resources */,
 				74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */,
 				743A958D2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 in Resources */,
-				743A95872A28B91C00219803 /* Medium light constant rain with a rumble of thunder.mp3 in Resources */,
-				743A959F2A28C39300219803 /* Designed forest, woodland ambience loop, several birds including the American goldfinch.mp3 in Resources */,
-				743A958F2A28C18000219803 /* Gentle ocean waves on sandy beach, distant surf, low tide, winter.mp3 in Resources */,
-				743A959D2A28C37700219803 /* Summer forest loop, insects, birds.mp3 in Resources */,
-				743A95852A28B8C400219803 /* Rain falling in forest with occasional birds.mp3 in Resources */,
+				743A959F2A28C39300219803 /* Woodland ambience & several birds.mp3 in Resources */,
+				743A959D2A28C37700219803 /* Summer forest insects and birds.mp3 in Resources */,
 				743A95972A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

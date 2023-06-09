@@ -15,7 +15,7 @@ class WhiteNoisesViewModel: ObservableObject {
 
         var id: Self { self }
 
-        case off, oneMinute, twoMinutes, threeMinutes, fiveMinutes, tenMinutes
+        case off, oneMinute, twoMinutes, threeMinutes, fiveMinutes, tenMinutes, fifteenMinutes, thirtyMinutes, sixtyMinutes
 
         var minutes: Int {
             switch self {
@@ -31,6 +31,12 @@ class WhiteNoisesViewModel: ObservableObject {
                 return 5
             case .tenMinutes:
                 return 10
+            case .fifteenMinutes:
+                return 15
+            case .thirtyMinutes:
+                return 30
+            case .sixtyMinutes:
+                return 60
             }
         }
 
@@ -48,6 +54,12 @@ class WhiteNoisesViewModel: ObservableObject {
                 return "in 5 minutes"
             case .tenMinutes:
                 return "in 10 minutes"
+            case .fifteenMinutes:
+                return "in 15 minutes"
+            case .thirtyMinutes:
+                return "in 30 minutes"
+            case .sixtyMinutes:
+                return "in 60 minutes"
             }
         }
     }
@@ -98,7 +110,14 @@ class WhiteNoisesViewModel: ObservableObject {
         }
 
         let cancellable = $timerMode.sink { [weak self] timerMode in
-            self?.timerRemainingSeconds = timerMode.minutes * 60
+            switch timerMode {
+            case .off:
+                self?.timerRemainingSeconds = 0
+                self?.timer?.invalidate()
+            default:
+                self?.timerRemainingSeconds = timerMode.minutes * 60
+                self?.restartTimer()
+            }
         }
         cancellables.append(cancellable)
     }
@@ -107,17 +126,7 @@ class WhiteNoisesViewModel: ObservableObject {
 
     func playSounds() {
         if timerMode != .off {
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-                guard let self else { return }
-
-                if self.timerRemainingSeconds > 0 {
-                    self.timerRemainingSeconds -= 1
-                } else {
-                    pauseSounds(with: 5)
-                    self.timerRemainingSeconds = timerMode.minutes * 60
-                }
-            }
+            restartTimer()
         }
 
         for soundViewModel in soundsViewModels where soundViewModel.isActive {
@@ -135,6 +144,24 @@ class WhiteNoisesViewModel: ObservableObject {
             soundViewModel.pauseSound(with: fadeDuration)
         }
         self.isPlaying = false
+    }
+
+}
+
+private extension WhiteNoisesViewModel {
+
+    func restartTimer() {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+            guard let self else { return }
+
+            if self.timerRemainingSeconds > 0 {
+                self.timerRemainingSeconds -= 1
+            } else {
+                pauseSounds(with: 5)
+                self.timerRemainingSeconds = timerMode.minutes * 60
+            }
+        }
     }
 
 }

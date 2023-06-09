@@ -31,34 +31,6 @@ class SoundFactory {
     static func createSounds() -> [Sound] {
         return [
             Sound(
-                id: 0,
-                name: "Rain falling in forest with occasional birds",
-                fileName: "Rain falling in forest with occasional birds",
-                volume: 0.3,
-                isActive: true
-            ),
-            Sound(
-                id: 1,
-                name: "Medium light constant rain with a rumble of thunder",
-                fileName: "Medium light constant rain with a rumble of thunder",
-                volume: 0.3,
-                isActive: false
-            ),
-            Sound(
-                id: 2,
-                name: "Medium heavy constant rain with some thunder rumbles",
-                fileName: "Medium heavy constant rain with some thunder rumbles",
-                volume: 0.3,
-                isActive: false
-            ),
-            Sound(
-                id: 3,
-                name: "Medium heavy constant rain with drips",
-                fileName: "Medium heavy constant rain with drips",
-                volume: 0.3,
-                isActive: false
-            ),
-            Sound(
                 id: 4,
                 name: "Springtime rain and thunder and lightning",
                 fileName: "Springtime rain and thunder and lightning",
@@ -66,23 +38,9 @@ class SoundFactory {
                 isActive: false
             ),
             Sound(
-                id: 5,
-                name: "Gentle ocean waves on sandy beach, distant surf, low tide, winter",
-                fileName: "Gentle ocean waves on sandy beach, distant surf, low tide, winter",
-                volume: 0.3,
-                isActive: false
-            ),
-            Sound(
                 id: 6,
                 name: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand",
                 fileName: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand",
-                volume: 0.3,
-                isActive: false
-            ),
-            Sound(
-                id: 7,
-                name: "Small cascading waterfall, water trickle between rocks",
-                fileName: "Small cascading waterfall, water trickle between rocks",
                 volume: 0.3,
                 isActive: false
             ),
@@ -102,15 +60,15 @@ class SoundFactory {
             ),
             Sound(
                 id: 10,
-                name: "Summer forest loop, insects, birds",
-                fileName: "Summer forest loop, insects, birds",
+                name: "Summer forest insects and birds",
+                fileName: "Summer forest insects and birds",
                 volume: 0.3,
                 isActive: false
             ),
             Sound(
                 id: 11,
-                name: "Designed forest, woodland ambience loop, several birds including the American goldfinch",
-                fileName: "Designed forest, woodland ambience loop, several birds including the American goldfinch",
+                name: "Woodland ambience & several birds",
+                fileName: "Woodland ambience & several birds",
                 volume: 0.3,
                 isActive: false
             )
