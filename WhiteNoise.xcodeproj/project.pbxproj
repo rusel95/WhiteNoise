@@ -11,7 +11,6 @@
 		74349A562A26413C00AB0EF5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A552A26413C00AB0EF5 /* ContentView.swift */; };
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
-		74349A652A26413F00AB0EF5 /* WhiteNoiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A642A26413F00AB0EF5 /* WhiteNoiseTests.swift */; };
 		74349A6F2A26413F00AB0EF5 /* WhiteNoiseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A6E2A26413F00AB0EF5 /* WhiteNoiseUITests.swift */; };
 		74349A712A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A702A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift */; };
 		74349A7E2A2646D000AB0EF5 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */; };
@@ -27,7 +26,7 @@
 		743A95A12A28CBFD00219803 /* SoundFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A95A02A28CBFD00219803 /* SoundFactory.swift */; };
 		74846D3D2A278474006627BB /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3C2A278474006627BB /* SoundView.swift */; };
 		74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3E2A2787FB006627BB /* SoundViewModel.swift */; };
-		74E8571A2A2A14AA001D07ED /* WhiteNoiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A642A26413F00AB0EF5 /* WhiteNoiseTests.swift */; };
+		74C1A07F2A336C5C00BB9E53 /* WhiteNoiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A642A26413F00AB0EF5 /* WhiteNoiseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -315,7 +314,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				74349A562A26413C00AB0EF5 /* ContentView.swift in Sources */,
-				74E8571A2A2A14AA001D07ED /* WhiteNoiseTests.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
 				74846D3D2A278474006627BB /* SoundView.swift in Sources */,
 				74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */,
@@ -330,7 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74349A652A26413F00AB0EF5 /* WhiteNoiseTests.swift in Sources */,
+				74C1A07F2A336C5C00BB9E53 /* WhiteNoiseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,11 +346,13 @@
 /* Begin PBXTargetDependency section */
 		74349A622A26413F00AB0EF5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 74349A4F2A26413C00AB0EF5 /* WhiteNoise */;
 			targetProxy = 74349A612A26413F00AB0EF5 /* PBXContainerItemProxy */;
 		};
 		74349A6C2A26413F00AB0EF5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 74349A4F2A26413C00AB0EF5 /* WhiteNoise */;
 			targetProxy = 74349A6B2A26413F00AB0EF5 /* PBXContainerItemProxy */;
 		};
@@ -552,13 +552,17 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhiteNoise.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhiteNoise";
+				TARGETED_DEVICE_FAMILY = "1,3";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhiteSoundRuslan1234.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhiteSoundRuslan1234";
 				TVOS_DEPLOYMENT_TARGET = 16.4;
 			};
 			name = Debug;
@@ -572,13 +576,17 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhiteNoise.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhiteNoise";
+				TARGETED_DEVICE_FAMILY = "1,3";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhiteSoundRuslan1234.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhiteSoundRuslan1234";
 				TVOS_DEPLOYMENT_TARGET = 16.4;
 			};
 			name = Release;
@@ -591,12 +599,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
+				TARGETED_DEVICE_FAMILY = "1,3";
 				TEST_TARGET_NAME = WhiteNoise;
 			};
 			name = Debug;
@@ -609,12 +621,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
+				TARGETED_DEVICE_FAMILY = "1,3";
 				TEST_TARGET_NAME = WhiteNoise;
 			};
 			name = Release;
