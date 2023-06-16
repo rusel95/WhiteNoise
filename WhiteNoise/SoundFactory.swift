@@ -12,7 +12,7 @@ class SoundFactory {
     static func getSavedSounds() -> [Sound] {
         createSounds()
             .map {
-                guard let savedSoundData = UserDefaults.standard.data(forKey: String($0.id)) else {
+                guard let savedSoundData = UserDefaults.standard.data(forKey: $0.id) else {
                     return $0
                 }
 
@@ -31,45 +31,73 @@ class SoundFactory {
     static func createSounds() -> [Sound] {
         return [
             Sound(
-                id: 4,
+                name: "soft rain",
+                fileName: "soft rain",
+                isActive: true
+            ),
+            Sound(
+                name: "spring rain",
+                fileName: "spring rain",
+                isActive: false
+            ),
+            Sound(
+                name: "rain medium",
+                fileName: "rain medium",
+                isActive: false
+            ),
+            Sound(
+                name: "rain medium heavy falling trees forest",
+                fileName: "rain medium heavy falling trees forest",
+                isActive: false
+            ),
+            Sound(
                 name: "Springtime rain and thunder and lightning",
                 fileName: "Springtime rain and thunder and lightning",
-                volume: 0.3,
                 isActive: false
             ),
             Sound(
-                id: 6,
+                name: "fire crackle spit flames fireplace",
+                fileName: "fire crackle spit flames fireplace",
+                isActive: false
+            ),
+            Sound(
+                name: "fire burning crackle fireplace",
+                fileName: "fire burning crackle fireplace",
+                isActive: false
+            ),
+            Sound(
+                name: "fire in fireplace spit rumble crackle",
+                fileName: "fire in fireplace spit rumble crackle",
+                isActive: false
+            ),
+            Sound(
+                name: "thunder ssolated distant low rumble",
+                fileName: "thunder ssolated distant low rumble",
+                isActive: false
+            ),
+            Sound(
                 name: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand",
                 fileName: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand",
-                volume: 0.3,
                 isActive: false
             ),
             Sound(
-                id: 8,
                 name: "River or stream, water flowing, running",
                 fileName: "River or stream, water flowing, running",
-                volume: 0.3,
                 isActive: false
             ),
             Sound(
-                id: 9,
                 name: "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest",
                 fileName: "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest",
-                volume: 0.3,
                 isActive: false
             ),
             Sound(
-                id: 10,
                 name: "Summer forest insects and birds",
                 fileName: "Summer forest insects and birds",
-                volume: 0.3,
                 isActive: false
             ),
             Sound(
-                id: 11,
                 name: "Woodland ambience & several birds",
                 fileName: "Woodland ambience & several birds",
-                volume: 0.3,
                 isActive: false
             )
         ]
