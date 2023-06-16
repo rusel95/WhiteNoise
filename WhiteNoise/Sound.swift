@@ -16,7 +16,7 @@ class Sound: Codable {
     var volume: Double
     var isActive: Bool
 
-    init(name: String, fileName: String, volume: Double, isActive: Bool) {
+    init(name: String, fileName: String, volume: Double = 0.3, isActive: Bool) {
         self.name = name
         self.fileName = fileName
         self.volume = volume

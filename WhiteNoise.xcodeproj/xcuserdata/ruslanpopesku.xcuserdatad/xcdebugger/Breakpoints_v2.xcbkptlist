@@ -80,6 +80,21 @@
                   endingLineNumber = "53"
                   offsetFromSymbolStart = "2323">
                </Location>
+               <Location
+                  uuid = "1C124B5A-BE3E-4DA0-86C4-DC049D608EEE - 2fa077b89c0fdffa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WhiteSoundRuslan1234.SoundViewModel.init(sound: WhiteSoundRuslan1234.Sound) -&gt; WhiteSoundRuslan1234.SoundViewModel"
+                  moduleName = "WhiteSoundRuslan1234"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "2720">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -218,6 +233,21 @@
                   endingLineNumber = "24"
                   offsetFromSymbolStart = "1269">
                </Location>
+               <Location
+                  uuid = "801BD07D-B614-4EBB-9447-D76D17C4C160 - 7278e0debe3319f5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (WhiteSoundRuslan1234.Sound) -&gt; WhiteSoundRuslan1234.Sound in static WhiteSoundRuslan1234.SoundFactory.getSavedSounds() -&gt; Swift.Array&lt;WhiteSoundRuslan1234.Sound&gt;"
+                  moduleName = "WhiteSoundRuslan1234"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundFactory.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "1008">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -235,6 +265,38 @@
             endingLineNumber = "162"
             landmarkName = "restartTimer()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "31C6FDC0-8582-430F-A2A4-800D2E86A852 - 42ca6993a6ade17a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (__C.NSTimer) -&gt; () in WhiteSoundRuslan1234.WhiteNoisesViewModel.restartTimer() -&gt; ()"
+                  moduleName = "WhiteSoundRuslan1234"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "562">
+               </Location>
+               <Location
+                  uuid = "31C6FDC0-8582-430F-A2A4-800D2E86A852 - 42ca6993a6ade17a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (__C.NSTimer) -&gt; () in WhiteSoundRuslan1234.WhiteNoisesViewModel.restartTimer() -&gt; ()"
+                  moduleName = "WhiteSoundRuslan1234"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "468">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
