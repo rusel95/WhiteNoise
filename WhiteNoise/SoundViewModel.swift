@@ -10,8 +10,7 @@ import AVFoundation
 import Combine
 
 class SoundViewModel: ObservableObject, Identifiable {
-
-    let name: String
+    
     @Published var isActive: Bool {
         didSet {
             sound.isActive = isActive
@@ -25,45 +24,46 @@ class SoundViewModel: ObservableObject, Identifiable {
             saveSound()
         }
     }
-
-    private var player: AVAudioPlayer?
+    @Published var selectedSoundVariant: Sound.SoundVariant
+    
+    private var player: AVAudioPlayer? = AVAudioPlayer()
     private var fadeTimer: Timer?
-
-    private let sound: Sound
-
+    
+    private(set) var sound: Sound
+    
     private var cancellables: [AnyCancellable] = []
-
+    
     init(sound: Sound) {
         self.sound = sound
-
-        self.name = sound.name
+        
         self.isActive = sound.isActive
         self.volume = sound.volume
-
-        do {
-            guard let url = Bundle.main.url(forResource: sound.fileName, withExtension: "mp3") else {
-                print("Unable to find sound file")
-                return
+        self.selectedSoundVariant = sound.selectedSoundVariant
+        
+        let cancellable = $selectedSoundVariant
+            .dropFirst() // Skip the first value
+            .sink { [weak self] selectedSoundVariant in
+                guard let self else { return }
+                
+                self.sound.selectedSoundVariant = selectedSoundVariant
+                self.saveSound()
+                self.prepareSound(fileName: sound.selectedSoundVariant.filename)
             }
-            player = try AVAudioPlayer(contentsOf: url)
-            player?.prepareToPlay()
-            player?.numberOfLoops = -1
-            player?.volume = Float(self.sound.volume)
-        } catch {
-            print("Error loading audio player: \(error)")
-        }
+        cancellables.append(cancellable)
+        
+        prepareSound(fileName: self.sound.selectedSoundVariant.filename)
     }
-
+    
     func playSound() {
         player?.play()
     }
-
+    
     func pauseSound(with fadeDuration: Double? = nil) {
         if let fadeDuration = fadeDuration {
             fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
                 // decrease volume
                 self?.player?.volume -= Float(0.02 / fadeDuration)
-
+                
                 // stop timer and player when volume is 0
                 if self?.player?.volume ?? 0 <= 0 {
                     self?.fadeTimer?.invalidate()
@@ -74,8 +74,27 @@ class SoundViewModel: ObservableObject, Identifiable {
             player?.pause()
         }
     }
+}
 
-    private func saveSound() {
+private extension SoundViewModel {
+    
+    func prepareSound(fileName: String) {
+        do {
+            guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else {
+                print("Unable to find sound file")
+                return
+            }
+            
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.prepareToPlay()
+            player?.numberOfLoops = -1
+            player?.volume = Float(self.sound.volume)
+        } catch {
+            print("Error loading audio player: \(error)")
+        }
+    }
+    
+    func saveSound() {
         do {
             let soundData = try JSONEncoder().encode(sound)
             UserDefaults.standard.set(soundData, forKey: String(sound.id))

@@ -12,12 +12,27 @@ struct SoundView: View {
     @ObservedObject var viewModel: SoundViewModel
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 8) {
             HStack {
-                Text(viewModel.name)
-                    .foregroundColor(.white)
+                Picker(
+                    viewModel.sound.name, selection: $viewModel.selectedSoundVariant
+                ) {
+                    ForEach(viewModel.sound.soundVariants) { variant in
+                        Text(variant.filename).tag(variant as Sound.SoundVariant)
+                    }
+                }
 
-                Spacer()
+                HStack {
+                    #if os(tvOS)
+                    FocusableView { isFocused in
+                        viewModel.adjustVolume(to: isFocused ? 1 : 0)
+                    }
+                    #else
+                    Slider(value: $viewModel.volume, in: 0...1)
+                        .accentColor(Color("black30"))
+                    #endif
+                }
+                .padding(.vertical, 8)
                 
                 Button(action: {
                     viewModel.isActive = !viewModel.isActive
@@ -26,19 +41,6 @@ struct SoundView: View {
                         .frame(width: 28, height: 28)
                         .foregroundColor(.white)
                 }
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-
-            HStack {
-                #if os(tvOS)
-                FocusableView { isFocused in
-                    viewModel.adjustVolume(to: isFocused ? 1 : 0)
-                }
-                #else
-                Slider(value: $viewModel.volume, in: 0...1)
-                    .accentColor(Color("black30"))
-                #endif
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
