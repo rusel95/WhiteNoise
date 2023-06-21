@@ -31,75 +31,61 @@ class SoundFactory {
     static func createSounds() -> [Sound] {
         return [
             Sound(
-                name: "soft rain",
-                fileName: "soft rain",
-                isActive: true
+                name: "rain",
+                isActive: true,
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(filename: "soft rain"),
+                    .init(filename: "spring rain"),
+                    .init(filename: "rain medium"),
+                    .init(filename: "rain medium heavy falling trees forest"),
+                    .init(filename: "Springtime rain and thunder and lightning")
+                ]
             ),
             Sound(
-                name: "spring rain",
-                fileName: "spring rain",
-                isActive: false
+                name: "fireplace",
+                isActive: false,
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(filename: "fire crackle spit flames fireplace"),
+                    .init(filename: "fire burning crackle fireplace"),
+                    .init(filename: "fire in fireplace spit rumble crackle"),
+                ]
             ),
             Sound(
-                name: "rain medium",
-                fileName: "rain medium",
-                isActive: false
+                name: "thunder",
+                isActive: false,
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(filename: "thunder ssolated distant low rumble"),
+                ]
             ),
             Sound(
-                name: "rain medium heavy falling trees forest",
-                fileName: "rain medium heavy falling trees forest",
-                isActive: false
+                name: "sea",
+                isActive: false,
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(filename: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand"),
+                ]
             ),
             Sound(
-                name: "Springtime rain and thunder and lightning",
-                fileName: "Springtime rain and thunder and lightning",
-                isActive: false
+                name: "river",
+                isActive: false,
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(filename: "River or stream, water flowing, running"),
+                    .init(filename: "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest")
+                ]
             ),
             Sound(
-                name: "fire crackle spit flames fireplace",
-                fileName: "fire crackle spit flames fireplace",
-                isActive: false
+                name: "forest",
+                isActive: false,
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(filename: "Summer forest insects and birds"),
+                    .init(filename: "Woodland ambience & several birds")
+                ]
             ),
-            Sound(
-                name: "fire burning crackle fireplace",
-                fileName: "fire burning crackle fireplace",
-                isActive: false
-            ),
-            Sound(
-                name: "fire in fireplace spit rumble crackle",
-                fileName: "fire in fireplace spit rumble crackle",
-                isActive: false
-            ),
-            Sound(
-                name: "thunder ssolated distant low rumble",
-                fileName: "thunder ssolated distant low rumble",
-                isActive: false
-            ),
-            Sound(
-                name: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand",
-                fileName: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand",
-                isActive: false
-            ),
-            Sound(
-                name: "River or stream, water flowing, running",
-                fileName: "River or stream, water flowing, running",
-                isActive: false
-            ),
-            Sound(
-                name: "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest",
-                fileName: "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest",
-                isActive: false
-            ),
-            Sound(
-                name: "Summer forest insects and birds",
-                fileName: "Summer forest insects and birds",
-                isActive: false
-            ),
-            Sound(
-                name: "Woodland ambience & several birds",
-                fileName: "Woodland ambience & several birds",
-                isActive: false
-            )
         ]
     }
 

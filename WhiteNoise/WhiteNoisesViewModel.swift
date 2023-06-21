@@ -95,7 +95,7 @@ class WhiteNoisesViewModel: ObservableObject {
         soundsViewModels = SoundFactory.getSavedSounds().map { SoundViewModel(sound: $0) }
 
         soundsViewModels.forEach { soundViewModel in
-            let cancellable = soundViewModel.$isActive
+            let isActiveCancellable = soundViewModel.$isActive
                 .dropFirst()
                 .sink { [weak self] isActive in
                     if isActive {
@@ -106,7 +106,18 @@ class WhiteNoisesViewModel: ObservableObject {
                         soundViewModel.pauseSound()
                     }
                 }
-            cancellables.append(cancellable)
+            cancellables.append(isActiveCancellable)
+            
+            let selectedSoundVariantCancellable = soundViewModel.$selectedSoundVariant
+                .dropFirst() // Skip the first value
+                .sink { [weak self] _ in
+                    guard let self else { return }
+                    
+                    if self.isPlaying {
+                        self.playSounds()
+                    }
+                }
+            cancellables.append(selectedSoundVariantCancellable)
         }
 
         let cancellable = $timerMode.sink { [weak self] timerMode in
@@ -132,8 +143,9 @@ class WhiteNoisesViewModel: ObservableObject {
         for soundViewModel in soundsViewModels where soundViewModel.isActive {
             soundViewModel.playSound()
         }
-
-        self.isPlaying = true
+        DispatchQueue.main.async {
+            self.isPlaying = true
+        }
     }
 
     func pauseSounds(with fadeDuration: Double? = nil) {
@@ -143,7 +155,9 @@ class WhiteNoisesViewModel: ObservableObject {
         for soundViewModel in soundsViewModels where soundViewModel.isActive {
             soundViewModel.pauseSound(with: fadeDuration)
         }
-        self.isPlaying = false
+        DispatchQueue.main.async {
+            self.isPlaying = false
+        }
     }
 
 }

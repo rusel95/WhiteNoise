@@ -5,22 +5,51 @@
 //  Created by Ruslan Popesku on 30.05.2023.
 //
 
-class Sound: Codable {
+import Foundation
 
+class Sound: Codable, Identifiable {
+    
+    class SoundVariant: Codable, Identifiable, Hashable {
+        
+        let id: UUID
+        let filename: String
+        
+        init(id: UUID = UUID(), filename: String) {
+            self.id = id
+            self.filename = filename
+        }
+        
+        static func == (lhs: SoundVariant, rhs: SoundVariant) -> Bool {
+            return lhs.id == rhs.id
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+    }
+    
     var id: String {
-        fileName
+        name
     }
     
     let name: String
-    let fileName: String
     var volume: Double
     var isActive: Bool
+    var selectedSoundVariant: SoundVariant
+    let soundVariants: [SoundVariant]
 
-    init(name: String, fileName: String, volume: Double = 0.3, isActive: Bool) {
+    init(
+        name: String,
+        volume: Double = 0.0,
+        isActive: Bool,
+        selectedSoundVariant: SoundVariant?,
+        soundVariants: [SoundVariant]
+    ) {
         self.name = name
-        self.fileName = fileName
         self.volume = volume
         self.isActive = isActive
+        self.selectedSoundVariant = selectedSoundVariant ?? soundVariants.first!
+        self.soundVariants = soundVariants
     }
     
 }
