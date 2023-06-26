@@ -24,7 +24,6 @@
 		74349A7E2A2646D000AB0EF5 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */; };
 		74349A802A2646EE00AB0EF5 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A7F2A2646EE00AB0EF5 /* Sound.swift */; };
 		74349A822A26470900AB0EF5 /* WhiteNoisesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A812A26470900AB0EF5 /* WhiteNoisesViewModel.swift */; };
-		743A958D2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A958C2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 */; };
 		743A95912A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */; };
 		743A95972A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */; };
 		743A95992A28C2DC00219803 /* River or stream, water flowing, running.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */; };
@@ -54,6 +53,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		7400CDF32A3CA0700003292C /* rain medium heavy falling trees forest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "rain medium heavy falling trees forest.mp3"; sourceTree = "<group>"; };
 		7400CDF42A3CA0700003292C /* rain medium.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "rain medium.mp3"; sourceTree = "<group>"; };
@@ -77,7 +89,6 @@
 		74349A7F2A2646EE00AB0EF5 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		74349A812A26470900AB0EF5 /* WhiteNoisesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesViewModel.swift; sourceTree = "<group>"; };
 		74349ACB2A2651AC00AB0EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		743A958C2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Springtime rain and thunder and lightning.mp3"; sourceTree = "<group>"; };
 		743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3"; sourceTree = "<group>"; };
 		743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3"; sourceTree = "<group>"; };
 		743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "River or stream, water flowing, running.mp3"; sourceTree = "<group>"; };
@@ -87,6 +98,9 @@
 		743A95A02A28CBFD00219803 /* SoundFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundFactory.swift; sourceTree = "<group>"; };
 		74846D3C2A278474006627BB /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
 		74846D3E2A2787FB006627BB /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
+		74CD166E2A45DCB7004FE649 /* WhiteNoise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhiteNoise.entitlements; sourceTree = "<group>"; };
+		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
+		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +134,7 @@
 				74349A522A26413C00AB0EF5 /* WhiteNoise */,
 				74349A632A26413F00AB0EF5 /* WhiteNoiseTests */,
 				74349A6D2A26413F00AB0EF5 /* WhiteNoiseUITests */,
+				74CD16762A45EC27004FE649 /* Frameworks */,
 				74349A512A26413C00AB0EF5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -137,6 +152,7 @@
 		74349A522A26413C00AB0EF5 /* WhiteNoise */ = {
 			isa = PBXGroup;
 			children = (
+				74CD166E2A45DCB7004FE649 /* WhiteNoise.entitlements */,
 				74349ACB2A2651AC00AB0EF5 /* Info.plist */,
 				74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */,
 				74349A552A26413C00AB0EF5 /* ContentView.swift */,
@@ -181,11 +197,7 @@
 		74349A832A26494300AB0EF5 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				7400CDFC2A3CA57F0003292C /* soft rain.mp3 */,
-				7400CDFE2A3CA57F0003292C /* spring rain.mp3 */,
-				7400CDF42A3CA0700003292C /* rain medium.mp3 */,
-				7400CDF32A3CA0700003292C /* rain medium heavy falling trees forest.mp3 */,
-				743A958C2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 */,
+				748E81AB2A49DC4500CBC255 /* rain */,
 				7400CDFD2A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 */,
 				7400CE012A3CA57F0003292C /* fire burning crackle fireplace.mp3 */,
 				7400CDFF2A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 */,
@@ -200,6 +212,26 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		748E81AB2A49DC4500CBC255 /* rain */ = {
+			isa = PBXGroup;
+			children = (
+				7400CDFC2A3CA57F0003292C /* soft rain.mp3 */,
+				7400CDFE2A3CA57F0003292C /* spring rain.mp3 */,
+				7400CDF42A3CA0700003292C /* rain medium.mp3 */,
+				7400CDF32A3CA0700003292C /* rain medium heavy falling trees forest.mp3 */,
+			);
+			path = rain;
+			sourceTree = "<group>";
+		};
+		74CD16762A45EC27004FE649 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				74CD16772A45EC27004FE649 /* WidgetKit.framework */,
+				74CD16792A45EC27004FE649 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -210,6 +242,7 @@
 				74349A4C2A26413C00AB0EF5 /* Sources */,
 				74349A4D2A26413C00AB0EF5 /* Frameworks */,
 				74349A4E2A26413C00AB0EF5 /* Resources */,
+				74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -263,7 +296,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					74349A4F2A26413C00AB0EF5 = {
@@ -314,7 +347,6 @@
 				7400CDF92A3CA0710003292C /* rain medium.mp3 in Resources */,
 				7400CE072A3CA57F0003292C /* fire burning crackle fireplace.mp3 in Resources */,
 				74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */,
-				743A958D2A28C05D00219803 /* Springtime rain and thunder and lightning.mp3 in Resources */,
 				7400CE042A3CA57F0003292C /* spring rain.mp3 in Resources */,
 				743A959F2A28C39300219803 /* Woodland ambience & several birds.mp3 in Resources */,
 				743A959D2A28C37700219803 /* Summer forest insects and birds.mp3 in Resources */,
@@ -515,6 +547,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
@@ -551,6 +584,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";

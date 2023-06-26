@@ -35,11 +35,10 @@ class SoundFactory {
                 isActive: true,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(filename: "soft rain"),
-                    .init(filename: "spring rain"),
-                    .init(filename: "rain medium"),
-                    .init(filename: "rain medium heavy falling trees forest"),
-                    .init(filename: "Springtime rain and thunder and lightning")
+                    .init(name: "soft", filename: "soft rain"),
+                    .init(name: "spring", filename: "spring rain"),
+                    .init(name: "mediom", filename: "rain medium"),
+                    .init(name: "medium heavy", filename: "rain medium heavy falling trees forest")
                 ]
             ),
             Sound(
@@ -47,9 +46,9 @@ class SoundFactory {
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(filename: "fire crackle spit flames fireplace"),
-                    .init(filename: "fire burning crackle fireplace"),
-                    .init(filename: "fire in fireplace spit rumble crackle"),
+                    .init(name: "crackle spit", filename: "fire crackle spit flames fireplace"),
+                    .init(name: "burning crackle", filename: "fire burning crackle fireplace"),
+                    .init(name: "spit rumple crackle", filename: "fire in fireplace spit rumble crackle"),
                 ]
             ),
             Sound(
@@ -57,7 +56,7 @@ class SoundFactory {
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(filename: "thunder ssolated distant low rumble"),
+                    .init(name: "distand low", filename: "thunder ssolated distant low rumble"),
                 ]
             ),
             Sound(
@@ -65,7 +64,7 @@ class SoundFactory {
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(filename: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand"),
+                    .init(name: "calm Mediterranean", filename: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand"),
                 ]
             ),
             Sound(
@@ -73,8 +72,8 @@ class SoundFactory {
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(filename: "River or stream, water flowing, running"),
-                    .init(filename: "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest")
+                    .init(name: "regular", filename: "River or stream, water flowing, running"),
+                    .init(name: "mountain", filename: "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest")
                 ]
             ),
             Sound(
@@ -82,8 +81,8 @@ class SoundFactory {
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(filename: "Summer forest insects and birds"),
-                    .init(filename: "Woodland ambience & several birds")
+                    .init(name: "summer", filename: "Summer forest insects and birds"),
+                    .init(name: "ambiance", filename: "Woodland ambience & several birds")
                 ]
             ),
         ]
