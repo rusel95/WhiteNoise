@@ -37,7 +37,7 @@ class SoundFactory {
                 soundVariants: [
                     .init(name: "soft", filename: "soft rain"),
                     .init(name: "spring", filename: "spring rain"),
-                    .init(name: "mediom", filename: "rain medium"),
+                    .init(name: "medium", filename: "rain medium"),
                     .init(name: "medium heavy", filename: "rain medium heavy falling trees forest")
                 ]
             ),
@@ -48,7 +48,7 @@ class SoundFactory {
                 soundVariants: [
                     .init(name: "crackle spit", filename: "fire crackle spit flames fireplace"),
                     .init(name: "burning crackle", filename: "fire burning crackle fireplace"),
-                    .init(name: "spit rumple crackle", filename: "fire in fireplace spit rumble crackle"),
+                    .init(name: "spit crackle", filename: "fire in fireplace spit rumble crackle"),
                 ]
             ),
             Sound(
@@ -64,7 +64,7 @@ class SoundFactory {
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(name: "calm Mediterranean", filename: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand"),
+                    .init(name: "calm", filename: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand"),
                 ]
             ),
             Sound(
@@ -74,6 +74,14 @@ class SoundFactory {
                 soundVariants: [
                     .init(name: "regular", filename: "River or stream, water flowing, running"),
                     .init(name: "mountain", filename: "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest")
+                ]
+            ),
+            Sound(
+                name: "waterfall",
+                isActive: false,
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(name: "regular", filename: "Waterfall, medium close, people chatting, Bridal Falls, Canada")
                 ]
             ),
             Sound(

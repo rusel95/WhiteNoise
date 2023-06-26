@@ -198,16 +198,12 @@
 			isa = PBXGroup;
 			children = (
 				748E81AB2A49DC4500CBC255 /* rain */,
-				7400CDFD2A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 */,
-				7400CE012A3CA57F0003292C /* fire burning crackle fireplace.mp3 */,
-				7400CDFF2A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 */,
-				7400CE002A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 */,
-				743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */,
-				743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */,
-				743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */,
-				743A959A2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 */,
-				743A959C2A28C37700219803 /* Summer forest insects and birds.mp3 */,
-				743A959E2A28C39300219803 /* Woodland ambience & several birds.mp3 */,
+				748E81AC2A49DEB700CBC255 /* fire */,
+				748E81AD2A49DEC100CBC255 /* thunder */,
+				748E81AE2A49DED300CBC255 /* sea */,
+				748E81AF2A49DEEE00CBC255 /* waterfall */,
+				748E81B02A49DEF800CBC255 /* river */,
+				748E81B12A49DF0200CBC255 /* forest */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -221,6 +217,58 @@
 				7400CDF32A3CA0700003292C /* rain medium heavy falling trees forest.mp3 */,
 			);
 			path = rain;
+			sourceTree = "<group>";
+		};
+		748E81AC2A49DEB700CBC255 /* fire */ = {
+			isa = PBXGroup;
+			children = (
+				7400CDFD2A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 */,
+				7400CE012A3CA57F0003292C /* fire burning crackle fireplace.mp3 */,
+				7400CDFF2A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 */,
+			);
+			path = fire;
+			sourceTree = "<group>";
+		};
+		748E81AD2A49DEC100CBC255 /* thunder */ = {
+			isa = PBXGroup;
+			children = (
+				7400CE002A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 */,
+			);
+			path = thunder;
+			sourceTree = "<group>";
+		};
+		748E81AE2A49DED300CBC255 /* sea */ = {
+			isa = PBXGroup;
+			children = (
+				743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */,
+			);
+			path = sea;
+			sourceTree = "<group>";
+		};
+		748E81AF2A49DEEE00CBC255 /* waterfall */ = {
+			isa = PBXGroup;
+			children = (
+				743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */,
+			);
+			path = waterfall;
+			sourceTree = "<group>";
+		};
+		748E81B02A49DEF800CBC255 /* river */ = {
+			isa = PBXGroup;
+			children = (
+				743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */,
+				743A959A2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 */,
+			);
+			path = river;
+			sourceTree = "<group>";
+		};
+		748E81B12A49DF0200CBC255 /* forest */ = {
+			isa = PBXGroup;
+			children = (
+				743A959C2A28C37700219803 /* Summer forest insects and birds.mp3 */,
+				743A959E2A28C39300219803 /* Woodland ambience & several birds.mp3 */,
+			);
+			path = forest;
 			sourceTree = "<group>";
 		};
 		74CD16762A45EC27004FE649 /* Frameworks */ = {

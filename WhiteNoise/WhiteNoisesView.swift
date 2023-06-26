@@ -14,8 +14,7 @@ struct WhiteNoisesView: View {
     @State private var showPicker = false
 
     let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
+        GridItem(.adaptive(minimum: 180, maximum: 180)),
     ]
     
     var body: some View {
@@ -28,8 +27,6 @@ struct WhiteNoisesView: View {
                 }
                 .background(Color("black90"))
             }
-            
-            Spacer()
             
             // MARK: - Bottom Controller
             

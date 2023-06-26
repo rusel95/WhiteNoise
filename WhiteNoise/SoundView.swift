@@ -10,35 +10,61 @@ import SwiftUI
 struct SoundView: View {
 
     @ObservedObject var viewModel: SoundViewModel
-
+    
+    @State var lastDragValue: CGFloat = 0
+    
     var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "magazine")
+        ZStack {
+            // MARK: Slider
+            ZStack(alignment: .leading, content: {
+                Rectangle()
+                    .fill(Color.accentColor.opacity(0.15))
+                
+                Rectangle()
+                    .fill(Color.accentColor)
+                    .frame(width: viewModel.sliderWidth)
+                
+            })
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged({ value in
+                        let translation = value.translation
+                        viewModel.sliderWidth = translation.width + lastDragValue
+                        
+                        viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
+                        viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
+                    })
+                    .onEnded({ value in
+                        viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
+                        viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
+                        
+                        lastDragValue = viewModel.sliderWidth
+                        let progress = viewModel.sliderWidth / viewModel.maxWidth
+                        viewModel.volume = progress <= 1.0 ? progress : 1.0
+                    })
+            )
             
-            HStack {
+            VStack(spacing: 8) {
+                HStack {
+                    Image(systemName: viewModel.sound.selectedSoundVariant.iconName)
+                    Image(systemName: viewModel.isActive ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                        .frame(width: 20, height: 20)
+                }
+                
+                Text(viewModel.sound.name)
+                
                 Picker(
-                    viewModel.sound.name, selection: $viewModel.selectedSoundVariant
+                    "", selection: $viewModel.selectedSoundVariant
                 ) {
                     ForEach(viewModel.sound.soundVariants) { variant in
                         Text(variant.name).tag(variant as Sound.SoundVariant)
                     }
                 }
-                
-//                Button(action: {
-//                    viewModel.isActive = !viewModel.isActive
-//                }) {
-//                    Image(systemName: viewModel.isActive ? "speaker.wave.2.fill" : "speaker.slash.fill")
-//                        .frame(width: 28, height: 28)
-//                        .foregroundColor(.white)
-//                }
             }
-//            .frame(width: 130, height: 130)
+            .foregroundColor(.white)
             .padding(8)
         }
-        .background(Color.black.opacity(0.2))
         .cornerRadius(8)
-        .padding(8)
-        .frame(width: 150, height: 150)
     }
 }
 
@@ -51,7 +77,7 @@ struct SoundView_Previews: PreviewProvider {
                 isActive: true,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(name: "variant1", filename: "variant1"),
+                    .init(name: "calm Mediterrainean", filename: "calm Mediterrainean"),
                     .init(name: "variant", filename: "variant2")
                 ]
             )
