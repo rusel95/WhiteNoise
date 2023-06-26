@@ -13,16 +13,23 @@ struct WhiteNoisesView: View {
 
     @State private var showPicker = false
 
+    let columns = [
+        GridItem(.adaptive(minimum: 180, maximum: 180)),
+    ]
+    
     var body: some View {
-        VStack(spacing: 0) {
+        VStack {
             ScrollView {
-                ForEach(viewModel.soundsViewModels) { viewModel in
-                    SoundView(viewModel: viewModel)
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(viewModel.soundsViewModels) { viewModel in
+                        SoundView(viewModel: viewModel)
+                    }
                 }
+                .background(Color("black90"))
             }
-
+            
             // MARK: - Bottom Controller
-
+            
             HStack {
                 HStack {
                     Spacer()
@@ -64,11 +71,11 @@ struct WhiteNoisesView: View {
                     Spacer()
                 }
             }
-            .frame(maxWidth: .infinity)
-            .foregroundColor(Color.white)
-            .background(Color.black)
         }
-        .background(Color("black90"))
+        .frame(maxWidth: .infinity)
+        .foregroundColor(Color.white)
+        .background(Color.black)
     }
 
 }
+

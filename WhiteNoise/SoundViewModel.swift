@@ -8,6 +8,7 @@
 import Foundation
 import AVFoundation
 import Combine
+import SwiftUI
 
 class SoundViewModel: ObservableObject, Identifiable {
     
@@ -19,12 +20,17 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     @Published var volume: Double {
         didSet {
+            print(volume)
+            isActive = volume > 0
             player?.volume = Float(volume)
             sound.volume = volume
             saveSound()
         }
     }
     @Published var selectedSoundVariant: Sound.SoundVariant
+    @Published var sliderWidth: CGFloat = 0.0
+    
+    let maxWidth: CGFloat = 180
     
     private var player: AVAudioPlayer? = AVAudioPlayer()
     private var fadeTimer: Timer?
@@ -38,6 +44,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         self.isActive = sound.isActive
         self.volume = sound.volume
+        self.sliderWidth = sound.volume * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
         
         let cancellable = $selectedSoundVariant

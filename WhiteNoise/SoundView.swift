@@ -10,44 +10,77 @@ import SwiftUI
 struct SoundView: View {
 
     @ObservedObject var viewModel: SoundViewModel
-
+    
+    @State var lastDragValue: CGFloat = 0
+    
     var body: some View {
-        VStack(spacing: 8) {
-            HStack {
+        ZStack {
+            // MARK: Slider
+            ZStack(alignment: .leading, content: {
+                Rectangle()
+                    .fill(Color.accentColor.opacity(0.15))
+                
+                Rectangle()
+                    .fill(Color.accentColor)
+                    .frame(width: viewModel.sliderWidth)
+                
+            })
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged({ value in
+                        let translation = value.translation
+                        viewModel.sliderWidth = translation.width + lastDragValue
+                        
+                        viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
+                        viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
+                    })
+                    .onEnded({ value in
+                        viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
+                        viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
+                        
+                        lastDragValue = viewModel.sliderWidth
+                        let progress = viewModel.sliderWidth / viewModel.maxWidth
+                        viewModel.volume = progress <= 1.0 ? progress : 1.0
+                    })
+            )
+            
+            VStack(spacing: 8) {
+                HStack {
+                    Image(systemName: viewModel.sound.selectedSoundVariant.iconName)
+                    Image(systemName: viewModel.isActive ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                        .frame(width: 20, height: 20)
+                }
+                
+                Text(viewModel.sound.name)
+                
                 Picker(
-                    viewModel.sound.name, selection: $viewModel.selectedSoundVariant
+                    "", selection: $viewModel.selectedSoundVariant
                 ) {
                     ForEach(viewModel.sound.soundVariants) { variant in
-                        Text(variant.filename).tag(variant as Sound.SoundVariant)
+                        Text(variant.name).tag(variant as Sound.SoundVariant)
                     }
-                }
-
-                HStack {
-                    #if os(tvOS)
-                    FocusableView { isFocused in
-                        viewModel.adjustVolume(to: isFocused ? 1 : 0)
-                    }
-                    #else
-                    Slider(value: $viewModel.volume, in: 0...1)
-                        .accentColor(Color("black30"))
-                    #endif
-                }
-                .padding(.vertical, 8)
-                
-                Button(action: {
-                    viewModel.isActive = !viewModel.isActive
-                }) {
-                    Image(systemName: viewModel.isActive ? "speaker.wave.2.fill" : "speaker.slash.fill")
-                        .frame(width: 28, height: 28)
-                        .foregroundColor(.white)
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
+            .foregroundColor(.white)
+            .padding(8)
         }
-        .background(Color.black.opacity(0.3))
-        .cornerRadius(16)
-        .padding(.horizontal)
-        .padding(.vertical, 4)
+        .cornerRadius(8)
+    }
+}
+
+struct SoundView_Previews: PreviewProvider {
+    static var previews: some View {
+        SoundView(viewModel:
+                .init( sound: Sound(
+                name: "rain",
+                volume: 0.3,
+                isActive: true,
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(name: "calm Mediterrainean", filename: "calm Mediterrainean"),
+                    .init(name: "variant", filename: "variant2")
+                ]
+            )
+        ))
     }
 }

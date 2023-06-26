@@ -12,10 +12,14 @@ class Sound: Codable, Identifiable {
     class SoundVariant: Codable, Identifiable, Hashable {
         
         let id: UUID
+        let name: String
+        let iconName: String
         let filename: String
         
-        init(id: UUID = UUID(), filename: String) {
+        init(id: UUID = UUID(), name: String, iconName: String = "snow", filename: String) {
             self.id = id
+            self.name = name
+            self.iconName = iconName
             self.filename = filename
         }
         
