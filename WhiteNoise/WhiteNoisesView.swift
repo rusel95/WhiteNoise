@@ -20,12 +20,11 @@ struct WhiteNoisesView: View {
     var body: some View {
         VStack {
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
+                LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(viewModel.soundsViewModels) { viewModel in
                         SoundView(viewModel: viewModel)
                     }
                 }
-                .background(Color("black90"))
             }
             
             // MARK: - Bottom Controller
@@ -71,11 +70,17 @@ struct WhiteNoisesView: View {
                     Spacer()
                 }
             }
+            .background(Color.black)
         }
         .frame(maxWidth: .infinity)
         .foregroundColor(Color.white)
-        .background(Color.black)
+        .background(Color("black90"))
     }
 
 }
 
+struct WhiteNoiseView_Previews: PreviewProvider {
+    static var previews: some View {
+        WhiteNoisesView(viewModel: .init())
+    }
+}

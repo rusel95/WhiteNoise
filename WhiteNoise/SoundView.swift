@@ -18,10 +18,10 @@ struct SoundView: View {
             // MARK: Slider
             ZStack(alignment: .leading, content: {
                 Rectangle()
-                    .fill(Color.accentColor.opacity(0.15))
+                    .fill(Color.cyan.opacity(0.15))
                 
                 Rectangle()
-                    .fill(Color.accentColor)
+                    .fill(Color.cyan)
                     .frame(width: viewModel.sliderWidth)
                 
             })
@@ -33,14 +33,15 @@ struct SoundView: View {
                         
                         viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
                         viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
+                        
+                        let progress = viewModel.sliderWidth / viewModel.maxWidth
+                        viewModel.volume = progress <= 1.0 ? progress : 1.0
                     })
                     .onEnded({ value in
                         viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
                         viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
                         
                         lastDragValue = viewModel.sliderWidth
-                        let progress = viewModel.sliderWidth / viewModel.maxWidth
-                        viewModel.volume = progress <= 1.0 ? progress : 1.0
                     })
             )
             
