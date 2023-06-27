@@ -47,7 +47,7 @@ struct SoundView: View {
                 switch viewModel.sound.icon {
                 case .system(let systemName):
                     Image(systemName: systemName)
-                        .frame(idealWidth: 20, idealHeight: 20)
+                        .frame(width: 20, height: 20)
                 case .custom(let name):
                     Image(name)
                         .resizable()
@@ -55,6 +55,7 @@ struct SoundView: View {
                 }
                 
                 Text(viewModel.sound.name)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 
                 Picker(
                     "", selection: $viewModel.selectedSoundVariant
@@ -65,9 +66,9 @@ struct SoundView: View {
                 }
             }
             .foregroundColor(.white)
-            .padding(8)
+            .padding(.vertical, 10)
         }
-        .cornerRadius(8)
+        .cornerRadius(16)
     }
 }
 

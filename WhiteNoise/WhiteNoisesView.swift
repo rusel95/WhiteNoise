@@ -29,7 +29,7 @@ struct WhiteNoisesView: View {
             
             // MARK: - Bottom Controller
             
-            HStack {
+            HStack(spacing: 30) {
                 HStack {
                     Spacer()
 
@@ -43,9 +43,10 @@ struct WhiteNoisesView: View {
 #if os(macOS)
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
 #else
-                        Image(systemName: viewModel.isPlaying ? "pause.circle" : "play.circle")
+                        Image(systemName: viewModel.isPlaying ? "pause" : "play")
                             .resizable()
-                            .frame(width: 48, height: 48)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
 #endif
                     }
                     .padding(8)
@@ -59,9 +60,10 @@ struct WhiteNoisesView: View {
                             }
                         }
                     } label: {
-                        Image(systemName: "timer.circle")
+                        Image(systemName: "timer")
                             .resizable()
-                            .frame(width: 48, height: 48)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
 #if os(macOS)
                         Text(viewModel.timerMode.description)
 #endif

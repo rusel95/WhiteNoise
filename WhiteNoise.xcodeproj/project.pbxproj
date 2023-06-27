@@ -15,6 +15,25 @@
 		7400CE052A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CDFF2A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 */; };
 		7400CE062A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CE002A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 */; };
 		7400CE072A3CA57F0003292C /* fire burning crackle fireplace.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CE012A3CA57F0003292C /* fire burning crackle fireplace.mp3 */; };
+		7408736E2A4B2D5100392DA8 /* among_the_stars.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7408736D2A4B2D5100392DA8 /* among_the_stars.mp3 */; };
+		740873702A4B2DAA00392DA8 /* ducks.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7408736F2A4B2DAA00392DA8 /* ducks.mp3 */; };
+		740873742A4B2E9B00392DA8 /* cocoo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 740873722A4B2E9B00392DA8 /* cocoo.mp3 */; };
+		740873752A4B2E9B00392DA8 /* seagall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 740873732A4B2E9B00392DA8 /* seagall.mp3 */; };
+		74121BC52A4B2F3E008A2F99 /* isolated_002.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BC32A4B2F3E008A2F99 /* isolated_002.mp3 */; };
+		74121BC72A4B2F72008A2F99 /* isolated_001.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BC62A4B2F72008A2F99 /* isolated_001.mp3 */; };
+		74121BC92A4B3191008A2F99 /* Close&distance waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BC82A4B3191008A2F99 /* Close&distance waves.mp3 */; };
+		74121BCB2A4B320C008A2F99 /* Beach Sea Waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BCA2A4B320C008A2F99 /* Beach Sea Waves.mp3 */; };
+		74121BCD2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BCC2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 */; };
+		74121BCF2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BCE2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 */; };
+		74121BD12A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BD02A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 */; };
+		74121BD52A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BD42A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 */; };
+		74121BD72A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BD62A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 */; };
+		74121BD92A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BD82A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 */; };
+		74121BDB2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BDA2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 */; };
+		74121BDD2A4B34EC008A2F99 /* sparrow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BDC2A4B34EC008A2F99 /* sparrow.mp3 */; };
+		74121BDF2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BDE2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 */; };
+		74121BE12A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BE02A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 */; };
+		74121BE32A4B357B008A2F99 /* crickets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BE22A4B357B008A2F99 /* crickets.mp3 */; };
 		74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */; };
 		74349A562A26413C00AB0EF5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A552A26413C00AB0EF5 /* ContentView.swift */; };
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
@@ -75,6 +94,25 @@
 		7400CDFF2A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "fire in fireplace spit rumble crackle.mp3"; sourceTree = "<group>"; };
 		7400CE002A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "thunder ssolated distant low rumble.mp3"; sourceTree = "<group>"; };
 		7400CE012A3CA57F0003292C /* fire burning crackle fireplace.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "fire burning crackle fireplace.mp3"; sourceTree = "<group>"; };
+		7408736D2A4B2D5100392DA8 /* among_the_stars.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = among_the_stars.mp3; sourceTree = "<group>"; };
+		7408736F2A4B2DAA00392DA8 /* ducks.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ducks.mp3; sourceTree = "<group>"; };
+		740873722A4B2E9B00392DA8 /* cocoo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cocoo.mp3; sourceTree = "<group>"; };
+		740873732A4B2E9B00392DA8 /* seagall.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = seagall.mp3; sourceTree = "<group>"; };
+		74121BC32A4B2F3E008A2F99 /* isolated_002.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = isolated_002.mp3; sourceTree = "<group>"; };
+		74121BC62A4B2F72008A2F99 /* isolated_001.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = isolated_001.mp3; sourceTree = "<group>"; };
+		74121BC82A4B3191008A2F99 /* Close&distance waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Close&distance waves.mp3"; sourceTree = "<group>"; };
+		74121BCA2A4B320C008A2F99 /* Beach Sea Waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Beach Sea Waves.mp3"; sourceTree = "<group>"; };
+		74121BCC2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = small_light_flow_creek_rainforest.mp3; sourceTree = "<group>"; };
+		74121BCE2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3; sourceTree = "<group>"; };
+		74121BD02A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gentle_rainsforest_jungle_vietnam.mp3; sourceTree = "<group>"; };
+		74121BD42A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = raindrops_on_a_car_window.mp3; sourceTree = "<group>"; };
+		74121BD62A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = HUMAN_CROWD_In_A_Room.mp3; sourceTree = "<group>"; };
+		74121BD82A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flowing_water_loop_03_long.mp3; sourceTree = "<group>"; };
+		74121BDA2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = soft_rain_on_window_glass_surface.mp3; sourceTree = "<group>"; };
+		74121BDC2A4B34EC008A2F99 /* sparrow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sparrow.mp3; sourceTree = "<group>"; };
+		74121BDE2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flowing_water_loop_06_long.mp3; sourceTree = "<group>"; };
+		74121BE02A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = west_wolf_Beach_Sea_Waves.mp3; sourceTree = "<group>"; };
+		74121BE22A4B357B008A2F99 /* crickets.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = crickets.mp3; sourceTree = "<group>"; };
 		74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteSoundRuslan1234.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseApp.swift; sourceTree = "<group>"; };
 		74349A552A26413C00AB0EF5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +166,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7408736C2A4B2D0200392DA8 /* voice */ = {
+			isa = PBXGroup;
+			children = (
+				7408736D2A4B2D5100392DA8 /* among_the_stars.mp3 */,
+				74121BD62A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 */,
+			);
+			path = voice;
+			sourceTree = "<group>";
+		};
+		740873712A4B2DAD00392DA8 /* Birds */ = {
+			isa = PBXGroup;
+			children = (
+				7408736F2A4B2DAA00392DA8 /* ducks.mp3 */,
+				740873722A4B2E9B00392DA8 /* cocoo.mp3 */,
+				740873732A4B2E9B00392DA8 /* seagall.mp3 */,
+				74121BDC2A4B34EC008A2F99 /* sparrow.mp3 */,
+				74121BE22A4B357B008A2F99 /* crickets.mp3 */,
+			);
+			path = Birds;
+			sourceTree = "<group>";
+		};
 		74349A472A26413C00AB0EF5 = {
 			isa = PBXGroup;
 			children = (
@@ -198,12 +257,14 @@
 			isa = PBXGroup;
 			children = (
 				748E81AB2A49DC4500CBC255 /* rain */,
-				748E81AC2A49DEB700CBC255 /* fire */,
+				748E81AC2A49DEB700CBC255 /* fireplace */,
 				748E81AD2A49DEC100CBC255 /* thunder */,
 				748E81AE2A49DED300CBC255 /* sea */,
-				748E81AF2A49DEEE00CBC255 /* waterfall */,
 				748E81B02A49DEF800CBC255 /* river */,
+				748E81AF2A49DEEE00CBC255 /* waterfall */,
 				748E81B12A49DF0200CBC255 /* forest */,
+				740873712A4B2DAD00392DA8 /* Birds */,
+				7408736C2A4B2D0200392DA8 /* voice */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -211,6 +272,8 @@
 		748E81AB2A49DC4500CBC255 /* rain */ = {
 			isa = PBXGroup;
 			children = (
+				74121BDA2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 */,
+				74121BD42A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 */,
 				7400CDFC2A3CA57F0003292C /* soft rain.mp3 */,
 				7400CDFE2A3CA57F0003292C /* spring rain.mp3 */,
 				7400CDF42A3CA0700003292C /* rain medium.mp3 */,
@@ -219,20 +282,22 @@
 			path = rain;
 			sourceTree = "<group>";
 		};
-		748E81AC2A49DEB700CBC255 /* fire */ = {
+		748E81AC2A49DEB700CBC255 /* fireplace */ = {
 			isa = PBXGroup;
 			children = (
 				7400CDFD2A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 */,
 				7400CE012A3CA57F0003292C /* fire burning crackle fireplace.mp3 */,
 				7400CDFF2A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 */,
 			);
-			path = fire;
+			path = fireplace;
 			sourceTree = "<group>";
 		};
 		748E81AD2A49DEC100CBC255 /* thunder */ = {
 			isa = PBXGroup;
 			children = (
 				7400CE002A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 */,
+				74121BC62A4B2F72008A2F99 /* isolated_001.mp3 */,
+				74121BC32A4B2F3E008A2F99 /* isolated_002.mp3 */,
 			);
 			path = thunder;
 			sourceTree = "<group>";
@@ -241,6 +306,9 @@
 			isa = PBXGroup;
 			children = (
 				743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */,
+				74121BC82A4B3191008A2F99 /* Close&distance waves.mp3 */,
+				74121BCA2A4B320C008A2F99 /* Beach Sea Waves.mp3 */,
+				74121BE02A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 */,
 			);
 			path = sea;
 			sourceTree = "<group>";
@@ -249,6 +317,9 @@
 			isa = PBXGroup;
 			children = (
 				743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */,
+				74121BCC2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 */,
+				74121BCE2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 */,
+				74121BD02A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 */,
 			);
 			path = waterfall;
 			sourceTree = "<group>";
@@ -258,6 +329,8 @@
 			children = (
 				743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */,
 				743A959A2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 */,
+				74121BD82A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 */,
+				74121BDE2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 */,
 			);
 			path = river;
 			sourceTree = "<group>";
@@ -385,21 +458,40 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74121BD12A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 in Resources */,
 				743A959B2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 in Resources */,
 				7400CE022A3CA57F0003292C /* soft rain.mp3 in Resources */,
+				74121BD52A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 in Resources */,
+				74121BE32A4B357B008A2F99 /* crickets.mp3 in Resources */,
 				743A95992A28C2DC00219803 /* River or stream, water flowing, running.mp3 in Resources */,
+				7408736E2A4B2D5100392DA8 /* among_the_stars.mp3 in Resources */,
+				74121BDF2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 in Resources */,
 				74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */,
 				7400CE052A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 in Resources */,
 				743A95912A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 in Resources */,
+				74121BC52A4B2F3E008A2F99 /* isolated_002.mp3 in Resources */,
+				740873742A4B2E9B00392DA8 /* cocoo.mp3 in Resources */,
+				74121BDB2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 in Resources */,
 				7400CE032A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 in Resources */,
 				7400CDF92A3CA0710003292C /* rain medium.mp3 in Resources */,
+				74121BD92A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 in Resources */,
+				74121BC72A4B2F72008A2F99 /* isolated_001.mp3 in Resources */,
+				74121BCB2A4B320C008A2F99 /* Beach Sea Waves.mp3 in Resources */,
 				7400CE072A3CA57F0003292C /* fire burning crackle fireplace.mp3 in Resources */,
 				74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */,
+				74121BE12A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 in Resources */,
 				7400CE042A3CA57F0003292C /* spring rain.mp3 in Resources */,
+				74121BCD2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 in Resources */,
+				74121BD72A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 in Resources */,
 				743A959F2A28C39300219803 /* Woodland ambience & several birds.mp3 in Resources */,
 				743A959D2A28C37700219803 /* Summer forest insects and birds.mp3 in Resources */,
 				743A95972A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 in Resources */,
+				74121BDD2A4B34EC008A2F99 /* sparrow.mp3 in Resources */,
+				740873752A4B2E9B00392DA8 /* seagall.mp3 in Resources */,
+				74121BCF2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 in Resources */,
 				7400CDF82A3CA0710003292C /* rain medium heavy falling trees forest.mp3 in Resources */,
+				740873702A4B2DAA00392DA8 /* ducks.mp3 in Resources */,
+				74121BC92A4B3191008A2F99 /* Close&distance waves.mp3 in Resources */,
 				7400CE062A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
