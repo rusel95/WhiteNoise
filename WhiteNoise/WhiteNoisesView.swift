@@ -20,17 +20,16 @@ struct WhiteNoisesView: View {
     var body: some View {
         VStack {
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
+                LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(viewModel.soundsViewModels) { viewModel in
                         SoundView(viewModel: viewModel)
                     }
                 }
-                .background(Color("black90"))
             }
             
             // MARK: - Bottom Controller
             
-            HStack {
+            HStack(spacing: 30) {
                 HStack {
                     Spacer()
 
@@ -44,9 +43,10 @@ struct WhiteNoisesView: View {
 #if os(macOS)
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
 #else
-                        Image(systemName: viewModel.isPlaying ? "pause.circle" : "play.circle")
+                        Image(systemName: viewModel.isPlaying ? "pause" : "play")
                             .resizable()
-                            .frame(width: 48, height: 48)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
 #endif
                     }
                     .padding(8)
@@ -60,9 +60,10 @@ struct WhiteNoisesView: View {
                             }
                         }
                     } label: {
-                        Image(systemName: "timer.circle")
+                        Image(systemName: "timer")
                             .resizable()
-                            .frame(width: 48, height: 48)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
 #if os(macOS)
                         Text(viewModel.timerMode.description)
 #endif
@@ -71,11 +72,17 @@ struct WhiteNoisesView: View {
                     Spacer()
                 }
             }
+            .background(Color.black)
         }
         .frame(maxWidth: .infinity)
         .foregroundColor(Color.white)
-        .background(Color.black)
+        .background(Color("black90"))
     }
 
 }
 
+struct WhiteNoiseView_Previews: PreviewProvider {
+    static var previews: some View {
+        WhiteNoisesView(viewModel: .init())
+    }
+}

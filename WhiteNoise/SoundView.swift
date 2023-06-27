@@ -11,17 +11,15 @@ struct SoundView: View {
 
     @ObservedObject var viewModel: SoundViewModel
     
-    @State var lastDragValue: CGFloat = 0
-    
     var body: some View {
         ZStack {
             // MARK: Slider
             ZStack(alignment: .leading, content: {
                 Rectangle()
-                    .fill(Color.accentColor.opacity(0.15))
+                    .fill(Color.cyan.opacity(0.15))
                 
                 Rectangle()
-                    .fill(Color.accentColor)
+                    .fill(Color.cyan)
                     .frame(width: viewModel.sliderWidth)
                 
             })
@@ -29,29 +27,35 @@ struct SoundView: View {
                 DragGesture(minimumDistance: 0)
                     .onChanged({ value in
                         let translation = value.translation
-                        viewModel.sliderWidth = translation.width + lastDragValue
+                        viewModel.sliderWidth = translation.width + viewModel.lastDragValue
                         
                         viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
                         viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
+                        
+                        let progress = viewModel.sliderWidth / viewModel.maxWidth
+                        viewModel.volume = progress <= 1.0 ? progress : 1.0
                     })
                     .onEnded({ value in
                         viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
                         viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
                         
-                        lastDragValue = viewModel.sliderWidth
-                        let progress = viewModel.sliderWidth / viewModel.maxWidth
-                        viewModel.volume = progress <= 1.0 ? progress : 1.0
+                        viewModel.lastDragValue = viewModel.sliderWidth
                     })
             )
             
             VStack(spacing: 8) {
-                HStack {
-                    Image(systemName: viewModel.sound.selectedSoundVariant.iconName)
-                    Image(systemName: viewModel.isActive ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                switch viewModel.sound.icon {
+                case .system(let systemName):
+                    Image(systemName: systemName)
+                        .frame(width: 20, height: 20)
+                case .custom(let name):
+                    Image(name)
+                        .resizable()
                         .frame(width: 20, height: 20)
                 }
                 
                 Text(viewModel.sound.name)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 
                 Picker(
                     "", selection: $viewModel.selectedSoundVariant
@@ -62,9 +66,9 @@ struct SoundView: View {
                 }
             }
             .foregroundColor(.white)
-            .padding(8)
+            .padding(.vertical, 10)
         }
-        .cornerRadius(8)
+        .cornerRadius(16)
     }
 }
 
@@ -73,6 +77,7 @@ struct SoundView_Previews: PreviewProvider {
         SoundView(viewModel:
                 .init( sound: Sound(
                 name: "rain",
+                icon: .system("tree"),
                 volume: 0.3,
                 isActive: true,
                 selectedSoundVariant: nil,

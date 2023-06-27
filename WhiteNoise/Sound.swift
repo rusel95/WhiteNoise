@@ -13,13 +13,15 @@ class Sound: Codable, Identifiable {
         
         let id: UUID
         let name: String
-        let iconName: String
         let filename: String
         
-        init(id: UUID = UUID(), name: String, iconName: String = "snow", filename: String) {
+        init(
+            id: UUID = UUID(),
+            name: String,
+            filename: String
+        ) {
             self.id = id
             self.name = name
-            self.iconName = iconName
             self.filename = filename
         }
         
@@ -32,11 +34,17 @@ class Sound: Codable, Identifiable {
         }
     }
     
+    enum Icon: Codable {
+        case system(String)
+        case custom(String)
+    }
+    
     var id: String {
         name
     }
     
     let name: String
+    let icon: Icon
     var volume: Double
     var isActive: Bool
     var selectedSoundVariant: SoundVariant
@@ -44,12 +52,14 @@ class Sound: Codable, Identifiable {
 
     init(
         name: String,
+        icon: Icon,
         volume: Double = 0.0,
         isActive: Bool,
         selectedSoundVariant: SoundVariant?,
         soundVariants: [SoundVariant]
     ) {
         self.name = name
+        self.icon = icon
         self.volume = volume
         self.isActive = isActive
         self.selectedSoundVariant = selectedSoundVariant ?? soundVariants.first!
