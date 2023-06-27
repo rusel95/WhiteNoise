@@ -32,6 +32,7 @@ class SoundFactory {
         return [
             Sound(
                 name: "rain",
+                icon: .system("cloud.rain"),
                 isActive: true,
                 selectedSoundVariant: nil,
                 soundVariants: [
@@ -43,6 +44,7 @@ class SoundFactory {
             ),
             Sound(
                 name: "fireplace",
+                icon: .system("fireplace"),
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
@@ -53,6 +55,7 @@ class SoundFactory {
             ),
             Sound(
                 name: "thunder",
+                icon: .system("cloud.bolt"),
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
@@ -61,6 +64,7 @@ class SoundFactory {
             ),
             Sound(
                 name: "sea",
+                icon: .custom("sea"),
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
@@ -69,6 +73,7 @@ class SoundFactory {
             ),
             Sound(
                 name: "river",
+                icon: .system("water.waves"),
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
@@ -78,6 +83,7 @@ class SoundFactory {
             ),
             Sound(
                 name: "waterfall",
+                icon: .custom("waterfall"),
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
@@ -86,6 +92,7 @@ class SoundFactory {
             ),
             Sound(
                 name: "forest",
+                icon: .system("tree"),
                 isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [

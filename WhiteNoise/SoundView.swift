@@ -11,8 +11,6 @@ struct SoundView: View {
 
     @ObservedObject var viewModel: SoundViewModel
     
-    @State var lastDragValue: CGFloat = 0
-    
     var body: some View {
         ZStack {
             // MARK: Slider
@@ -29,7 +27,7 @@ struct SoundView: View {
                 DragGesture(minimumDistance: 0)
                     .onChanged({ value in
                         let translation = value.translation
-                        viewModel.sliderWidth = translation.width + lastDragValue
+                        viewModel.sliderWidth = translation.width + viewModel.lastDragValue
                         
                         viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
                         viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
@@ -41,14 +39,18 @@ struct SoundView: View {
                         viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
                         viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
                         
-                        lastDragValue = viewModel.sliderWidth
+                        viewModel.lastDragValue = viewModel.sliderWidth
                     })
             )
             
             VStack(spacing: 8) {
-                HStack {
-                    Image(systemName: viewModel.sound.selectedSoundVariant.iconName)
-                    Image(systemName: viewModel.isActive ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                switch viewModel.sound.icon {
+                case .system(let systemName):
+                    Image(systemName: systemName)
+                        .frame(idealWidth: 20, idealHeight: 20)
+                case .custom(let name):
+                    Image(name)
+                        .resizable()
                         .frame(width: 20, height: 20)
                 }
                 
@@ -74,6 +76,7 @@ struct SoundView_Previews: PreviewProvider {
         SoundView(viewModel:
                 .init( sound: Sound(
                 name: "rain",
+                icon: .system("tree"),
                 volume: 0.3,
                 isActive: true,
                 selectedSoundVariant: nil,

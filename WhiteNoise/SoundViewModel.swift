@@ -20,7 +20,6 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     @Published var volume: Double {
         didSet {
-            print(volume)
             isActive = volume > 0
             player?.volume = Float(volume)
             sound.volume = volume
@@ -29,6 +28,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     @Published var selectedSoundVariant: Sound.SoundVariant
     @Published var sliderWidth: CGFloat = 0.0
+    @Published var lastDragValue: CGFloat = 0.0
     
     let maxWidth: CGFloat = 180
     
@@ -45,6 +45,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         self.isActive = sound.isActive
         self.volume = sound.volume
         self.sliderWidth = sound.volume * maxWidth
+        self.lastDragValue = sound.volume * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
         
         let cancellable = $selectedSoundVariant
