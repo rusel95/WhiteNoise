@@ -51,10 +51,11 @@ class SoundViewModel: ObservableObject, Identifiable {
             }
         cancellables.append(cancellable)
         
-        prepareSound(fileName: self.sound.selectedSoundVariant.filename)
+        prepareSound(fileName: sound.selectedSoundVariant.filename)
     }
     
     func playSound() {
+        prepareSound(fileName: sound.selectedSoundVariant.filename)
         player.play()
     }
     
@@ -66,7 +67,7 @@ class SoundViewModel: ObservableObject, Identifiable {
                 self.player.volume -= Float(0.02 / fadeDuration)
                 
                 // stop timer and player when volume is 0
-                if self.player.volume ?? 0 <= 0 {
+                if self.player.volume <= 0 {
                     self.fadeTimer?.invalidate()
                     self.player.pause()
                 }
