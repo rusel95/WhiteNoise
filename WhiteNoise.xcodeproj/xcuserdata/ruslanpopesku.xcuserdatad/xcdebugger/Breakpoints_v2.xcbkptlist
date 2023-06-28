@@ -65,6 +65,21 @@
                   endingLineNumber = "93"
                   offsetFromSymbolStart = "2556">
                </Location>
+               <Location
+                  uuid = "31C6FDC0-8582-430F-A2A4-800D2E86A852 - 42ca6993a6ade3a8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (__C.NSTimer) -&gt; () in WhiteSoundRuslan1234.WhiteNoisesViewModel.restartTimer() -&gt; ()"
+                  moduleName = "WhiteSoundRuslan1234"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/WhiteNoisesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "176"
+                  endingLineNumber = "176"
+                  offsetFromSymbolStart = "680">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -112,6 +127,21 @@
                   startingLineNumber = "103"
                   endingLineNumber = "103"
                   offsetFromSymbolStart = "1245">
+               </Location>
+               <Location
+                  uuid = "206FBA43-BFFB-4FD5-B876-F5022A589E98 - 27caf332f0541ab2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WhiteSoundRuslan1234.SoundViewModel.saveSound() -&gt; ()"
+                  moduleName = "WhiteSoundRuslan1234"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "599">
                </Location>
             </Locations>
          </BreakpointContent>
