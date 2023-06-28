@@ -30,11 +30,26 @@
             filePath = "WhiteNoise/SoundViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "prepareSound(fileName:)"
             landmarkType = "7">
             <Locations>
+               <Location
+                  uuid = "206FBA43-BFFB-4FD5-B876-F5022A589E98 - ae68ddcdce0fdd51"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WhiteSoundRuslan1234.SoundViewModel.prepareSound(fileName: Swift.String) -&gt; ()"
+                  moduleName = "WhiteSoundRuslan1234"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "2175">
+               </Location>
                <Location
                   uuid = "206FBA43-BFFB-4FD5-B876-F5022A589E98 - ae68ddcdce0fdd72"
                   shouldBeEnabled = "Yes"
@@ -48,21 +63,6 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "95"
                   endingLineNumber = "95"
-                  offsetFromSymbolStart = "2432">
-               </Location>
-               <Location
-                  uuid = "206FBA43-BFFB-4FD5-B876-F5022A589E98 - ae68ddcdce0fdd13"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WhiteSoundRuslan1234.SoundViewModel.prepareSound(fileName: Swift.String) -&gt; ()"
-                  moduleName = "WhiteSoundRuslan1234"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "94"
-                  endingLineNumber = "94"
                   offsetFromSymbolStart = "2299">
                </Location>
             </Locations>
@@ -78,11 +78,26 @@
             filePath = "WhiteNoise/SoundViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "saveSound()"
             landmarkType = "7">
             <Locations>
+               <Location
+                  uuid = "267D2769-3035-4CA9-AA6A-64FDE0E984B7 - 27caf332f0541b69"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WhiteSoundRuslan1234.SoundViewModel.saveSound() -&gt; ()"
+                  moduleName = "WhiteSoundRuslan1234"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "1136">
+               </Location>
                <Location
                   uuid = "267D2769-3035-4CA9-AA6A-64FDE0E984B7 - 27caf332f0541b36"
                   shouldBeEnabled = "Yes"
@@ -96,21 +111,6 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "105"
                   endingLineNumber = "105"
-                  offsetFromSymbolStart = "1136">
-               </Location>
-               <Location
-                  uuid = "267D2769-3035-4CA9-AA6A-64FDE0E984B7 - 27caf332f0541ad7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WhiteSoundRuslan1234.SoundViewModel.saveSound() -&gt; ()"
-                  moduleName = "WhiteSoundRuslan1234"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "104"
-                  endingLineNumber = "104"
                   offsetFromSymbolStart = "1245">
                </Location>
             </Locations>
