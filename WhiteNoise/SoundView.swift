@@ -66,7 +66,7 @@ struct SoundView: View {
                 }
             }
             .foregroundColor(.white)
-            .padding(.vertical, 10)
+            .padding(16)
         }
         .cornerRadius(16)
     }
@@ -79,7 +79,6 @@ struct SoundView_Previews: PreviewProvider {
                 name: "rain",
                 icon: .system("tree"),
                 volume: 0.3,
-                isActive: true,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "calm Mediterrainean", filename: "calm Mediterrainean"),

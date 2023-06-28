@@ -18,7 +18,7 @@ struct WhiteNoisesView: View {
     ]
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(viewModel.soundsViewModels) { viewModel in
@@ -26,6 +26,7 @@ struct WhiteNoisesView: View {
                     }
                 }
             }
+            .padding(.top)
             
             // MARK: - Bottom Controller
             
@@ -40,16 +41,9 @@ struct WhiteNoisesView: View {
                             self.viewModel.playSounds()
                         }
                     }) {
-#if os(macOS)
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
-#else
-                        Image(systemName: viewModel.isPlaying ? "pause" : "play")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
-#endif
                     }
-                    .padding(8)
+                    .frame(width: 40, height: 40)
                 }
 
                 HStack {
@@ -61,9 +55,7 @@ struct WhiteNoisesView: View {
                         }
                     } label: {
                         Image(systemName: "timer")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
+                            .frame(width: 40, height: 40)
 #if os(macOS)
                         Text(viewModel.timerMode.description)
 #endif

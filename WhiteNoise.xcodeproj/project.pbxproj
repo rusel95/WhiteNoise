@@ -21,7 +21,7 @@
 		740873752A4B2E9B00392DA8 /* seagall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 740873732A4B2E9B00392DA8 /* seagall.mp3 */; };
 		74121BC52A4B2F3E008A2F99 /* isolated_002.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BC32A4B2F3E008A2F99 /* isolated_002.mp3 */; };
 		74121BC72A4B2F72008A2F99 /* isolated_001.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BC62A4B2F72008A2F99 /* isolated_001.mp3 */; };
-		74121BC92A4B3191008A2F99 /* Close&distance waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BC82A4B3191008A2F99 /* Close&distance waves.mp3 */; };
+		74121BC92A4B3191008A2F99 /* close&distant waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BC82A4B3191008A2F99 /* close&distant waves.mp3 */; };
 		74121BCB2A4B320C008A2F99 /* Beach Sea Waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BCA2A4B320C008A2F99 /* Beach Sea Waves.mp3 */; };
 		74121BCD2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BCC2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 */; };
 		74121BCF2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BCE2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 */; };
@@ -100,7 +100,7 @@
 		740873732A4B2E9B00392DA8 /* seagall.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = seagall.mp3; sourceTree = "<group>"; };
 		74121BC32A4B2F3E008A2F99 /* isolated_002.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = isolated_002.mp3; sourceTree = "<group>"; };
 		74121BC62A4B2F72008A2F99 /* isolated_001.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = isolated_001.mp3; sourceTree = "<group>"; };
-		74121BC82A4B3191008A2F99 /* Close&distance waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Close&distance waves.mp3"; sourceTree = "<group>"; };
+		74121BC82A4B3191008A2F99 /* close&distant waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "close&distant waves.mp3"; sourceTree = "<group>"; };
 		74121BCA2A4B320C008A2F99 /* Beach Sea Waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Beach Sea Waves.mp3"; sourceTree = "<group>"; };
 		74121BCC2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = small_light_flow_creek_rainforest.mp3; sourceTree = "<group>"; };
 		74121BCE2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3; sourceTree = "<group>"; };
@@ -306,7 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */,
-				74121BC82A4B3191008A2F99 /* Close&distance waves.mp3 */,
+				74121BC82A4B3191008A2F99 /* close&distant waves.mp3 */,
 				74121BCA2A4B320C008A2F99 /* Beach Sea Waves.mp3 */,
 				74121BE02A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 */,
 			);
@@ -491,7 +491,7 @@
 				74121BCF2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 in Resources */,
 				7400CDF82A3CA0710003292C /* rain medium heavy falling trees forest.mp3 in Resources */,
 				740873702A4B2DAA00392DA8 /* ducks.mp3 in Resources */,
-				74121BC92A4B3191008A2F99 /* Close&distance waves.mp3 in Resources */,
+				74121BC92A4B3191008A2F99 /* close&distant waves.mp3 in Resources */,
 				7400CE062A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

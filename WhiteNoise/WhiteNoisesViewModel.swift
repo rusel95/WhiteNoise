@@ -88,17 +88,15 @@ class WhiteNoisesViewModel: ObservableObject {
         } catch {
             print("Setting category to AVAudioSessionCategoryPlayback failed.")
         }
-#else
-
 #endif
 
         soundsViewModels = SoundFactory.getSavedSounds().map { SoundViewModel(sound: $0) }
 
         soundsViewModels.forEach { soundViewModel in
-            let isActiveCancellable = soundViewModel.$isActive
+            let volumeCancellable = soundViewModel.$volume
                 .dropFirst()
-                .sink { [weak self] isActive in
-                    if isActive {
+                .sink { [weak self] volume in
+                    if volume > 0 {
                         if self?.isPlaying ?? false {
                             soundViewModel.playSound()
                         }
@@ -106,7 +104,7 @@ class WhiteNoisesViewModel: ObservableObject {
                         soundViewModel.pauseSound()
                     }
                 }
-            cancellables.append(isActiveCancellable)
+            cancellables.append(volumeCancellable)
             
             let selectedSoundVariantCancellable = soundViewModel.$selectedSoundVariant
                 .dropFirst() // Skip the first value
@@ -140,7 +138,7 @@ class WhiteNoisesViewModel: ObservableObject {
             restartTimer()
         }
 
-        for soundViewModel in soundsViewModels where soundViewModel.isActive {
+        for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
             soundViewModel.playSound()
         }
         DispatchQueue.main.async {
@@ -152,7 +150,7 @@ class WhiteNoisesViewModel: ObservableObject {
         timer?.invalidate()
         timer = nil
 
-        for soundViewModel in soundsViewModels where soundViewModel.isActive {
+        for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
             soundViewModel.pauseSound(with: fadeDuration)
         }
         DispatchQueue.main.async {
