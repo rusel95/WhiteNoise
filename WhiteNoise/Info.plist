@@ -15,5 +15,7 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2023 Ruslan Popesku. All rights reserved.</string>
 </dict>
 </plist>
