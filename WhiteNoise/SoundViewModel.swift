@@ -14,7 +14,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     
     @Published var volume: Double {
         didSet {
-            player?.volume = Float(volume)
+            player.volume = Float(volume)
             sound.volume = volume
             saveSound()
         }
@@ -25,7 +25,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     
     let maxWidth: CGFloat = 180
     
-    private var player: AVAudioPlayer? = AVAudioPlayer()
+    private var player: AVAudioPlayer = AVAudioPlayer()
     private var fadeTimer: Timer?
     
     private(set) var sound: Sound
@@ -55,23 +55,24 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     
     func playSound() {
-        player?.play()
+        player.play()
     }
     
     func pauseSound(with fadeDuration: Double? = nil) {
         if let fadeDuration = fadeDuration {
             fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
+                guard let self else { return }
                 // decrease volume
-                self?.player?.volume -= Float(0.02 / fadeDuration)
+                self.player.volume -= Float(0.02 / fadeDuration)
                 
                 // stop timer and player when volume is 0
-                if self?.player?.volume ?? 0 <= 0 {
-                    self?.fadeTimer?.invalidate()
-                    self?.player?.pause()
+                if self.player.volume ?? 0 <= 0 {
+                    self.fadeTimer?.invalidate()
+                    self.player.pause()
                 }
             }
         } else {
-            player?.pause()
+            player.pause()
         }
     }
 }
@@ -86,9 +87,9 @@ private extension SoundViewModel {
             }
             
             player = try AVAudioPlayer(contentsOf: url)
-            player?.prepareToPlay()
-            player?.numberOfLoops = -1
-            player?.volume = Float(self.sound.volume)
+            player.prepareToPlay()
+            player.numberOfLoops = -1
+            player.volume = Float(self.sound.volume)
         } catch {
             print("Error loading audio player: \(error)")
         }

@@ -96,9 +96,13 @@ class WhiteNoisesViewModel: ObservableObject {
             let volumeCancellable = soundViewModel.$volume
                 .dropFirst()
                 .sink { [weak self] volume in
+                    guard let self else { return }
+                    
                     if volume > 0 {
-                        if self?.isPlaying ?? false {
+                        if self.isPlaying {
                             soundViewModel.playSound()
+                        } else if self.isPlaying == false {
+                            self.playSounds()
                         }
                     } else {
                         soundViewModel.pauseSound()
