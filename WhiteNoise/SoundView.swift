@@ -23,6 +23,13 @@ struct SoundView: View {
                     .frame(width: viewModel.sliderWidth)
                 
             })
+            .onTapGesture { location in
+                viewModel.sliderWidth = location.x
+                viewModel.lastDragValue = location.x
+                
+                let progress = viewModel.sliderWidth / viewModel.maxWidth
+                viewModel.volume = progress <= 1.0 ? progress : 1.0
+            }
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged({ value in
