@@ -34,7 +34,6 @@ class SoundFactory {
                 name: "rain",
                 icon: .system("cloud.rain"),
                 volume: 0.3,
-                isActive: true,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "soft", filename: "soft rain"),
@@ -49,7 +48,6 @@ class SoundFactory {
                 name: "fireplace",
                 icon: .system("fireplace"),
                 volume: 0.8,
-                isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "crackle spit", filename: "fire crackle spit flames fireplace"),
@@ -60,7 +58,6 @@ class SoundFactory {
             Sound(
                 name: "thunder",
                 icon: .system("cloud.bolt"),
-                isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "distand low", filename: "thunder ssolated distant low rumble"),
@@ -71,19 +68,17 @@ class SoundFactory {
             Sound(
                 name: "sea",
                 icon: .custom("sea"),
-                isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "calm", filename: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand"),
-                    .init(name: "Close&distance", filename: "Close&distance waves"),
+                    .init(name: "close&distant", filename: "close&distant waves"),
                     .init(name: "strong waves", filename: "Beach Sea Waves"),
-                    .init(name: "soft waves", filename: " west_wolf_Beach_Sea_Waves"),
+                    .init(name: "soft waves", filename: "west_wolf_Beach_Sea_Waves"),
                 ]
             ),
             Sound(
                 name: "river",
                 icon: .system("water.waves"),
-                isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "regular", filename: "River or stream, water flowing, running"),
@@ -95,7 +90,6 @@ class SoundFactory {
             Sound(
                 name: "waterfall",
                 icon: .custom("waterfall"),
-                isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "medium", filename: "Waterfall, medium close, people chatting, Bridal Falls, Canada"),
@@ -107,7 +101,6 @@ class SoundFactory {
             Sound(
                 name: "forest",
                 icon: .system("tree"),
-                isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "summer", filename: "Summer forest insects and birds"),
@@ -117,7 +110,6 @@ class SoundFactory {
             Sound(
                 name: "birds",
                 icon: .system("bird"),
-                isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "ducks", filename: "ducks"),
@@ -130,7 +122,6 @@ class SoundFactory {
             Sound(
                 name: "voice",
                 icon: .custom("voice-command"),
-                isActive: false,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "angels", filename: "among_the_stars"),

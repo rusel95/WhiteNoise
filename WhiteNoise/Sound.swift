@@ -46,7 +46,6 @@ class Sound: Codable, Identifiable {
     let name: String
     let icon: Icon
     var volume: Double
-    var isActive: Bool
     var selectedSoundVariant: SoundVariant
     let soundVariants: [SoundVariant]
 
@@ -54,14 +53,12 @@ class Sound: Codable, Identifiable {
         name: String,
         icon: Icon,
         volume: Double = 0.0,
-        isActive: Bool,
         selectedSoundVariant: SoundVariant?,
         soundVariants: [SoundVariant]
     ) {
         self.name = name
         self.icon = icon
         self.volume = volume
-        self.isActive = isActive
         self.selectedSoundVariant = selectedSoundVariant ?? soundVariants.first!
         self.soundVariants = soundVariants
     }

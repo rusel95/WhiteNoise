@@ -12,15 +12,8 @@ import SwiftUI
 
 class SoundViewModel: ObservableObject, Identifiable {
     
-    @Published var isActive: Bool {
-        didSet {
-            sound.isActive = isActive
-            saveSound()
-        }
-    }
     @Published var volume: Double {
         didSet {
-            isActive = volume > 0
             player?.volume = Float(volume)
             sound.volume = volume
             saveSound()
@@ -42,7 +35,6 @@ class SoundViewModel: ObservableObject, Identifiable {
     init(sound: Sound) {
         self.sound = sound
         
-        self.isActive = sound.isActive
         self.volume = sound.volume
         self.sliderWidth = sound.volume * maxWidth
         self.lastDragValue = sound.volume * maxWidth

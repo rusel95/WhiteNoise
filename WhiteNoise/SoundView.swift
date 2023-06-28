@@ -23,6 +23,13 @@ struct SoundView: View {
                     .frame(width: viewModel.sliderWidth)
                 
             })
+            .onTapGesture { location in
+                viewModel.sliderWidth = location.x
+                viewModel.lastDragValue = location.x
+                
+                let progress = viewModel.sliderWidth / viewModel.maxWidth
+                viewModel.volume = progress <= 1.0 ? progress : 1.0
+            }
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged({ value in
@@ -66,7 +73,7 @@ struct SoundView: View {
                 }
             }
             .foregroundColor(.white)
-            .padding(.vertical, 10)
+            .padding(16)
         }
         .cornerRadius(16)
     }
@@ -79,7 +86,6 @@ struct SoundView_Previews: PreviewProvider {
                 name: "rain",
                 icon: .system("tree"),
                 volume: 0.3,
-                isActive: true,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "calm Mediterrainean", filename: "calm Mediterrainean"),
