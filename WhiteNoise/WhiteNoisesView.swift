@@ -126,7 +126,7 @@ struct WhiteNoisesView: View {
                 .background(Color.black)
                 .clipShape(Capsule())
                 .padding(.bottom, 24)
-                .animation(.bouncy)
+                .animation(.spring)
             }
 #endif
         }

@@ -54,7 +54,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         prepareSound(fileName: sound.selectedSoundVariant.filename)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation(.bouncy) {
+            withAnimation(.spring) {
                 self.sliderWidth = sound.volume * self.maxWidth
             }
         }
