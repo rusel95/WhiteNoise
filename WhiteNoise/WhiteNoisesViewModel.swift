@@ -69,8 +69,21 @@ class WhiteNoisesViewModel: ObservableObject {
     @Published var soundsViewModels: [SoundViewModel] = []
 
     @Published var isPlaying: Bool
-    @Published var timerMode: TimerMode = .off
+    @Published var timerMode: TimerMode = .off {
+        didSet {
+            switch timerMode {
+            case .off:
+                timerRemainingSeconds = 0
+                timer?.invalidate()
+            default:
+                timerRemainingSeconds = timerMode.minutes * 60
+                setRemainingTimerTime(with: timerRemainingSeconds)
+                playSounds()
+            }
+        }
+    }
 
+    @Published var remainingTimerTime: String = ""
     @Published private var timerRemainingSeconds: Int = 0
 
     private var timer: Timer?
@@ -121,18 +134,6 @@ class WhiteNoisesViewModel: ObservableObject {
                 }
             cancellables.append(selectedSoundVariantCancellable)
         }
-
-        let cancellable = $timerMode.sink { [weak self] timerMode in
-            switch timerMode {
-            case .off:
-                self?.timerRemainingSeconds = 0
-                self?.timer?.invalidate()
-            default:
-                self?.timerRemainingSeconds = timerMode.minutes * 60
-                self?.restartTimer()
-            }
-        }
-        cancellables.append(cancellable)
     }
 
     // MARK: Methods
@@ -173,11 +174,18 @@ private extension WhiteNoisesViewModel {
 
             if self.timerRemainingSeconds > 0 {
                 self.timerRemainingSeconds -= 1
+                self.setRemainingTimerTime(with: self.timerRemainingSeconds)
             } else {
-                pauseSounds(with: 5)
-                self.timerRemainingSeconds = timerMode.minutes * 60
+                self.pauseSounds(with: 5)
+                self.timerMode = .off
             }
         }
+    }
+    
+    func setRemainingTimerTime(with seconds: Int) {
+        let minutes = Int(self.timerRemainingSeconds) / 60 % 60
+        let seconds = Int(self.timerRemainingSeconds) % 60
+        remainingTimerTime = String(format:"%02i:%02i", minutes, seconds)
     }
 
 }

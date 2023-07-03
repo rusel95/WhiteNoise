@@ -18,7 +18,7 @@ struct WhiteNoisesView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(viewModel.soundsViewModels) { viewModel in
@@ -27,13 +27,16 @@ struct WhiteNoisesView: View {
                 }
             }
             .padding(.top)
+            .frame(maxWidth: .infinity)
+            .foregroundColor(Color.white)
+            .background(Color("black90"))
             
             // MARK: - Bottom Controller
-            
-            HStack(spacing: 30) {
-                HStack {
-                    Spacer()
-
+#if os(macOS)
+            VStack {
+                Spacer()
+                
+                HStack(spacing: 20) {
                     Button(action: {
                         if self.viewModel.isPlaying {
                             self.viewModel.pauseSounds()
@@ -42,11 +45,15 @@ struct WhiteNoisesView: View {
                         }
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
                     }
-                    .frame(width: 40, height: 40)
-                }
-
-                HStack {
+                    .background(Color.clear)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.vertical, 20)
+                    .padding(.leading, 24)
+                    
                     Menu {
                         ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
                             Button(mode.description) {
@@ -54,21 +61,76 @@ struct WhiteNoisesView: View {
                             }
                         }
                     } label: {
-                        Image(systemName: "timer")
-                            .frame(width: 40, height: 40)
-#if os(macOS)
-                        Text(viewModel.timerMode.description)
-#endif
+                        HStack {
+                            Image(systemName: "timer")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            if viewModel.timerMode != .off {
+                                Text(viewModel.remainingTimerTime)
+                                    .frame(width: 60)
+                            }
+                        }
+                        .foregroundColor(viewModel.timerMode != .off ? .cyan : .white)
                     }
-
-                    Spacer()
+                    .background(Color.clear)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.vertical, 20)
+                    .padding(.trailing, 24)
                 }
+                .background(Color.black)
+                .clipShape(Capsule())
+                .padding(.bottom, 10)
+                .animation(.bouncy)
             }
-            .background(Color.black)
+#elseif os(iOS)
+            VStack {
+                Spacer()
+                
+                HStack(spacing: 20) {
+                    Button(action: {
+                        if self.viewModel.isPlaying {
+                            self.viewModel.pauseSounds()
+                        } else {
+                            self.viewModel.playSounds()
+                        }
+                    }) {
+                        Image(systemName: viewModel.isPlaying ? "pause" : "play")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.leading, 20)
+                    
+                    Menu {
+                        ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
+                            Button(mode.description) {
+                                viewModel.timerMode = mode
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "timer")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            if viewModel.timerMode != .off {
+                                Text(viewModel.remainingTimerTime)
+                                    .frame(width: 60)
+                            }
+                        }
+                        .foregroundColor(viewModel.timerMode != .off ? .cyan : .white)
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.trailing, 20)
+                }
+                .background(Color.black)
+                .clipShape(Capsule())
+                .padding(.bottom, 24)
+                .animation(.bouncy)
+            }
+#endif
         }
-        .frame(maxWidth: .infinity)
-        .foregroundColor(Color.white)
-        .background(Color("black90"))
+        .ignoresSafeArea(.all, edges: .bottom)
     }
 
 }

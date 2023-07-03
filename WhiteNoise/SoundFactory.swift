@@ -125,7 +125,7 @@ class SoundFactory {
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "angels", filename: "among_the_stars"),
-                    .init(name: "crowd in a room", filename: "HUMAN_CROWD_In_A_Room.mp3")
+                    .init(name: "crowd in a room", filename: "HUMAN_CROWD_In_A_Room")
                 ]
             ),
         ]

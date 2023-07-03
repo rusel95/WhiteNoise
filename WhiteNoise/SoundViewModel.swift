@@ -36,7 +36,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         self.sound = sound
         
         self.volume = sound.volume
-        self.sliderWidth = sound.volume * maxWidth
+        self.sliderWidth = 0
         self.lastDragValue = sound.volume * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
         
@@ -52,10 +52,16 @@ class SoundViewModel: ObservableObject, Identifiable {
         cancellables.append(cancellable)
         
         prepareSound(fileName: sound.selectedSoundVariant.filename)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(.bouncy) {
+                self.sliderWidth = sound.volume * self.maxWidth
+            }
+        }
     }
     
     func playSound() {
-        prepareSound(fileName: sound.selectedSoundVariant.filename)
+        player.volume = Float(self.sound.volume)
         player.play()
     }
     
@@ -83,7 +89,7 @@ private extension SoundViewModel {
     func prepareSound(fileName: String) {
         do {
             guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else {
-                print("Unable to find sound file")
+                print("Unable to find sound file \(fileName)")
                 return
             }
             
