@@ -36,7 +36,7 @@ struct WhiteNoisesView: View {
             VStack {
                 Spacer()
                 
-                HStack(spacing: 8) {
+                HStack(spacing: 20) {
                     Button(action: {
                         if self.viewModel.isPlaying {
                             self.viewModel.pauseSounds()
@@ -46,12 +46,13 @@ struct WhiteNoisesView: View {
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
                             .resizable()
+                            .scaledToFit()
                             .frame(width: 30, height: 30)
                     }
                     .background(Color.clear)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(.vertical, 16)
-                    .padding(.leading, 20)
+                    .padding(.vertical, 20)
+                    .padding(.leading, 24)
                     
                     Menu {
                         ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
@@ -60,21 +61,26 @@ struct WhiteNoisesView: View {
                             }
                         }
                     } label: {
-                        Image(systemName: "timer")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-
-                        Text(viewModel.timerMode.description)
+                        HStack {
+                            Image(systemName: "timer")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            if viewModel.timerMode != .off {
+                                Text(viewModel.remainingTimerTime)
+                                    .frame(width: 60)
+                            }
+                        }
+                        .foregroundColor(viewModel.timerMode != .off ? .cyan : .white)
                     }
                     .background(Color.clear)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(.vertical, 16)
-                    .padding(.trailing, 20)
-                    .frame(maxWidth: 100)
+                    .padding(.vertical, 20)
+                    .padding(.trailing, 24)
                 }
                 .background(Color.black)
                 .clipShape(Capsule())
                 .padding(.bottom, 10)
+                .animation(.bouncy)
             }
 #elseif os(iOS)
             VStack {
@@ -91,7 +97,7 @@ struct WhiteNoisesView: View {
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 24, height: 24)
+                            .frame(width: 30, height: 30)
                     }
                     .padding(.vertical, 8)
                     .padding(.leading, 20)
@@ -103,13 +109,16 @@ struct WhiteNoisesView: View {
                             }
                         }
                     } label: {
-                        Image(systemName: "timer")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-
-                        Text(viewModel.timerMode.description)
-
+                        HStack {
+                            Image(systemName: "timer")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            if viewModel.timerMode != .off {
+                                Text(viewModel.remainingTimerTime)
+                                    .frame(width: 60)
+                            }
+                        }
+                        .foregroundColor(viewModel.timerMode != .off ? .cyan : .white)
                     }
                     .padding(.vertical, 8)
                     .padding(.trailing, 20)
@@ -117,6 +126,7 @@ struct WhiteNoisesView: View {
                 .background(Color.black)
                 .clipShape(Capsule())
                 .padding(.bottom, 24)
+                .animation(.bouncy)
             }
 #endif
         }

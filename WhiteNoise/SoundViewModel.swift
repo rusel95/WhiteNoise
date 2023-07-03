@@ -83,7 +83,7 @@ private extension SoundViewModel {
     func prepareSound(fileName: String) {
         do {
             guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else {
-                print("Unable to find sound file")
+                print("Unable to find sound file \(fileName)")
                 return
             }
             
