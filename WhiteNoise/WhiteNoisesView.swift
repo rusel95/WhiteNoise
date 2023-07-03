@@ -18,7 +18,7 @@ struct WhiteNoisesView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(viewModel.soundsViewModels) { viewModel in
@@ -27,13 +27,16 @@ struct WhiteNoisesView: View {
                 }
             }
             .padding(.top)
+            .frame(maxWidth: .infinity)
+            .foregroundColor(Color.white)
+            .background(Color("black90"))
             
             // MARK: - Bottom Controller
-            
-            HStack(spacing: 30) {
-                HStack {
-                    Spacer()
-
+#if os(macOS)
+            VStack {
+                Spacer()
+                
+                HStack(spacing: 8) {
                     Button(action: {
                         if self.viewModel.isPlaying {
                             self.viewModel.pauseSounds()
@@ -42,11 +45,14 @@ struct WhiteNoisesView: View {
                         }
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
+                            .resizable()
+                            .frame(width: 30, height: 30)
                     }
-                    .frame(width: 40, height: 40)
-                }
-
-                HStack {
+                    .background(Color.clear)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.vertical, 16)
+                    .padding(.leading, 20)
+                    
                     Menu {
                         ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
                             Button(mode.description) {
@@ -55,20 +61,66 @@ struct WhiteNoisesView: View {
                         }
                     } label: {
                         Image(systemName: "timer")
-                            .frame(width: 40, height: 40)
-#if os(macOS)
-                        Text(viewModel.timerMode.description)
-#endif
-                    }
+                            .resizable()
+                            .frame(width: 30, height: 30)
 
-                    Spacer()
+                        Text(viewModel.timerMode.description)
+                    }
+                    .background(Color.clear)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.vertical, 16)
+                    .padding(.trailing, 20)
+                    .frame(maxWidth: 100)
                 }
+                .background(Color.black)
+                .clipShape(Capsule())
+                .padding(.bottom, 10)
             }
-            .background(Color.black)
+#elseif os(iOS)
+            VStack {
+                Spacer()
+                
+                HStack(spacing: 20) {
+                    Button(action: {
+                        if self.viewModel.isPlaying {
+                            self.viewModel.pauseSounds()
+                        } else {
+                            self.viewModel.playSounds()
+                        }
+                    }) {
+                        Image(systemName: viewModel.isPlaying ? "pause" : "play")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.leading, 20)
+                    
+                    Menu {
+                        ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
+                            Button(mode.description) {
+                                viewModel.timerMode = mode
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "timer")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+
+                        Text(viewModel.timerMode.description)
+
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.trailing, 20)
+                }
+                .background(Color.black)
+                .clipShape(Capsule())
+                .padding(.bottom, 24)
+            }
+#endif
         }
-        .frame(maxWidth: .infinity)
-        .foregroundColor(Color.white)
-        .background(Color("black90"))
+        .ignoresSafeArea(.all, edges: .bottom)
     }
 
 }

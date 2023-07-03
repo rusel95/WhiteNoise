@@ -55,7 +55,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     
     func playSound() {
-        prepareSound(fileName: sound.selectedSoundVariant.filename)
+        player.volume = Float(self.sound.volume)
         player.play()
     }
     
