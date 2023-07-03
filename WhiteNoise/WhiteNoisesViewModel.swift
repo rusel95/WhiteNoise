@@ -174,7 +174,6 @@ private extension WhiteNoisesViewModel {
 
             if self.timerRemainingSeconds > 0 {
                 self.timerRemainingSeconds -= 1
-                print(timerRemainingSeconds)
                 self.setRemainingTimerTime(with: self.timerRemainingSeconds)
             } else {
                 self.pauseSounds(with: 5)

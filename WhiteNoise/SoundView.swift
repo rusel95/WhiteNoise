@@ -20,7 +20,8 @@ struct SoundView: View {
                 
                 Rectangle()
                     .fill(Color.cyan)
-                    .frame(width: viewModel.sliderWidth)
+                    .frame(width: viewModel.sliderWidth, alignment: .leading)
+                    .animation(.bouncy)
                 
             })
             .onTapGesture { location in
@@ -81,8 +82,8 @@ struct SoundView: View {
 
 struct SoundView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundView(viewModel:
-                .init( sound: Sound(
+        SoundView(viewModel: .init(
+            sound: Sound(
                 name: "rain",
                 icon: .system("tree"),
                 volume: 0.3,

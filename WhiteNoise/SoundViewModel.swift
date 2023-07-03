@@ -36,7 +36,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         self.sound = sound
         
         self.volume = sound.volume
-        self.sliderWidth = sound.volume * maxWidth
+        self.sliderWidth = 0
         self.lastDragValue = sound.volume * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
         
@@ -52,6 +52,12 @@ class SoundViewModel: ObservableObject, Identifiable {
         cancellables.append(cancellable)
         
         prepareSound(fileName: sound.selectedSoundVariant.filename)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(.bouncy) {
+                self.sliderWidth = sound.volume * self.maxWidth
+            }
+        }
     }
     
     func playSound() {
