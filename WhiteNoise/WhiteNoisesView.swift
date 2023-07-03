@@ -80,7 +80,7 @@ struct WhiteNoisesView: View {
                 .background(Color.black)
                 .clipShape(Capsule())
                 .padding(.bottom, 10)
-                .animation(.bouncy)
+                .animation(.spring())
             }
 #elseif os(iOS)
             VStack {
@@ -126,7 +126,7 @@ struct WhiteNoisesView: View {
                 .background(Color.black)
                 .clipShape(Capsule())
                 .padding(.bottom, 24)
-                .animation(.spring)
+                .animation(.spring())
             }
 #endif
         }
