@@ -12,9 +12,9 @@ import SwiftUI
 
 class SoundViewModel: ObservableObject, Identifiable {
     
-    @Published var volume: Double {
+    @Published var volume: Float {
         didSet {
-            player.volume = Float(volume)
+            player.volume = volume
             sound.volume = volume
             saveSound()
         }
@@ -37,7 +37,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         self.volume = sound.volume
         self.sliderWidth = 0
-        self.lastDragValue = sound.volume * maxWidth
+        self.lastDragValue = CGFloat(sound.volume) * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
         
         let cancellable = $selectedSoundVariant
@@ -47,9 +47,12 @@ class SoundViewModel: ObservableObject, Identifiable {
                 
                 self.sound.selectedSoundVariant = selectedSoundVariant
                 self.saveSound()
-                if self.player.isPlaying {
+                let wasPlaying = player.isPlaying
+                if wasPlaying {
                     self.player.stop()
-                    self.prepareSound(fileName: selectedSoundVariant.filename)
+                }
+                self.prepareSound(fileName: selectedSoundVariant.filename)
+                if wasPlaying {
                     self.playSound()
                 }
             }
@@ -59,7 +62,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             withAnimation(.spring()) {
-                self.sliderWidth = sound.volume * self.maxWidth
+                self.sliderWidth = CGFloat(sound.volume) * self.maxWidth
             }
         }
     }
@@ -71,7 +74,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         sliderWidth = sliderWidth >= 0 ? sliderWidth : 0
         
         let progress = sliderWidth / maxWidth
-        volume = progress <= 1.0 ? progress : 1.0
+        volume = Float(progress) <= 1.0 ? Float(progress) : Float(1.0)
     }
     
     func dragDidEnded() {
@@ -81,9 +84,22 @@ class SoundViewModel: ObservableObject, Identifiable {
         lastDragValue = sliderWidth
     }
     
-    func playSound() {
-        player.volume = Float(sound.volume)
-        player.play()
+    func playSound(with fadeDuration: Double? = nil) {
+        if let fadeDuration = fadeDuration {
+            player.volume = 0
+            fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
+                guard let self else { return }
+                
+                self.player.volume += Float(0.02 / fadeDuration)
+                if self.player.volume >= sound.volume {
+                    self.fadeTimer?.invalidate()
+                }
+            }
+            player.play()
+        } else {
+            player.volume = Float(sound.volume)
+            player.play()
+        }
     }
     
     func pauseSound(with fadeDuration: Double? = nil) {

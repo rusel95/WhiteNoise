@@ -45,14 +45,14 @@ class Sound: Codable, Identifiable {
     
     let name: String
     let icon: Icon
-    var volume: Double
+    var volume: Float
     var selectedSoundVariant: SoundVariant
     let soundVariants: [SoundVariant]
 
     init(
         name: String,
         icon: Icon,
-        volume: Double = 0.0,
+        volume: Float = 0.0,
         selectedSoundVariant: SoundVariant?,
         soundVariants: [SoundVariant]
     ) {

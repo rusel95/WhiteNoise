@@ -120,7 +120,7 @@ struct WhiteNoisesView: View {
                         }
                         .foregroundColor(viewModel.timerMode != .off ? .cyan : .white)
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 16)
                     .padding(.trailing, 20)
                 }
                 .background(Color.black90)

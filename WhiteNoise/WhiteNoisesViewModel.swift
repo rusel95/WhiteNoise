@@ -133,11 +133,9 @@ class WhiteNoisesViewModel: ObservableObject {
         }
 
         for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
-            soundViewModel.playSound()
+            soundViewModel.playSound(with: 1.0)
         }
-        DispatchQueue.main.async {
-            self.isPlaying = true
-        }
+        isPlaying = true
     }
 
     func pauseSounds(with fadeDuration: Double? = nil) {
@@ -147,9 +145,7 @@ class WhiteNoisesViewModel: ObservableObject {
         for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
             soundViewModel.pauseSound(with: fadeDuration)
         }
-        DispatchQueue.main.async {
-            self.isPlaying = false
-        }
+        isPlaying = false
     }
 
 }

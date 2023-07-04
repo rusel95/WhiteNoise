@@ -29,7 +29,7 @@ struct SoundView: View {
                 viewModel.lastDragValue = location.x
                 
                 let progress = viewModel.sliderWidth / viewModel.maxWidth
-                viewModel.volume = progress <= 1.0 ? progress : 1.0
+                viewModel.volume = progress <= 1.0 ? Float(progress) : 1.0
             }
             .gesture(
                 DragGesture(minimumDistance: 0)
