@@ -73,7 +73,7 @@ struct WhiteNoisesView: View {
                     .padding(.vertical, 20)
                     .padding(.trailing, 24)
                 }
-                .background(Color.black90)
+                .background(Color("black90"))
                 .clipShape(Capsule())
                 .padding(.bottom, 10)
                 .animation(.spring())
@@ -115,7 +115,7 @@ struct WhiteNoisesView: View {
                     .padding(.vertical, 16)
                     .padding(.trailing, 20)
                 }
-                .background(Color.black90)
+                .background(Color("black90"))
                 .clipShape(Capsule())
                 .padding(.bottom, 24)
                 .animation(.spring())
