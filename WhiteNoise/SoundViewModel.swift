@@ -60,6 +60,23 @@ class SoundViewModel: ObservableObject, Identifiable {
         }
     }
     
+    func dragDidChange(newTranslationWidth: CGFloat) {
+        sliderWidth = newTranslationWidth + lastDragValue
+        
+        sliderWidth = sliderWidth > maxWidth ? maxWidth : sliderWidth
+        sliderWidth = sliderWidth >= 0 ? sliderWidth : 0
+        
+        let progress = sliderWidth / maxWidth
+        volume = progress <= 1.0 ? progress : 1.0
+    }
+    
+    func dragDidEnded() {
+        sliderWidth = sliderWidth > maxWidth ? maxWidth : sliderWidth
+        sliderWidth = sliderWidth >= 0 ? sliderWidth : 0
+        
+        lastDragValue = sliderWidth
+    }
+    
     func playSound() {
         player.volume = Float(self.sound.volume)
         player.play()
