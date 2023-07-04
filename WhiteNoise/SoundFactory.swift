@@ -56,6 +56,20 @@ class SoundFactory {
                 ]
             ),
             Sound(
+                name: "snow",
+                icon: .system("snow"),
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(name: "frozen tribal", filename: "frozen_tribal_organic_snow"),
+                    .init(name: "blastwave blizzard", filename: "Blastwave_Blizzard"),
+                    .init(name: "walk slow", filename: "walk_slow"),
+                    .init(name: "snowball build", filename: "snowball_build"),
+                    .init(name: "shovel clearing", filename: "shovel_clearing_snow"),
+                    .init(name: "step scuff", filename: "STEP_Snow_Scuff"),
+                    
+                ]
+            ),
+            Sound(
                 name: "thunder",
                 icon: .system("cloud.bolt"),
                 selectedSoundVariant: nil,

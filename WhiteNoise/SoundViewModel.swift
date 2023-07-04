@@ -12,9 +12,9 @@ import SwiftUI
 
 class SoundViewModel: ObservableObject, Identifiable {
     
-    @Published var volume: Double {
+    @Published var volume: Float {
         didSet {
-            player.volume = Float(volume)
+            player.volume = volume
             sound.volume = volume
             saveSound()
         }
@@ -37,7 +37,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         self.volume = sound.volume
         self.sliderWidth = 0
-        self.lastDragValue = sound.volume * maxWidth
+        self.lastDragValue = CGFloat(sound.volume) * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
         
         let cancellable = $selectedSoundVariant
@@ -47,7 +47,14 @@ class SoundViewModel: ObservableObject, Identifiable {
                 
                 self.sound.selectedSoundVariant = selectedSoundVariant
                 self.saveSound()
-                self.prepareSound(fileName: sound.selectedSoundVariant.filename)
+                let wasPlaying = player.isPlaying
+                if wasPlaying {
+                    self.player.stop()
+                }
+                self.prepareSound(fileName: selectedSoundVariant.filename)
+                if wasPlaying {
+                    self.playSound()
+                }
             }
         cancellables.append(cancellable)
         
@@ -55,17 +62,47 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             withAnimation(.spring()) {
-                self.sliderWidth = sound.volume * self.maxWidth
+                self.sliderWidth = CGFloat(sound.volume) * self.maxWidth
             }
         }
     }
     
-    func playSound() {
-        player.volume = Float(self.sound.volume)
-        player.play()
+    func dragDidChange(newTranslationWidth: CGFloat) {
+        sliderWidth = newTranslationWidth + lastDragValue
+        
+        sliderWidth = sliderWidth > maxWidth ? maxWidth : sliderWidth
+        sliderWidth = sliderWidth >= 0 ? sliderWidth : 0
+        
+        let progress = sliderWidth / maxWidth
+        volume = Float(progress) <= 1.0 ? Float(progress) : Float(1.0)
     }
     
-    func pauseSound(with fadeDuration: Double? = nil) {
+    func dragDidEnded() {
+        sliderWidth = sliderWidth > maxWidth ? maxWidth : sliderWidth
+        sliderWidth = sliderWidth >= 0 ? sliderWidth : 0
+        
+        lastDragValue = sliderWidth
+    }
+    
+    func playSound(fadeDuration: Double? = nil) {
+        if let fadeDuration = fadeDuration {
+            player.volume = 0
+            fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
+                guard let self else { return }
+                
+                self.player.volume += Float(0.02 / fadeDuration)
+                if self.player.volume >= sound.volume {
+                    self.fadeTimer?.invalidate()
+                }
+            }
+            player.play()
+        } else {
+            player.volume = Float(sound.volume)
+            player.play()
+        }
+    }
+    
+    func pauseSound(fadeDuration: Double? = nil) {
         if let fadeDuration = fadeDuration {
             fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
                 guard let self else { return }

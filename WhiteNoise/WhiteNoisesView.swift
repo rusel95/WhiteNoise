@@ -29,7 +29,7 @@ struct WhiteNoisesView: View {
             .padding(.top)
             .frame(maxWidth: .infinity)
             .foregroundColor(Color.white)
-            .background(Color("black90"))
+            .background(Color.black)
             
             // MARK: - Bottom Controller
 #if os(macOS)
@@ -38,11 +38,7 @@ struct WhiteNoisesView: View {
                 
                 HStack(spacing: 20) {
                     Button(action: {
-                        if self.viewModel.isPlaying {
-                            self.viewModel.pauseSounds()
-                        } else {
-                            self.viewModel.playSounds()
-                        }
+                        viewModel.playingButtonSelected()
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
                             .resizable()
@@ -77,7 +73,7 @@ struct WhiteNoisesView: View {
                     .padding(.vertical, 20)
                     .padding(.trailing, 24)
                 }
-                .background(Color.black)
+                .background(Color.black90)
                 .clipShape(Capsule())
                 .padding(.bottom, 10)
                 .animation(.spring())
@@ -88,11 +84,7 @@ struct WhiteNoisesView: View {
                 
                 HStack(spacing: 20) {
                     Button(action: {
-                        if self.viewModel.isPlaying {
-                            self.viewModel.pauseSounds()
-                        } else {
-                            self.viewModel.playSounds()
-                        }
+                        viewModel.playingButtonSelected()
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
                             .resizable()
@@ -120,10 +112,10 @@ struct WhiteNoisesView: View {
                         }
                         .foregroundColor(viewModel.timerMode != .off ? .cyan : .white)
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 16)
                     .padding(.trailing, 20)
                 }
-                .background(Color.black)
+                .background(Color.black90)
                 .clipShape(Capsule())
                 .padding(.bottom, 24)
                 .animation(.spring())

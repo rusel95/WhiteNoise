@@ -29,25 +29,15 @@ struct SoundView: View {
                 viewModel.lastDragValue = location.x
                 
                 let progress = viewModel.sliderWidth / viewModel.maxWidth
-                viewModel.volume = progress <= 1.0 ? progress : 1.0
+                viewModel.volume = progress <= 1.0 ? Float(progress) : 1.0
             }
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged({ value in
-                        let translation = value.translation
-                        viewModel.sliderWidth = translation.width + viewModel.lastDragValue
-                        
-                        viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
-                        viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
-                        
-                        let progress = viewModel.sliderWidth / viewModel.maxWidth
-                        viewModel.volume = progress <= 1.0 ? progress : 1.0
+                        viewModel.dragDidChange(newTranslationWidth: value.translation.width)
                     })
                     .onEnded({ value in
-                        viewModel.sliderWidth = viewModel.sliderWidth > viewModel.maxWidth ? viewModel.maxWidth : viewModel.sliderWidth
-                        viewModel.sliderWidth = viewModel.sliderWidth >= 0 ? viewModel.sliderWidth : 0
-                        
-                        viewModel.lastDragValue = viewModel.sliderWidth
+                        viewModel.dragDidEnded()
                     })
             )
             
@@ -56,22 +46,36 @@ struct SoundView: View {
                 case .system(let systemName):
                     Image(systemName: systemName)
                         .frame(width: 20, height: 20)
+                        .allowsHitTesting(false)
                 case .custom(let name):
                     Image(name)
                         .resizable()
                         .frame(width: 20, height: 20)
+                        .allowsHitTesting(false)
                 }
                 
                 Text(viewModel.sound.name)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .allowsHitTesting(false)
                 
                 Picker(
                     "", selection: $viewModel.selectedSoundVariant
                 ) {
                     ForEach(viewModel.sound.soundVariants) { variant in
-                        Text(variant.name).tag(variant as Sound.SoundVariant)
+                        Text(variant.name)
+                            .tag(variant as Sound.SoundVariant)
                     }
                 }
+                .font(.system(size: 8))
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged({ value in
+                            viewModel.dragDidChange(newTranslationWidth: value.translation.width)
+                        })
+                        .onEnded({ _ in
+                            viewModel.dragDidEnded()
+                        })
+                )
             }
             .foregroundColor(.white)
             .padding(16)

@@ -78,7 +78,7 @@ class WhiteNoisesViewModel: ObservableObject {
             default:
                 timerRemainingSeconds = timerMode.minutes * 60
                 setRemainingTimerTime(with: timerRemainingSeconds)
-                playSounds()
+                playSounds(fadeDuration: 1)
             }
         }
     }
@@ -96,7 +96,7 @@ class WhiteNoisesViewModel: ObservableObject {
 
 #if os(iOS)
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print("Setting category to AVAudioSessionCategoryPlayback failed.")
@@ -122,44 +122,16 @@ class WhiteNoisesViewModel: ObservableObject {
                     }
                 }
             cancellables.append(volumeCancellable)
-            
-            let selectedSoundVariantCancellable = soundViewModel.$selectedSoundVariant
-                .dropFirst() // Skip the first value
-                .sink { [weak self] _ in
-                    guard let self else { return }
-                    
-                    if self.isPlaying {
-                        self.playSounds()
-                    }
-                }
-            cancellables.append(selectedSoundVariantCancellable)
         }
     }
 
     // MARK: Methods
-
-    func playSounds() {
-        if timerMode != .off {
-            restartTimer()
-        }
-
-        for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
-            soundViewModel.playSound()
-        }
-        DispatchQueue.main.async {
-            self.isPlaying = true
-        }
-    }
-
-    func pauseSounds(with fadeDuration: Double? = nil) {
-        timer?.invalidate()
-        timer = nil
-
-        for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
-            soundViewModel.pauseSound(with: fadeDuration)
-        }
-        DispatchQueue.main.async {
-            self.isPlaying = false
+    
+    func playingButtonSelected() {
+        if isPlaying {
+            pauseSounds(fadeDuration: 0.5)
+        } else {
+            playSounds(fadeDuration: 1)
         }
     }
 
@@ -167,6 +139,27 @@ class WhiteNoisesViewModel: ObservableObject {
 
 private extension WhiteNoisesViewModel {
 
+    private func playSounds(fadeDuration: Double? = nil) {
+        if timerMode != .off {
+            restartTimer()
+        }
+
+        for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
+            soundViewModel.playSound(fadeDuration: fadeDuration)
+        }
+        isPlaying = true
+    }
+
+    private func pauseSounds(fadeDuration: Double? = nil) {
+        timer?.invalidate()
+        timer = nil
+
+        for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
+            soundViewModel.pauseSound(fadeDuration: fadeDuration)
+        }
+        isPlaying = false
+    }
+    
     func restartTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
@@ -176,7 +169,7 @@ private extension WhiteNoisesViewModel {
                 self.timerRemainingSeconds -= 1
                 self.setRemainingTimerTime(with: self.timerRemainingSeconds)
             } else {
-                self.pauseSounds(with: 5)
+                self.pauseSounds(fadeDuration: 5)
                 self.timerMode = .off
             }
         }

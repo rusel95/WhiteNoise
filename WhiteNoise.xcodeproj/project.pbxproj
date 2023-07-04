@@ -34,6 +34,12 @@
 		74121BDF2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BDE2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 */; };
 		74121BE12A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BE02A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 */; };
 		74121BE32A4B357B008A2F99 /* crickets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BE22A4B357B008A2F99 /* crickets.mp3 */; };
+		742351752A547D18009E1809 /* shovel_clearing_snow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7423516F2A547D17009E1809 /* shovel_clearing_snow.mp3 */; };
+		742351762A547D18009E1809 /* snowball_build.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 742351702A547D17009E1809 /* snowball_build.mp3 */; };
+		742351772A547D18009E1809 /* walk_slow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 742351712A547D18009E1809 /* walk_slow.mp3 */; };
+		742351782A547D18009E1809 /* STEP_Snow_Scuff.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 742351722A547D18009E1809 /* STEP_Snow_Scuff.mp3 */; };
+		742351792A547D18009E1809 /* frozen_tribal_organic_snow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 742351732A547D18009E1809 /* frozen_tribal_organic_snow.mp3 */; };
+		7423517A2A547D18009E1809 /* Blastwave_Blizzard.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 742351742A547D18009E1809 /* Blastwave_Blizzard.mp3 */; };
 		74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */; };
 		74349A562A26413C00AB0EF5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A552A26413C00AB0EF5 /* ContentView.swift */; };
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
@@ -104,6 +110,12 @@
 		74121BDE2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flowing_water_loop_06_long.mp3; sourceTree = "<group>"; };
 		74121BE02A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = west_wolf_Beach_Sea_Waves.mp3; sourceTree = "<group>"; };
 		74121BE22A4B357B008A2F99 /* crickets.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = crickets.mp3; sourceTree = "<group>"; };
+		7423516F2A547D17009E1809 /* shovel_clearing_snow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shovel_clearing_snow.mp3; sourceTree = "<group>"; };
+		742351702A547D17009E1809 /* snowball_build.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = snowball_build.mp3; sourceTree = "<group>"; };
+		742351712A547D18009E1809 /* walk_slow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = walk_slow.mp3; sourceTree = "<group>"; };
+		742351722A547D18009E1809 /* STEP_Snow_Scuff.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = STEP_Snow_Scuff.mp3; sourceTree = "<group>"; };
+		742351732A547D18009E1809 /* frozen_tribal_organic_snow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = frozen_tribal_organic_snow.mp3; sourceTree = "<group>"; };
+		742351742A547D18009E1809 /* Blastwave_Blizzard.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Blastwave_Blizzard.mp3; sourceTree = "<group>"; };
 		74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteSoundRuslan1234.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseApp.swift; sourceTree = "<group>"; };
 		74349A552A26413C00AB0EF5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -168,6 +180,19 @@
 				74121BE22A4B357B008A2F99 /* crickets.mp3 */,
 			);
 			path = Birds;
+			sourceTree = "<group>";
+		};
+		7423516E2A547D0B009E1809 /* snow */ = {
+			isa = PBXGroup;
+			children = (
+				742351732A547D18009E1809 /* frozen_tribal_organic_snow.mp3 */,
+				742351742A547D18009E1809 /* Blastwave_Blizzard.mp3 */,
+				742351712A547D18009E1809 /* walk_slow.mp3 */,
+				742351702A547D17009E1809 /* snowball_build.mp3 */,
+				7423516F2A547D17009E1809 /* shovel_clearing_snow.mp3 */,
+				742351722A547D18009E1809 /* STEP_Snow_Scuff.mp3 */,
+			);
+			path = snow;
 			sourceTree = "<group>";
 		};
 		74349A472A26413C00AB0EF5 = {
@@ -238,6 +263,7 @@
 		74349A832A26494300AB0EF5 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				7423516E2A547D0B009E1809 /* snow */,
 				748E81AB2A49DC4500CBC255 /* rain */,
 				748E81AC2A49DEB700CBC255 /* fireplace */,
 				748E81AD2A49DEC100CBC255 /* thunder */,
@@ -421,6 +447,7 @@
 				743A959B2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 in Resources */,
 				7400CE022A3CA57F0003292C /* soft rain.mp3 in Resources */,
 				74121BD52A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 in Resources */,
+				742351762A547D18009E1809 /* snowball_build.mp3 in Resources */,
 				74121BE32A4B357B008A2F99 /* crickets.mp3 in Resources */,
 				743A95992A28C2DC00219803 /* River or stream, water flowing, running.mp3 in Resources */,
 				7408736E2A4B2D5100392DA8 /* among_the_stars.mp3 in Resources */,
@@ -433,6 +460,7 @@
 				74121BDB2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 in Resources */,
 				7400CE032A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 in Resources */,
 				7400CDF92A3CA0710003292C /* rain medium.mp3 in Resources */,
+				742351772A547D18009E1809 /* walk_slow.mp3 in Resources */,
 				74121BD92A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 in Resources */,
 				74121BC72A4B2F72008A2F99 /* isolated_001.mp3 in Resources */,
 				74121BCB2A4B320C008A2F99 /* Beach Sea Waves.mp3 in Resources */,
@@ -441,10 +469,13 @@
 				74121BE12A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 in Resources */,
 				7400CE042A3CA57F0003292C /* spring rain.mp3 in Resources */,
 				74121BCD2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 in Resources */,
+				742351782A547D18009E1809 /* STEP_Snow_Scuff.mp3 in Resources */,
 				74121BD72A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 in Resources */,
 				743A959F2A28C39300219803 /* Woodland ambience & several birds.mp3 in Resources */,
+				7423517A2A547D18009E1809 /* Blastwave_Blizzard.mp3 in Resources */,
 				743A959D2A28C37700219803 /* Summer forest insects and birds.mp3 in Resources */,
 				743A95972A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 in Resources */,
+				742351792A547D18009E1809 /* frozen_tribal_organic_snow.mp3 in Resources */,
 				74121BDD2A4B34EC008A2F99 /* sparrow.mp3 in Resources */,
 				740873752A4B2E9B00392DA8 /* seagall.mp3 in Resources */,
 				74121BCF2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 in Resources */,
@@ -452,6 +483,7 @@
 				740873702A4B2DAA00392DA8 /* ducks.mp3 in Resources */,
 				74121BC92A4B3191008A2F99 /* close&distant waves.mp3 in Resources */,
 				7400CE062A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 in Resources */,
+				742351752A547D18009E1809 /* shovel_clearing_snow.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
