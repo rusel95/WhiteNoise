@@ -38,11 +38,7 @@ struct WhiteNoisesView: View {
                 
                 HStack(spacing: 20) {
                     Button(action: {
-                        if self.viewModel.isPlaying {
-                            self.viewModel.pauseSounds()
-                        } else {
-                            self.viewModel.playSounds()
-                        }
+                        viewModel.playingButtonSelected()
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
                             .resizable()
@@ -88,11 +84,7 @@ struct WhiteNoisesView: View {
                 
                 HStack(spacing: 20) {
                     Button(action: {
-                        if self.viewModel.isPlaying {
-                            self.viewModel.pauseSounds()
-                        } else {
-                            self.viewModel.playSounds()
-                        }
+                        viewModel.playingButtonSelected()
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause" : "play")
                             .resizable()

@@ -46,14 +46,17 @@ struct SoundView: View {
                 case .system(let systemName):
                     Image(systemName: systemName)
                         .frame(width: 20, height: 20)
+                        .allowsHitTesting(false)
                 case .custom(let name):
                     Image(name)
                         .resizable()
                         .frame(width: 20, height: 20)
+                        .allowsHitTesting(false)
                 }
                 
                 Text(viewModel.sound.name)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .allowsHitTesting(false)
                 
                 Picker(
                     "", selection: $viewModel.selectedSoundVariant

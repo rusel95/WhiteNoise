@@ -84,7 +84,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         lastDragValue = sliderWidth
     }
     
-    func playSound(with fadeDuration: Double? = nil) {
+    func playSound(fadeDuration: Double? = nil) {
         if let fadeDuration = fadeDuration {
             player.volume = 0
             fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
@@ -102,7 +102,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         }
     }
     
-    func pauseSound(with fadeDuration: Double? = nil) {
+    func pauseSound(fadeDuration: Double? = nil) {
         if let fadeDuration = fadeDuration {
             fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
                 guard let self else { return }
