@@ -47,7 +47,11 @@ class SoundViewModel: ObservableObject, Identifiable {
                 
                 self.sound.selectedSoundVariant = selectedSoundVariant
                 self.saveSound()
-                self.prepareSound(fileName: sound.selectedSoundVariant.filename)
+                if self.player.isPlaying {
+                    self.player.stop()
+                    self.prepareSound(fileName: selectedSoundVariant.filename)
+                    self.playSound()
+                }
             }
         cancellables.append(cancellable)
         
@@ -78,7 +82,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     
     func playSound() {
-        player.volume = Float(self.sound.volume)
+        player.volume = Float(sound.volume)
         player.play()
     }
     

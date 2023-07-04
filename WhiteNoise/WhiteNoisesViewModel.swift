@@ -122,17 +122,6 @@ class WhiteNoisesViewModel: ObservableObject {
                     }
                 }
             cancellables.append(volumeCancellable)
-            
-            let selectedSoundVariantCancellable = soundViewModel.$selectedSoundVariant
-                .dropFirst() // Skip the first value
-                .sink { [weak self] _ in
-                    guard let self else { return }
-                    
-                    if self.isPlaying {
-                        self.playSounds()
-                    }
-                }
-            cancellables.append(selectedSoundVariantCancellable)
         }
     }
 

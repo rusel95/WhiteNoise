@@ -31,7 +31,7 @@ struct SoundView: View {
                 let progress = viewModel.sliderWidth / viewModel.maxWidth
                 viewModel.volume = progress <= 1.0 ? progress : 1.0
             }
-            .highPriorityGesture(
+            .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged({ value in
                         viewModel.dragDidChange(newTranslationWidth: value.translation.width)
@@ -64,7 +64,7 @@ struct SoundView: View {
                     }
                 }
                 .font(.system(size: 8))
-                .highPriorityGesture(
+                .gesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged({ value in
                             viewModel.dragDidChange(newTranslationWidth: value.translation.width)
