@@ -29,7 +29,7 @@ struct WhiteNoisesView: View {
             .padding(.top)
             .frame(maxWidth: .infinity)
             .foregroundColor(Color.white)
-            .background(Color("black90"))
+            .background(Color.black)
             
             // MARK: - Bottom Controller
 #if os(macOS)
@@ -77,7 +77,7 @@ struct WhiteNoisesView: View {
                     .padding(.vertical, 20)
                     .padding(.trailing, 24)
                 }
-                .background(Color.black)
+                .background(Color.black90)
                 .clipShape(Capsule())
                 .padding(.bottom, 10)
                 .animation(.spring())
@@ -123,7 +123,7 @@ struct WhiteNoisesView: View {
                     .padding(.vertical, 8)
                     .padding(.trailing, 20)
                 }
-                .background(Color.black)
+                .background(Color.black90)
                 .clipShape(Capsule())
                 .padding(.bottom, 24)
                 .animation(.spring())
