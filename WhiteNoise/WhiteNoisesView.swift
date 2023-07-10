@@ -14,7 +14,7 @@ struct WhiteNoisesView: View {
     @State private var showPicker = false
 
     let columns = [
-        GridItem(.adaptive(minimum: 180, maximum: 180)),
+        GridItem(.adaptive(minimum: 100, maximum: 200)),
     ]
     
     var body: some View {
@@ -24,7 +24,7 @@ struct WhiteNoisesView: View {
                     ForEach(viewModel.soundsViewModels) { viewModel in
                         SoundView(viewModel: viewModel)
                     }
-                }
+                }.padding(.horizontal, 8)
             }
             .padding(.top)
             .frame(maxWidth: .infinity)
