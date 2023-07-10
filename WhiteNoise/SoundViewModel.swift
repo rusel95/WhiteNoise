@@ -23,7 +23,13 @@ class SoundViewModel: ObservableObject, Identifiable {
     @Published var sliderWidth: CGFloat = 0.0
     @Published var lastDragValue: CGFloat = 0.0
     
-    let maxWidth: CGFloat = 180
+    var maxWidth: CGFloat = 0 {
+        didSet {
+            withAnimation(.spring(duration: 1)) {
+                self.sliderWidth = CGFloat(sound.volume) * self.maxWidth
+            }
+        }
+    }
     
     private var player: AVAudioPlayer = AVAudioPlayer()
     private var fadeTimer: Timer?
@@ -36,7 +42,6 @@ class SoundViewModel: ObservableObject, Identifiable {
         self.sound = sound
         
         self.volume = sound.volume
-        self.sliderWidth = 0
         self.lastDragValue = CGFloat(sound.volume) * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
         
@@ -59,12 +64,6 @@ class SoundViewModel: ObservableObject, Identifiable {
         cancellables.append(cancellable)
         
         prepareSound(fileName: sound.selectedSoundVariant.filename)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation(.spring()) {
-                self.sliderWidth = CGFloat(sound.volume) * self.maxWidth
-            }
-        }
     }
     
     func dragDidChange(newTranslationWidth: CGFloat) {

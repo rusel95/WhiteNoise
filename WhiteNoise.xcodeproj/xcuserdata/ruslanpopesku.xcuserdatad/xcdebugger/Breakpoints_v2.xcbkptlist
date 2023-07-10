@@ -30,13 +30,13 @@
             filePath = "WhiteNoise/SoundViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "prepareSound(fileName:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "707A3DDB-1C7E-4931-8CCB-A3AB9E8B0B4F - ae68ddcdce0fe7c7"
+                  uuid = "707A3DDB-1C7E-4931-8CCB-A3AB9E8B0B4F - ae68ddcdce0fe798"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -46,12 +46,12 @@
                   urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "138"
-                  endingLineNumber = "138"
-                  offsetFromSymbolStart = "2525">
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "2036">
                </Location>
                <Location
-                  uuid = "707A3DDB-1C7E-4931-8CCB-A3AB9E8B0B4F - ae68ddcdce0fe7c7"
+                  uuid = "707A3DDB-1C7E-4931-8CCB-A3AB9E8B0B4F - ae68ddcdce0fe798"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -61,9 +61,9 @@
                   urlString = "file:///Users/ruslanpopesku/Desktop/WhiteNoise/WhiteNoise/SoundViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "138"
-                  endingLineNumber = "138"
-                  offsetFromSymbolStart = "2400">
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "1624">
                </Location>
             </Locations>
          </BreakpointContent>

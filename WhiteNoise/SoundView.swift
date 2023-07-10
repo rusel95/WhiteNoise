@@ -13,6 +13,14 @@ struct SoundView: View {
     
     var body: some View {
         ZStack {
+            GeometryReader(content: { geometry in
+                ZStack(content: {
+                    
+                })
+                .onAppear(perform: {
+                    viewModel.maxWidth = geometry.size.width
+                })
+            })
             // MARK: Slider
             ZStack(alignment: .leading, content: {
                 Rectangle()
@@ -78,7 +86,7 @@ struct SoundView: View {
                 )
             }
             .foregroundColor(.white)
-            .padding(16)
+            .padding(.vertical)
         }
         .cornerRadius(16)
     }
