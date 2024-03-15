@@ -84,6 +84,7 @@ struct SoundView: View {
                             viewModel.dragDidEnded()
                         })
                 )
+                .padding(.horizontal, 8)
             }
             .foregroundColor(.white)
             .padding(.vertical)
