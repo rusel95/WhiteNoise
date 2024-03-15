@@ -56,7 +56,6 @@
 		743A95A12A28CBFD00219803 /* SoundFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A95A02A28CBFD00219803 /* SoundFactory.swift */; };
 		74846D3D2A278474006627BB /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3C2A278474006627BB /* SoundView.swift */; };
 		74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3E2A2787FB006627BB /* SoundViewModel.swift */; };
-		74C1A07F2A336C5C00BB9E53 /* WhiteNoiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A642A26413F00AB0EF5 /* WhiteNoiseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,7 +121,6 @@
 		74349A572A26413F00AB0EF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		74349A602A26413F00AB0EF5 /* WhiteNoiseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		74349A642A26413F00AB0EF5 /* WhiteNoiseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseTests.swift; sourceTree = "<group>"; };
 		74349A6E2A26413F00AB0EF5 /* WhiteNoiseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseUITests.swift; sourceTree = "<group>"; };
 		74349A702A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesView.swift; sourceTree = "<group>"; };
@@ -199,7 +197,6 @@
 			isa = PBXGroup;
 			children = (
 				74349A522A26413C00AB0EF5 /* WhiteNoise */,
-				74349A632A26413F00AB0EF5 /* WhiteNoiseTests */,
 				74349A6D2A26413F00AB0EF5 /* WhiteNoiseUITests */,
 				74CD16762A45EC27004FE649 /* Frameworks */,
 				74349A512A26413C00AB0EF5 /* Products */,
@@ -241,14 +238,6 @@
 				74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		74349A632A26413F00AB0EF5 /* WhiteNoiseTests */ = {
-			isa = PBXGroup;
-			children = (
-				74349A642A26413F00AB0EF5 /* WhiteNoiseTests.swift */,
-			);
-			path = WhiteNoiseTests;
 			sourceTree = "<group>";
 		};
 		74349A6D2A26413F00AB0EF5 /* WhiteNoiseUITests */ = {
@@ -516,7 +505,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74C1A07F2A336C5C00BB9E53 /* WhiteNoiseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,7 +651,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				ENABLE_PREVIEWS = YES;
@@ -673,7 +661,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -701,7 +689,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				ENABLE_PREVIEWS = YES;
@@ -711,7 +699,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

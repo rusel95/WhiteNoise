@@ -13,9 +13,11 @@ struct WhiteNoisesView: View {
 
     @State private var showPicker = false
 
-    let columns = [
-        GridItem(.adaptive(minimum: 100, maximum: 200)),
-    ]
+#if os(macOS)
+    let columns = [GridItem(.adaptive(minimum: 150, maximum: 400))]
+#elseif os(iOS)
+    let columns = [GridItem(.adaptive(minimum: 100, maximum: 200))]
+#endif
     
     var body: some View {
         ZStack {
