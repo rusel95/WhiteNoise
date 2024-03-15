@@ -58,16 +58,6 @@
 		74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3E2A2787FB006627BB /* SoundViewModel.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		74349A612A26413F00AB0EF5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74349A482A26413C00AB0EF5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 74349A4F2A26413C00AB0EF5;
-			remoteInfo = WhiteNoise;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -120,7 +110,6 @@
 		74349A552A26413C00AB0EF5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		74349A572A26413F00AB0EF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		74349A602A26413F00AB0EF5 /* WhiteNoiseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74349A6E2A26413F00AB0EF5 /* WhiteNoiseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseUITests.swift; sourceTree = "<group>"; };
 		74349A702A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesView.swift; sourceTree = "<group>"; };
@@ -143,13 +132,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		74349A4D2A26413C00AB0EF5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		74349A5D2A26413F00AB0EF5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -207,7 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */,
-				74349A602A26413F00AB0EF5 /* WhiteNoiseTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -371,24 +352,6 @@
 			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
 			productType = "com.apple.product-type.application";
 		};
-		74349A5F2A26413F00AB0EF5 /* WhiteNoiseTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 74349A772A26413F00AB0EF5 /* Build configuration list for PBXNativeTarget "WhiteNoiseTests" */;
-			buildPhases = (
-				74349A5C2A26413F00AB0EF5 /* Sources */,
-				74349A5D2A26413F00AB0EF5 /* Frameworks */,
-				74349A5E2A26413F00AB0EF5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				74349A622A26413F00AB0EF5 /* PBXTargetDependency */,
-			);
-			name = WhiteNoiseTests;
-			productName = WhiteNoiseTests;
-			productReference = 74349A602A26413F00AB0EF5 /* WhiteNoiseTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -401,10 +364,6 @@
 				TargetAttributes = {
 					74349A4F2A26413C00AB0EF5 = {
 						CreatedOnToolsVersion = 14.3;
-					};
-					74349A5F2A26413F00AB0EF5 = {
-						CreatedOnToolsVersion = 14.3;
-						TestTargetID = 74349A4F2A26413C00AB0EF5;
 					};
 				};
 			};
@@ -422,7 +381,6 @@
 			projectRoot = "";
 			targets = (
 				74349A4F2A26413C00AB0EF5 /* WhiteNoise */,
-				74349A5F2A26413F00AB0EF5 /* WhiteNoiseTests */,
 			);
 		};
 /* End PBXProject section */
@@ -476,13 +434,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		74349A5E2A26413F00AB0EF5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -501,23 +452,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		74349A5C2A26413F00AB0EF5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		74349A622A26413F00AB0EF5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			platformFilter = ios;
-			target = 74349A4F2A26413C00AB0EF5 /* WhiteNoise */;
-			targetProxy = 74349A612A26413F00AB0EF5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		74349A722A26413F00AB0EF5 /* Debug */ = {
@@ -718,54 +653,6 @@
 			};
 			name = Release;
 		};
-		74349A782A26413F00AB0EF5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FWHF624C4H;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,3";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhiteSoundRuslan1234.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhiteSoundRuslan1234";
-				TVOS_DEPLOYMENT_TARGET = 16.4;
-			};
-			name = Debug;
-		};
-		74349A792A26413F00AB0EF5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FWHF624C4H;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,3";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhiteSoundRuslan1234.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhiteSoundRuslan1234";
-				TVOS_DEPLOYMENT_TARGET = 16.4;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -783,15 +670,6 @@
 			buildConfigurations = (
 				74349A752A26413F00AB0EF5 /* Debug */,
 				74349A762A26413F00AB0EF5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		74349A772A26413F00AB0EF5 /* Build configuration list for PBXNativeTarget "WhiteNoiseTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				74349A782A26413F00AB0EF5 /* Debug */,
-				74349A792A26413F00AB0EF5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
