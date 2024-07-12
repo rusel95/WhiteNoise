@@ -126,7 +126,7 @@
 		74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesView.swift; sourceTree = "<group>"; };
 		74349A7F2A2646EE00AB0EF5 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		74349A812A26470900AB0EF5 /* WhiteNoisesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesViewModel.swift; sourceTree = "<group>"; };
-		74349ACB2A2651AC00AB0EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		74349ACB2A2651AC00AB0EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		743A95902A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3"; sourceTree = "<group>"; };
 		743A95962A28C29700219803 /* Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3"; sourceTree = "<group>"; };
 		743A95982A28C2DC00219803 /* River or stream, water flowing, running.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "River or stream, water flowing, running.mp3"; sourceTree = "<group>"; };
@@ -216,7 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				74CD166E2A45DCB7004FE649 /* WhiteNoise.entitlements */,
-				74349ACB2A2651AC00AB0EF5 /* Info.plist */,
+				856969392C4181AD0062ED29 /* Resources */,
 				74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */,
 				74349A552A26413C00AB0EF5 /* ContentView.swift */,
 				74349A7F2A2646EE00AB0EF5 /* Sound.swift */,
@@ -226,7 +226,6 @@
 				74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */,
 				74349A812A26470900AB0EF5 /* WhiteNoisesViewModel.swift */,
 				74349A832A26494300AB0EF5 /* Sounds */,
-				74349A572A26413F00AB0EF5 /* Assets.xcassets */,
 				74349A592A26413F00AB0EF5 /* Preview Content */,
 			);
 			path = WhiteNoise;
@@ -348,6 +347,15 @@
 				74CD16792A45EC27004FE649 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		856969392C4181AD0062ED29 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				74349A572A26413F00AB0EF5 /* Assets.xcassets */,
+				74349ACB2A2651AC00AB0EF5 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -656,7 +664,7 @@
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WhiteNoise/Info.plist;
+				INFOPLIST_FILE = WhiteNoise/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -694,7 +702,7 @@
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WhiteNoise/Info.plist;
+				INFOPLIST_FILE = WhiteNoise/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

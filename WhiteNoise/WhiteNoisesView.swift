@@ -34,53 +34,6 @@ struct WhiteNoisesView: View {
             .background(Color.black)
             
             // MARK: - Bottom Controller
-#if os(macOS)
-            VStack {
-                Spacer()
-                
-                HStack(spacing: 20) {
-                    Button(action: {
-                        viewModel.playingButtonSelected()
-                    }) {
-                        Image(systemName: viewModel.isPlaying ? "pause" : "play")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                    }
-                    .background(Color.clear)
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.vertical, 20)
-                    .padding(.leading, 24)
-                    
-                    Menu {
-                        ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
-                            Button(mode.description) {
-                                viewModel.timerMode = mode
-                            }
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "timer")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                            if viewModel.timerMode != .off {
-                                Text(viewModel.remainingTimerTime)
-                                    .frame(width: 60)
-                            }
-                        }
-                        .foregroundColor(viewModel.timerMode != .off ? .cyan : .white)
-                    }
-                    .background(Color.clear)
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.vertical, 20)
-                    .padding(.trailing, 24)
-                }
-                .background(Color("black90"))
-                .clipShape(Capsule())
-                .padding(.bottom, 10)
-                .animation(.spring())
-            }
-#elseif os(iOS)
             VStack {
                 Spacer()
                 
@@ -117,14 +70,15 @@ struct WhiteNoisesView: View {
                     .padding(.vertical, 16)
                     .padding(.trailing, 20)
                 }
-                .background(Color("black90"))
+                .background(.black90)
                 .clipShape(Capsule())
                 .padding(.bottom, 24)
-                .animation(.spring())
             }
-#endif
         }
         .ignoresSafeArea(.all, edges: .bottom)
+        .onAppear {
+            viewModel.playingButtonSelected()
+        }
     }
 
 }
