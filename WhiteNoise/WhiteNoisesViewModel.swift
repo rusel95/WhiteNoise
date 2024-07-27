@@ -31,6 +31,9 @@ final class WhiteNoisesViewModel: ObservableObject {
                 timerRemainingSeconds = timerMode.minutes * 60
                 setRemainingTimerTime(with: timerRemainingSeconds)
                 restartTimer()
+                if isPlaying == false {
+                    playSounds(fadeDuration: 2)
+                }
             }
         }
     }
@@ -42,6 +45,8 @@ final class WhiteNoisesViewModel: ObservableObject {
     
     private var audioEngine: AVAudioEngine = AVAudioEngine()
     private var timer: Timer?
+    private var fadeInTimer: Timer?
+    private var fadeOutTimer: Timer?
     private var cancellables: [AnyCancellable] = []
     private var isFadeInProgress: Bool = false
     
@@ -88,7 +93,7 @@ final class WhiteNoisesViewModel: ObservableObject {
     func playingButtonSelected() {
         if isPlaying {
             shouldAutoplayWhileStart = true
-            pauseSounds(fadeDuration: 0.5)
+            pauseSounds(fadeDuration: 1)
         } else {
             shouldAutoplayWhileStart = false
             playSounds(fadeDuration: 1)
@@ -139,15 +144,16 @@ private extension WhiteNoisesViewModel {
             }
         
         let fadeInStep: Float = maxVolume / Float(fadeDuration * 10) // Adjust step for smoother fading
-        var currentVolume: Float = 0.0
 
         isFadeInProgress = true
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+        
+        fadeInTimer?.invalidate()
+        fadeOutTimer?.invalidate()
+        fadeInTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             
-            if currentVolume < self.maxVolume {
-                currentVolume += fadeInStep
-                self.audioEngine.mainMixerNode.outputVolume = currentVolume
+            if self.audioEngine.mainMixerNode.outputVolume < self.maxVolume {
+                self.audioEngine.mainMixerNode.outputVolume += fadeInStep
             } else {
                 self.audioEngine.mainMixerNode.outputVolume = 1.0
                 timer.invalidate()
@@ -160,15 +166,14 @@ private extension WhiteNoisesViewModel {
 
     func pauseSounds(fadeDuration: Double) {
         let fadeInStep: Float = maxVolume / Float(fadeDuration * 10) // Adjust step for smoother fading
-        var currentVolume: Float = maxVolume
-
         isFadeInProgress = true
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+        fadeInTimer?.invalidate()
+        fadeOutTimer?.invalidate()
+        fadeOutTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             
-            if currentVolume > 0 {
-                currentVolume -= fadeInStep
-                self.audioEngine.mainMixerNode.outputVolume = currentVolume
+            if self.audioEngine.mainMixerNode.outputVolume > 0 {
+                self.audioEngine.mainMixerNode.outputVolume -= fadeInStep
             } else {
                 self.audioEngine.mainMixerNode.outputVolume = 0
                 timer.invalidate()
@@ -178,10 +183,10 @@ private extension WhiteNoisesViewModel {
                     .forEach { soundViewModel in
                         soundViewModel.pause()
                     }
-                
-                isPlaying = false
             }
         }
+        
+        isPlaying = false
     }
     
     func restartTimer() {
