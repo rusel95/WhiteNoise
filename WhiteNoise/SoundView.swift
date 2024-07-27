@@ -48,6 +48,7 @@ struct SoundView: View {
                     })
             )
             
+            // MARK: - icon
             VStack(spacing: 8) {
                 switch viewModel.sound.icon {
                 case .system(let systemName):
@@ -70,10 +71,10 @@ struct SoundView: View {
                 ) {
                     ForEach(viewModel.sound.soundVariants) { variant in
                         Text(variant.name)
+                            .fontWeight(.ultraLight)
                             .tag(variant as Sound.SoundVariant)
                     }
                 }
-                .font(.system(size: 8))
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged({ value in
@@ -83,7 +84,6 @@ struct SoundView: View {
                             viewModel.dragDidEnded()
                         })
                 )
-                .padding(.horizontal, 8)
             }
             .foregroundColor(.white)
             .padding(.vertical)
@@ -101,10 +101,11 @@ struct SoundView_Previews: PreviewProvider {
                 volume: 0.3,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(name: "calm Mediterrainean", filename: "calm Mediterrainean"),
+                    .init(name: "calm 2", filename: "calm Mediterrainean"),
                     .init(name: "variant", filename: "variant2")
                 ]
             )
         ))
+        .frame(width: 100, height: 100)
     }
 }

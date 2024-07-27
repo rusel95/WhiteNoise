@@ -69,12 +69,11 @@ final class WhiteNoisesViewModel: ObservableObject {
                     
                     if volume > 0 {
                         if self.isPlaying {
-                            soundViewModel.playerNode.volume = volume
-                            if soundViewModel.playerNode.isPlaying == false {
+                            if soundViewModel.isPlaying == false {
                                 soundViewModel.startRepeatingPlayback()
                             }
-                        } else if self.isPlaying == false {
-                            self.playSounds(fadeDuration: 0)
+                        } else {
+                            self.playSounds(fadeDuration: 1)
                         }
                     } else {
                         soundViewModel.pause()
@@ -112,13 +111,13 @@ private extension WhiteNoisesViewModel {
         // Load your audio files
         soundsViewModels
             .forEach { soundViewModel in
-                guard let audioFile = soundViewModel.audioFile else { return }
+                guard let processingFormat = soundViewModel.processingFormat else { return }
                 
                 audioEngine.attach(soundViewModel.playerNode)
                 audioEngine.connect(
                     soundViewModel.playerNode,
                     to: audioEngine.mainMixerNode,
-                    format: audioFile.processingFormat
+                    format: processingFormat
                 )
             }
         
@@ -179,9 +178,8 @@ private extension WhiteNoisesViewModel {
         
         soundsViewModels
             .forEach { soundViewModel in
-                soundViewModel.playerNode.pause()
+                soundViewModel.pause()
             }
-        
         
         isPlaying = false
     }

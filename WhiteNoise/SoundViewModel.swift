@@ -22,6 +22,14 @@ class SoundViewModel: ObservableObject, Identifiable {
     @Published var sliderWidth: CGFloat = 0.0
     @Published var lastDragValue: CGFloat = 0.0
     
+    var isPlaying: Bool {
+        playerNode.isPlaying
+    }
+    
+    var processingFormat: AVAudioFormat? {
+        audioFile?.processingFormat
+    }
+    
     var maxWidth: CGFloat = 0 {
         didSet {
             withAnimation(.smooth(duration: 5)) {
@@ -31,7 +39,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     
     private(set) var playerNode: AVAudioPlayerNode = AVAudioPlayerNode()
-    private(set) var audioFile: AVAudioFile?
+    private var audioFile: AVAudioFile?
     
     private var fadeTimer: Timer?
     
@@ -51,10 +59,14 @@ class SoundViewModel: ObservableObject, Identifiable {
             .sink { [weak self] selectedSoundVariant in
                 guard let self else { return }
                 
+                self.playerNode.stop()
                 self.sound.selectedSoundVariant = selectedSoundVariant
                 self.saveSound()
                
                 self.prepareSound(fileName: selectedSoundVariant.filename)
+                if self.volume > 0 {
+                    self.startRepeatingPlayback()
+                }
             }
         
         cancellables.append(cancellable)
@@ -104,10 +116,6 @@ private extension SoundViewModel {
             }
             
             audioFile = try AVAudioFile(forReading: url)
-            
-//            guard let audioFile = audioFile else { return }
-//            
-//            playerNode.scheduleFile(audioFile, at: nil)
         } catch {
             print("Error loading audio player: \(error)")
         }
