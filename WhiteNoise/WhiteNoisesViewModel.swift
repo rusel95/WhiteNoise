@@ -30,7 +30,7 @@ final class WhiteNoisesViewModel: ObservableObject {
             default:
                 timerRemainingSeconds = timerMode.minutes * 60
                 setRemainingTimerTime(with: timerRemainingSeconds)
-                playSounds(fadeDuration: 1)
+                restartTimer()
             }
         }
     }
@@ -173,15 +173,15 @@ private extension WhiteNoisesViewModel {
                 self.audioEngine.mainMixerNode.outputVolume = 0
                 timer.invalidate()
                 isFadeInProgress = false
+                
+                soundsViewModels
+                    .forEach { soundViewModel in
+                        soundViewModel.pause()
+                    }
+                
+                isPlaying = false
             }
         }
-        
-        soundsViewModels
-            .forEach { soundViewModel in
-                soundViewModel.pause()
-            }
-        
-        isPlaying = false
     }
     
     func restartTimer() {
