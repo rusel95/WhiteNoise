@@ -13,11 +13,7 @@ struct WhiteNoisesView: View {
 
     @State private var showPicker = false
 
-#if os(macOS)
-    let columns = [GridItem(.adaptive(minimum: 150, maximum: 400))]
-#elseif os(iOS)
     let columns = [GridItem(.adaptive(minimum: 100, maximum: 200))]
-#endif
     
     var body: some View {
         ZStack {
@@ -50,7 +46,7 @@ struct WhiteNoisesView: View {
                     .padding(.leading, 20)
                     
                     Menu {
-                        ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
+                        ForEach(TimerMode.allCases) { mode in
                             Button(mode.description) {
                                 viewModel.timerMode = mode
                             }
@@ -77,7 +73,7 @@ struct WhiteNoisesView: View {
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {
-            viewModel.playingButtonSelected()
+            viewModel.handleAutoStart()
         }
     }
 

@@ -8,67 +8,19 @@
 import Foundation
 import AVFAudio
 import Combine
+import SwiftUI
 
-class WhiteNoisesViewModel: ObservableObject {
-
-    enum TimerMode: CaseIterable, Identifiable {
-
-        var id: Self { self }
-
-        case off, oneMinute, twoMinutes, threeMinutes, fiveMinutes, tenMinutes, fifteenMinutes, thirtyMinutes, sixtyMinutes
-
-        var minutes: Int {
-            switch self {
-            case .off:
-                return 0
-            case .oneMinute:
-                return 1
-            case .twoMinutes:
-                return 2
-            case .threeMinutes:
-                return 3
-            case .fiveMinutes:
-                return 5
-            case .tenMinutes:
-                return 10
-            case .fifteenMinutes:
-                return 15
-            case .thirtyMinutes:
-                return 30
-            case .sixtyMinutes:
-                return 60
-            }
-        }
-
-        var description: String {
-            switch self {
-            case .off:
-                return "off"
-            case .oneMinute:
-                return "in 1 minute"
-            case .twoMinutes:
-                return "in 2 minutes"
-            case .threeMinutes:
-                return "in 3 minutes"
-            case .fiveMinutes:
-                return "in 5 minutes"
-            case .tenMinutes:
-                return "in 10 minutes"
-            case .fifteenMinutes:
-                return "in 15 minutes"
-            case .thirtyMinutes:
-                return "in 30 minutes"
-            case .sixtyMinutes:
-                return "in 60 minutes"
-            }
-        }
-    }
+final class WhiteNoisesViewModel: ObservableObject {
 
     // MARK: Properties
 
     @Published var soundsViewModels: [SoundViewModel] = []
 
-    @Published var isPlaying: Bool
+    @Published var isPlaying: Bool = false {
+        didSet {
+            shouldAutoplayWhileStart = isPlaying
+        }
+    }
     @Published var timerMode: TimerMode = .off {
         didSet {
             switch timerMode {
@@ -85,26 +37,30 @@ class WhiteNoisesViewModel: ObservableObject {
 
     @Published var remainingTimerTime: String = ""
     @Published private var timerRemainingSeconds: Int = 0
-
+    
+    @AppStorage("shouldAutoplayWhileStart") private var shouldAutoplayWhileStart: Bool = true
+    
+    private var audioEngine: AVAudioEngine = AVAudioEngine()
     private var timer: Timer?
     private var cancellables: [AnyCancellable] = []
-
+    private var isFadeInProgress: Bool = false
+    
+    private let maxVolume: Float = 1.0
+    
     // MARK: Init
 
     init() {
-        self.isPlaying = false
-
-#if os(iOS)
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print("Setting category to AVAudioSessionCategoryPlayback failed.")
         }
-#endif
 
         soundsViewModels = SoundFactory.getSavedSounds().map { SoundViewModel(sound: $0) }
 
+        setupAudio()
+        
         soundsViewModels.forEach { soundViewModel in
             let volumeCancellable = soundViewModel.$volume
                 .dropFirst()
@@ -113,12 +69,15 @@ class WhiteNoisesViewModel: ObservableObject {
                     
                     if volume > 0 {
                         if self.isPlaying {
-                            soundViewModel.playSound()
+                            soundViewModel.playerNode.volume = volume
+                            if soundViewModel.playerNode.isPlaying == false {
+                                soundViewModel.playerNode.play()
+                            }
                         } else if self.isPlaying == false {
-                            self.playSounds()
+                            self.playSounds(fadeDuration: 0)
                         }
                     } else {
-                        soundViewModel.pauseSound()
+                        soundViewModel.playerNode.pause()
                     }
                 }
             cancellables.append(volumeCancellable)
@@ -129,34 +88,101 @@ class WhiteNoisesViewModel: ObservableObject {
     
     func playingButtonSelected() {
         if isPlaying {
+            shouldAutoplayWhileStart = true
             pauseSounds(fadeDuration: 0.5)
         } else {
+            shouldAutoplayWhileStart = false
             playSounds(fadeDuration: 1)
+        }
+    }
+    
+    func handleAutoStart() {
+        if shouldAutoplayWhileStart {
+            playSounds(fadeDuration: 5)
         }
     }
 
 }
 
+// MARK: - Helpers
+
 private extension WhiteNoisesViewModel {
 
-    private func playSounds(fadeDuration: Double? = nil) {
-        if timerMode != .off {
-            restartTimer()
+    func setupAudio() {
+        // Load your audio files
+        soundsViewModels
+            .forEach { soundViewModel in
+                guard let audioFile = soundViewModel.audioFile else { return }
+                
+                audioEngine.attach(soundViewModel.playerNode)
+                audioEngine.connect(
+                    soundViewModel.playerNode,
+                    to: audioEngine.mainMixerNode,
+                    format: audioFile.processingFormat
+                )
+            }
+        
+        audioEngine.prepare()
+        
+        do {
+            try audioEngine.start()
+        } catch {
+            print("Error starting audio engine: \(error)")
         }
+    }
+    
+    func playSounds(fadeDuration: TimeInterval) {
+        soundsViewModels
+            .forEach { soundViewModel in
+                guard soundViewModel.volume > 0 else { return }
+                
+                soundViewModel.play()
+            }
+        
+        let fadeInStep: Float = maxVolume / Float(fadeDuration * 10) // Adjust step for smoother fading
+        var currentVolume: Float = 0.0
 
-        for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
-            soundViewModel.playSound(fadeDuration: fadeDuration)
+        isFadeInProgress = true
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+            guard let self = self else { return }
+            
+            if currentVolume < self.maxVolume {
+                currentVolume += fadeInStep
+                self.audioEngine.mainMixerNode.outputVolume = currentVolume
+            } else {
+                self.audioEngine.mainMixerNode.outputVolume = 1.0
+                timer.invalidate()
+                isFadeInProgress = false
+            }
         }
+        
         isPlaying = true
     }
 
-    private func pauseSounds(fadeDuration: Double? = nil) {
-        timer?.invalidate()
-        timer = nil
+    func pauseSounds(fadeDuration: Double) {
+        let fadeInStep: Float = maxVolume / Float(fadeDuration * 10) // Adjust step for smoother fading
+        var currentVolume: Float = maxVolume
 
-        for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
-            soundViewModel.pauseSound(fadeDuration: fadeDuration)
+        isFadeInProgress = true
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+            guard let self = self else { return }
+            
+            if currentVolume > 0 {
+                currentVolume -= fadeInStep
+                self.audioEngine.mainMixerNode.outputVolume = currentVolume
+            } else {
+                self.audioEngine.mainMixerNode.outputVolume = 0
+                timer.invalidate()
+                isFadeInProgress = false
+            }
         }
+        
+        soundsViewModels
+            .forEach { soundViewModel in
+                soundViewModel.playerNode.pause()
+            }
+        
+        
         isPlaying = false
     }
     

@@ -29,7 +29,6 @@ struct SoundView: View {
                 Rectangle()
                     .fill(Color.cyan)
                     .frame(width: viewModel.sliderWidth, alignment: .leading)
-                    .animation(.spring())
                 
             })
             .onTapGesture { location in

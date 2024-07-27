@@ -14,7 +14,6 @@ class SoundViewModel: ObservableObject, Identifiable {
     
     @Published var volume: Float {
         didSet {
-            player.volume = volume
             sound.volume = volume
             saveSound()
         }
@@ -25,13 +24,15 @@ class SoundViewModel: ObservableObject, Identifiable {
     
     var maxWidth: CGFloat = 0 {
         didSet {
-            withAnimation(.spring(duration: 1)) {
+            withAnimation(.smooth(duration: 5)) {
                 self.sliderWidth = CGFloat(sound.volume) * self.maxWidth
             }
         }
     }
     
-    private var player: AVAudioPlayer = AVAudioPlayer()
+    private(set) var playerNode: AVAudioPlayerNode = AVAudioPlayerNode()
+    private(set) var audioFile: AVAudioFile?
+    
     private var fadeTimer: Timer?
     
     private(set) var sound: Sound
@@ -44,7 +45,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         self.volume = sound.volume
         self.lastDragValue = CGFloat(sound.volume) * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
-        
+            
         let cancellable = $selectedSoundVariant
             .dropFirst() // Skip the first value
             .sink { [weak self] selectedSoundVariant in
@@ -52,15 +53,10 @@ class SoundViewModel: ObservableObject, Identifiable {
                 
                 self.sound.selectedSoundVariant = selectedSoundVariant
                 self.saveSound()
-                let wasPlaying = player.isPlaying
-                if wasPlaying {
-                    self.player.stop()
-                }
+               
                 self.prepareSound(fileName: selectedSoundVariant.filename)
-                if wasPlaying {
-                    self.playSound()
-                }
             }
+        
         cancellables.append(cancellable)
         
         prepareSound(fileName: sound.selectedSoundVariant.filename)
@@ -83,40 +79,15 @@ class SoundViewModel: ObservableObject, Identifiable {
         lastDragValue = sliderWidth
     }
     
-    func playSound(fadeDuration: Double? = nil) {
-        if let fadeDuration = fadeDuration {
-            player.volume = 0
-            fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
-                guard let self else { return }
-                
-                self.player.volume += Float(0.02 / fadeDuration)
-                if self.player.volume >= sound.volume {
-                    self.fadeTimer?.invalidate()
-                }
-            }
-            player.play()
-        } else {
-            player.volume = Float(sound.volume)
-            player.play()
-        }
+    func play() {
+        guard let audioFile = audioFile else { return }
+        
+        playerNode.scheduleFile(audioFile, at: nil)
+        playerNode.play()
     }
     
-    func pauseSound(fadeDuration: Double? = nil) {
-        if let fadeDuration = fadeDuration {
-            fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] timer in
-                guard let self else { return }
-                // decrease volume
-                self.player.volume -= Float(0.02 / fadeDuration)
-                
-                // stop timer and player when volume is 0
-                if self.player.volume <= 0 {
-                    self.fadeTimer?.invalidate()
-                    self.player.pause()
-                }
-            }
-        } else {
-            player.pause()
-        }
+    func pause() {
+        playerNode.pause()
     }
 }
 
@@ -129,10 +100,11 @@ private extension SoundViewModel {
                 return
             }
             
-            player = try AVAudioPlayer(contentsOf: url)
-            player.prepareToPlay()
-            player.numberOfLoops = -1
-            player.volume = Float(self.sound.volume)
+            audioFile = try AVAudioFile(forReading: url)
+            
+//            guard let audioFile = audioFile else { return }
+//            
+//            playerNode.scheduleFile(audioFile, at: nil)
         } catch {
             print("Error loading audio player: \(error)")
         }
