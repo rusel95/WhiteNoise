@@ -116,7 +116,7 @@
 		742351722A547D18009E1809 /* STEP_Snow_Scuff.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = STEP_Snow_Scuff.mp3; sourceTree = "<group>"; };
 		742351732A547D18009E1809 /* frozen_tribal_organic_snow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = frozen_tribal_organic_snow.mp3; sourceTree = "<group>"; };
 		742351742A547D18009E1809 /* Blastwave_Blizzard.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Blastwave_Blizzard.mp3; sourceTree = "<group>"; };
-		74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteSoundRuslan1234.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		74349A502A26413C00AB0EF5 /* WhiteSound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteSound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseApp.swift; sourceTree = "<group>"; };
 		74349A552A26413C00AB0EF5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		74349A572A26413F00AB0EF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 		74349A512A26413C00AB0EF5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */,
+				74349A502A26413C00AB0EF5 /* WhiteSound.app */,
 				74349A602A26413F00AB0EF5 /* WhiteNoiseTests.xctest */,
 			);
 			name = Products;
@@ -379,7 +379,7 @@
 			);
 			name = WhiteNoise;
 			productName = WhiteNoise;
-			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
+			productReference = 74349A502A26413C00AB0EF5 /* WhiteSound.app */;
 			productType = "com.apple.product-type.application";
 		};
 		74349A5F2A26413F00AB0EF5 /* WhiteNoiseTests */ = {
@@ -670,7 +670,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Ruslan Popesku. All rights reserved.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -682,8 +682,8 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
-				PRODUCT_NAME = WhiteSoundRuslan1234;
+				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteSound;
+				PRODUCT_NAME = WhiteSound;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -710,7 +710,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Ruslan Popesku. All rights reserved.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -722,8 +722,8 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
-				PRODUCT_NAME = WhiteSoundRuslan1234;
+				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteSound;
+				PRODUCT_NAME = WhiteSound;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

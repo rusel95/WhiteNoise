@@ -48,7 +48,6 @@ final class WhiteNoisesViewModel: ObservableObject {
     private var fadeInTimer: Timer?
     private var fadeOutTimer: Timer?
     private var cancellables: [AnyCancellable] = []
-    private var isFadeInProgress: Bool = false
     
     private let maxVolume: Float = 1.0
     
@@ -144,8 +143,6 @@ private extension WhiteNoisesViewModel {
             }
         
         let fadeInStep: Float = maxVolume / Float(fadeDuration * 10) // Adjust step for smoother fading
-
-        isFadeInProgress = true
         
         fadeInTimer?.invalidate()
         fadeOutTimer?.invalidate()
@@ -157,7 +154,6 @@ private extension WhiteNoisesViewModel {
             } else {
                 self.audioEngine.mainMixerNode.outputVolume = 1.0
                 timer.invalidate()
-                isFadeInProgress = false
             }
         }
         
@@ -166,7 +162,6 @@ private extension WhiteNoisesViewModel {
 
     func pauseSounds(fadeDuration: Double) {
         let fadeInStep: Float = maxVolume / Float(fadeDuration * 10) // Adjust step for smoother fading
-        isFadeInProgress = true
         fadeInTimer?.invalidate()
         fadeOutTimer?.invalidate()
         fadeOutTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
@@ -177,7 +172,6 @@ private extension WhiteNoisesViewModel {
             } else {
                 self.audioEngine.mainMixerNode.outputVolume = 0
                 timer.invalidate()
-                isFadeInProgress = false
                 
                 soundsViewModels
                     .forEach { soundViewModel in

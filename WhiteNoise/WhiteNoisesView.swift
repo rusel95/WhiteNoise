@@ -37,10 +37,17 @@ struct WhiteNoisesView: View {
                     Button(action: {
                         viewModel.playingButtonSelected()
                     }) {
-                        Image(systemName: viewModel.isPlaying ? "pause" : "play")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
+                        if viewModel.isPlaying {
+                            Image(systemName: "pause")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                        } else {
+                            Image(systemName: "play")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                        }
                     }
                     .padding(.vertical, 8)
                     .padding(.leading, 20)

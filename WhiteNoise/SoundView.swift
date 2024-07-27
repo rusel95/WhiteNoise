@@ -63,7 +63,8 @@ struct SoundView: View {
                 }
                 
                 Text(viewModel.sound.name)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .font(.system(size: 18))
+                    .fontWeight(.semibold)
                     .allowsHitTesting(false)
                 
                 Picker(
@@ -71,6 +72,7 @@ struct SoundView: View {
                 ) {
                     ForEach(viewModel.sound.soundVariants) { variant in
                         Text(variant.name)
+                            .font(.system(size: 10))
                             .fontWeight(.ultraLight)
                             .tag(variant as Sound.SoundVariant)
                     }
