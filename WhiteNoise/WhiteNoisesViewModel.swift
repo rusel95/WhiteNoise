@@ -71,13 +71,13 @@ final class WhiteNoisesViewModel: ObservableObject {
                         if self.isPlaying {
                             soundViewModel.playerNode.volume = volume
                             if soundViewModel.playerNode.isPlaying == false {
-                                soundViewModel.playerNode.play()
+                                soundViewModel.startRepeatingPlayback()
                             }
                         } else if self.isPlaying == false {
                             self.playSounds(fadeDuration: 0)
                         }
                     } else {
-                        soundViewModel.playerNode.pause()
+                        soundViewModel.pause()
                     }
                 }
             cancellables.append(volumeCancellable)
