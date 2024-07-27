@@ -136,7 +136,7 @@ private extension WhiteNoisesViewModel {
             .forEach { soundViewModel in
                 guard soundViewModel.volume > 0 else { return }
                 
-                soundViewModel.play()
+                soundViewModel.startRepeatingPlayback()
             }
         
         let fadeInStep: Float = maxVolume / Float(fadeDuration * 10) // Adjust step for smoother fading

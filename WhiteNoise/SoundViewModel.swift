@@ -78,11 +78,14 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         lastDragValue = sliderWidth
     }
-    
-    func play() {
+ 
+    func startRepeatingPlayback() {
         guard let audioFile = audioFile else { return }
         
-        playerNode.scheduleFile(audioFile, at: nil)
+        playerNode.scheduleFile(audioFile, at: nil) { [weak self] in
+            // This completion handler is called when playback finishes
+            self?.startRepeatingPlayback() // Reschedule the file to create a loop
+        }
         playerNode.play()
     }
     
