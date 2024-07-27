@@ -39,9 +39,9 @@ class SoundFactory {
                     .init(name: "soft", filename: "soft rain"),
                     .init(name: "spring", filename: "spring rain"),
                     .init(name: "medium", filename: "rain medium"),
-                    .init(name: "medium heavy", filename: "rain medium heavy falling trees forest"),
-                    .init(name: "raindrops on a car window", filename: "raindrops_on_a_car_window"),
-                    .init(name: "raindrops on glass", filename: "soft_rain_on_window_glass_surface")
+                    .init(name: "medium 2", filename: "rain medium heavy falling trees forest"),
+                    .init(name: "raindrops 1", filename: "raindrops_on_a_car_window"),
+                    .init(name: "raindrops 2", filename: "soft_rain_on_window_glass_surface")
                 ]
             ),
             Sound(
@@ -50,9 +50,9 @@ class SoundFactory {
                 volume: 0.8,
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(name: "crackle spit", filename: "fire crackle spit flames fireplace"),
-                    .init(name: "burning crackle", filename: "fire burning crackle fireplace"),
-                    .init(name: "spit crackle", filename: "fire in fireplace spit rumble crackle"),
+                    .init(name: "crackle 1", filename: "fire crackle spit flames fireplace"),
+                    .init(name: "crackle 2", filename: "fire burning crackle fireplace"),
+                    .init(name: "crackle 3", filename: "fire in fireplace spit rumble crackle"),
                 ]
             ),
             Sound(
@@ -60,8 +60,8 @@ class SoundFactory {
                 icon: .system("snow"),
                 selectedSoundVariant: nil,
                 soundVariants: [
-                    .init(name: "frozen tribal", filename: "frozen_tribal_organic_snow"),
-                    .init(name: "blastwave blizzard", filename: "Blastwave_Blizzard"),
+                    .init(name: "snowflake", filename: "frozen_tribal_organic_snow"),
+                    .init(name: "blastwave", filename: "Blastwave_Blizzard"),
                     .init(name: "walk slow", filename: "walk_slow"),
                     .init(name: "snowball build", filename: "snowball_build"),
                     .init(name: "shovel clearing", filename: "shovel_clearing_snow"),
@@ -85,7 +85,7 @@ class SoundFactory {
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "calm", filename: "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand"),
-                    .init(name: "close&distant", filename: "close&distant waves"),
+                    .init(name: "close&far", filename: "close&distant waves"),
                     .init(name: "strong waves", filename: "Beach Sea Waves"),
                     .init(name: "soft waves", filename: "west_wolf_Beach_Sea_Waves"),
                 ]
@@ -139,7 +139,7 @@ class SoundFactory {
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "angels", filename: "among_the_stars"),
-                    .init(name: "crowd in a room", filename: "HUMAN_CROWD_In_A_Room")
+                    .init(name: "crowd", filename: "HUMAN_CROWD_In_A_Room")
                 ]
             ),
         ]
