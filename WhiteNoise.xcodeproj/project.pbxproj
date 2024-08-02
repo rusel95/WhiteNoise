@@ -57,6 +57,7 @@
 		74846D3D2A278474006627BB /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3C2A278474006627BB /* SoundView.swift */; };
 		74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74846D3E2A2787FB006627BB /* SoundViewModel.swift */; };
 		8569D9F72C53E60400C05715 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8569D9F62C53E5FE00C05715 /* TimerMode.swift */; };
+		85ED73CB2C5CB849008B3C67 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ED73CA2C5CB849008B3C67 /* VolumeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +142,7 @@
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8569D9F62C53E5FE00C05715 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
+		85ED73CA2C5CB849008B3C67 /* VolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +230,7 @@
 				74349A7D2A2646D000AB0EF5 /* WhiteNoisesView.swift */,
 				74349A812A26470900AB0EF5 /* WhiteNoisesViewModel.swift */,
 				8569D9F62C53E5FE00C05715 /* TimerMode.swift */,
+				85ED73CA2C5CB849008B3C67 /* VolumeView.swift */,
 				74349A832A26494300AB0EF5 /* Sounds */,
 				74349A592A26413F00AB0EF5 /* Preview Content */,
 			);
@@ -503,6 +506,7 @@
 			files = (
 				74349A562A26413C00AB0EF5 /* ContentView.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
+				85ED73CB2C5CB849008B3C67 /* VolumeView.swift in Sources */,
 				8569D9F72C53E60400C05715 /* TimerMode.swift in Sources */,
 				74846D3D2A278474006627BB /* SoundView.swift in Sources */,
 				74846D3F2A2787FB006627BB /* SoundViewModel.swift in Sources */,

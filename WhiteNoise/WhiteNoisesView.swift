@@ -13,7 +13,7 @@ struct WhiteNoisesView: View {
 
     @State private var showPicker = false
 
-    let columns = [GridItem(.adaptive(minimum: 100, maximum: 200))]
+    let columns = [GridItem(.adaptive(minimum: 150, maximum: 150))]
     
     var body: some View {
         ZStack {
@@ -27,7 +27,7 @@ struct WhiteNoisesView: View {
             .padding(.top)
             .frame(maxWidth: .infinity)
             .foregroundColor(Color.white)
-            .background(Color.black)
+            .background(Color.gray)
             
             // MARK: - Bottom Controller
             VStack {
@@ -49,7 +49,7 @@ struct WhiteNoisesView: View {
                                 .frame(width: 30, height: 30)
                         }
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 40)
                     .padding(.leading, 20)
                     
                     Menu {
@@ -75,7 +75,6 @@ struct WhiteNoisesView: View {
                 }
                 .background(.black90)
                 .clipShape(Capsule())
-                .padding(.bottom, 24)
             }
         }
         .ignoresSafeArea(.all, edges: .bottom)

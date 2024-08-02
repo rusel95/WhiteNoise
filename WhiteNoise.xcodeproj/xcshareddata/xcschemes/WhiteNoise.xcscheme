@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "74349A4F2A26413C00AB0EF5"
-               BuildableName = "WhiteSoundRuslan1234.app"
+               BuildableName = "WhiteSound.app"
                BlueprintName = "WhiteNoise"
                ReferencedContainer = "container:WhiteNoise.xcodeproj">
             </BuildableReference>
@@ -68,7 +68,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "74349A4F2A26413C00AB0EF5"
-            BuildableName = "WhiteSoundRuslan1234.app"
+            BuildableName = "WhiteSound.app"
             BlueprintName = "WhiteNoise"
             ReferencedContainer = "container:WhiteNoise.xcodeproj">
          </BuildableReference>
@@ -97,7 +97,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "74349A4F2A26413C00AB0EF5"
-            BuildableName = "WhiteSoundRuslan1234.app"
+            BuildableName = "WhiteSound.app"
             BlueprintName = "WhiteNoise"
             ReferencedContainer = "container:WhiteNoise.xcodeproj">
          </BuildableReference>

@@ -24,10 +24,10 @@ struct SoundView: View {
             // MARK: Slider
             ZStack(alignment: .leading, content: {
                 Rectangle()
-                    .fill(Color.cyan.opacity(0.15))
+                    .fill(Color.black.opacity(0.15))
                 
                 Rectangle()
-                    .fill(Color.cyan)
+                    .fill(Color.black90)
                     .frame(width: viewModel.sliderWidth, alignment: .leading)
                 
             })
