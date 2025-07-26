@@ -28,24 +28,6 @@ struct WhiteNoisesView: View {
             
             ScrollView {
                 VStack(spacing: 16) {
-                    // Header
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("White Noise")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                            
-                            Text("Relax • Focus • Sleep")
-                                .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.7))
-                        }
-                        
-                        Spacer()
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
-                    
                     // Sound grid
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(viewModel.soundsViewModels) { viewModel in

@@ -2,7 +2,7 @@
 //  TimerPickerView.swift
 //  WhiteNoise
 //
-//  Created by Assistant on 2025-07-26.
+//  Created by Ruslan Popesku on 2025-07-26.
 //
 
 import SwiftUI

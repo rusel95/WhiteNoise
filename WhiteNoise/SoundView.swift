@@ -102,8 +102,15 @@ struct SoundView: View {
                     if viewModel.sound.soundVariants.count > 1 {
                         Menu {
                             ForEach(viewModel.sound.soundVariants) { variant in
-                                Button(variant.name) {
+                                Button(action: {
                                     viewModel.selectedSoundVariant = variant
+                                    
+                                    #if os(iOS)
+                                    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                                    impactFeedback.impactOccurred()
+                                    #endif
+                                }) {
+                                    Label(variant.name, systemImage: "waveform")
                                 }
                             }
                         } label: {
@@ -122,6 +129,7 @@ struct SoundView: View {
                             .background(Color.white.opacity(0.1))
                             .cornerRadius(8)
                         }
+                        .environment(\.colorScheme, .dark)
                         .gesture(
                             DragGesture(minimumDistance: 0)
                                 .onChanged({ value in
