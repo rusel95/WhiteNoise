@@ -45,14 +45,14 @@ struct SoundView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(LinearGradient(
                         gradient: Gradient(colors: [
-                            Color(red: 0.2, green: 0.8, blue: 0.9).opacity(0.8),
-                            Color(red: 0.1, green: 0.6, blue: 0.8).opacity(0.8)
+                            Color(red: 0.1, green: 0.4, blue: 0.5).opacity(0.8),
+                            Color(red: 0.05, green: 0.3, blue: 0.4).opacity(0.8)
                         ]),
                         startPoint: .leading,
                         endPoint: .trailing
                     ))
                     .frame(width: viewModel.sliderWidth, alignment: .leading)
-                    .animation(.spring())
+                    .animation(.spring(), value: viewModel.sliderWidth)
                 
             })
             .onTapGesture { location in

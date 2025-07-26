@@ -12,6 +12,7 @@ struct WhiteNoisesView: View {
     @ObservedObject var viewModel: WhiteNoisesViewModel
 
     @State private var showPicker = false
+    @State private var showTimerPicker = false
 
 #if os(macOS)
     let columns = [GridItem(.adaptive(minimum: 150, maximum: 400))]
@@ -118,8 +119,8 @@ struct WhiteNoisesView: View {
                             Circle()
                                 .fill(LinearGradient(
                                     gradient: Gradient(colors: [
-                                        Color(red: 0.2, green: 0.8, blue: 0.9),
-                                        Color(red: 0.1, green: 0.6, blue: 0.8)
+                                        Color(red: 0.1, green: 0.4, blue: 0.5),
+                                        Color(red: 0.05, green: 0.3, blue: 0.4)
                                     ]),
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -135,20 +136,23 @@ struct WhiteNoisesView: View {
                     .buttonStyle(ScaleButtonStyle())
                     
                     // Timer button
-                    Menu {
-                        ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
-                            Button(mode.description) {
-                                viewModel.timerMode = mode
-                            }
+                    Button(action: {
+                        #if os(iOS)
+                        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedback.impactOccurred()
+                        #endif
+                        
+                        withAnimation(.spring()) {
+                            showTimerPicker = true
                         }
-                    } label: {
+                    }) {
                         ZStack {
                             Circle()
                                 .fill(viewModel.timerMode != .off ?
                                       LinearGradient(
                                         gradient: Gradient(colors: [
-                                            Color(red: 0.2, green: 0.8, blue: 0.9),
-                                            Color(red: 0.1, green: 0.6, blue: 0.8)
+                                            Color(red: 0.1, green: 0.4, blue: 0.5),
+                                            Color(red: 0.05, green: 0.3, blue: 0.4)
                                         ]),
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
@@ -195,6 +199,20 @@ struct WhiteNoisesView: View {
 #endif
         }
         .ignoresSafeArea(.all, edges: .bottom)
+        .overlay(
+            // Timer picker overlay
+            ZStack {
+                if showTimerPicker {
+                    TimerPickerView(
+                        timerMode: $viewModel.timerMode,
+                        isPresented: $showTimerPicker
+                    )
+                    .transition(.opacity.combined(with: .scale))
+                    .zIndex(999)
+                }
+            }
+            .animation(.spring(), value: showTimerPicker)
+        )
     }
 
 }
