@@ -2,6 +2,11 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+## macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
 ## User settings
 xcuserdata/
 
@@ -34,6 +39,13 @@ DerivedData/
 timeline.xctimeline
 playground.xcworkspace
 
+## Xcode Patch
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+
 # Swift Package Manager
 #
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
@@ -44,9 +56,17 @@ playground.xcworkspace
 #
 # Xcode automatically generates this directory with a .xcworkspacedata file and xcuserdata
 # hence it is not needed unless you have added a package configuration file to your project
-# .swiftpm
+.swiftpm
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 
 .build/
+
+## Swift Package Manager artifacts
+# Uncomment these lines if you're using SPM dependencies
+# Packages/
+# Package.pins
+# Package.resolved
+# .package.resolved
 
 # CocoaPods
 #
@@ -88,6 +108,22 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+## Xcode Breakpoints
 *.xcbkptlist
-*.xcodeproj/xcuserdata/
-WhiteNoise.xcodeproj/xcuserdata/ruslanpopesku.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+
+## IDE - VSCode
+.vscode/
+
+## IDE - JetBrains
+.idea/
+*.iml
+
+## Development
+*.log
+*.tmp
+.env
+.env.local
+
+## Documentation
+CLAUDE.md
