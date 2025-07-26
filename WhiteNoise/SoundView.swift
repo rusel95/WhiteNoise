@@ -13,6 +13,21 @@ struct SoundView: View {
     
     var body: some View {
         ZStack {
+            // Background with gradient
+            RoundedRectangle(cornerRadius: 20)
+                .fill(LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.white.opacity(0.1),
+                        Color.white.opacity(0.05)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+            
             GeometryReader(content: { geometry in
                 ZStack(content: {
                     
@@ -21,13 +36,21 @@ struct SoundView: View {
                     viewModel.maxWidth = geometry.size.width
                 })
             })
+            
             // MARK: Slider
             ZStack(alignment: .leading, content: {
-                Rectangle()
-                    .fill(Color.cyan.opacity(0.15))
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.white.opacity(0.05))
                 
-                Rectangle()
-                    .fill(Color.cyan)
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0.2, green: 0.8, blue: 0.9).opacity(0.8),
+                            Color(red: 0.1, green: 0.6, blue: 0.8).opacity(0.8)
+                        ]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ))
                     .frame(width: viewModel.sliderWidth, alignment: .leading)
                     .animation(.spring())
                 
@@ -49,63 +72,92 @@ struct SoundView: View {
                     })
             )
             
-            VStack(spacing: 8) {
-                switch viewModel.sound.icon {
-                case .system(let systemName):
-                    Image(systemName: systemName)
-                        .frame(width: 20, height: 20)
-                        .allowsHitTesting(false)
-                case .custom(let name):
-                    Image(name)
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .allowsHitTesting(false)
-                }
-                
-                Text(viewModel.sound.name)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .allowsHitTesting(false)
-                
-                Picker(
-                    "", selection: $viewModel.selectedSoundVariant
-                ) {
-                    ForEach(viewModel.sound.soundVariants) { variant in
-                        Text(variant.name)
-                            .tag(variant as Sound.SoundVariant)
+            VStack(spacing: 12) {
+                // Icon with background
+                ZStack {
+                    Circle()
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: 44, height: 44)
+                    
+                    switch viewModel.sound.icon {
+                    case .system(let systemName):
+                        Image(systemName: systemName)
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                            .allowsHitTesting(false)
+                    case .custom(let name):
+                        Image(name)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .allowsHitTesting(false)
                     }
                 }
-                .font(.system(size: 8))
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged({ value in
-                            viewModel.dragDidChange(newTranslationWidth: value.translation.width)
-                        })
-                        .onEnded({ _ in
-                            viewModel.dragDidEnded()
-                        })
-                )
-                .padding(.horizontal, 8)
+                
+                VStack(spacing: 6) {
+                    Text(viewModel.sound.name)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.white)
+                        .allowsHitTesting(false)
+                    
+                    if viewModel.sound.soundVariants.count > 1 {
+                        Menu {
+                            ForEach(viewModel.sound.soundVariants) { variant in
+                                Button(variant.name) {
+                                    viewModel.selectedSoundVariant = variant
+                                }
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Text(viewModel.selectedSoundVariant.name)
+                                    .font(.system(size: 11))
+                                    .foregroundColor(.white.opacity(0.8))
+                                    .lineLimit(1)
+                                
+                                Image(systemName: "chevron.down")
+                                    .font(.system(size: 8))
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                            .background(Color.white.opacity(0.1))
+                            .cornerRadius(8)
+                        }
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged({ value in
+                                    viewModel.dragDidChange(newTranslationWidth: value.translation.width)
+                                })
+                                .onEnded({ _ in
+                                    viewModel.dragDidEnded()
+                                })
+                        )
+                    }
+                }
             }
-            .foregroundColor(.white)
-            .padding(.vertical)
+            .padding(.vertical, 16)
         }
-        .cornerRadius(16)
     }
 }
 
 struct SoundView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundView(viewModel: .init(
-            sound: Sound(
-                name: "rain",
-                icon: .system("tree"),
-                volume: 0.3,
-                selectedSoundVariant: nil,
-                soundVariants: [
-                    .init(name: "calm Mediterrainean", filename: "calm Mediterrainean"),
-                    .init(name: "variant", filename: "variant2")
-                ]
-            )
-        ))
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
+            
+            SoundView(viewModel: .init(
+                sound: Sound(
+                    name: "Rain",
+                    icon: .system("cloud.rain"),
+                    volume: 0.3,
+                    selectedSoundVariant: nil,
+                    soundVariants: [
+                        .init(name: "Soft Rain", filename: "soft_rain"),
+                        .init(name: "Heavy Rain", filename: "heavy_rain")
+                    ]
+                )
+            ))
+            .padding()
+        }
     }
 }
