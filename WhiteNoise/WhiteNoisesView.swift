@@ -92,28 +92,27 @@ struct WhiteNoisesView: View {
             VStack {
                 Spacer()
                 
-                HStack(spacing: 24) {
+                HStack(spacing: 20) {
                     // Play/Pause button
                     Button(action: {
                         viewModel.playingButtonSelected()
                     }) {
-                        ZStack {
-                            Circle()
-                                .fill(LinearGradient(
-                                    gradient: Gradient(colors: [
-                                        Color(red: 0.1, green: 0.4, blue: 0.5),
-                                        Color(red: 0.05, green: 0.3, blue: 0.4)
-                                    ]),
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ))
-                                .frame(width: 44, height: 44)
-                            
-                            Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                                .font(.system(size: 18))
-                                .foregroundColor(.white)
-                                .offset(x: viewModel.isPlaying ? 0 : 1)
-                        }
+                        Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(.white)
+                            .offset(x: viewModel.isPlaying ? 0 : 1)
+                            .frame(width: 50, height: 50)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color(red: 0.2, green: 0.5, blue: 0.6),
+                                            Color(red: 0.1, green: 0.4, blue: 0.5)
+                                        ]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ))
+                            )
                     }
                     .buttonStyle(ScaleButtonStyle())
                     
@@ -128,8 +127,20 @@ struct WhiteNoisesView: View {
                             showTimerPicker = true
                         }
                     }) {
-                        ZStack {
-                            Circle()
+                        VStack(spacing: 3) {
+                            Image(systemName: "timer")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.white)
+                            
+                            if viewModel.timerMode != .off {
+                                Text(viewModel.remainingTimerTime)
+                                    .font(.system(size: 9, weight: .medium))
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        .frame(width: 50, height: 50)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
                                 .fill(viewModel.timerMode != .off ?
                                       LinearGradient(
                                         gradient: Gradient(colors: [
@@ -148,20 +159,7 @@ struct WhiteNoisesView: View {
                                         endPoint: .bottomTrailing
                                       )
                                 )
-                                .frame(width: 44, height: 44)
-                            
-                            VStack(spacing: 1) {
-                                Image(systemName: "timer")
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.white)
-                                
-                                if viewModel.timerMode != .off {
-                                    Text(viewModel.remainingTimerTime)
-                                        .font(.system(size: 9, weight: .medium))
-                                        .foregroundColor(.white)
-                                }
-                            }
-                        }
+                        )
                     }
                     .buttonStyle(ScaleButtonStyle())
                 }

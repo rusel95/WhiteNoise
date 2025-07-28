@@ -14,7 +14,9 @@ struct TimerPickerView: View {
     let timerOptions: [WhiteNoisesViewModel.TimerMode] = [
         .off, .oneMinute, .twoMinutes, .threeMinutes, 
         .fiveMinutes, .tenMinutes, .fifteenMinutes,
-        .thirtyMinutes, .sixtyMinutes
+        .thirtyMinutes, .sixtyMinutes, .twoHours, 
+        .threeHours, .fourHours, .fiveHours,
+        .sixHours, .sevenHours, .eightHours
     ]
     
     @State private var selectedMode: WhiteNoisesViewModel.TimerMode
@@ -45,14 +47,10 @@ struct TimerPickerView: View {
                 // Native Picker with wheel style
                 Picker("Timer", selection: $selectedMode) {
                     ForEach(timerOptions, id: \.self) { option in
-                        HStack {
-                            Image(systemName: option == .off ? "moon.zzz.fill" : "clock.fill")
-                                .font(.system(size: 14))
-                            Text(displayText(for: option))
-                                .font(.system(size: 16))
-                        }
-                        .tag(option)
-                        .foregroundColor(.white)
+                        Text(displayText(for: option))
+                            .font(.system(size: 16))
+                            .tag(option)
+                            .foregroundColor(.white)
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
@@ -126,6 +124,20 @@ struct TimerPickerView: View {
             return "30 minutes"
         case .sixtyMinutes:
             return "1 hour"
+        case .twoHours:
+            return "2 hours"
+        case .threeHours:
+            return "3 hours"
+        case .fourHours:
+            return "4 hours"
+        case .fiveHours:
+            return "5 hours"
+        case .sixHours:
+            return "6 hours"
+        case .sevenHours:
+            return "7 hours"
+        case .eightHours:
+            return "8 hours"
         }
     }
 }

@@ -13,8 +13,8 @@ struct SoundView: View {
     
     var body: some View {
         ZStack {
-            // Background with gradient
-            RoundedRectangle(cornerRadius: 20)
+            // Background with gradient - using Rectangle instead of RoundedRectangle
+            Rectangle()
                 .fill(LinearGradient(
                     gradient: Gradient(colors: [
                         Color.white.opacity(0.1),
@@ -23,54 +23,51 @@ struct SoundView: View {
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                )
+                .cornerRadius(20) // Apply corner radius to the rectangle
             
             GeometryReader(content: { geometry in
                 ZStack(content: {
-                    
+                    // MARK: Slider - without rounded corners on the track
+                    ZStack(alignment: .leading) {
+                        // Background track
+                        Rectangle()
+                            .fill(Color.white.opacity(0.05))
+                        
+                        // Filled track
+                        Rectangle()
+                            .fill(LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color(red: 0.1, green: 0.4, blue: 0.5).opacity(0.8),
+                                    Color(red: 0.05, green: 0.3, blue: 0.4).opacity(0.8)
+                                ]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ))
+                            .frame(width: max(0, min(viewModel.sliderWidth, geometry.size.width)))
+                            .animation(.spring(), value: viewModel.sliderWidth)
+                    }
                 })
                 .onAppear(perform: {
                     viewModel.maxWidth = geometry.size.width
                 })
+                .onTapGesture { location in
+                    viewModel.sliderWidth = max(0, min(location.x, viewModel.maxWidth))
+                    viewModel.lastDragValue = viewModel.sliderWidth
+                    
+                    let progress = viewModel.sliderWidth / viewModel.maxWidth
+                    viewModel.volume = progress <= 1.0 ? Float(progress) : 1.0
+                }
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged({ value in
+                            viewModel.dragDidChange(newTranslationWidth: value.translation.width)
+                        })
+                        .onEnded({ value in
+                            viewModel.dragDidEnded()
+                        })
+                )
             })
-            
-            // MARK: Slider
-            ZStack(alignment: .leading, content: {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white.opacity(0.05))
-                
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color(red: 0.1, green: 0.4, blue: 0.5).opacity(0.8),
-                            Color(red: 0.05, green: 0.3, blue: 0.4).opacity(0.8)
-                        ]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ))
-                    .frame(width: viewModel.sliderWidth, alignment: .leading)
-                    .animation(.spring(), value: viewModel.sliderWidth)
-                
-            })
-            .onTapGesture { location in
-                viewModel.sliderWidth = location.x
-                viewModel.lastDragValue = location.x
-                
-                let progress = viewModel.sliderWidth / viewModel.maxWidth
-                viewModel.volume = progress <= 1.0 ? Float(progress) : 1.0
-            }
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged({ value in
-                        viewModel.dragDidChange(newTranslationWidth: value.translation.width)
-                    })
-                    .onEnded({ value in
-                        viewModel.dragDidEnded()
-                    })
-            )
+            .clipShape(RoundedRectangle(cornerRadius: 20)) // Clip the entire GeometryReader
             
             VStack(spacing: 12) {
                 // Icon with background
