@@ -8,6 +8,7 @@
 import Foundation
 import AVFAudio
 import Combine
+import MediaPlayer
 
 @MainActor
 class WhiteNoisesViewModel: ObservableObject {
@@ -103,6 +104,7 @@ class WhiteNoisesViewModel: ObservableObject {
     private var timerRemainingSeconds: Int = 0
     private var timerTask: Task<Void, Never>?
     private var cancellables = Set<AnyCancellable>()
+    private var wasPlayingBeforeInterruption = false
 
     // MARK: Init
 
@@ -110,6 +112,8 @@ class WhiteNoisesViewModel: ObservableObject {
         setupAudioSession()
         setupSoundViewModels()
         setupTimerModeObserver()
+        setupRemoteCommands()
+        setupAudioInterruptionHandling()
     }
     
     deinit {
@@ -256,6 +260,7 @@ class WhiteNoisesViewModel: ObservableObject {
         }
         
         isPlaying = true
+        updateNowPlayingInfo()
     }
     
     private func pauseSounds(fadeDuration: Double? = nil) async {
@@ -273,5 +278,151 @@ class WhiteNoisesViewModel: ObservableObject {
         }
         
         isPlaying = false
+    }
+    
+    private func setupRemoteCommands() {
+        #if os(iOS)
+        let commandCenter = MPRemoteCommandCenter.shared()
+        
+        // Play command
+        commandCenter.playCommand.isEnabled = true
+        commandCenter.playCommand.addTarget { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self = self else { return .commandFailed }
+                if !self.isPlaying {
+                    await self.playSounds(fadeDuration: 0.5)
+                }
+            }
+            return .success
+        }
+        
+        // Pause command
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.pauseCommand.addTarget { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self = self else { return .commandFailed }
+                if self.isPlaying {
+                    await self.pauseSounds(fadeDuration: 0.5)
+                }
+            }
+            return .success
+        }
+        
+        // Toggle play/pause command
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self = self else { return .commandFailed }
+                self.playingButtonSelected()
+            }
+            return .success
+        }
+        
+        // Disable other commands that we don't support
+        commandCenter.nextTrackCommand.isEnabled = false
+        commandCenter.previousTrackCommand.isEnabled = false
+        commandCenter.changePlaybackRateCommand.isEnabled = false
+        commandCenter.seekBackwardCommand.isEnabled = false
+        commandCenter.seekForwardCommand.isEnabled = false
+        commandCenter.skipBackwardCommand.isEnabled = false
+        commandCenter.skipForwardCommand.isEnabled = false
+        commandCenter.changePlaybackPositionCommand.isEnabled = false
+        
+        // Update Now Playing info
+        updateNowPlayingInfo()
+        #endif
+    }
+    
+    private func setupAudioInterruptionHandling() {
+        #if os(iOS)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAudioSessionInterruption),
+            name: AVAudioSession.interruptionNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAudioSessionRouteChange),
+            name: AVAudioSession.routeChangeNotification,
+            object: nil
+        )
+        #endif
+    }
+    
+    @objc private func handleAudioSessionInterruption(notification: Notification) {
+        #if os(iOS)
+        guard let userInfo = notification.userInfo,
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+            return
+        }
+        
+        Task { @MainActor in
+            switch type {
+            case .began:
+                // Interruption began - pause if playing
+                if isPlaying {
+                    wasPlayingBeforeInterruption = true
+                    await pauseSounds(fadeDuration: 0.1)
+                }
+            case .ended:
+                // Interruption ended - resume if we were playing before
+                if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                    let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                    if options.contains(.shouldResume) && wasPlayingBeforeInterruption {
+                        await playSounds(fadeDuration: 0.5)
+                        wasPlayingBeforeInterruption = false
+                    }
+                }
+            @unknown default:
+                break
+            }
+        }
+        #endif
+    }
+    
+    @objc private func handleAudioSessionRouteChange(notification: Notification) {
+        #if os(iOS)
+        guard let userInfo = notification.userInfo,
+              let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+            return
+        }
+        
+        Task { @MainActor in
+            switch reason {
+            case .oldDeviceUnavailable:
+                // Headphones were unplugged, pause playback
+                if isPlaying {
+                    await pauseSounds(fadeDuration: 0.1)
+                }
+            default:
+                break
+            }
+        }
+        #endif
+    }
+    
+    private func updateNowPlayingInfo() {
+        #if os(iOS)
+        var nowPlayingInfo = [String: Any]()
+        
+        nowPlayingInfo[MPMediaItemPropertyTitle] = "White Noise"
+        nowPlayingInfo[MPMediaItemPropertyArtist] = "WhiteNoise App"
+        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Ambient Sounds"
+        
+        // Set playback state
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+        
+        // Create a simple artwork (you can replace this with actual artwork)
+        if let image = UIImage(systemName: "waveform.circle.fill") {
+            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+            nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+        }
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        #endif
     }
 }
