@@ -110,10 +110,14 @@ class WhiteNoisesViewModel: ObservableObject {
 
     init() {
         setupAudioSession()
-        setupSoundViewModels()
         setupTimerModeObserver()
         setupRemoteCommands()
         setupAudioInterruptionHandling()
+        
+        // Load sounds asynchronously to avoid blocking UI
+        Task {
+            await setupSoundViewModels()
+        }
     }
     
     deinit {
@@ -147,20 +151,26 @@ class WhiteNoisesViewModel: ObservableObject {
         #endif
     }
     
-    private func setupSoundViewModels() {
-        soundsViewModels = SoundFactory.getSavedSounds().map { SoundViewModel(sound: $0) }
+    private func setupSoundViewModels() async {
+        // Load sounds on background queue
+        let sounds = await SoundFactory.getSavedSoundsAsync()
         
-        // Observe volume changes
-        soundsViewModels.forEach { soundViewModel in
-            soundViewModel.$volume
-                .dropFirst()
-                .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
-                .sink { [weak self] volume in
-                    Task { [weak self] in
-                        await self?.handleVolumeChange(for: soundViewModel, volume: volume)
+        // Create view models on main thread
+        await MainActor.run {
+            soundsViewModels = sounds.map { SoundViewModel(sound: $0) }
+            
+            // Observe volume changes
+            soundsViewModels.forEach { soundViewModel in
+                soundViewModel.$volume
+                    .dropFirst()
+                    .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+                    .sink { [weak self] volume in
+                        Task { [weak self] in
+                            await self?.handleVolumeChange(for: soundViewModel, volume: volume)
+                        }
                     }
-                }
-                .store(in: &cancellables)
+                    .store(in: &cancellables)
+            }
         }
     }
     

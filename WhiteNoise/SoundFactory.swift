@@ -10,22 +10,28 @@ import Foundation
 class SoundFactory {
 
     static func getSavedSounds() -> [Sound] {
-        createSounds()
-            .map {
-                guard let savedSoundData = UserDefaults.standard.data(forKey: $0.id) else {
-                    return $0
-                }
-
+        let sounds = createSounds()
+        let userDefaults = UserDefaults.standard
+        
+        // Batch read all sound data to minimize UserDefaults access
+        return sounds.map { sound in
+            if let savedSoundData = userDefaults.data(forKey: sound.id) {
                 do {
-                    let sound = try JSONDecoder().decode(Sound.self, from: savedSoundData)
-                    return sound
+                    return try JSONDecoder().decode(Sound.self, from: savedSoundData)
                 } catch {
                     print("Failed to load sound: \(error)")
-                    return $0
+                    return sound
                 }
             }
-
-
+            return sound
+        }
+    }
+    
+    @MainActor
+    static func getSavedSoundsAsync() async -> [Sound] {
+        await Task.detached(priority: .userInitiated) {
+            getSavedSounds()
+        }.value
     }
 
     static func createSounds() -> [Sound] {

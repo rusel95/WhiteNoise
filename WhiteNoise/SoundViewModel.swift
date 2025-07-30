@@ -57,8 +57,9 @@ class SoundViewModel: ObservableObject, Identifiable {
         self.selectedSoundVariant = sound.selectedSoundVariant
         
         setupSoundVariantObserver()
-        Task {
-            await prepareSound(fileName: sound.selectedSoundVariant.filename)
+        // Defer audio loading to avoid blocking init
+        Task.detached(priority: .userInitiated) { [weak self] in
+            await self?.prepareSound(fileName: sound.selectedSoundVariant.filename)
         }
     }
     
@@ -201,18 +202,30 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     
     private func prepareSound(fileName: String) async {
+        let startTime = CFAbsoluteTimeGetCurrent()
+        
         do {
             guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else {
                 print("Unable to find sound file \(fileName)")
                 return
             }
             
-            let newPlayer = try AVAudioPlayer(contentsOf: url)
-            newPlayer.prepareToPlay()
-            newPlayer.numberOfLoops = -1
-            newPlayer.volume = self.sound.volume
+            // Create player on background queue to avoid blocking
+            let newPlayer = try await Task.detached(priority: .userInitiated) {
+                try AVAudioPlayer(contentsOf: url)
+            }.value
             
-            self.player = newPlayer
+            await MainActor.run {
+                newPlayer.prepareToPlay()
+                newPlayer.numberOfLoops = -1
+                newPlayer.volume = self.sound.volume
+                self.player = newPlayer
+            }
+            
+            let loadTime = CFAbsoluteTimeGetCurrent() - startTime
+            if loadTime > 0.1 {
+                print("⚠️ Slow audio load for \(fileName): \(String(format: "%.2f", loadTime))s")
+            }
         } catch {
             print("Error loading audio player: \(error)")
         }
