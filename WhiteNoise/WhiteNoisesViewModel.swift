@@ -186,6 +186,11 @@ class WhiteNoisesViewModel: ObservableObject {
         } else {
             await soundViewModel.pauseSound()
         }
+        
+        // Update Now Playing info to reflect active sounds
+        if isPlaying {
+            updateNowPlayingInfo()
+        }
     }
     
     private func handleTimerModeChange(_ newMode: TimerMode) async {
@@ -223,6 +228,11 @@ class WhiteNoisesViewModel: ObservableObject {
                 if self.timerRemainingSeconds > 0 {
                     self.timerRemainingSeconds -= 1
                     self.updateRemainingTimeDisplay()
+                    
+                    // Update Now Playing info every 10 seconds to show timer progress
+                    if self.timerRemainingSeconds % 10 == 0 {
+                        self.updateNowPlayingInfo()
+                    }
                 } else {
                     await self.pauseSounds(fadeDuration: 5.0)
                     self.timerMode = .off
@@ -278,6 +288,7 @@ class WhiteNoisesViewModel: ObservableObject {
         }
         
         isPlaying = false
+        updateNowPlayingInfo()
     }
     
     private func setupRemoteCommands() {
@@ -287,8 +298,8 @@ class WhiteNoisesViewModel: ObservableObject {
         // Play command
         commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget { [weak self] _ in
-            Task { @MainActor [weak self] in
-                guard let self = self else { return .commandFailed }
+            guard let self = self else { return .commandFailed }
+            Task { @MainActor in
                 if !self.isPlaying {
                     await self.playSounds(fadeDuration: 0.5)
                 }
@@ -299,8 +310,8 @@ class WhiteNoisesViewModel: ObservableObject {
         // Pause command
         commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget { [weak self] _ in
-            Task { @MainActor [weak self] in
-                guard let self = self else { return .commandFailed }
+            guard let self = self else { return .commandFailed }
+            Task { @MainActor in
                 if self.isPlaying {
                     await self.pauseSounds(fadeDuration: 0.5)
                 }
@@ -311,8 +322,8 @@ class WhiteNoisesViewModel: ObservableObject {
         // Toggle play/pause command
         commandCenter.togglePlayPauseCommand.isEnabled = true
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
-            Task { @MainActor [weak self] in
-                guard let self = self else { return .commandFailed }
+            guard let self = self else { return .commandFailed }
+            Task { @MainActor in
                 self.playingButtonSelected()
             }
             return .success
@@ -409,16 +420,34 @@ class WhiteNoisesViewModel: ObservableObject {
         #if os(iOS)
         var nowPlayingInfo = [String: Any]()
         
-        nowPlayingInfo[MPMediaItemPropertyTitle] = "White Noise"
+        // Get active sounds
+        let activeSounds = soundsViewModels
+            .filter { $0.volume > 0 }
+            .map { $0.sound.name }
+        
+        let title = activeSounds.isEmpty ? "White Noise" : activeSounds.joined(separator: ", ")
+        nowPlayingInfo[MPMediaItemPropertyTitle] = title
         nowPlayingInfo[MPMediaItemPropertyArtist] = "WhiteNoise App"
         nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Ambient Sounds"
         
         // Set playback state
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
         
-        // Create a simple artwork (you can replace this with actual artwork)
-        if let image = UIImage(systemName: "waveform.circle.fill") {
-            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+        // Add timer info if active
+        if timerMode != .off && timerRemainingSeconds > 0 {
+            nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = Double(timerMode.minutes * 60)
+            nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = Double(timerMode.minutes * 60 - timerRemainingSeconds)
+        }
+        
+        // Use app icon for lock screen artwork
+        if let image = UIImage(named: "LaunchScreenIcon") {
+            let artwork = MPMediaItemArtwork(boundsSize: CGSize(width: 300, height: 300)) { size in
+                // Resize image to fit the requested size while maintaining aspect ratio
+                let renderer = UIGraphicsImageRenderer(size: size)
+                return renderer.image { _ in
+                    image.draw(in: CGRect(origin: .zero, size: size))
+                }
+            }
             nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
         }
         
