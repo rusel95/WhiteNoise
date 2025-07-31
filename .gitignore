@@ -124,6 +124,3 @@ iOSInjectionProject/
 *.tmp
 .env
 .env.local
-
-## Documentation
-CLAUDE.md
