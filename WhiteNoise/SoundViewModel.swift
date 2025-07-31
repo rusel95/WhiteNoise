@@ -252,10 +252,10 @@ class SoundViewModel: ObservableObject, Identifiable {
             }
             
             let loadTime = CFAbsoluteTimeGetCurrent() - startTime
-            if loadTime > 0.1 {
+            if loadTime > 0.5 {
                 print("⚠️ Slow audio load for \(fileName): \(String(format: "%.2f", loadTime))s")
             } else {
-                print("✅ \(sound.name): Audio loaded successfully")
+                print("✅ \(sound.name): Audio loaded successfully (\(String(format: "%.2f", loadTime))s)")
             }
         } catch {
             print("❌ \(sound.name): Error loading audio player: \(error)")
