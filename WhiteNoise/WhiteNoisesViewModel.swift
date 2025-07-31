@@ -12,6 +12,8 @@ import MediaPlayer
 
 @MainActor
 class WhiteNoisesViewModel: ObservableObject {
+    
+    private static var activeInstance: WhiteNoisesViewModel?
 
     enum TimerMode: CaseIterable, Identifiable {
 
@@ -105,14 +107,29 @@ class WhiteNoisesViewModel: ObservableObject {
     private var timerTask: Task<Void, Never>?
     private var cancellables = Set<AnyCancellable>()
     private var wasPlayingBeforeInterruption = false
+    private var appDidBecomeActiveObserver: NSObjectProtocol?
+    private var appWillResignActiveObserver: NSObjectProtocol?
+    private var appDidEnterBackgroundObserver: NSObjectProtocol?
+    private var appWillEnterForegroundObserver: NSObjectProtocol?
 
     // MARK: Init
 
     init() {
+        print("🎵 WhiteNoisesViewModel: Initializing")
+        
+        // Clean up any previous instance
+        if let previousInstance = Self.activeInstance {
+            print("⚠️ Cleaning up previous WhiteNoisesViewModel instance")
+            previousInstance.cleanup()
+        }
+        
+        Self.activeInstance = self
+        
         setupAudioSession()
         setupTimerModeObserver()
         setupRemoteCommands()
         setupAudioInterruptionHandling()
+        setupAppLifecycleObservers()
         
         // Load sounds asynchronously to avoid blocking UI
         Task {
@@ -121,19 +138,51 @@ class WhiteNoisesViewModel: ObservableObject {
     }
     
     deinit {
+        print("🎵 WhiteNoisesViewModel: Deinitializing")
         timerTask?.cancel()
+        
+        // Remove app lifecycle observers
+        if let observer = appDidBecomeActiveObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = appWillResignActiveObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = appDidEnterBackgroundObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = appWillEnterForegroundObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     // MARK: Public Methods
     
     func playingButtonSelected() {
+        print("🎵 Playing button selected - current state: \(isPlaying)")
         Task {
             if isPlaying {
                 await pauseSounds(fadeDuration: 0.5)
             } else {
+                // Ensure audio session is active before playing
+                await ensureAudioSessionActive()
                 await playSounds(fadeDuration: 1.0)
             }
         }
+    }
+    
+    private func ensureAudioSessionActive() async {
+        #if os(iOS)
+        do {
+            let session = AVAudioSession.sharedInstance()
+            if !session.isOtherAudioPlaying {
+                try session.setActive(true)
+                print("✅ Audio session activated before playing")
+            }
+        } catch {
+            print("❌ Failed to activate audio session: \(error)")
+        }
+        #endif
     }
 
     // MARK: Private Methods
@@ -142,10 +191,12 @@ class WhiteNoisesViewModel: ObservableObject {
         #if os(iOS)
         Task { @MainActor in
             do {
+                print("🎵 Setting up audio session")
                 try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
                 try AVAudioSession.sharedInstance().setActive(true)
+                print("✅ Audio session activated successfully")
             } catch {
-                print("Failed to set audio session: \(error)")
+                print("❌ Failed to set audio session: \(error)")
             }
         }
         #endif
@@ -265,14 +316,19 @@ class WhiteNoisesViewModel: ObservableObject {
     }
     
     private func playSounds(fadeDuration: Double? = nil) async {
+        print("🎵 Playing sounds with fade duration: \(fadeDuration ?? 0)")
+        
         // Start timer if needed
         if timerMode != .off && timerTask == nil {
             startTimer()
         }
         
         // Play all sounds with volume > 0
+        let soundsToPlay = soundsViewModels.filter { $0.volume > 0 }
+        print("🎵 Playing \(soundsToPlay.count) sounds")
+        
         await withTaskGroup(of: Void.self) { group in
-            for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
+            for soundViewModel in soundsToPlay {
                 group.addTask { [weak soundViewModel] in
                     await soundViewModel?.playSound(fadeDuration: fadeDuration)
                 }
@@ -281,16 +337,22 @@ class WhiteNoisesViewModel: ObservableObject {
         
         isPlaying = true
         updateNowPlayingInfo()
+        print("✅ All sounds started playing")
     }
     
     private func pauseSounds(fadeDuration: Double? = nil) async {
+        print("🎵 Pausing sounds with fade duration: \(fadeDuration ?? 0)")
+        
         // Stop timer
         timerTask?.cancel()
         timerTask = nil
         
         // Pause all sounds
+        let soundsToPause = soundsViewModels.filter { $0.volume > 0 }
+        print("🎵 Pausing \(soundsToPause.count) sounds")
+        
         await withTaskGroup(of: Void.self) { group in
-            for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
+            for soundViewModel in soundsToPause {
                 group.addTask { [weak soundViewModel] in
                     await soundViewModel?.pauseSound(fadeDuration: fadeDuration)
                 }
@@ -299,6 +361,7 @@ class WhiteNoisesViewModel: ObservableObject {
         
         isPlaying = false
         updateNowPlayingInfo()
+        print("✅ All sounds paused")
     }
     
     private func setupRemoteCommands() {
@@ -422,6 +485,111 @@ class WhiteNoisesViewModel: ObservableObject {
             default:
                 break
             }
+        }
+        #endif
+    }
+    
+    private func setupAppLifecycleObservers() {
+        #if os(iOS)
+        appDidBecomeActiveObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            print("🎵 App did become active")
+            Task { @MainActor [weak self] in
+                await self?.handleAppDidBecomeActive()
+            }
+        }
+        
+        appWillResignActiveObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.willResignActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            print("🎵 App will resign active")
+            self?.handleAppWillResignActive()
+        }
+        
+        appDidEnterBackgroundObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.didEnterBackgroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            print("🎵 App did enter background")
+            self?.handleAppDidEnterBackground()
+        }
+        
+        appWillEnterForegroundObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            print("🎵 App will enter foreground")
+            Task { @MainActor [weak self] in
+                await self?.handleAppWillEnterForeground()
+            }
+        }
+        #endif
+    }
+    
+    private func handleAppDidBecomeActive() async {
+        #if os(iOS)
+        print("🎵 Handling app did become active")
+        
+        // Always ensure audio session is properly configured
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            
+            // Only activate if we're playing or about to play
+            if isPlaying || soundsViewModels.contains(where: { $0.volume > 0 }) {
+                try session.setActive(true)
+                print("✅ Audio session reactivated on app active")
+                
+                // Refresh all audio players to ensure they're ready
+                await withTaskGroup(of: Void.self) { group in
+                    for soundViewModel in soundsViewModels {
+                        group.addTask { [weak soundViewModel] in
+                            await soundViewModel?.refreshAudioPlayer()
+                        }
+                    }
+                }
+                
+                // Resume playing sounds if we were playing
+                if isPlaying {
+                    // Re-play all sounds that should be playing
+                    for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
+                        await soundViewModel.playSound()
+                    }
+                }
+            }
+        } catch {
+            print("❌ Failed to reactivate audio session: \(error)")
+        }
+        #endif
+    }
+    
+    private func handleAppWillResignActive() {
+        print("🎵 App will resign active - current playing state: \(isPlaying)")
+    }
+    
+    private func handleAppDidEnterBackground() {
+        print("🎵 App entered background - current playing state: \(isPlaying)")
+    }
+    
+    private func handleAppWillEnterForeground() async {
+        #if os(iOS)
+        print("🎵 Handling app will enter foreground")
+        
+        // Always try to reactivate audio session when coming to foreground
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            try session.setActive(true)
+            print("✅ Audio session configured on foreground")
+        } catch {
+            print("❌ Failed to configure audio session on foreground: \(error)")
         }
         #endif
     }
