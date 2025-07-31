@@ -82,6 +82,57 @@ When modifying this codebase:
 4. **Resource Management**: Audio files should be properly loaded and released
 5. **Testing**: Add unit tests for view models and UI tests for critical user flows
 
+### SOLID Principles
+
+The codebase must adhere to SOLID principles:
+
+1. **Single Responsibility Principle (SRP)**
+   - Each class should have only one reason to change
+   - ViewModels handle business logic, Views handle presentation
+   - Models are pure data structures without business logic
+   - Separate concerns: audio playback, state management, UI updates
+
+2. **Open/Closed Principle (OCP)**
+   - Classes should be open for extension, closed for modification
+   - Use protocols for extensibility (e.g., sound types, audio players)
+   - Factory pattern allows adding new sound types without modifying existing code
+
+3. **Liskov Substitution Principle (LSP)**
+   - Derived classes must be substitutable for their base classes
+   - Protocol implementations must fulfill the contract completely
+   - Avoid breaking inherited behavior
+
+4. **Interface Segregation Principle (ISP)**
+   - Clients should not depend on interfaces they don't use
+   - Keep protocols focused and minimal
+   - Split large protocols into smaller, specific ones
+
+5. **Dependency Inversion Principle (DIP)**
+   - Depend on abstractions, not concretions
+   - Use dependency injection for testability
+   - ViewModels should depend on protocols, not concrete implementations
+
+### DRY Principle (Don't Repeat Yourself)
+
+- Extract common functionality into reusable components
+- Use extensions for shared behavior
+- Create utility functions for repeated logic
+- Avoid code duplication across ViewModels and Views
+- Centralize constants and configuration values
+
+### Common Code Smells to Avoid
+
+1. **Large Classes**: Keep classes focused and under 200 lines
+2. **Long Methods**: Break down methods that exceed 20-30 lines
+3. **Duplicate Code**: Extract common patterns into reusable components
+4. **Primitive Obsession**: Use proper types instead of primitives
+5. **Feature Envy**: Keep related data and behavior together
+6. **Inappropriate Intimacy**: Minimize coupling between classes
+7. **Magic Numbers**: Use named constants instead of hardcoded values
+8. **Dead Code**: Remove unused code promptly
+9. **Speculative Generality**: Don't over-engineer for future possibilities
+10. **Temporary Fields**: Avoid fields that are only used in specific conditions
+
 ## Important Configuration
 
 - **Minimum iOS Version**: Check `project.pbxproj` for deployment target
