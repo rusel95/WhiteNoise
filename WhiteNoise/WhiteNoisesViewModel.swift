@@ -135,10 +135,43 @@ class WhiteNoisesViewModel: ObservableObject {
         Task {
             await setupSoundViewModels()
         }
+        
+        // Register for cleanup when the view model will be deallocated
+        NotificationCenter.default.addObserver(
+            forName: UIApplication.willTerminateNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in
+                if let self = self, Self.activeInstance === self {
+                    Self.activeInstance = nil
+                }
+            }
+        }
     }
     
     deinit {
         print("🎵 WhiteNoisesViewModel: Deinitializing")
+        
+        // Cancel timer task (doesn't require main actor)
+        timerTask?.cancel()
+        
+        // Remove observers (doesn't require main actor)
+        if let observer = appDidBecomeActiveObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = appWillResignActiveObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = appDidEnterBackgroundObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = appWillEnterForegroundObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+    
+    private func cleanup() {
         timerTask?.cancel()
         
         // Remove app lifecycle observers
@@ -206,21 +239,28 @@ class WhiteNoisesViewModel: ObservableObject {
         // Load sounds on background queue
         let sounds = await SoundFactory.getSavedSoundsAsync()
         
-        // Create view models on main thread
-        await MainActor.run {
-            soundsViewModels = sounds.map { SoundViewModel(sound: $0) }
+        // Create view models on main thread with staggered loading
+        soundsViewModels = []
+        
+        // Create view models in batches to prevent UI hang
+        for (index, sound) in sounds.enumerated() {
+            let soundViewModel = SoundViewModel(sound: sound)
+            soundsViewModels.append(soundViewModel)
             
             // Observe volume changes
-            soundsViewModels.forEach { soundViewModel in
-                soundViewModel.$volume
-                    .dropFirst()
-                    .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
-                    .sink { [weak self] volume in
-                        Task { [weak self] in
-                            await self?.handleVolumeChange(for: soundViewModel, volume: volume)
-                        }
+            soundViewModel.$volume
+                .dropFirst()
+                .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+                .sink { [weak self] volume in
+                    Task { [weak self] in
+                        await self?.handleVolumeChange(for: soundViewModel, volume: volume)
                     }
-                    .store(in: &cancellables)
+                }
+                .store(in: &cancellables)
+            
+            // Yield to main thread every 3 sounds to prevent blocking
+            if index % 3 == 2 {
+                await Task.yield()
             }
         }
     }
@@ -508,7 +548,9 @@ class WhiteNoisesViewModel: ObservableObject {
             queue: .main
         ) { [weak self] _ in
             print("🎵 App will resign active")
-            self?.handleAppWillResignActive()
+            Task { @MainActor [weak self] in
+                self?.handleAppWillResignActive()
+            }
         }
         
         appDidEnterBackgroundObserver = NotificationCenter.default.addObserver(
@@ -517,7 +559,9 @@ class WhiteNoisesViewModel: ObservableObject {
             queue: .main
         ) { [weak self] _ in
             print("🎵 App did enter background")
-            self?.handleAppDidEnterBackground()
+            Task { @MainActor [weak self] in
+                self?.handleAppDidEnterBackground()
+            }
         }
         
         appWillEnterForegroundObserver = NotificationCenter.default.addObserver(
@@ -540,7 +584,7 @@ class WhiteNoisesViewModel: ObservableObject {
         // Always ensure audio session is properly configured
         do {
             let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            try session.setCategory(.playback, mode: .default)
             
             // Only activate if we're playing or about to play
             if isPlaying || soundsViewModels.contains(where: { $0.volume > 0 }) {
@@ -585,7 +629,7 @@ class WhiteNoisesViewModel: ObservableObject {
         // Always try to reactivate audio session when coming to foreground
         do {
             let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            try session.setCategory(.playback, mode: .default)
             try session.setActive(true)
             print("✅ Audio session configured on foreground")
         } catch {

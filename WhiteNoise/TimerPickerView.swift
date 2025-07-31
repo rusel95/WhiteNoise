@@ -57,7 +57,7 @@ struct TimerPickerView: View {
                 .frame(height: 150)
                 .clipped()
                 .colorScheme(.dark)
-                .onChange(of: selectedMode) { newValue in
+                .onChange(of: selectedMode) { _, _ in
                     // Haptic feedback only
                     #if os(iOS)
                     let selectionFeedback = UISelectionFeedbackGenerator()

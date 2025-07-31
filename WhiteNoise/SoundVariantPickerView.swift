@@ -66,7 +66,7 @@ struct SoundVariantPickerView: View {
                 .frame(height: 120)
                 .clipped()
                 .colorScheme(.dark)
-                .onChange(of: tempSelection) { _ in
+                .onChange(of: tempSelection) { _, _ in
                     // Haptic feedback
                     #if os(iOS)
                     let selectionFeedback = UISelectionFeedbackGenerator()

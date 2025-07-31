@@ -57,7 +57,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         self.selectedSoundVariant = sound.selectedSoundVariant
         
         setupSoundVariantObserver()
-        // Defer audio loading to avoid blocking init
+        // Defer audio loading to high priority queue for faster loading
         Task.detached(priority: .userInitiated) { [weak self] in
             await self?.prepareSound(fileName: sound.selectedSoundVariant.filename)
         }
@@ -68,6 +68,19 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     
     // MARK: Public Methods
+    
+    func refreshAudioPlayer() async {
+        print("🎵 \(sound.name): Refreshing audio player")
+        let wasPlaying = player?.isPlaying ?? false
+        player?.stop()
+        player = nil
+        
+        await prepareSound(fileName: sound.selectedSoundVariant.filename)
+        
+        if wasPlaying {
+            await playSound()
+        }
+    }
     
     func dragDidChange(newTranslationWidth: CGFloat) {
         let newWidth = newTranslationWidth + lastDragValue
@@ -92,10 +105,15 @@ class SoundViewModel: ObservableObject, Identifiable {
     }
     
     func playSound(fadeDuration: Double? = nil) async {
+        print("🎵 \(sound.name): playSound called with fade: \(fadeDuration ?? 0)")
+        
         // Cancel any existing fade
         fadeTask?.cancel()
         
-        guard let player = player else { return }
+        guard let player = player else {
+            print("❌ \(sound.name): No player available")
+            return
+        }
         
         if let fadeDuration = fadeDuration, fadeDuration > 0 {
             fadeTask = Task { [weak self] in
@@ -105,7 +123,8 @@ class SoundViewModel: ObservableObject, Identifiable {
                 await self.updatePlayerVolume(0)
                 
                 if !player.isPlaying {
-                    player.play()
+                    let success = player.play()
+                    print("\(success ? "✅" : "❌") \(sound.name): Started playing with fade (success: \(success))")
                 }
                 
                 let steps = Int(fadeDuration * 50) // 50 updates per second
@@ -129,16 +148,22 @@ class SoundViewModel: ObservableObject, Identifiable {
         } else {
             await updatePlayerVolume(sound.volume)
             if !player.isPlaying {
-                player.play()
+                let success = player.play()
+                print("\(success ? "✅" : "❌") \(sound.name): Started playing (success: \(success))")
             }
         }
     }
     
     func pauseSound(fadeDuration: Double? = nil) async {
+        print("🎵 \(sound.name): pauseSound called with fade: \(fadeDuration ?? 0)")
+        
         // Cancel any existing fade
         fadeTask?.cancel()
         
-        guard let player = player else { return }
+        guard let player = player else {
+            print("❌ \(sound.name): No player to pause")
+            return
+        }
         
         if let fadeDuration = fadeDuration, fadeDuration > 0 {
             fadeTask = Task { [weak self] in
@@ -166,10 +191,12 @@ class SoundViewModel: ObservableObject, Identifiable {
                 if !Task.isCancelled {
                     await self.updatePlayerVolume(0)
                     player.pause()
+                    print("✅ \(self.sound.name): Paused with fade")
                 }
             }
         } else {
             player.pause()
+            print("✅ \(sound.name): Paused immediately")
         }
     }
     
@@ -206,17 +233,19 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         do {
             guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else {
-                print("Unable to find sound file \(fileName)")
+                print("❌ Unable to find sound file \(fileName)")
                 return
             }
             
-            // Create player on background queue to avoid blocking
+            // Create player on high priority queue for faster loading
             let newPlayer = try await Task.detached(priority: .userInitiated) {
-                try AVAudioPlayer(contentsOf: url)
+                let player = try AVAudioPlayer(contentsOf: url)
+                // Prepare on background thread
+                player.prepareToPlay()
+                return player
             }.value
             
             await MainActor.run {
-                newPlayer.prepareToPlay()
                 newPlayer.numberOfLoops = -1
                 newPlayer.volume = self.sound.volume
                 self.player = newPlayer
@@ -225,9 +254,11 @@ class SoundViewModel: ObservableObject, Identifiable {
             let loadTime = CFAbsoluteTimeGetCurrent() - startTime
             if loadTime > 0.1 {
                 print("⚠️ Slow audio load for \(fileName): \(String(format: "%.2f", loadTime))s")
+            } else {
+                print("✅ \(sound.name): Audio loaded successfully")
             }
         } catch {
-            print("Error loading audio player: \(error)")
+            print("❌ \(sound.name): Error loading audio player: \(error)")
         }
     }
     
