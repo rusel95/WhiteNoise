@@ -44,14 +44,6 @@ Press `Cmd + R` to build and run.
 
 Built with SwiftUI + AVFoundation using MVVM architecture.
 
-```bash
-# Build
-xcodebuild -project WhiteNoise.xcodeproj -scheme WhiteNoise build
-
-# Test
-xcodebuild test -project WhiteNoise.xcodeproj -scheme WhiteNoise
-```
-
 ## Contributing
 
 PRs welcome! Please follow Swift API Design Guidelines.

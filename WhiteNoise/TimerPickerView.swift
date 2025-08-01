@@ -32,8 +32,10 @@ struct TimerPickerView: View {
             // Background
             Color.black.opacity(0.9)
                 .ignoresSafeArea()
+                .opacity(isPresented ? 1 : 0)
+                .animation(.easeInOut(duration: 0.3), value: isPresented)
                 .onTapGesture {
-                    withAnimation(.spring()) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         isPresented = false
                     }
                 }
@@ -75,7 +77,7 @@ struct TimerPickerView: View {
                     impactFeedback.impactOccurred()
                     #endif
                     
-                    withAnimation(.spring()) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         isPresented = false
                     }
                 }) {
@@ -101,6 +103,7 @@ struct TimerPickerView: View {
             )
             .scaleEffect(isPresented ? 1 : 0.9)
             .opacity(isPresented ? 1 : 0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isPresented)
         }
     }
     
