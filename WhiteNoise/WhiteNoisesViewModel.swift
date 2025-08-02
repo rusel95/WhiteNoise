@@ -79,7 +79,11 @@ class WhiteNoisesViewModel: ObservableObject {
         // Clean up any previous instance
         if let previousInstance = Self.activeInstance {
             print("⚠️ Cleaning up previous WhiteNoisesViewModel instance")
-            previousInstance.cleanup()
+            previousInstance.timerTask?.cancel()
+            previousInstance.appLifecycleObservers.forEach {
+                NotificationCenter.default.removeObserver($0)
+            }
+            previousInstance.appLifecycleObservers.removeAll()
         }
         
         Self.activeInstance = self
@@ -111,15 +115,10 @@ class WhiteNoisesViewModel: ObservableObject {
     
     deinit {
         print("🎵 WhiteNoisesViewModel: Deinitializing")
-        Task { @MainActor in
-            cleanup()
-        }
-    }
-    
-    private func cleanup() {
+        // Cancel timer synchronously
         timerTask?.cancel()
         
-        // Remove observers
+        // Remove observers synchronously
         appLifecycleObservers.forEach {
             NotificationCenter.default.removeObserver($0)
         }
@@ -132,10 +131,10 @@ class WhiteNoisesViewModel: ObservableObject {
         print("🎵 Playing button selected - current state: \(isPlaying)")
         Task {
             if isPlaying {
-                await pauseSounds(fadeDuration: 0.5)
+                await pauseSounds(fadeDuration: 3.0)
             } else {
                 await ensureAudioSessionActive()
-                await playSounds(fadeDuration: 1.0)
+                await playSounds(fadeDuration: 3.0)
             }
         }
     }
@@ -203,7 +202,7 @@ class WhiteNoisesViewModel: ObservableObject {
             guard let self = self else { return .commandFailed }
             Task { @MainActor in
                 if !self.isPlaying {
-                    await self.playSounds(fadeDuration: 0.5)
+                    await self.playSounds(fadeDuration: 5.0)
                 }
             }
             return .success
@@ -215,7 +214,7 @@ class WhiteNoisesViewModel: ObservableObject {
             guard let self = self else { return .commandFailed }
             Task { @MainActor in
                 if self.isPlaying {
-                    await self.pauseSounds(fadeDuration: 0.5)
+                    await self.pauseSounds(fadeDuration: 5.0)
                 }
             }
             return .success
@@ -395,7 +394,7 @@ class WhiteNoisesViewModel: ObservableObject {
             // Only start playing if not already playing
             if !isPlaying {
                 Task {
-                    await playSounds(fadeDuration: 1.0)
+                    await playSounds(fadeDuration: 5.0)
                 }
             }
             
@@ -422,7 +421,7 @@ class WhiteNoisesViewModel: ObservableObject {
                         self.updateNowPlayingInfo()
                     }
                 } else {
-                    await self.pauseSounds(fadeDuration: 5.0)
+                    await self.pauseSounds(fadeDuration: 10.0)
                     self.timerMode = .off
                     break
                 }
@@ -456,14 +455,14 @@ class WhiteNoisesViewModel: ObservableObject {
                 // Interruption began - pause if playing
                 if isPlaying {
                     wasPlayingBeforeInterruption = true
-                    await pauseSounds(fadeDuration: 0.1)
+                    await pauseSounds(fadeDuration: 5.0)
                 }
             case .ended:
                 // Interruption ended - resume if we were playing before
                 if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
                     let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
                     if options.contains(.shouldResume) && wasPlayingBeforeInterruption {
-                        await playSounds(fadeDuration: 0.5)
+                        await playSounds(fadeDuration: 5.0)
                         wasPlayingBeforeInterruption = false
                     }
                 }
