@@ -13,12 +13,13 @@ import SwiftUI
 @MainActor
 class SoundViewModel: ObservableObject, Identifiable {
     
+    // MARK: - Published Properties
     @Published var volume: Float {
         didSet {
             Task {
                 await updatePlayerVolume(volume)
                 sound.volume = volume
-                saveSound()
+                await persistenceService.save(sound)
             }
         }
     }
@@ -27,48 +28,54 @@ class SoundViewModel: ObservableObject, Identifiable {
     @Published var sliderHeight: CGFloat = 0.0
     @Published var lastDragValue: CGFloat = 0.0
     
+    // MARK: - Public Properties
     var maxWidth: CGFloat = 0 {
         didSet {
-            withAnimation(.spring(duration: 1)) {
+            withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
                 self.sliderWidth = CGFloat(sound.volume) * self.maxWidth
             }
-            // Update lastDragValue when maxWidth is set
-            self.lastDragValue = CGFloat(sound.volume) * self.maxWidth
         }
     }
     
     var maxHeight: CGFloat = 0 {
         didSet {
-            withAnimation(.spring(duration: 1)) {
+            withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
                 self.sliderHeight = CGFloat(sound.volume) * self.maxHeight
             }
         }
     }
     
-    private var player: AVAudioPlayer?
-    private var fadeTask: Task<Void, Never>?
-    
     private(set) var sound: Sound
     
+    // MARK: - Private Properties
+    private var player: AudioPlayerProtocol?
+    private var fadeTask: Task<Void, Never>?
+    private let playerFactory: AudioPlayerFactoryProtocol
+    private let persistenceService: SoundPersistenceService
     private var cancellables = Set<AnyCancellable>()
     
-    init(sound: Sound) {
+    // MARK: - Initialization
+    init(
+        sound: Sound,
+        playerFactory: AudioPlayerFactoryProtocol = AVAudioPlayerFactory(),
+        persistenceService: SoundPersistenceService = SoundPersistenceService()
+    ) {
         self.sound = sound
         self.volume = sound.volume
-        self.lastDragValue = 0 // Will be set when maxWidth is set
+        self.lastDragValue = CGFloat(sound.volume) * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
+        self.playerFactory = playerFactory
+        self.persistenceService = persistenceService
         
         setupSoundVariantObserver()
-        // Don't load audio immediately - wait until it's actually needed
-        // This prevents UI blocking during app startup
+        loadAudioAsync()
     }
     
     deinit {
         fadeTask?.cancel()
     }
     
-    // MARK: Public Methods
-    
+    // MARK: - Public Methods
     func refreshAudioPlayer() async {
         print("🎵 \(sound.name): Refreshing audio player")
         let wasPlaying = player?.isPlaying ?? false
@@ -101,58 +108,23 @@ class SoundViewModel: ObservableObject, Identifiable {
     func dragDidEnded() {
         sliderWidth = min(max(0, sliderWidth), maxWidth)
         sliderHeight = min(max(0, sliderHeight), maxHeight)
-        lastDragValue = sliderWidth // For horizontal slider
+        lastDragValue = sliderWidth
     }
     
     func playSound(fadeDuration: Double? = nil) async {
         print("🎵 \(sound.name): playSound called with fade: \(fadeDuration ?? 0)")
         
-        // Cancel any existing fade
         fadeTask?.cancel()
         
-        // Ensure audio is loaded
-        if player == nil {
-            print("🎵 \(sound.name): Loading audio on demand")
-            await prepareSound(fileName: sound.selectedSoundVariant.filename)
-        }
-        
         guard let player = player else {
-            print("❌ \(sound.name): No player available after loading attempt")
+            print("❌ \(sound.name): No player available")
             return
         }
         
         if let fadeDuration = fadeDuration, fadeDuration > 0 {
-            fadeTask = Task { [weak self] in
-                guard let self = self else { return }
-                
-                // Start from 0 volume
-                await self.updatePlayerVolume(0)
-                
-                if !player.isPlaying {
-                    let success = player.play()
-                    print("\(success ? "✅" : "❌") \(sound.name): Started playing with fade (success: \(success))")
-                }
-                
-                let steps = Int(fadeDuration * 50) // 50 updates per second
-                let volumeIncrement = self.sound.volume / Float(steps)
-                
-                for _ in 0..<steps {
-                    guard !Task.isCancelled else { break }
-                    
-                    let currentVolume = await self.getPlayerVolume()
-                    let newVolume = min(currentVolume + volumeIncrement, self.sound.volume)
-                    await self.updatePlayerVolume(newVolume)
-                    
-                    try? await Task.sleep(nanoseconds: 20_000_000) // 20ms
-                }
-                
-                // Ensure we reach the target volume
-                if !Task.isCancelled {
-                    await self.updatePlayerVolume(self.sound.volume)
-                }
-            }
+            await fadeIn(duration: fadeDuration)
         } else {
-            await updatePlayerVolume(sound.volume)
+            player.volume = sound.volume
             if !player.isPlaying {
                 let success = player.play()
                 print("\(success ? "✅" : "❌") \(sound.name): Started playing (success: \(success))")
@@ -163,7 +135,6 @@ class SoundViewModel: ObservableObject, Identifiable {
     func pauseSound(fadeDuration: Double? = nil) async {
         print("🎵 \(sound.name): pauseSound called with fade: \(fadeDuration ?? 0)")
         
-        // Cancel any existing fade
         fadeTask?.cancel()
         
         guard let player = player else {
@@ -172,41 +143,19 @@ class SoundViewModel: ObservableObject, Identifiable {
         }
         
         if let fadeDuration = fadeDuration, fadeDuration > 0 {
-            fadeTask = Task { [weak self] in
-                guard let self = self else { return }
-                
-                let startVolume = await self.getPlayerVolume()
-                let steps = Int(fadeDuration * 50) // 50 updates per second
-                let volumeDecrement = startVolume / Float(steps)
-                
-                for _ in 0..<steps {
-                    guard !Task.isCancelled else { break }
-                    
-                    let currentVolume = await self.getPlayerVolume()
-                    let newVolume = max(currentVolume - volumeDecrement, 0)
-                    await self.updatePlayerVolume(newVolume)
-                    
-                    if newVolume <= 0 {
-                        break
-                    }
-                    
-                    try? await Task.sleep(nanoseconds: 20_000_000) // 20ms
-                }
-                
-                // Ensure volume is 0 and pause
-                if !Task.isCancelled {
-                    await self.updatePlayerVolume(0)
-                    player.pause()
-                    print("✅ \(self.sound.name): Paused with fade")
-                }
-            }
+            await fadeOut(duration: fadeDuration)
         } else {
             player.pause()
             print("✅ \(sound.name): Paused immediately")
         }
     }
     
-    // MARK: Private Methods
+    // MARK: - Private Methods
+    private func loadAudioAsync() {
+        Task.detached(priority: .userInitiated) { [weak self] in
+            await self?.prepareSound(fileName: self?.sound.selectedSoundVariant.filename ?? "")
+        }
+    }
     
     private func setupSoundVariantObserver() {
         $selectedSoundVariant
@@ -222,7 +171,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     
     private func handleSoundVariantChange(_ newVariant: Sound.SoundVariant) async {
         sound.selectedSoundVariant = newVariant
-        saveSound()
+        await persistenceService.save(sound)
         
         let wasPlaying = player?.isPlaying ?? false
         player?.stop()
@@ -238,27 +187,11 @@ class SoundViewModel: ObservableObject, Identifiable {
         let startTime = CFAbsoluteTimeGetCurrent()
         
         do {
-            guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else {
-                print("❌ Unable to find sound file \(fileName)")
-                return
-            }
-            
-            // Create player on high priority queue for faster loading
-            let newPlayer = try await Task.detached(priority: .userInitiated) {
-                let player = try AVAudioPlayer(contentsOf: url)
-                // Prepare on background thread
-                player.prepareToPlay()
-                return player
-            }.value
-            
-            await MainActor.run {
-                newPlayer.numberOfLoops = -1
-                newPlayer.volume = self.sound.volume
-                self.player = newPlayer
-            }
+            player = try await playerFactory.createPlayer(for: fileName)
+            player?.volume = sound.volume
             
             let loadTime = CFAbsoluteTimeGetCurrent() - startTime
-            if loadTime > 0.5 {
+            if loadTime > AppConstants.Audio.slowLoadThreshold {
                 print("⚠️ Slow audio load for \(fileName): \(String(format: "%.2f", loadTime))s")
             } else {
                 print("✅ \(sound.name): Audio loaded successfully (\(String(format: "%.2f", loadTime))s)")
@@ -272,19 +205,85 @@ class SoundViewModel: ObservableObject, Identifiable {
         player?.volume = volume
     }
     
-    private func getPlayerVolume() async -> Float {
-        return player?.volume ?? 0
+    private func fadeIn(duration: Double) async {
+        fadeTask = Task { [weak self] in
+            guard let self = self, let player = self.player else { return }
+            
+            player.volume = 0
+            if !player.isPlaying {
+                let success = player.play()
+                print("\(success ? "✅" : "❌") \(sound.name): Started playing with fade")
+            }
+            
+            await performFade(
+                from: 0,
+                to: self.sound.volume,
+                duration: duration
+            )
+        }
     }
     
-    private func saveSound() {
-        Task.detached(priority: .background) { [sound] in
+    private func fadeOut(duration: Double) async {
+        fadeTask = Task { [weak self] in
+            guard let self = self, let player = self.player else { return }
+            
+            let startVolume = player.volume
+            
+            await performFade(
+                from: startVolume,
+                to: 0,
+                duration: duration
+            )
+            
+            if !Task.isCancelled {
+                player.pause()
+                print("✅ \(self.sound.name): Paused with fade")
+            }
+        }
+    }
+    
+    private func performFade(from startVolume: Float, to endVolume: Float, duration: Double) async {
+        let steps = Int(duration * Double(AppConstants.Animation.fadeSteps))
+        let volumeDelta = (endVolume - startVolume) / Float(steps)
+        
+        for step in 0..<steps {
+            guard !Task.isCancelled else { break }
+            
+            let currentVolume = startVolume + (volumeDelta * Float(step))
+            player?.volume = currentVolume
+            
+            try? await Task.sleep(nanoseconds: AppConstants.Animation.fadeStepDuration)
+        }
+        
+        if !Task.isCancelled {
+            player?.volume = endVolume
+        }
+    }
+}
+
+// MARK: - Sound Persistence Service
+class SoundPersistenceService {
+    func save(_ sound: Sound) async {
+        await Task.detached(priority: .background) { [sound] in
             do {
                 let soundData = try JSONEncoder().encode(sound)
-                UserDefaults.standard.set(soundData, forKey: "sound_" + sound.id)
-                print("💾 Saved \(sound.name): volume=\(sound.volume)")
+                UserDefaults.standard.set(soundData, forKey: AppConstants.UserDefaults.soundPrefix + sound.id)
             } catch {
-                print("❌ Failed to save sound \(sound.name): \(error)")
+                print("Failed to save sound: \(error)")
             }
+        }.value
+    }
+    
+    func load(soundId: String) -> Sound? {
+        guard let data = UserDefaults.standard.data(forKey: AppConstants.UserDefaults.soundPrefix + soundId) else {
+            return nil
+        }
+        
+        do {
+            return try JSONDecoder().decode(Sound.self, from: data)
+        } catch {
+            print("Failed to load sound: \(error)")
+            return nil
         }
     }
 }

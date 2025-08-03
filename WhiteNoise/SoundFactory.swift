@@ -7,30 +7,61 @@
 
 import Foundation
 
-class SoundFactory {
+// Protocol to define sound factory interface
+protocol SoundFactoryProtocol {
+    func getSavedSounds() -> [Sound]
+    func getSavedSoundsAsync() async -> [Sound]
+}
 
-    static func getSavedSounds() -> [Sound] {
-        let sounds = createSounds()
-        let userDefaults = UserDefaults.standard
-        
-        // Batch read all sound data to minimize UserDefaults access
-        return sounds.map { sound in
-            if let savedSoundData = userDefaults.data(forKey: sound.id) {
-                do {
-                    return try JSONDecoder().decode(Sound.self, from: savedSoundData)
-                } catch {
-                    print("Failed to load sound: \(error)")
-                    return sound
-                }
+// MARK: - Sound Persistence Service
+class SoundPersistenceService {
+    func save(_ sound: Sound) async {
+        await Task.detached(priority: .background) { [sound] in
+            do {
+                let soundData = try JSONEncoder().encode(sound)
+                UserDefaults.standard.set(soundData, forKey: "sound_" + sound.id)
+            } catch {
+                print("Failed to save sound: \(error)")
             }
-            return sound
+        }.value
+    }
+    
+    func load(soundId: String) -> Sound? {
+        guard let data = UserDefaults.standard.data(forKey: "sound_" + soundId) else {
+            return nil
+        }
+        
+        do {
+            return try JSONDecoder().decode(Sound.self, from: data)
+        } catch {
+            print("Failed to load sound: \(error)")
+            return nil
+        }
+    }
+}
+
+class SoundFactory: SoundFactoryProtocol {
+
+    private let persistenceService = SoundPersistenceService()
+    
+    func getSavedSounds() -> [Sound] {
+        let sounds = Self.createSounds()
+        
+        // Load saved state for each sound
+        return sounds.map { sound in
+            if let savedSound = persistenceService.load(soundId: sound.id) {
+                print("✅ Loaded saved state for \(sound.name): volume=\(savedSound.volume)")
+                return savedSound
+            } else {
+                print("ℹ️ No saved state for \(sound.name), using default volume=\(sound.volume)")
+                return sound
+            }
         }
     }
     
-    @MainActor
-    static func getSavedSoundsAsync() async -> [Sound] {
-        await Task.detached(priority: .userInitiated) {
-            getSavedSounds()
+    func getSavedSoundsAsync() async -> [Sound] {
+        await Task.detached(priority: .userInitiated) { [weak self] in
+            self?.getSavedSounds() ?? []
         }.value
     }
 
@@ -39,7 +70,7 @@ class SoundFactory {
             Sound(
                 name: "rain",
                 icon: .system("cloud.rain"),
-                volume: 0.3,
+                volume: 0.0,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "soft", filename: "soft rain"),
@@ -53,7 +84,7 @@ class SoundFactory {
             Sound(
                 name: "fireplace",
                 icon: .system("fireplace"),
-                volume: 0.8,
+                volume: 0.0,
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "crackle spit", filename: "fire crackle spit flames fireplace"),

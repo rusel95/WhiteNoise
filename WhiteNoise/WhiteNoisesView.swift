@@ -187,7 +187,7 @@ struct WhiteNoisesView: View {
                         timerMode: $viewModel.timerMode,
                         isPresented: $showTimerPicker
                     )
-                    .transition(.opacity)
+                    .transition(AnyTransition.opacity)
                     .zIndex(999)
                 }
             }

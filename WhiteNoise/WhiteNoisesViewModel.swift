@@ -94,9 +94,12 @@ class WhiteNoisesViewModel: ObservableObject {
         setupAudioInterruptionHandling()
         setupAppLifecycleObservers()
         
-        // Load sounds asynchronously
+        // Create placeholders immediately for UI responsiveness
+        createPlaceholderSoundViewModels()
+        
+        // Load actual sounds asynchronously
         Task {
-            await setupSoundViewModels()
+            await loadAndUpdateSoundViewModels()
         }
         
         // Register for cleanup
@@ -131,10 +134,10 @@ class WhiteNoisesViewModel: ObservableObject {
         print("🎵 Playing button selected - current state: \(isPlaying)")
         Task {
             if isPlaying {
-                await pauseSounds(fadeDuration: 3.0)
+                await pauseSounds(fadeDuration: 2.0)
             } else {
                 await ensureAudioSessionActive()
-                await playSounds(fadeDuration: 3.0)
+                await playSounds(fadeDuration: 2.0)
             }
         }
     }
@@ -156,30 +159,60 @@ class WhiteNoisesViewModel: ObservableObject {
         #endif
     }
     
-    private func setupSoundViewModels() async {
-        let sounds = await SoundFactory.getSavedSoundsAsync()
-        soundsViewModels = []
+    private func createPlaceholderSoundViewModels() {
+        // Create sound view models with default data immediately for UI responsiveness
+        let placeholderSounds = SoundFactory.createSounds()
         
-        for (index, sound) in sounds.enumerated() {
-            let soundViewModel = SoundViewModel(sound: sound)
-            soundsViewModels.append(soundViewModel)
+        soundsViewModels = placeholderSounds.map { sound in
+            let viewModel = SoundViewModel(sound: sound)
             
-            // Observe volume changes
-            soundViewModel.$volume
+            // Setup observers immediately
+            viewModel.$volume
                 .dropFirst()
                 .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
-                .sink { [weak self] volume in
+                .sink { [weak self, weak viewModel] volume in
+                    guard let viewModel = viewModel else { return }
                     Task { [weak self] in
-                        await self?.handleVolumeChange(for: soundViewModel, volume: volume)
+                        await self?.handleVolumeChange(for: viewModel, volume: volume)
                     }
                 }
                 .store(in: &cancellables)
             
-            // Yield periodically
+            return viewModel
+        }
+    }
+    
+    private func loadAndUpdateSoundViewModels() async {
+        let soundFactory = SoundFactory()
+        let savedSounds = await soundFactory.getSavedSoundsAsync()
+        
+        // Replace view models with saved versions
+        var newViewModels: [SoundViewModel] = []
+        
+        for (index, savedSound) in savedSounds.enumerated() {
+            let viewModel = SoundViewModel(sound: savedSound)
+            newViewModels.append(viewModel)
+            
+            // Setup observers
+            viewModel.$volume
+                .dropFirst()
+                .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+                .sink { [weak self, weak viewModel] volume in
+                    guard let viewModel = viewModel else { return }
+                    Task { [weak self] in
+                        await self?.handleVolumeChange(for: viewModel, volume: volume)
+                    }
+                }
+                .store(in: &cancellables)
+            
+            // Yield periodically for better performance
             if index % 3 == 2 {
                 await Task.yield()
             }
         }
+        
+        // Replace all view models at once
+        soundsViewModels = newViewModels
     }
     
     private func setupTimerModeObserver() {
@@ -359,6 +392,21 @@ class WhiteNoisesViewModel: ObservableObject {
         updateNowPlayingInfo()
         print("✅ All sounds paused")
     }
+    
+    private func fadeOutSounds(duration: Double) async {
+        print("🎵 Fading out sounds over \(duration) seconds")
+        
+        // Fade out all sounds without pausing immediately
+        let soundsToFade = soundsViewModels.filter { $0.volume > 0 }
+        
+        await withTaskGroup(of: Void.self) { group in
+            for soundViewModel in soundsToFade {
+                group.addTask { [weak soundViewModel] in
+                    await soundViewModel?.pauseSound(fadeDuration: duration)
+                }
+            }
+        }
+    }
 
     // MARK: Private Methods - Event Handlers
     
@@ -407,6 +455,8 @@ class WhiteNoisesViewModel: ObservableObject {
         timerTask?.cancel()
         
         timerTask = Task { [weak self] in
+            var fadeStarted = false
+            
             while !Task.isCancelled {
                 try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
                 
@@ -416,12 +466,28 @@ class WhiteNoisesViewModel: ObservableObject {
                     self.timerRemainingSeconds -= 1
                     self.updateRemainingTimeDisplay()
                     
+                    // Start fade out when 10 seconds remain
+                    if self.timerRemainingSeconds == 10 && !fadeStarted {
+                        fadeStarted = true
+                        print("🎵 Starting 10-second fade out for timer end")
+                        Task {
+                            await self.fadeOutSounds(duration: 10.0)
+                        }
+                    }
+                    
                     // Update Now Playing info every 10 seconds to show timer progress
                     if self.timerRemainingSeconds % 10 == 0 {
                         self.updateNowPlayingInfo()
                     }
                 } else {
-                    await self.pauseSounds(fadeDuration: 10.0)
+                    // Timer reached 0, pause without additional fade (already fading)
+                    if !fadeStarted {
+                        await self.pauseSounds(fadeDuration: 10.0)
+                    } else {
+                        // Just update state since fade is already in progress
+                        self.isPlaying = false
+                        self.updateNowPlayingInfo()
+                    }
                     self.timerMode = .off
                     break
                 }

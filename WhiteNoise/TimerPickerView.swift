@@ -6,18 +6,48 @@
 //
 
 import SwiftUI
+#if os(iOS)
+import UIKit
+#endif
+
+// MARK: - Haptic Service
+enum HapticService {
+    static func selection() {
+        #if os(iOS)
+        let generator = UISelectionFeedbackGenerator()
+        generator.selectionChanged()
+        #endif
+    }
+    
+    static func impact(_ style: ImpactStyle) {
+        #if os(iOS)
+        let generator = UIImpactFeedbackGenerator(style: style.uiKitStyle)
+        generator.impactOccurred()
+        #endif
+    }
+    
+    enum ImpactStyle {
+        case light
+        case medium
+        case heavy
+        
+        #if os(iOS)
+        var uiKitStyle: UIImpactFeedbackGenerator.FeedbackStyle {
+            switch self {
+            case .light: return .light
+            case .medium: return .medium
+            case .heavy: return .heavy
+            }
+        }
+        #endif
+    }
+}
 
 struct TimerPickerView: View {
     @Binding var timerMode: WhiteNoisesViewModel.TimerMode
     @Binding var isPresented: Bool
     
-    let timerOptions: [WhiteNoisesViewModel.TimerMode] = [
-        .off, .oneMinute, .twoMinutes, .threeMinutes, 
-        .fiveMinutes, .tenMinutes, .fifteenMinutes,
-        .thirtyMinutes, .sixtyMinutes, .twoHours, 
-        .threeHours, .fourHours, .fiveHours,
-        .sixHours, .sevenHours, .eightHours
-    ]
+    let timerOptions = WhiteNoisesViewModel.TimerMode.allCases
     
     @State private var selectedMode: WhiteNoisesViewModel.TimerMode
     
@@ -49,7 +79,7 @@ struct TimerPickerView: View {
                 // Native Picker with wheel style
                 Picker("Timer", selection: $selectedMode) {
                     ForEach(timerOptions, id: \.self) { option in
-                        Text(displayText(for: option))
+                        Text(option.description)
                             .font(.system(size: 16))
                             .tag(option)
                             .foregroundColor(.white)
@@ -60,22 +90,14 @@ struct TimerPickerView: View {
                 .clipped()
                 .colorScheme(.dark)
                 .onChange(of: selectedMode) { _, _ in
-                    // Haptic feedback only
-                    #if os(iOS)
-                    let selectionFeedback = UISelectionFeedbackGenerator()
-                    selectionFeedback.selectionChanged()
-                    #endif
+                    HapticService.selection()
                 }
                 
                 Button(action: {
                     // Apply the selected timer mode
                     timerMode = selectedMode
                     
-                    // Haptic feedback
-                    #if os(iOS)
-                    let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                    impactFeedback.impactOccurred()
-                    #endif
+                    HapticService.impact(.medium)
                     
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         isPresented = false
@@ -87,7 +109,14 @@ struct TimerPickerView: View {
                         .frame(width: 100, height: 40)
                         .background(
                             RoundedRectangle(cornerRadius: 20)
-                                .fill(Color(red: 0.1, green: 0.4, blue: 0.5))
+                                .fill(LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color(red: 0.1, green: 0.4, blue: 0.5),
+                                        Color(red: 0.05, green: 0.3, blue: 0.4)
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ))
                         )
                 }
                 .padding(.bottom, 20)
@@ -106,43 +135,6 @@ struct TimerPickerView: View {
             .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isPresented)
         }
     }
-    
-    func displayText(for option: WhiteNoisesViewModel.TimerMode) -> String {
-        switch option {
-        case .off:
-            return "Off"
-        case .oneMinute:
-            return "1 minute"
-        case .twoMinutes:
-            return "2 minutes"
-        case .threeMinutes:
-            return "3 minutes"
-        case .fiveMinutes:
-            return "5 minutes"
-        case .tenMinutes:
-            return "10 minutes"
-        case .fifteenMinutes:
-            return "15 minutes"
-        case .thirtyMinutes:
-            return "30 minutes"
-        case .sixtyMinutes:
-            return "1 hour"
-        case .twoHours:
-            return "2 hours"
-        case .threeHours:
-            return "3 hours"
-        case .fourHours:
-            return "4 hours"
-        case .fiveHours:
-            return "5 hours"
-        case .sixHours:
-            return "6 hours"
-        case .sevenHours:
-            return "7 hours"
-        case .eightHours:
-            return "8 hours"
-        }
-    }
 }
 
 struct TimerPickerView_Previews: PreviewProvider {
@@ -151,7 +143,7 @@ struct TimerPickerView_Previews: PreviewProvider {
             Color.black.ignoresSafeArea()
             
             TimerPickerView(
-                timerMode: .constant(.off),
+                timerMode: .constant(WhiteNoisesViewModel.TimerMode.off),
                 isPresented: .constant(true)
             )
         }
