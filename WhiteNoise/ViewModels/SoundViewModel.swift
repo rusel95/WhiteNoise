@@ -19,7 +19,7 @@ class SoundViewModel: ObservableObject, Identifiable {
             Task {
                 await updatePlayerVolume(volume)
                 sound.volume = volume
-                await persistenceService.save(sound)
+                persistenceService.save(sound)
             }
         }
     }
@@ -51,15 +51,14 @@ class SoundViewModel: ObservableObject, Identifiable {
     private var player: AudioPlayerProtocol?
     private var fadeTask: Task<Void, Never>?
     private let playerFactory: AudioPlayerFactoryProtocol
-    private let persistenceService: SoundPersistenceService
+    private let persistenceService: SoundPersistenceServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialization
     init(
         sound: Sound,
         playerFactory: AudioPlayerFactoryProtocol = AVAudioPlayerFactory(),
-        persistenceService: SoundPersistenceService = SoundPersistenceService()
-    ) {
+        persistenceService: SoundPersistenceServiceProtocol = SoundPersistenceService()) {
         self.sound = sound
         self.volume = sound.volume
         self.lastDragValue = CGFloat(sound.volume) * maxWidth
@@ -116,7 +115,7 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         fadeTask?.cancel()
         
-        guard let player = player else {
+        guard self.player != nil else {
             print("❌ \(sound.name): No player available")
             return
         }
@@ -124,9 +123,9 @@ class SoundViewModel: ObservableObject, Identifiable {
         if let fadeDuration = fadeDuration, fadeDuration > 0 {
             await fadeIn(duration: fadeDuration)
         } else {
-            player.volume = sound.volume
-            if !player.isPlaying {
-                let success = player.play()
+            self.player?.volume = sound.volume
+            if self.player?.isPlaying == false {
+                let success = self.player?.play() ?? false
                 print("\(success ? "✅" : "❌") \(sound.name): Started playing (success: \(success))")
             }
         }
@@ -171,7 +170,7 @@ class SoundViewModel: ObservableObject, Identifiable {
     
     private func handleSoundVariantChange(_ newVariant: Sound.SoundVariant) async {
         sound.selectedSoundVariant = newVariant
-        await persistenceService.save(sound)
+        persistenceService.save(sound)
         
         let wasPlaying = player?.isPlaying ?? false
         player?.stop()
@@ -207,11 +206,11 @@ class SoundViewModel: ObservableObject, Identifiable {
     
     private func fadeIn(duration: Double) async {
         fadeTask = Task { [weak self] in
-            guard let self = self, let player = self.player else { return }
+            guard let self = self else { return }
             
-            player.volume = 0
-            if !player.isPlaying {
-                let success = player.play()
+            self.player?.volume = 0
+            if self.player?.isPlaying == false {
+                let success = self.player?.play() ?? false
                 print("\(success ? "✅" : "❌") \(sound.name): Started playing with fade")
             }
             
@@ -257,33 +256,6 @@ class SoundViewModel: ObservableObject, Identifiable {
         
         if !Task.isCancelled {
             player?.volume = endVolume
-        }
-    }
-}
-
-// MARK: - Sound Persistence Service
-class SoundPersistenceService {
-    func save(_ sound: Sound) async {
-        await Task.detached(priority: .background) { [sound] in
-            do {
-                let soundData = try JSONEncoder().encode(sound)
-                UserDefaults.standard.set(soundData, forKey: AppConstants.UserDefaults.soundPrefix + sound.id)
-            } catch {
-                print("Failed to save sound: \(error)")
-            }
-        }.value
-    }
-    
-    func load(soundId: String) -> Sound? {
-        guard let data = UserDefaults.standard.data(forKey: AppConstants.UserDefaults.soundPrefix + soundId) else {
-            return nil
-        }
-        
-        do {
-            return try JSONDecoder().decode(Sound.self, from: data)
-        } catch {
-            print("Failed to load sound: \(error)")
-            return nil
         }
     }
 }

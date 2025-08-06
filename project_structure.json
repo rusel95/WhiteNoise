@@ -1,0 +1,365 @@
+{
+  "WhiteNoise": {
+    "type": "group",
+    "path": "WhiteNoise",
+    "children": {
+      "App": {
+        "type": "group",
+        "children": {
+          "WhiteNoiseApp.swift": {
+            "type": "file",
+            "path": "WhiteNoise/WhiteNoiseApp.swift"
+          },
+          "Info.plist": {
+            "type": "file",
+            "path": "WhiteNoise/Info.plist"
+          },
+          "WhiteNoise.entitlements": {
+            "type": "file",
+            "path": "WhiteNoise/WhiteNoise.entitlements"
+          },
+          "LaunchScreen.storyboard": {
+            "type": "file",
+            "path": "WhiteNoise/LaunchScreen.storyboard"
+          }
+        }
+      },
+      "Models": {
+        "type": "group",
+        "path": "WhiteNoise/Models",
+        "children": {}
+      },
+      "Views": {
+        "type": "group",
+        "path": "WhiteNoise/Views",
+        "children": {}
+      },
+      "ViewModels": {
+        "type": "group",
+        "path": "WhiteNoise/ViewModels",
+        "children": {
+          "WhiteNoisesViewModel.swift": {
+            "type": "file",
+            "path": "WhiteNoise/ViewModels/WhiteNoisesViewModel.swift"
+          },
+          "SoundViewModel.swift": {
+            "type": "file",
+            "path": "WhiteNoise/ViewModels/SoundViewModel.swift"
+          }
+        }
+      },
+      "Services": {
+        "type": "group",
+        "path": "WhiteNoise/Services",
+        "children": {
+          "TimerService.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/TimerService.swift"
+          },
+          "SoundPersistenceService.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/SoundPersistenceService.swift"
+          },
+          "RemoteCommandService.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/RemoteCommandService.swift"
+          },
+          "HapticService.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/HapticService.swift"
+          },
+          "SoundConfigurationLoader.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/SoundConfigurationLoader.swift"
+          },
+          "AVAudioPlayerWrapper.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/AVAudioPlayerWrapper.swift"
+          },
+          "HapticFeedbackService.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/HapticFeedbackService.swift"
+          },
+          "AudioSessionService.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/AudioSessionService.swift"
+          },
+          "SoundFactoryProtocol.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/SoundFactoryProtocol.swift"
+          },
+          "AudioPlayerProtocol.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/AudioPlayerProtocol.swift"
+          }
+        }
+      },
+      "Constants": {
+        "type": "group",
+        "path": "WhiteNoise/Constants",
+        "children": {
+          "AppConstants.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Constants/AppConstants.swift"
+          }
+        }
+      },
+      "Extensions": {
+        "type": "group",
+        "path": "WhiteNoise/Extensions",
+        "children": {
+          "View+Extensions.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Extensions/View+Extensions.swift"
+          }
+        }
+      },
+      "Resources": {
+        "type": "group",
+        "path": "WhiteNoise/Resources",
+        "children": {
+          "SoundConfiguration.json": {
+            "type": "file",
+            "path": "WhiteNoise/Resources/SoundConfiguration.json"
+          }
+        }
+      },
+      "Sounds": {
+        "type": "group",
+        "path": "WhiteNoise/Sounds",
+        "children": {
+          "forest": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/forest",
+            "children": {
+              "Summer forest insects and birds.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/forest/Summer forest insects and birds.mp3"
+              },
+              "Woodland ambience & several birds.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/forest/Woodland ambience & several birds.mp3"
+              }
+            }
+          },
+          "fireplace": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/fireplace",
+            "children": {
+              "fire burning crackle fireplace.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/fireplace/fire burning crackle fireplace.mp3"
+              },
+              "fire crackle spit flames fireplace.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/fireplace/fire crackle spit flames fireplace.mp3"
+              },
+              "fire in fireplace spit rumble crackle.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/fireplace/fire in fireplace spit rumble crackle.mp3"
+              }
+            }
+          },
+          "river": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/river",
+            "children": {
+              "flowing_water_loop_06_long.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/river/flowing_water_loop_06_long.mp3"
+              },
+              "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/river/River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3"
+              },
+              "flowing_water_loop_03_long.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/river/flowing_water_loop_03_long.mp3"
+              },
+              "River or stream, water flowing, running.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/river/River or stream, water flowing, running.mp3"
+              }
+            }
+          },
+          "rain": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/rain",
+            "children": {
+              "rain medium.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/rain/rain medium.mp3"
+              },
+              "rain medium heavy falling trees forest.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/rain/rain medium heavy falling trees forest.mp3"
+              },
+              "soft rain.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/rain/soft rain.mp3"
+              },
+              "raindrops_on_a_car_window.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/rain/raindrops_on_a_car_window.mp3"
+              },
+              "spring rain.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/rain/spring rain.mp3"
+              },
+              "soft_rain_on_window_glass_surface.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/rain/soft_rain_on_window_glass_surface.mp3"
+              }
+            }
+          },
+          "waterfall": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/waterfall",
+            "children": {
+              "gentle_rainsforest_jungle_vietnam.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/waterfall/gentle_rainsforest_jungle_vietnam.mp3"
+              },
+              "small_light_flow_creek_rainforest.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/waterfall/small_light_flow_creek_rainforest.mp3"
+              },
+              "Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/waterfall/Waterfall, medium close, people chatting, Bridal Falls, Canada.mp3"
+              },
+              "nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/waterfall/nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3"
+              }
+            }
+          },
+          "voice": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/voice",
+            "children": {
+              "among_the_stars.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/voice/among_the_stars.mp3"
+              },
+              "HUMAN_CROWD_In_A_Room.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/voice/HUMAN_CROWD_In_A_Room.mp3"
+              }
+            }
+          },
+          "Birds": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/Birds",
+            "children": {
+              "cocoo.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/Birds/cocoo.mp3"
+              },
+              "seagall.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/Birds/seagall.mp3"
+              },
+              "sparrow.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/Birds/sparrow.mp3"
+              },
+              "crickets.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/Birds/crickets.mp3"
+              },
+              "ducks.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/Birds/ducks.mp3"
+              }
+            }
+          },
+          "snow": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/snow",
+            "children": {
+              "shovel_clearing_snow.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/snow/shovel_clearing_snow.mp3"
+              },
+              "STEP_Snow_Scuff.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/snow/STEP_Snow_Scuff.mp3"
+              },
+              "walk_slow.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/snow/walk_slow.mp3"
+              },
+              "Blastwave_Blizzard.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/snow/Blastwave_Blizzard.mp3"
+              },
+              "frozen_tribal_organic_snow.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/snow/frozen_tribal_organic_snow.mp3"
+              },
+              "snowball_build.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/snow/snowball_build.mp3"
+              }
+            }
+          },
+          "sea": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/sea",
+            "children": {
+              "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/sea/Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3"
+              },
+              "Beach Sea Waves.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/sea/Beach Sea Waves.mp3"
+              },
+              "west_wolf_Beach_Sea_Waves.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/sea/west_wolf_Beach_Sea_Waves.mp3"
+              },
+              "close&distant waves.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/sea/close&distant waves.mp3"
+              }
+            }
+          },
+          "thunder": {
+            "type": "group",
+            "path": "WhiteNoise/Sounds/thunder",
+            "children": {
+              "isolated_001.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/thunder/isolated_001.mp3"
+              },
+              "isolated_002.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/thunder/isolated_002.mp3"
+              },
+              "thunder ssolated distant low rumble.mp3": {
+                "type": "file",
+                "path": "WhiteNoise/Sounds/thunder/thunder ssolated distant low rumble.mp3"
+              }
+            }
+          }
+        }
+      },
+      "Assets.xcassets": {
+        "type": "folder",
+        "path": "WhiteNoise/Assets.xcassets"
+      },
+      "Preview Content": {
+        "type": "group",
+        "path": "WhiteNoise/Preview Content",
+        "children": {
+          "Preview Assets.xcassets": {
+            "type": "folder",
+            "path": "WhiteNoise/Preview Content/Preview Assets.xcassets"
+          }
+        }
+      }
+    }
+  }
+}

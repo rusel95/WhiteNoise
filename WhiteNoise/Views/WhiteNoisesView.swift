@@ -10,6 +10,7 @@ import SwiftUI
 struct WhiteNoisesView: View {
 
     @ObservedObject var viewModel: WhiteNoisesViewModel
+    private let hapticService: HapticFeedbackServiceProtocol = HapticFeedbackService.shared
 
     @State private var showPicker = false
     @State private var showTimerPicker = false
@@ -104,24 +105,14 @@ struct WhiteNoisesView: View {
                             .frame(width: 50, height: 50)
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            Color(red: 0.2, green: 0.5, blue: 0.6),
-                                            Color(red: 0.1, green: 0.4, blue: 0.5)
-                                        ]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
+                                    .fill(LinearGradient.primaryGradient)
                             )
                     }
                     .buttonStyle(ScaleButtonStyle())
                     
                     // Timer button
                     Button(action: {
-                        #if os(iOS)
-                        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                        impactFeedback.impactOccurred()
-                        #endif
+                        hapticService.impact(style: .light)
                         
                         withAnimation(.spring()) {
                             showTimerPicker = true
@@ -142,22 +133,8 @@ struct WhiteNoisesView: View {
                         .background(
                             RoundedRectangle(cornerRadius: 16)
                                 .fill(viewModel.timerMode != .off ?
-                                      LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            Color(red: 0.1, green: 0.4, blue: 0.5),
-                                            Color(red: 0.05, green: 0.3, blue: 0.4)
-                                        ]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                      ) :
-                                      LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            Color.white.opacity(0.08),
-                                            Color.white.opacity(0.05)
-                                        ]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                      )
+                                      LinearGradient.secondaryGradient :
+                                      LinearGradient.glassEffect
                                 )
                         )
                     }

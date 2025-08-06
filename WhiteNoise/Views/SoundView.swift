@@ -10,20 +10,14 @@ import SwiftUI
 struct SoundView: View {
 
     @ObservedObject var viewModel: SoundViewModel
+    private let hapticService: HapticFeedbackServiceProtocol = HapticFeedbackService.shared
     
     var body: some View {
         ZStack {
             // Background with gradient - using Rectangle instead of RoundedRectangle
             Rectangle()
-                .fill(LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color.white.opacity(0.1),
-                        Color.white.opacity(0.05)
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ))
-                .cornerRadius(20) // Apply corner radius to the rectangle
+                .fill(LinearGradient.glassEffect)
+                .cornerRadius(AppConstants.UI.soundCardCornerRadius) // Apply corner radius to the rectangle
             
             GeometryReader(content: { geometry in
                 ZStack(content: {
@@ -35,14 +29,7 @@ struct SoundView: View {
                         
                         // Filled track
                         Rectangle()
-                            .fill(LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color(red: 0.1, green: 0.4, blue: 0.5).opacity(0.8),
-                                    Color(red: 0.05, green: 0.3, blue: 0.4).opacity(0.8)
-                                ]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ))
+                            .fill(LinearGradient.secondaryGradient.opacity(AppConstants.UI.volumeSliderBackgroundOpacity))
                             .frame(width: max(0, min(viewModel.sliderWidth, geometry.size.width)))
                             .animation(.spring(), value: viewModel.sliderWidth)
                     }
@@ -79,20 +66,20 @@ struct SoundView: View {
                     switch viewModel.sound.icon {
                     case .system(let systemName):
                         Image(systemName: systemName)
-                            .font(.system(size: 20))
+                            .font(.system(size: AppConstants.UI.soundNameFontSize))
                             .foregroundColor(.white)
                             .allowsHitTesting(false)
                     case .custom(let name):
                         Image(name)
                             .resizable()
-                            .frame(width: 24, height: 24)
+                            .frame(width: AppConstants.UI.soundCardIconSize, height: AppConstants.UI.soundCardIconSize)
                             .allowsHitTesting(false)
                     }
                 }
                 
                 VStack(spacing: 6) {
                     Text(viewModel.sound.name)
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.system(size: AppConstants.UI.soundTitleFontSize, weight: .semibold))
                         .foregroundColor(.white)
                         .allowsHitTesting(false)
                     
@@ -101,11 +88,7 @@ struct SoundView: View {
                             ForEach(viewModel.sound.soundVariants) { variant in
                                 Button(action: {
                                     viewModel.selectedSoundVariant = variant
-                                    
-                                    #if os(iOS)
-                                    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                    impactFeedback.impactOccurred()
-                                    #endif
+                                    hapticService.impact(style: .light)
                                 }) {
                                     Label(variant.name, systemImage: "waveform")
                                 }
@@ -113,18 +96,18 @@ struct SoundView: View {
                         } label: {
                             HStack(spacing: 4) {
                                 Text(viewModel.selectedSoundVariant.name)
-                                    .font(.system(size: 11))
+                                    .font(.system(size: AppConstants.UI.soundVariantFontSize))
                                     .foregroundColor(.white.opacity(0.8))
                                     .lineLimit(1)
                                 
                                 Image(systemName: "chevron.down")
-                                    .font(.system(size: 8))
+                                    .font(.system(size: AppConstants.UI.soundVariantChevronSize))
                                     .foregroundColor(.white.opacity(0.6))
                             }
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 4)
+                            .padding(.horizontal, AppConstants.UI.soundVariantPaddingHorizontal)
+                            .padding(.vertical, AppConstants.UI.soundVariantPaddingVertical)
                             .background(Color.white.opacity(0.1))
-                            .cornerRadius(8)
+                            .cornerRadius(AppConstants.UI.soundVariantCornerRadius)
                         }
                         .environment(\.colorScheme, .dark)
                         .gesture(

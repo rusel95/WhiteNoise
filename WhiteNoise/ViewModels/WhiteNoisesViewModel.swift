@@ -55,7 +55,9 @@ class WhiteNoisesViewModel: ObservableObject {
     
     deinit {
         print("🎵 WhiteNoisesViewModel: Deinitializing")
-        timerService.stop()
+        Task { @MainActor in
+            timerService.stop()
+        }
         
         appLifecycleObservers.forEach {
             NotificationCenter.default.removeObserver($0)
@@ -67,11 +69,16 @@ class WhiteNoisesViewModel: ObservableObject {
     func playingButtonSelected() {
         print("🎵 Playing button selected - current state: \(isPlaying)")
         Task {
-            if isPlaying {
-                await pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard)
-            } else {
-                await audioSessionService.ensureActive()
-                await playSounds(fadeDuration: AppConstants.Animation.fadeStandard)
+            do {
+                if isPlaying {
+                    await pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard)
+                } else {
+                    try await audioSessionService.ensureActive()
+                    await playSounds(fadeDuration: AppConstants.Animation.fadeStandard)
+                }
+            } catch {
+                // TODO: Add error tracking when available
+                print("❌ Failed to toggle playback: \(error)")
             }
         }
     }
@@ -341,9 +348,17 @@ class WhiteNoisesViewModel: ObservableObject {
         var timerInfo: (duration: Int, elapsed: Int)?
         if timerService.mode != .off && timerService.isActive {
             let totalSeconds = timerService.mode.totalSeconds
-            let remainingSeconds = Int(timerService.remainingTime.components(separatedBy: ":").compactMap { Int($0) }.enumerated().reduce(0) { acc, item in
-                acc + item.element * Int(pow(60, Double(2 - item.offset)))
-            })
+            
+            // Parse time string like "HH:MM:SS" or "MM:SS"
+            let timeComponents = timerService.remainingTime.components(separatedBy: ":")
+            let intComponents = timeComponents.compactMap { Int($0) }
+            
+            var remainingSeconds = 0
+            for (index, value) in intComponents.enumerated() {
+                let power = intComponents.count - index - 1
+                remainingSeconds += value * Int(pow(60.0, Double(power)))
+            }
+            
             let elapsedSeconds = totalSeconds - remainingSeconds
             timerInfo = (duration: totalSeconds, elapsed: elapsedSeconds)
         }

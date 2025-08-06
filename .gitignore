@@ -124,3 +124,9 @@ iOSInjectionProject/
 *.tmp
 .env
 .env.local
+
+## Sentry
+# Sentry configuration files that may contain sensitive DSN
+SentryConfiguration.local.swift
+sentry.properties
+.sentryclirc

@@ -56,10 +56,21 @@ class Sound: Codable, Identifiable {
         selectedSoundVariant: SoundVariant?,
         soundVariants: [SoundVariant]
     ) {
+        guard !soundVariants.isEmpty else {
+            fatalError("Sound must have at least one variant")
+        }
+        
         self.name = name
         self.icon = icon
         self.volume = volume
-        self.selectedSoundVariant = selectedSoundVariant ?? soundVariants.first!
+        if let selected = selectedSoundVariant {
+            self.selectedSoundVariant = selected
+        } else if let firstVariant = soundVariants.first {
+            self.selectedSoundVariant = firstVariant
+        } else {
+            // This should never happen due to the guard above, but satisfies the compiler
+            fatalError("Logic error: soundVariants was empty after validation")
+        }
         self.soundVariants = soundVariants
     }
     

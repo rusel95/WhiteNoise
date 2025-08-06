@@ -6,52 +6,16 @@
 //
 
 import SwiftUI
-#if os(iOS)
-import UIKit
-#endif
-
-// MARK: - Haptic Service
-enum HapticService {
-    static func selection() {
-        #if os(iOS)
-        let generator = UISelectionFeedbackGenerator()
-        generator.selectionChanged()
-        #endif
-    }
-    
-    static func impact(_ style: ImpactStyle) {
-        #if os(iOS)
-        let generator = UIImpactFeedbackGenerator(style: style.uiKitStyle)
-        generator.impactOccurred()
-        #endif
-    }
-    
-    enum ImpactStyle {
-        case light
-        case medium
-        case heavy
-        
-        #if os(iOS)
-        var uiKitStyle: UIImpactFeedbackGenerator.FeedbackStyle {
-            switch self {
-            case .light: return .light
-            case .medium: return .medium
-            case .heavy: return .heavy
-            }
-        }
-        #endif
-    }
-}
 
 struct TimerPickerView: View {
-    @Binding var timerMode: WhiteNoisesViewModel.TimerMode
+    @Binding var timerMode: TimerService.TimerMode
     @Binding var isPresented: Bool
     
-    let timerOptions = WhiteNoisesViewModel.TimerMode.allCases
+    let timerOptions = TimerService.TimerMode.allCases
     
-    @State private var selectedMode: WhiteNoisesViewModel.TimerMode
+    @State private var selectedMode: TimerService.TimerMode
     
-    init(timerMode: Binding<WhiteNoisesViewModel.TimerMode>, isPresented: Binding<Bool>) {
+    init(timerMode: Binding<TimerService.TimerMode>, isPresented: Binding<Bool>) {
         self._timerMode = timerMode
         self._isPresented = isPresented
         self._selectedMode = State(initialValue: timerMode.wrappedValue)
@@ -79,7 +43,7 @@ struct TimerPickerView: View {
                 // Native Picker with wheel style
                 Picker("Timer", selection: $selectedMode) {
                     ForEach(timerOptions, id: \.self) { option in
-                        Text(option.description)
+                        Text(option.displayText)
                             .font(.system(size: 16))
                             .tag(option)
                             .foregroundColor(.white)
@@ -143,7 +107,7 @@ struct TimerPickerView_Previews: PreviewProvider {
             Color.black.ignoresSafeArea()
             
             TimerPickerView(
-                timerMode: .constant(WhiteNoisesViewModel.TimerMode.off),
+                timerMode: .constant(TimerService.TimerMode.off),
                 isPresented: .constant(true)
             )
         }

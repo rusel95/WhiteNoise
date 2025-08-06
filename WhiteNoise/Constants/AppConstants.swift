@@ -12,6 +12,7 @@ enum AppConstants {
     enum Animation {
         static let springDuration: Double = 1.0
         static let fadeStandard: Double = 2.0 // Standard fade in/out duration
+        static let fadeOut: Double = 2.0 // Fade out duration
         static let fadeLong: Double = 5.0
         static let fadeTimerEnd: Double = 10.0 // Fade out when timer ends
         static let fadeSteps: Int = 50 // Updates per second for fade
@@ -22,6 +23,7 @@ enum AppConstants {
         static let defaultVolume: Float = 0.0
         static let loopForever: Int = -1
         static let slowLoadThreshold: Double = 0.5 // seconds
+        static let volumeThreshold: Float = 0.5 // threshold for volume check
     }
     
     enum UI {
@@ -32,9 +34,11 @@ enum AppConstants {
         // Colors
         static let primaryGradientStart = Color(red: 0.2, green: 0.5, blue: 0.6)
         static let primaryGradientEnd = Color(red: 0.1, green: 0.4, blue: 0.5)
+        static let secondaryGradientStart = Color(red: 0.1, green: 0.4, blue: 0.5)
         static let secondaryGradientEnd = Color(red: 0.05, green: 0.3, blue: 0.4)
         static let glassEffectOpacity: Double = 0.05
         static let glassHighlightOpacity: Double = 0.1
+        static let volumeSliderBackgroundOpacity: Double = 0.8
         
         // Sizes
         #if os(macOS)
@@ -46,12 +50,23 @@ enum AppConstants {
         static let maxSoundCardWidth: CGFloat = 200
         static let controlButtonSize: CGFloat = 50
         static let controlButtonIconSize: CGFloat = 20
+        static let soundIconSize: CGFloat = 44
+        static let soundNameFontSize: CGFloat = 20
+        static let soundCardIconSize: CGFloat = 24
+        static let soundTitleFontSize: CGFloat = 14
+        static let soundVariantFontSize: CGFloat = 11
+        static let soundVariantChevronSize: CGFloat = 8
+        static let soundVariantPaddingHorizontal: CGFloat = 10
+        static let soundVariantPaddingVertical: CGFloat = 4
+        static let soundVariantCornerRadius: CGFloat = 8
         #endif
     }
     
     enum Timer {
         static let updateInterval: UInt64 = 1_000_000_000 // 1 second in nanoseconds
         static let nowPlayingUpdateInterval: Int = 10 // seconds
+        static let preStartDelayMs: Int = 100 // milliseconds delay before starting
+        static let soundSpacingMultiplier: Int = 3 // every 3rd sound gets extra delay
     }
     
     enum UserDefaults {
