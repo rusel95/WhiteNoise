@@ -55,7 +55,6 @@
 		85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C602E4353E8002AB6F9 /* Sound.swift */; };
 		85F61C652E4353F2002AB6F9 /* SoundConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 85F61C632E4353F2002AB6F9 /* SoundConfiguration.json */; };
 		85F61C722E4353F6002AB6F9 /* AudioPlayerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C662E4353F6002AB6F9 /* AudioPlayerProtocol.swift */; };
-		85F61C732E4353F6002AB6F9 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C6A2E4353F6002AB6F9 /* HapticService.swift */; };
 		85F61C742E4353F6002AB6F9 /* SoundPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C6F2E4353F6002AB6F9 /* SoundPersistenceService.swift */; };
 		85F61C752E4353F6002AB6F9 /* HapticFeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C692E4353F6002AB6F9 /* HapticFeedbackService.swift */; };
 		85F61C762E4353F6002AB6F9 /* SoundFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C6E2E4353F6002AB6F9 /* SoundFactoryProtocol.swift */; };
@@ -72,6 +71,14 @@
 		85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C822E435402002AB6F9 /* ContentView.swift */; };
 		85F61C8B2E435402002AB6F9 /* SoundVariantPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C832E435402002AB6F9 /* SoundVariantPickerView.swift */; };
 		85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C842E435402002AB6F9 /* SoundView.swift */; };
+		85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */; };
+		85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8E2E435410002AB6F9 /* FadeOperation.swift */; };
+		85F61C922E435411002AB6F9 /* AudioCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8F2E435411002AB6F9 /* AudioCommand.swift */; };
+		85F61C932E435412002AB6F9 /* TimerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C902E435412002AB6F9 /* TimerCommand.swift */; };
+		85F61C942E435413002AB6F9 /* SoundState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C912E435413002AB6F9 /* SoundState.swift */; };
+		85F61C952E435414002AB6F9 /* SoundObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C922E435414002AB6F9 /* SoundObserver.swift */; };
+		85F61C962E435415002AB6F9 /* AbstractSoundFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */; };
+		85F61C972E435416002AB6F9 /* AudioSessionFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C942E435416002AB6F9 /* AudioSessionFacade.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -147,7 +154,6 @@
 		85F61C672E4353F6002AB6F9 /* AudioSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionService.swift; sourceTree = "<group>"; };
 		85F61C682E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAudioPlayerWrapper.swift; sourceTree = "<group>"; };
 		85F61C692E4353F6002AB6F9 /* HapticFeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedbackService.swift; sourceTree = "<group>"; };
-		85F61C6A2E4353F6002AB6F9 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
 		85F61C6B2E4353F6002AB6F9 /* RemoteCommandService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCommandService.swift; sourceTree = "<group>"; };
 		85F61C6C2E4353F6002AB6F9 /* SoundConfigurationLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundConfigurationLoader.swift; sourceTree = "<group>"; };
 		85F61C6D2E4353F6002AB6F9 /* SoundFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundFactory.swift; sourceTree = "<group>"; };
@@ -161,6 +167,14 @@
 		85F61C842E435402002AB6F9 /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
 		85F61C852E435402002AB6F9 /* TimerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerView.swift; sourceTree = "<group>"; };
 		85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesView.swift; sourceTree = "<group>"; };
+		85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStrategy.swift; sourceTree = "<group>"; };
+		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
+		85F61C8F2E435411002AB6F9 /* AudioCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCommand.swift; sourceTree = "<group>"; };
+		85F61C902E435412002AB6F9 /* TimerCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCommand.swift; sourceTree = "<group>"; };
+		85F61C912E435413002AB6F9 /* SoundState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundState.swift; sourceTree = "<group>"; };
+		85F61C922E435414002AB6F9 /* SoundObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundObserver.swift; sourceTree = "<group>"; };
+		85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSoundFactory.swift; sourceTree = "<group>"; };
+		85F61C942E435416002AB6F9 /* AudioSessionFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionFacade.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +247,12 @@
 				85F61C872E435402002AB6F9 /* Views */,
 				85F61C7F2E4353FE002AB6F9 /* ViewModels */,
 				85F61C712E4353F6002AB6F9 /* Services */,
+				85F61C982E435420002AB6F9 /* Strategies */,
+				85F61C992E435421002AB6F9 /* Commands */,
+				85F61C9A2E435422002AB6F9 /* States */,
+				85F61C9B2E435423002AB6F9 /* Observers */,
+				85F61C9C2E435424002AB6F9 /* Factories */,
+				85F61C9D2E435425002AB6F9 /* Facades */,
 				85F61C642E4353F2002AB6F9 /* Resources */,
 				85F61C612E4353E8002AB6F9 /* Models */,
 				85F61C5E2E4353E0002AB6F9 /* Extensions */,
@@ -405,7 +425,6 @@
 				85F61C672E4353F6002AB6F9 /* AudioSessionService.swift */,
 				85F61C682E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift */,
 				85F61C692E4353F6002AB6F9 /* HapticFeedbackService.swift */,
-				85F61C6A2E4353F6002AB6F9 /* HapticService.swift */,
 				85F61C6B2E4353F6002AB6F9 /* RemoteCommandService.swift */,
 				85F61C6C2E4353F6002AB6F9 /* SoundConfigurationLoader.swift */,
 				85F61C6D2E4353F6002AB6F9 /* SoundFactory.swift */,
@@ -435,6 +454,56 @@
 				85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		85F61C982E435420002AB6F9 /* Strategies */ = {
+			isa = PBXGroup;
+			children = (
+				85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */,
+				85F61C8E2E435410002AB6F9 /* FadeOperation.swift */,
+			);
+			path = Strategies;
+			sourceTree = "<group>";
+		};
+		85F61C992E435421002AB6F9 /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				85F61C8F2E435411002AB6F9 /* AudioCommand.swift */,
+				85F61C902E435412002AB6F9 /* TimerCommand.swift */,
+			);
+			path = Commands;
+			sourceTree = "<group>";
+		};
+		85F61C9A2E435422002AB6F9 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				85F61C912E435413002AB6F9 /* SoundState.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
+		85F61C9B2E435423002AB6F9 /* Observers */ = {
+			isa = PBXGroup;
+			children = (
+				85F61C922E435414002AB6F9 /* SoundObserver.swift */,
+			);
+			path = Observers;
+			sourceTree = "<group>";
+		};
+		85F61C9C2E435424002AB6F9 /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		85F61C9D2E435425002AB6F9 /* Facades */ = {
+			isa = PBXGroup;
+			children = (
+				85F61C942E435416002AB6F9 /* AudioSessionFacade.swift */,
+			);
+			path = Facades;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -550,7 +619,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				85F61C722E4353F6002AB6F9 /* AudioPlayerProtocol.swift in Sources */,
-				85F61C732E4353F6002AB6F9 /* HapticService.swift in Sources */,
 				85F61C742E4353F6002AB6F9 /* SoundPersistenceService.swift in Sources */,
 				85F61C752E4353F6002AB6F9 /* HapticFeedbackService.swift in Sources */,
 				85F61C762E4353F6002AB6F9 /* SoundFactoryProtocol.swift in Sources */,
@@ -565,6 +633,14 @@
 				85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */,
 				85F61C8B2E435402002AB6F9 /* SoundVariantPickerView.swift in Sources */,
 				85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */,
+				85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */,
+				85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */,
+				85F61C922E435411002AB6F9 /* AudioCommand.swift in Sources */,
+				85F61C932E435412002AB6F9 /* TimerCommand.swift in Sources */,
+				85F61C942E435413002AB6F9 /* SoundState.swift in Sources */,
+				85F61C952E435414002AB6F9 /* SoundObserver.swift in Sources */,
+				85F61C962E435415002AB6F9 /* AbstractSoundFactory.swift in Sources */,
+				85F61C972E435416002AB6F9 /* AudioSessionFacade.swift in Sources */,
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,

@@ -7,9 +7,10 @@
 
 import Foundation
 
-protocol AudioPlayerProtocol {
+protocol AudioPlayerProtocol: AnyObject {
     var isPlaying: Bool { get }
     var volume: Float { get set }
+    var duration: TimeInterval { get }
     
     func prepareToPlay() async throws
     func play() -> Bool

@@ -27,12 +27,38 @@
       "Models": {
         "type": "group",
         "path": "WhiteNoise/Models",
-        "children": {}
+        "children": {
+          "Sound.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Models/Sound.swift"
+          }
+        }
       },
       "Views": {
         "type": "group",
         "path": "WhiteNoise/Views",
-        "children": {}
+        "children": {
+          "TimerPickerView.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Views/TimerPickerView.swift"
+          },
+          "SoundView.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Views/SoundView.swift"
+          },
+          "SoundVariantPickerView.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Views/SoundVariantPickerView.swift"
+          },
+          "ContentView.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Views/ContentView.swift"
+          },
+          "WhiteNoisesView.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Views/WhiteNoisesView.swift"
+          }
+        }
       },
       "ViewModels": {
         "type": "group",
@@ -91,6 +117,10 @@
           "AudioPlayerProtocol.swift": {
             "type": "file",
             "path": "WhiteNoise/Services/AudioPlayerProtocol.swift"
+          },
+          "SoundFactory.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Services/SoundFactory.swift"
           }
         }
       },

@@ -8,8 +8,22 @@
 import Foundation
 import Combine
 
+// MARK: - Protocol
+
+/// Protocol for timer functionality
+protocol TimerServiceProtocol: AnyObject {
+    var mode: TimerService.TimerMode { get set }
+    var remainingTime: String { get }
+    var isActive: Bool { get }
+    var onTimerExpired: (() async -> Void)? { get set }
+    var onTimerTick: ((Int) -> Void)? { get set }
+    
+    func start(mode: TimerService.TimerMode)
+    func stop()
+}
+
 @MainActor
-class TimerService: ObservableObject {
+class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
     @Published var mode: TimerMode = .off
     @Published var remainingTime: String = ""
     @Published private(set) var isActive = false

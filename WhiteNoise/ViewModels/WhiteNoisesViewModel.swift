@@ -10,26 +10,52 @@ import AVFAudio
 import Combine
 import MediaPlayer
 
+// MARK: - Protocols
+
+/// Protocol for managing a collection of sounds
 @MainActor
-class WhiteNoisesViewModel: ObservableObject {
+protocol SoundCollectionManager: AnyObject {
+    var soundsViewModels: [SoundViewModel] { get set }
+    var isPlaying: Bool { get set }
+    var playingSounds: [SoundViewModel] { get }
+    
+    func playSounds(fadeDuration: Double?) async
+    func pauseSounds(fadeDuration: Double?) async
+    func stopAllSounds() async
+}
+
+/// Protocol for timer integration
+@MainActor
+protocol TimerIntegration: AnyObject {
+    var timerMode: TimerService.TimerMode { get set }
+    var remainingTimerTime: String { get }
+    
+    func handleTimerModeChange(_ newMode: TimerService.TimerMode)
+    func handleTimerExpired() async
+}
+
+@MainActor
+class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerIntegration {
+    
+    // MARK: - Computed Properties for Protocols
+    var playingSounds: [SoundViewModel] {
+        soundsViewModels.filter { $0.volume > 0 }
+    }
     
     // MARK: - Published Properties
     @Published var soundsViewModels: [SoundViewModel] = []
     @Published var isPlaying: Bool = false
+    @Published var remainingTimerTime: String = ""
     
     var timerMode: TimerService.TimerMode {
         get { timerService.mode }
         set { handleTimerModeChange(newValue) }
     }
     
-    var remainingTimerTime: String {
-        timerService.remainingTime
-    }
-    
     // MARK: - Services
-    private let audioSessionService = AudioSessionService()
-    private let timerService = TimerService()
-    private let remoteCommandService = RemoteCommandService()
+    private let audioSessionService: AudioSessionManaging
+    private let timerService: TimerServiceProtocol
+    private let remoteCommandService: RemoteCommandHandling
     private let soundFactory: SoundFactoryProtocol
     
     // MARK: - Private Properties
@@ -39,9 +65,17 @@ class WhiteNoisesViewModel: ObservableObject {
     private var appLifecycleObservers: [NSObjectProtocol] = []
 
     // MARK: - Initialization
-    init(soundFactory: SoundFactoryProtocol = SoundFactory()) {
+    init(
+        soundFactory: SoundFactoryProtocol? = nil,
+        audioSessionService: AudioSessionManaging? = nil,
+        timerService: TimerServiceProtocol? = nil,
+        remoteCommandService: RemoteCommandHandling? = nil
+    ) {
         print("🎵 WhiteNoisesViewModel: Initializing")
-        self.soundFactory = soundFactory
+        self.soundFactory = soundFactory ?? SoundFactory()
+        self.audioSessionService = audioSessionService ?? AudioSessionService()
+        self.timerService = timerService ?? TimerService()
+        self.remoteCommandService = remoteCommandService ?? RemoteCommandService()
         
         cleanupPreviousInstance()
         Self.activeInstance = self
@@ -68,15 +102,22 @@ class WhiteNoisesViewModel: ObservableObject {
     // MARK: - Public Methods
     func playingButtonSelected() {
         print("🎵 Playing button selected - current state: \(isPlaying)")
+        
+        // Update state immediately for instant UI feedback
+        let wasPlaying = isPlaying
+        isPlaying = !wasPlaying
+        
         Task {
             do {
-                if isPlaying {
-                    await pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard)
+                if wasPlaying {
+                    await pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
                 } else {
                     try await audioSessionService.ensureActive()
-                    await playSounds(fadeDuration: AppConstants.Animation.fadeStandard)
+                    await playSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
                 }
             } catch {
+                // Revert state on error
+                isPlaying = wasPlaying
                 // TODO: Add error tracking when available
                 print("❌ Failed to toggle playback: \(error)")
             }
@@ -102,9 +143,12 @@ class WhiteNoisesViewModel: ObservableObject {
         }
         
         timerService.onTimerTick = { [weak self] remainingSeconds in
+            guard let self = self else { return }
+            // Update the remaining time display
+            self.remainingTimerTime = self.timerService.remainingTime
             // Update Now Playing info periodically
             if remainingSeconds % AppConstants.Timer.nowPlayingUpdateInterval == 0 {
-                self?.updateNowPlayingInfo()
+                self.updateNowPlayingInfo()
             }
         }
         
@@ -126,20 +170,53 @@ class WhiteNoisesViewModel: ObservableObject {
     
     private func setupObservers() {
         // Audio session interruption
-        audioSessionService.$isInterrupted
-            .sink { [weak self] isInterrupted in
-                Task { @MainActor [weak self] in
-                    await self?.handleAudioInterruption(isInterrupted)
+        if let audioService = audioSessionService as? AudioSessionService {
+            audioService.$isInterrupted
+                .sink { [weak self] isInterrupted in
+                    Task { @MainActor [weak self] in
+                        await self?.handleAudioInterruption(isInterrupted)
+                    }
                 }
-            }
-            .store(in: &cancellables)
+                .store(in: &cancellables)
+        }
         
         setupAppLifecycleObservers()
     }
     
     private func loadSounds() {
-        Task {
-            await setupSoundViewModels()
+        // Load sounds synchronously to show UI immediately
+        let sounds = soundFactory.getSavedSounds()
+        soundsViewModels = []
+        
+        for sound in sounds {
+            let soundViewModel = SoundViewModel(sound: sound)
+            soundsViewModels.append(soundViewModel)
+            
+            // Observe volume changes
+            soundViewModel.$volume
+                .dropFirst()
+                .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+                .sink { [weak self] volume in
+                    Task { [weak self] in
+                        await self?.handleVolumeChange(for: soundViewModel, volume: volume)
+                    }
+                }
+                .store(in: &cancellables)
+        }
+        
+        // Preload audio for favorite sounds after UI is shown
+        Task.detached(priority: .background) { [weak self] in
+            // Wait a bit for UI to settle
+            try? await Task.sleep(nanoseconds: 100_000_000) // 100ms
+            
+            guard let self = self else { return }
+            
+            // Preload sounds with volume > 0 in background
+            await MainActor.run {
+                for soundViewModel in self.soundsViewModels where soundViewModel.sound.volume > 0 {
+                    soundViewModel.loadAudioAsync()
+                }
+            }
         }
     }
     
@@ -157,31 +234,6 @@ class WhiteNoisesViewModel: ObservableObject {
         }
     }
     
-    private func setupSoundViewModels() async {
-        let sounds = await soundFactory.getSavedSoundsAsync()
-        soundsViewModels = []
-        
-        for (index, sound) in sounds.enumerated() {
-            let soundViewModel = SoundViewModel(sound: sound)
-            soundsViewModels.append(soundViewModel)
-            
-            // Observe volume changes
-            soundViewModel.$volume
-                .dropFirst()
-                .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
-                .sink { [weak self] volume in
-                    Task { [weak self] in
-                        await self?.handleVolumeChange(for: soundViewModel, volume: volume)
-                    }
-                }
-                .store(in: &cancellables)
-            
-            // Yield periodically for better performance
-            if index % 3 == 2 {
-                await Task.yield()
-            }
-        }
-    }
     
     private func setupAppLifecycleObservers() {
         #if os(iOS)
@@ -221,7 +273,19 @@ class WhiteNoisesViewModel: ObservableObject {
     }
 
     // MARK: - Playback Methods
-    private func playSounds(fadeDuration: Double? = nil) async {
+    
+    // Protocol conformance - calls the internal version with updateState: true
+    func playSounds(fadeDuration: Double? = nil) async {
+        await playSounds(fadeDuration: fadeDuration, updateState: true)
+    }
+    
+    // Protocol conformance - calls the internal version with updateState: true
+    func pauseSounds(fadeDuration: Double? = nil) async {
+        await pauseSounds(fadeDuration: fadeDuration, updateState: true)
+    }
+    
+    // Internal implementation with state control
+    private func playSounds(fadeDuration: Double? = nil, updateState: Bool = true) async {
         print("🎵 Playing sounds with fade duration: \(fadeDuration ?? 0)")
         
         // Start timer if needed
@@ -241,12 +305,15 @@ class WhiteNoisesViewModel: ObservableObject {
             }
         }
         
-        isPlaying = true
+        // Update state if requested (not when called from playingButtonSelected)
+        if updateState && !isPlaying {
+            isPlaying = true
+        }
         updateNowPlayingInfo()
         print("✅ All sounds started playing")
     }
     
-    private func pauseSounds(fadeDuration: Double? = nil) async {
+    private func pauseSounds(fadeDuration: Double? = nil, updateState: Bool = true) async {
         print("🎵 Pausing sounds with fade duration: \(fadeDuration ?? 0)")
         
         // Stop timer
@@ -264,29 +331,28 @@ class WhiteNoisesViewModel: ObservableObject {
             }
         }
         
-        isPlaying = false
+        // Update state if requested (not when called from playingButtonSelected)
+        if updateState && isPlaying {
+            isPlaying = false
+        }
         updateNowPlayingInfo()
         print("✅ All sounds paused")
     }
 
     // MARK: - Event Handlers
     private func handleVolumeChange(for soundViewModel: SoundViewModel, volume: Float) async {
-        if volume > 0 {
-            if isPlaying {
+        // Only handle audio playback if we're already playing
+        if isPlaying {
+            if volume > 0 {
                 await soundViewModel.playSound()
             } else {
-                await playSounds()
+                await soundViewModel.pauseSound()
             }
-        } else {
-            await soundViewModel.pauseSound()
-        }
-        
-        if isPlaying {
             updateNowPlayingInfo()
         }
     }
     
-    private func handleTimerModeChange(_ newMode: TimerService.TimerMode) {
+    func handleTimerModeChange(_ newMode: TimerService.TimerMode) {
         if newMode != .off {
             // Only start playing if not already playing
             if !isPlaying {
@@ -297,8 +363,12 @@ class WhiteNoisesViewModel: ObservableObject {
             
             // Start the timer
             timerService.start(mode: newMode)
+            remainingTimerTime = timerService.remainingTime
+            updateNowPlayingInfo()
         } else {
             timerService.stop()
+            remainingTimerTime = ""
+            updateNowPlayingInfo()
         }
     }
     
@@ -319,21 +389,12 @@ class WhiteNoisesViewModel: ObservableObject {
         
         await audioSessionService.reconfigure()
         
-        // Refresh audio players if needed
-        if isPlaying || soundsViewModels.contains(where: { $0.volume > 0 }) {
-            await withTaskGroup(of: Void.self) { group in
-                for soundViewModel in soundsViewModels {
-                    group.addTask { [weak soundViewModel] in
-                        await soundViewModel?.refreshAudioPlayer()
-                    }
-                }
-            }
-            
-            // Resume playing if needed
-            if isPlaying {
-                for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
-                    await soundViewModel.playSound()
-                }
+        // Only refresh audio if we were actually playing
+        // Don't refresh on initial app launch
+        if isPlaying {
+            // Resume playing sounds that were playing
+            for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
+                await soundViewModel.playSound()
             }
         }
     }
@@ -368,5 +429,26 @@ class WhiteNoisesViewModel: ObservableObject {
             isPlaying: isPlaying,
             timerInfo: timerInfo
         )
+    }
+}
+
+// MARK: - Protocol Conformance
+
+extension WhiteNoisesViewModel {
+    /// Stop all sounds immediately
+    func stopAllSounds() async {
+        await withTaskGroup(of: Void.self) { group in
+            for soundViewModel in soundsViewModels {
+                group.addTask {
+                    await soundViewModel.stop()
+                }
+            }
+        }
+    }
+    
+    /// Handle timer expiration
+    func handleTimerExpired() async {
+        await pauseSounds(fadeDuration: AppConstants.Animation.fadeOut)
+        remainingTimerTime = ""
     }
 }

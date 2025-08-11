@@ -54,14 +54,14 @@ struct TimerPickerView: View {
                 .clipped()
                 .colorScheme(.dark)
                 .onChange(of: selectedMode) { _, _ in
-                    HapticService.selection()
+                    HapticFeedbackService.shared.selection()
                 }
                 
                 Button(action: {
                     // Apply the selected timer mode
                     timerMode = selectedMode
                     
-                    HapticService.impact(.medium)
+                    HapticFeedbackService.shared.impact(style: .medium)
                     
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         isPresented = false

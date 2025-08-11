@@ -138,3 +138,13 @@ The codebase must adhere to SOLID principles:
 - **Minimum iOS Version**: Check `project.pbxproj` for deployment target
 - **Background Modes**: Audio background mode is enabled in Info.plist
 - **Device Support**: Universal app supporting iPhone and iPad
+
+## Development Principles Reference
+
+**IMPORTANT**: Before implementing any new feature or modification, consult `/DEVELOPMENT_PRINCIPLES.md` for the comprehensive checklist of patterns and principles to follow. This includes:
+- SOLID principles verification
+- Design pattern selection
+- Code quality checks
+- Pre and post-implementation reviews
+
+All code changes must be validated against the principles defined in `DEVELOPMENT_PRINCIPLES.md`.

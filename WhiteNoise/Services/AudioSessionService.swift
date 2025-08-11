@@ -8,8 +8,19 @@
 import AVFoundation
 import Combine
 
+// MARK: - Protocol
+
+/// Protocol for managing audio session
 @MainActor
-class AudioSessionService: ObservableObject {
+protocol AudioSessionManaging: AnyObject {
+    var isInterrupted: Bool { get }
+    func setupAudioSession()
+    func ensureActive() async
+    func reconfigure() async
+}
+
+@MainActor
+class AudioSessionService: ObservableObject, AudioSessionManaging {
     @Published private(set) var isInterrupted = false
     
     private var cancellables = Set<AnyCancellable>()

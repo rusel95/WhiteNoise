@@ -25,6 +25,10 @@ class AVAudioPlayerWrapper: AudioPlayerProtocol {
         set { player.volume = newValue }
     }
     
+    var duration: TimeInterval {
+        player.duration
+    }
+    
     func prepareToPlay() async throws {
         player.prepareToPlay()
     }
