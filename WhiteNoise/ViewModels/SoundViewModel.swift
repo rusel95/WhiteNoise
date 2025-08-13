@@ -64,9 +64,9 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         }
     }
     @Published var selectedSoundVariant: Sound.SoundVariant
-    @Published var sliderWidth: CGFloat = 0.0
-    @Published var sliderHeight: CGFloat = 0.0
-    @Published var lastDragValue: CGFloat = 0.0
+    @Published var sliderWidth: CGFloat
+    @Published var sliderHeight: CGFloat
+    @Published var lastDragValue: CGFloat
     
     // MARK: - Public Properties
     var maxWidth: CGFloat = 0 {
@@ -105,11 +105,18 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         fadeType: FadeType = .linear) {
         self.sound = sound
         self.volume = sound.volume
-        self.lastDragValue = CGFloat(sound.volume) * maxWidth
         self.selectedSoundVariant = sound.selectedSoundVariant
         self.playerFactory = playerFactory
         self.persistenceService = persistenceService
         self.fadeOperation = FadeOperation(fadeType: fadeType)
+        
+        // Initialize slider properties with estimated default width
+        // This will be updated when maxWidth is set, but provides immediate visual feedback
+        let estimatedWidth: CGFloat = 150 // Reasonable default for initial display
+        let initialSliderWidth = CGFloat(sound.volume) * estimatedWidth
+        self.sliderWidth = initialSliderWidth
+        self.sliderHeight = CGFloat(sound.volume) * estimatedWidth
+        self.lastDragValue = initialSliderWidth
         
         setupSoundVariantObserver()
         // Don't load audio in init - let it load lazily when needed

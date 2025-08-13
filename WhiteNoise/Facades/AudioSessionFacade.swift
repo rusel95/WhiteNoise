@@ -44,22 +44,17 @@ final class AudioSessionFacade {
             remoteCommandService = RemoteCommandService()
         }
         
-        do {
-            // Configure audio session
-            audioSessionService?.setupAudioSession()
-            
-            // Setup remote commands
-            setupRemoteCommands()
-            
-            // Ensure session is active
-            await audioSessionService?.ensureActive()
-            
-            isConfigured = true
-            print("✅ Audio environment configured successfully")
-        } catch {
-            print("❌ Failed to setup audio environment: \(error)")
-            throw AudioEnvironmentError.setupFailed(error)
-        }
+        // Configure audio session
+        audioSessionService?.setupAudioSession()
+        
+        // Setup remote commands
+        setupRemoteCommands()
+        
+        // Ensure session is active
+        await audioSessionService?.ensureActive()
+        
+        isConfigured = true
+        print("✅ Audio environment configured successfully")
     }
     
     /// Handle app entering background

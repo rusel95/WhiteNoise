@@ -37,6 +37,9 @@ struct SoundView: View {
                 .onAppear(perform: {
                     viewModel.maxWidth = geometry.size.width
                 })
+                .onChange(of: geometry.size.width) { _, newWidth in
+                    viewModel.maxWidth = newWidth
+                }
                 .onTapGesture { location in
                     viewModel.sliderWidth = max(0, min(location.x, viewModel.maxWidth))
                     viewModel.lastDragValue = viewModel.sliderWidth

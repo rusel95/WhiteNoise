@@ -89,9 +89,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     
     deinit {
         print("🎵 WhiteNoisesViewModel: Deinitializing")
-        Task { @MainActor in
-            timerService.stop()
-        }
+        // Timer will stop on its own when deallocated
         
         appLifecycleObservers.forEach {
             NotificationCenter.default.removeObserver($0)
@@ -108,18 +106,11 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         isPlaying = !wasPlaying
         
         Task {
-            do {
-                if wasPlaying {
-                    await pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
-                } else {
-                    try await audioSessionService.ensureActive()
-                    await playSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
-                }
-            } catch {
-                // Revert state on error
-                isPlaying = wasPlaying
-                // TODO: Add error tracking when available
-                print("❌ Failed to toggle playback: \(error)")
+            if wasPlaying {
+                await pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
+            } else {
+                await audioSessionService.ensureActive()
+                await playSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
             }
         }
     }
@@ -253,7 +244,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
             forName: UIApplication.didEnterBackgroundNotification,
             object: nil,
             queue: .main
-        ) { [weak self] _ in
+        ) { _ in
             print("🎵 App did enter background")
         }
         appLifecycleObservers.append(backgroundObserver)
