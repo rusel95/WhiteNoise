@@ -1,0 +1,12 @@
+//
+//  Example.xcconfig
+//  WhiteNoise
+//
+//  Created by Ruslan Popesku on 2025-08-18.
+//
+//  Copy this file to Local.xcconfig and add your actual Sentry DSN
+//  Local.xcconfig is gitignored and won't be committed
+
+// Your Sentry DSN from https://sentry.io/
+// Format: https://YOUR_KEY@YOUR_ORG.ingest.sentry.io/YOUR_PROJECT_ID
+SENTRY_DSN = YOUR_ACTUAL_SENTRY_DSN_HERE

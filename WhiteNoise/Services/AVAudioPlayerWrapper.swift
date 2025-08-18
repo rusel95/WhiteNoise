@@ -50,16 +50,23 @@ class AVAudioPlayerWrapper: AudioPlayerProtocol {
 class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
     func createPlayer(for filename: String) async throws -> AudioPlayerProtocol {
         guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else {
-            throw AudioError.fileNotFound(filename)
+            let error = AudioError.fileNotFound(filename)
+            SentryManager.logAudioError(error, operation: "create_player_file_not_found")
+            throw error
         }
         
-        let player = try await Task.detached(priority: .userInitiated) {
-            let avPlayer = try AVAudioPlayer(contentsOf: url)
-            avPlayer.prepareToPlay()
-            return avPlayer
-        }.value
-        
-        return AVAudioPlayerWrapper(player: player)
+        do {
+            let player = try await Task.detached(priority: .userInitiated) {
+                let avPlayer = try AVAudioPlayer(contentsOf: url)
+                avPlayer.prepareToPlay()
+                return avPlayer
+            }.value
+            
+            return AVAudioPlayerWrapper(player: player)
+        } catch {
+            SentryManager.logAudioError(error, operation: "create_audio_player_\(filename)")
+            throw error
+        }
     }
 }
 

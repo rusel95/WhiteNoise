@@ -344,6 +344,10 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     }
     
     func handleTimerModeChange(_ newMode: TimerService.TimerMode) {
+        SentryManager.addBreadcrumb("Timer mode changed", 
+                                   category: "user_action",
+                                   data: ["mode": String(describing: newMode)])
+        
         if newMode != .off {
             // Only start playing if not already playing
             if !isPlaying {

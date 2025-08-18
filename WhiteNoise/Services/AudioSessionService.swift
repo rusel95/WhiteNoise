@@ -38,6 +38,7 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
             try AVAudioSession.sharedInstance().setActive(true)
             print("✅ Audio session activated successfully")
         } catch {
+            SentryManager.logAudioError(error, operation: "setup_audio_session")
             print("❌ Failed to set audio session: \(error)")
         }
         #endif
@@ -52,6 +53,7 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
                 print("✅ Audio session activated")
             }
         } catch {
+            SentryManager.logAudioError(error, operation: "ensure_audio_active")
             print("❌ Failed to activate audio session: \(error)")
         }
         #endif
@@ -65,6 +67,7 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
             try session.setActive(true)
             print("✅ Audio session reconfigured")
         } catch {
+            SentryManager.logAudioError(error, operation: "reconfigure_audio_session")
             print("❌ Failed to reconfigure audio session: \(error)")
         }
         #endif
@@ -85,14 +88,19 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
               let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+            SentryManager.logMessage("Invalid audio interruption notification", 
+                                    level: .warning,
+                                    extras: ["notification": String(describing: notification)])
             return
         }
         
         switch type {
         case .began:
             isInterrupted = true
+            SentryManager.addBreadcrumb("Audio interruption began", category: "audio")
         case .ended:
             isInterrupted = false
+            SentryManager.addBreadcrumb("Audio interruption ended", category: "audio")
             if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
                 let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
                 if options.contains(.shouldResume) {

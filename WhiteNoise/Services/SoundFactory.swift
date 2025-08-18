@@ -19,8 +19,12 @@ class SoundFactory: SoundFactoryProtocol {
         
         // Load saved state for each sound
         return sounds.map { sound in
+            // Try UUID first, then fall back to name for legacy support
             if let savedSound = persistenceService.load(soundId: sound.id) {
                 print("✅ Loaded saved state for \(sound.name): volume=\(savedSound.volume)")
+                return savedSound
+            } else if let savedSound = persistenceService.load(soundId: sound.name) {
+                print("✅ Loaded legacy saved state for \(sound.name): volume=\(savedSound.volume)")
                 return savedSound
             } else {
                 print("ℹ️ No saved state for \(sound.name), using default volume=\(sound.volume)")
@@ -62,8 +66,12 @@ final class EnhancedSoundFactory: SoundFactoryProtocol {
         
         // Load saved state for each sound
         return sounds.map { sound in
+            // Try UUID first, then fall back to name for legacy support
             if let savedSound = persistenceService.load(soundId: sound.id) {
                 print("✅ Loaded saved state for \(sound.name): volume=\(savedSound.volume)")
+                return savedSound
+            } else if let savedSound = persistenceService.load(soundId: sound.name) {
+                print("✅ Loaded legacy saved state for \(sound.name): volume=\(savedSound.volume)")
                 return savedSound
             } else {
                 print("ℹ️ No saved state for \(sound.name), using default volume=\(sound.volume)")

@@ -21,6 +21,12 @@ struct TimerPickerView: View {
         self._selectedMode = State(initialValue: timerMode.wrappedValue)
     }
     
+    init(selectedMode: Binding<TimerService.TimerMode>) {
+        self._timerMode = selectedMode
+        self._isPresented = .constant(true)
+        self._selectedMode = State(initialValue: selectedMode.wrappedValue)
+    }
+    
     var body: some View {
         ZStack {
             // Background

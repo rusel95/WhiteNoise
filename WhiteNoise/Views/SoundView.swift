@@ -137,7 +137,7 @@ struct SoundView_Previews: PreviewProvider {
                 .ignoresSafeArea()
             
             SoundView(viewModel: .init(
-                sound: Sound(
+                sound: (try? Sound.create(
                     name: "Rain",
                     icon: .system("cloud.rain"),
                     volume: 0.3,
@@ -146,7 +146,16 @@ struct SoundView_Previews: PreviewProvider {
                         .init(name: "Soft Rain", filename: "soft_rain"),
                         .init(name: "Heavy Rain", filename: "heavy_rain")
                     ]
-                )
+                )) ?? Sound(
+                    name: "Rain",
+                    icon: .system("cloud.rain"),
+                    volume: 0.3,
+                    selectedSoundVariant: nil,
+                    soundVariants: [
+                        .init(name: "Soft Rain", filename: "soft_rain"),
+                        .init(name: "Heavy Rain", filename: "heavy_rain")
+                    ]
+                )!
             ))
             .padding()
         }

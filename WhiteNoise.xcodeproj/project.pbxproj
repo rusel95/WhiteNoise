@@ -50,6 +50,9 @@
 		743A959D2A28C37700219803 /* Summer forest insects and birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959C2A28C37700219803 /* Summer forest insects and birds.mp3 */; };
 		743A959F2A28C39300219803 /* Woodland ambience & several birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959E2A28C39300219803 /* Woodland ambience & several birds.mp3 */; };
 		74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */; };
+		85809D902E51DF7E008C5F9D /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 85809D8F2E51DF7E008C5F9D /* Sentry */; };
+		85809D922E51E01A008C5F9D /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85809D912E51E01A008C5F9D /* AppError.swift */; };
+		85E690DF2E53C3550067A755 /* SentryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E690DE2E53C3550067A755 /* SentryManager.swift */; };
 		85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */; };
 		85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */; };
 		85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C602E4353E8002AB6F9 /* Sound.swift */; };
@@ -146,6 +149,8 @@
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		85809D912E51E01A008C5F9D /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		85E690DE2E53C3550067A755 /* SentryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryManager.swift; sourceTree = "<group>"; };
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		85F61C602E4353E8002AB6F9 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
@@ -182,6 +187,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85809D902E51DF7E008C5F9D /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +412,7 @@
 			isa = PBXGroup;
 			children = (
 				85F61C602E4353E8002AB6F9 /* Sound.swift */,
+				85809D912E51E01A008C5F9D /* AppError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -430,6 +437,7 @@
 				85F61C6D2E4353F6002AB6F9 /* SoundFactory.swift */,
 				85F61C6E2E4353F6002AB6F9 /* SoundFactoryProtocol.swift */,
 				85F61C6F2E4353F6002AB6F9 /* SoundPersistenceService.swift */,
+				85E690DE2E53C3550067A755 /* SentryManager.swift */,
 				85F61C702E4353F6002AB6F9 /* TimerService.swift */,
 			);
 			path = Services;
@@ -551,6 +559,9 @@
 				Base,
 			);
 			mainGroup = 74349A472A26413C00AB0EF5;
+			packageReferences = (
+				85809D8E2E51DF7E008C5F9D /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+			);
 			productRefGroup = 74349A512A26413C00AB0EF5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -620,6 +631,7 @@
 			files = (
 				85F61C722E4353F6002AB6F9 /* AudioPlayerProtocol.swift in Sources */,
 				85F61C742E4353F6002AB6F9 /* SoundPersistenceService.swift in Sources */,
+				85809D922E51E01A008C5F9D /* AppError.swift in Sources */,
 				85F61C752E4353F6002AB6F9 /* HapticFeedbackService.swift in Sources */,
 				85F61C762E4353F6002AB6F9 /* SoundFactoryProtocol.swift in Sources */,
 				85F61C772E4353F6002AB6F9 /* AudioSessionService.swift in Sources */,
@@ -638,6 +650,7 @@
 				85F61C922E435411002AB6F9 /* AudioCommand.swift in Sources */,
 				85F61C932E435412002AB6F9 /* TimerCommand.swift in Sources */,
 				85F61C942E435413002AB6F9 /* SoundState.swift in Sources */,
+				85E690DF2E53C3550067A755 /* SentryManager.swift in Sources */,
 				85F61C952E435414002AB6F9 /* SoundObserver.swift in Sources */,
 				85F61C962E435415002AB6F9 /* AbstractSoundFactory.swift in Sources */,
 				85F61C972E435416002AB6F9 /* AudioSessionFacade.swift in Sources */,
@@ -803,7 +816,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.15;
+				MARKETING_VERSION = 0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -844,7 +857,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.15;
+				MARKETING_VERSION = 0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -879,6 +892,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		85809D8E2E51DF7E008C5F9D /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.55.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		85809D8F2E51DF7E008C5F9D /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85809D8E2E51DF7E008C5F9D /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 74349A482A26413C00AB0EF5 /* Project object */;
 }

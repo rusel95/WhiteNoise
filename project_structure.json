@@ -54,6 +54,10 @@
             "type": "file",
             "path": "WhiteNoise/Views/ContentView.swift"
           },
+          "WhiteNoisesViewVIPER.swift": {
+            "type": "file",
+            "path": "WhiteNoise/Views/WhiteNoisesViewVIPER.swift"
+          },
           "WhiteNoisesView.swift": {
             "type": "file",
             "path": "WhiteNoise/Views/WhiteNoisesView.swift"
@@ -67,6 +71,10 @@
           "WhiteNoisesViewModel.swift": {
             "type": "file",
             "path": "WhiteNoise/ViewModels/WhiteNoisesViewModel.swift"
+          },
+          "WhiteNoisesViewModelVIPER.swift": {
+            "type": "file",
+            "path": "WhiteNoise/ViewModels/WhiteNoisesViewModelVIPER.swift"
           },
           "SoundViewModel.swift": {
             "type": "file",
@@ -89,10 +97,6 @@
           "RemoteCommandService.swift": {
             "type": "file",
             "path": "WhiteNoise/Services/RemoteCommandService.swift"
-          },
-          "HapticService.swift": {
-            "type": "file",
-            "path": "WhiteNoise/Services/HapticService.swift"
           },
           "SoundConfigurationLoader.swift": {
             "type": "file",
