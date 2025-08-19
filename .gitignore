@@ -126,7 +126,8 @@ iOSInjectionProject/
 .env.local
 
 ## Sentry
-# Sentry configuration files that may contain sensitive DSN
-SentryConfiguration.local.swift
-sentry.properties
+# Sentry auth token for CLI operations (sensitive)
 .sentryclirc
+
+# Keep the upload symbols script
+!sentry-upload-symbols.sh

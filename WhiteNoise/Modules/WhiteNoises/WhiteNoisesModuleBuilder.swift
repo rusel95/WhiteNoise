@@ -15,7 +15,7 @@ final class WhiteNoisesModuleBuilder {
         let reducer = WhiteNoisesReducer()
         let interactor = WhiteNoisesInteractor(reducer: reducer)
         let presenter = WhiteNoisesPresenter(interactor: interactor, router: router)
-        let view = WhiteNoisesViewVIPER(presenter: presenter)
+        let view = WhiteNoisesView(presenter: presenter)
         
         interactor.presenter = presenter
         router.viewController = view

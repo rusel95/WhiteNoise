@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Sentry
+
 
 @main
 struct WhiteNoiseApp: App {
