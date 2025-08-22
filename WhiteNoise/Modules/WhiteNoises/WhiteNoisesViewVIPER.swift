@@ -1,5 +1,5 @@
 //
-//  WhiteNoisesView.swift
+//  WhiteNoisesViewVIPER.swift
 //  WhiteNoise
 //
 //  Created by Ruslan Popesku on 2025-08-14.
@@ -8,11 +8,11 @@
 import SwiftUI
 import Combine
 
-struct WhiteNoisesView: View {
-    @StateObject private var viewModel: WhiteNoisesViewModel
+struct WhiteNoisesViewVIPER: View {
+    @StateObject private var viewModel: WhiteNoisesViewVIPERModel
     
     init(presenter: WhiteNoisesPresenterProtocol) {
-        _viewModel = StateObject(wrappedValue: WhiteNoisesViewModel(presenter: presenter))
+        _viewModel = StateObject(wrappedValue: WhiteNoisesViewVIPERModel(presenter: presenter))
     }
     
     var body: some View {
@@ -104,7 +104,7 @@ struct WhiteNoisesView: View {
 // MARK: - View Model
 
 @MainActor
-final class WhiteNoisesViewModel: ObservableObject, WhiteNoisesViewProtocol {
+final class WhiteNoisesViewVIPERModel: ObservableObject, WhiteNoisesViewProtocol {
     
     // MARK: - Published Properties
     

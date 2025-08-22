@@ -8,5 +8,7 @@
 	<array>
 		<string>audio</string>
 	</array>
+	<key>SENTRY_DSN</key>
+	<string>$(SENTRY_DSN)</string>
 </dict>
 </plist>
