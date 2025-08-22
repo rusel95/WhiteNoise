@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = WhiteNoisesViewModel()
-    
+
+    @StateObject var viewModel = WhiteNoisesViewModel()
+
     var body: some View {
         WhiteNoisesView(viewModel: viewModel)
     }

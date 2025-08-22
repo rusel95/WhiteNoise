@@ -57,26 +57,13 @@ final class NatureSoundFactory: AbstractSoundFactory {
             Sound.SoundVariant(name: "River Stream", filename: "river")
         ]
         
-        do {
-            return try Sound.create(
-                name: "Nature Sounds",
-                icon: .system("leaf.fill"),
-                volume: 0.5,
-                selectedSoundVariant: variants[0],
-                soundVariants: variants
-            )
-        } catch {
-            SentryManager.logSoundCreationError(error, soundName: "Nature Sounds")
-            print("❌ Failed to create Nature Sound: \(error.localizedDescription)")
-            // Return a default sound as fallback - this should never happen with valid variants
-            return Sound(
-                name: "Nature Sounds",
-                icon: .system("leaf.fill"),
-                volume: 0.5,
-                selectedSoundVariant: variants[0],
-                soundVariants: variants
-            )!
-        }
+        return Sound(
+            name: "Nature Sounds",
+            icon: .system("leaf.fill"),
+            volume: 0.5,
+            selectedSoundVariant: variants[0],
+            soundVariants: variants
+        )
     }
     
     @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel {
@@ -117,25 +104,13 @@ final class WeatherSoundFactory: AbstractSoundFactory {
             Sound.SoundVariant(name: "Snow", filename: "snow")
         ]
         
-        do {
-            return try Sound.create(
-                name: "Weather Sounds",
-                icon: .system("cloud.rain.fill"),
-                volume: 0.5,
-                selectedSoundVariant: variants[0],
-                soundVariants: variants
-            )
-        } catch {
-            SentryManager.logSoundCreationError(error, soundName: "Weather Sounds")
-            print("❌ Failed to create Weather Sound: \(error.localizedDescription)")
-            return Sound(
-                name: "Weather Sounds",
-                icon: .system("cloud.rain.fill"),
-                volume: 0.5,
-                selectedSoundVariant: variants[0],
-                soundVariants: variants
-            )!
-        }
+        return Sound(
+            name: "Weather Sounds",
+            icon: .system("cloud.rain.fill"),
+            volume: 0.5,
+            selectedSoundVariant: variants[0],
+            soundVariants: variants
+        )
     }
     
     @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel {
@@ -176,25 +151,13 @@ final class AmbientSoundFactory: AbstractSoundFactory {
             Sound.SoundVariant(name: "Night City", filename: "city-night")
         ]
         
-        do {
-            return try Sound.create(
-                name: "Ambient Sounds",
-                icon: .system("flame.fill"),
-                volume: 0.5,
-                selectedSoundVariant: variants[0],
-                soundVariants: variants
-            )
-        } catch {
-            SentryManager.logSoundCreationError(error, soundName: "Ambient Sounds")
-            print("❌ Failed to create Ambient Sound: \(error.localizedDescription)")
-            return Sound(
-                name: "Ambient Sounds",
-                icon: .system("flame.fill"),
-                volume: 0.5,
-                selectedSoundVariant: variants[0],
-                soundVariants: variants
-            )!
-        }
+        return Sound(
+            name: "Ambient Sounds",
+            icon: .system("flame.fill"),
+            volume: 0.5,
+            selectedSoundVariant: variants[0],
+            soundVariants: variants
+        )
     }
     
     @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel {
@@ -235,25 +198,13 @@ final class WhiteNoiseSoundFactory: AbstractSoundFactory {
             Sound.SoundVariant(name: "Fan Noise", filename: "fan")
         ]
         
-        do {
-            return try Sound.create(
-                name: "White Noise",
-                icon: .system("waveform"),
-                volume: 0.5,
-                selectedSoundVariant: variants[0],
-                soundVariants: variants
-            )
-        } catch {
-            SentryManager.logSoundCreationError(error, soundName: "White Noise")
-            print("❌ Failed to create White Noise Sound: \(error.localizedDescription)")
-            return Sound(
-                name: "White Noise",
-                icon: .system("waveform"),
-                volume: 0.5,
-                selectedSoundVariant: variants[0],
-                soundVariants: variants
-            )!
-        }
+        return Sound(
+            name: "White Noise",
+            icon: .system("waveform"),
+            volume: 0.5,
+            selectedSoundVariant: variants[0],
+            soundVariants: variants
+        )
     }
     
     @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel {

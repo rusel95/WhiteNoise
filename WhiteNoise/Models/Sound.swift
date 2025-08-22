@@ -39,15 +39,17 @@ class Sound: Codable, Identifiable {
         case custom(String)
     }
     
-    let id: UUID
+    var id: String {
+        name
+    }
+    
     let name: String
     let icon: Icon
     var volume: Float
     var selectedSoundVariant: SoundVariant
     let soundVariants: [SoundVariant]
 
-    init?(
-        id: UUID = UUID(),
+    init(
         name: String,
         icon: Icon,
         volume: Float = 0.0,
@@ -55,49 +57,21 @@ class Sound: Codable, Identifiable {
         soundVariants: [SoundVariant]
     ) {
         guard !soundVariants.isEmpty else {
-            print("❌ Sound initialization failed: soundVariants cannot be empty")
-            return nil
+            fatalError("Sound must have at least one variant")
         }
         
-        self.id = id
         self.name = name
         self.icon = icon
         self.volume = volume
-        
         if let selected = selectedSoundVariant {
             self.selectedSoundVariant = selected
+        } else if let firstVariant = soundVariants.first {
+            self.selectedSoundVariant = firstVariant
         } else {
-            self.selectedSoundVariant = soundVariants[0]
+            // This should never happen due to the guard above, but satisfies the compiler
+            fatalError("Logic error: soundVariants was empty after validation")
         }
-        
         self.soundVariants = soundVariants
-    }
-    
-    // Static factory method that throws an error for better error handling
-    static func create(
-        id: UUID = UUID(),
-        name: String,
-        icon: Icon,
-        volume: Float = 0.0,
-        selectedSoundVariant: SoundVariant?,
-        soundVariants: [SoundVariant]
-    ) throws -> Sound {
-        guard !soundVariants.isEmpty else {
-            throw AppError.invalidSoundConfiguration("Sound must have at least one variant")
-        }
-        
-        guard let sound = Sound(
-            id: id,
-            name: name,
-            icon: icon,
-            volume: volume,
-            selectedSoundVariant: selectedSoundVariant,
-            soundVariants: soundVariants
-        ) else {
-            throw AppError.soundCreationFailure("Failed to create sound")
-        }
-        
-        return sound
     }
     
 }

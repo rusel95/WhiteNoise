@@ -1,7 +1,0 @@
-# Ignore local configuration files with sensitive data
-Local.xcconfig
-Secrets.xcconfig
-*.local.xcconfig
-
-# Keep example files
-!Example.xcconfig
