@@ -19,6 +19,8 @@ protocol TimerServiceProtocol: AnyObject {
     var onTimerTick: ((Int) -> Void)? { get set }
     
     func start(mode: TimerService.TimerMode)
+    func pause()
+    func resume()
     func stop()
 }
 
@@ -44,6 +46,38 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
         self.mode = mode
         self.remainingSeconds = mode.totalSeconds
         self.isActive = true
+        updateDisplay()
+        
+        timerTask?.cancel()
+        timerTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: AppConstants.Timer.updateInterval)
+                
+                guard let self = self else { break }
+                
+                if self.remainingSeconds > 0 {
+                    self.remainingSeconds -= 1
+                    self.updateDisplay()
+                    self.onTimerTick?(self.remainingSeconds)
+                } else {
+                    await self.handleTimerExpired()
+                    break
+                }
+            }
+        }
+    }
+    
+    func pause() {
+        timerTask?.cancel()
+        timerTask = nil
+        isActive = false
+        // Keep mode and remainingSeconds intact for resume
+    }
+    
+    func resume() {
+        guard mode != .off && remainingSeconds > 0 else { return }
+        
+        isActive = true
         updateDisplay()
         
         timerTask?.cancel()

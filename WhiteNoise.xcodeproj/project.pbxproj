@@ -517,6 +517,7 @@
 				74349A4D2A26413C00AB0EF5 /* Frameworks */,
 				74349A4E2A26413C00AB0EF5 /* Resources */,
 				74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */,
+				DC2B8F45A2AC4A58B529C916 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);

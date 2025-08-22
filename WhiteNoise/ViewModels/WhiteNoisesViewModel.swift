@@ -279,9 +279,15 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     private func playSounds(fadeDuration: Double? = nil, updateState: Bool = true) async {
         print("🎵 Playing sounds with fade duration: \(fadeDuration ?? 0)")
         
-        // Start timer if needed
-        if timerService.mode != .off && !timerService.isActive {
-            timerService.start(mode: timerService.mode)
+        // Resume or start timer if needed
+        if timerService.mode != .off {
+            if timerService.remainingTime.isEmpty {
+                // Fresh start
+                timerService.start(mode: timerService.mode)
+            } else if !timerService.isActive {
+                // Resume from pause
+                timerService.resume()
+            }
         }
         
         // Play all sounds with volume > 0
@@ -307,8 +313,10 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     private func pauseSounds(fadeDuration: Double? = nil, updateState: Bool = true) async {
         print("🎵 Pausing sounds with fade duration: \(fadeDuration ?? 0)")
         
-        // Stop timer
-        timerService.stop()
+        // Pause timer (don't stop it completely)
+        if timerService.isActive {
+            timerService.pause()
+        }
         
         // Pause all sounds
         let soundsToPause = soundsViewModels.filter { $0.volume > 0 }
@@ -345,18 +353,19 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     
     func handleTimerModeChange(_ newMode: TimerService.TimerMode) {
         if newMode != .off {
+            // Start the timer
+            timerService.start(mode: newMode)
+            remainingTimerTime = timerService.remainingTime
+            
             // Only start playing if not already playing
             if !isPlaying {
                 Task {
                     await playSounds(fadeDuration: AppConstants.Animation.fadeLong)
                 }
             }
-            
-            // Start the timer
-            timerService.start(mode: newMode)
-            remainingTimerTime = timerService.remainingTime
             updateNowPlayingInfo()
         } else {
+            // Fully stop the timer when turned off
             timerService.stop()
             remainingTimerTime = ""
             updateNowPlayingInfo()

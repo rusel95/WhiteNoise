@@ -72,16 +72,18 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     var maxWidth: CGFloat = 0 {
         didSet {
             withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
-                self.sliderWidth = CGFloat(sound.volume) * self.maxWidth
+                self.sliderWidth = CGFloat(volume) * self.maxWidth
             }
+            self.lastDragValue = self.sliderWidth
         }
     }
     
     var maxHeight: CGFloat = 0 {
         didSet {
             withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
-                self.sliderHeight = CGFloat(sound.volume) * self.maxHeight
+                self.sliderHeight = CGFloat(volume) * self.maxHeight
             }
+            self.lastDragValue = self.sliderHeight
         }
     }
     
