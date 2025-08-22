@@ -281,12 +281,16 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         
         // Resume or start timer if needed
         if timerService.mode != .off {
-            if timerService.remainingTime.isEmpty {
-                // Fresh start
-                timerService.start(mode: timerService.mode)
-            } else if !timerService.isActive {
+            if timerService.hasRemainingTime && !timerService.isActive {
                 // Resume from pause
+                print("🎵 Resuming timer from pause")
                 timerService.resume()
+                remainingTimerTime = timerService.remainingTime
+            } else if !timerService.hasRemainingTime {
+                // Fresh start
+                print("🎵 Starting new timer")
+                timerService.start(mode: timerService.mode)
+                remainingTimerTime = timerService.remainingTime
             }
         }
         
@@ -315,6 +319,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         
         // Pause timer (don't stop it completely)
         if timerService.isActive {
+            print("🎵 Pausing timer with remaining time: \(timerService.remainingTime)")
             timerService.pause()
         }
         

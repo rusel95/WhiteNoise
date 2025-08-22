@@ -15,6 +15,7 @@ protocol TimerServiceProtocol: AnyObject {
     var mode: TimerService.TimerMode { get set }
     var remainingTime: String { get }
     var isActive: Bool { get }
+    var hasRemainingTime: Bool { get }
     var onTimerExpired: (() async -> Void)? { get set }
     var onTimerTick: ((Int) -> Void)? { get set }
     
@@ -32,6 +33,11 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
     
     private var remainingSeconds: Int = 0
     private var timerTask: Task<Void, Never>?
+    private var isPaused = false
+    
+    var hasRemainingTime: Bool {
+        return remainingSeconds > 0 && mode != .off
+    }
     
     var onTimerExpired: (() async -> Void)?
     var onTimerTick: ((Int) -> Void)?
@@ -46,6 +52,7 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
         self.mode = mode
         self.remainingSeconds = mode.totalSeconds
         self.isActive = true
+        self.isPaused = false
         updateDisplay()
         
         timerTask?.cancel()
@@ -71,12 +78,14 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
         timerTask?.cancel()
         timerTask = nil
         isActive = false
+        isPaused = true
         // Keep mode and remainingSeconds intact for resume
     }
     
     func resume() {
-        guard mode != .off && remainingSeconds > 0 else { return }
+        guard mode != .off && remainingSeconds > 0 && isPaused else { return }
         
+        isPaused = false
         isActive = true
         updateDisplay()
         
@@ -106,6 +115,7 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
         remainingSeconds = 0
         remainingTime = ""
         isActive = false
+        isPaused = false
     }
     
     private func updateDisplay() {
