@@ -167,6 +167,20 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         lastDragValue = sliderWidth
     }
     
+    /// Starts playback of the sound with an optional fade-in effect.
+    ///
+    /// This method ensures the audio is loaded before starting playback. If a fade duration
+    /// is specified, the sound will fade in from silence to the target volume over the
+    /// specified duration.
+    ///
+    /// - Parameter fadeDuration: The duration in seconds for the fade-in effect.
+    ///   If `nil`, the sound will start immediately at its set volume.
+    ///
+    /// - Note: This method is idempotent - calling it multiple times while already
+    ///   playing will not cause issues.
+    ///
+    /// - Important: The method ensures audio is loaded before playback, which may
+    ///   cause a slight delay on first play.
     func playSound(fadeDuration: Double? = nil) async {
         print("🎵 \(sound.name): playSound called with fade: \(fadeDuration ?? 0)")
         
@@ -195,6 +209,16 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         }
     }
     
+    /// Pauses playback of the sound with an optional fade-out effect.
+    ///
+    /// This method stops the sound playback. If a fade duration is specified, the sound
+    /// will fade out from its current volume to silence over the specified duration
+    /// before pausing.
+    ///
+    /// - Parameter fadeDuration: The duration in seconds for the fade-out effect.
+    ///   If `nil`, the sound will pause immediately.
+    ///
+    /// - Note: Any ongoing fade operations will be cancelled before starting the pause.
     func pauseSound(fadeDuration: Double? = nil) async {
         print("🎵 \(sound.name): pauseSound called with fade: \(fadeDuration ?? 0)")
         

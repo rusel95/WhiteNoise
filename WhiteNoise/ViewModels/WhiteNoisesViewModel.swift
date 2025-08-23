@@ -63,6 +63,8 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     private var cancellables = Set<AnyCancellable>()
     private var wasPlayingBeforeInterruption = false
     private var appLifecycleObservers: [NSObjectProtocol] = []
+    private var playPauseTask: Task<Void, Never>?
+    private var isProcessingPlayPause = false
 
     // MARK: - Initialization
     init(
@@ -90,6 +92,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     deinit {
         print("🎵 WhiteNoisesViewModel: Deinitializing")
         // Timer will stop on its own when deallocated
+        playPauseTask?.cancel()
         
         appLifecycleObservers.forEach {
             NotificationCenter.default.removeObserver($0)
@@ -98,20 +101,73 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     }
 
     // MARK: - Public Methods
+    
+    /// Toggles the playback state between playing and paused.
+    ///
+    /// This method handles user interaction with the play/pause button. It provides immediate
+    /// UI feedback by updating the `isPlaying` state synchronously, then performs the actual
+    /// audio operations asynchronously.
+    ///
+    /// The method includes debouncing logic to prevent rapid successive calls and ensures
+    /// that only one play/pause operation is processed at a time.
+    ///
+    /// - Important: This method updates the UI state immediately for responsiveness,
+    ///   but the actual audio state change happens asynchronously.
+    ///
+    /// - Note: The method will ignore calls if a play/pause operation is already in progress.
     func playingButtonSelected() {
-        print("🎵 Playing button selected - current state: \(isPlaying)")
+        print("🎯 WhiteNoisesVM.playingButtonSelected - START: isPlaying=\(isPlaying), processing=\(isProcessingPlayPause)")
+        
+        // Prevent rapid button presses
+        guard !isProcessingPlayPause else {
+            print("⚠️ WhiteNoisesVM.playingButtonSelected - SKIPPED: Already processing play/pause")
+            return
+        }
+        
+        // Cancel any existing play/pause task
+        if playPauseTask != nil {
+            print("🔄 WhiteNoisesVM.playingButtonSelected - CANCELLING: Previous play/pause task")
+            playPauseTask?.cancel()
+        }
         
         // Update state immediately for instant UI feedback
         let wasPlaying = isPlaying
         isPlaying = !wasPlaying
+        isProcessingPlayPause = true
         
-        Task {
-            if wasPlaying {
-                await pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
-            } else {
-                await audioSessionService.ensureActive()
-                await playSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
+        print("🔄 WhiteNoisesVM.playingButtonSelected - STATE CHANGE: isPlaying \(wasPlaying)→\(!wasPlaying)")
+        print("📊 WhiteNoisesVM.playingButtonSelected - STATE SNAPSHOT:")
+        print("  - isPlaying: \(isPlaying)")
+        print("  - isProcessing: \(isProcessingPlayPause)")
+        print("  - activeSounds: \(soundsViewModels.filter { $0.volume > 0 }.count)")
+        print("  - timerMode: \(timerService.mode)")
+        print("  - timerActive: \(timerService.isActive)")
+        
+        playPauseTask = Task { [weak self] in
+            guard let self = self else {
+                print("❌ WhiteNoisesVM.playingButtonSelected - FAILED: Self deallocated")
+                return
             }
+            
+            print("🔄 WhiteNoisesVM.playingButtonSelected - ASYNC START: wasPlaying=\(wasPlaying)")
+            
+            defer {
+                Task { @MainActor in
+                    self.isProcessingPlayPause = false
+                    print("🏁 WhiteNoisesVM.playingButtonSelected - ASYNC END: processing=false")
+                }
+            }
+            
+            if wasPlaying {
+                print("🔘 WhiteNoisesVM.playingButtonSelected - ACTION: Pausing sounds")
+                await self.pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
+            } else {
+                print("🔘 WhiteNoisesVM.playingButtonSelected - ACTION: Playing sounds")
+                await self.audioSessionService.ensureActive()
+                await self.playSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
+            }
+            
+            print("✅ WhiteNoisesVM.playingButtonSelected - COMPLETED: Action finished")
         }
     }
 
@@ -265,38 +321,92 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
 
     // MARK: - Playback Methods
     
-    // Protocol conformance - calls the internal version with updateState: true
+    /// Starts playback of all sounds with non-zero volume.
+    ///
+    /// This method coordinates the playback of multiple sounds simultaneously, manages
+    /// the timer service if active, and updates the Now Playing information for system
+    /// media controls.
+    ///
+    /// - Parameter fadeDuration: The duration in seconds for the fade-in effect.
+    ///   If `nil`, sounds will start at their set volume immediately.
+    ///
+    /// - Note: This method is part of the `SoundCollectionManager` protocol conformance.
     func playSounds(fadeDuration: Double? = nil) async {
         await playSounds(fadeDuration: fadeDuration, updateState: true)
     }
     
-    // Protocol conformance - calls the internal version with updateState: true
+    /// Pauses playback of all currently playing sounds.
+    ///
+    /// This method coordinates the pausing of multiple sounds simultaneously, pauses
+    /// the timer service if active (preserving remaining time), and updates the Now
+    /// Playing information.
+    ///
+    /// - Parameter fadeDuration: The duration in seconds for the fade-out effect.
+    ///   If `nil`, sounds will pause immediately.
+    ///
+    /// - Note: This method is part of the `SoundCollectionManager` protocol conformance.
     func pauseSounds(fadeDuration: Double? = nil) async {
         await pauseSounds(fadeDuration: fadeDuration, updateState: true)
     }
     
-    // Internal implementation with state control
+    /// Internal implementation for starting sound playback.
+    ///
+    /// This private method handles the actual playback logic, including timer management,
+    /// concurrent sound playback, and state updates. It includes duplicate call detection
+    /// to prevent unnecessary operations.
+    ///
+    /// - Parameters:
+    ///   - fadeDuration: The duration in seconds for the fade-in effect. If `nil`, sounds
+    ///     will start at their set volume immediately.
+    ///   - updateState: A Boolean value indicating whether to update the `isPlaying` state.
+    ///     Set to `false` when called from `playingButtonSelected()` to avoid double updates.
+    ///
+    /// - Important: This method will return early if sounds are already playing and
+    ///   `updateState` is `true` to prevent duplicate operations.
     private func playSounds(fadeDuration: Double? = nil, updateState: Bool = true) async {
-        print("🎵 Playing sounds with fade duration: \(fadeDuration ?? 0)")
+        print("🎯 WhiteNoisesVM.playSounds - START: fade=\(fadeDuration ?? 0)s, updateState=\(updateState)")
+        
+        // Check if already in playing state
+        let actuallyPlaying = soundsViewModels.contains { $0.isPlaying && $0.volume > 0 }
+        if actuallyPlaying && isPlaying && updateState {
+            print("⚠️ WhiteNoisesVM.playSounds - SKIPPED: Already playing (actuallyPlaying=\(actuallyPlaying), isPlaying=\(isPlaying))")
+            return
+        }
+        
+        print("📊 WhiteNoisesVM.playSounds - PRE-STATE:")
+        print("  - isPlaying: \(isPlaying)")
+        print("  - actuallyPlaying: \(actuallyPlaying)")
+        print("  - sounds with volume>0: \(soundsViewModels.filter { $0.volume > 0 }.count)")
         
         // Resume or start timer if needed
         if timerService.mode != .off {
+            print("⏱️ WhiteNoisesVM.playSounds - TIMER CHECK: mode=\(timerService.mode), hasRemaining=\(timerService.hasRemainingTime), isActive=\(timerService.isActive)")
+            
             if timerService.hasRemainingTime && !timerService.isActive {
                 // Resume from pause
-                print("🎵 Resuming timer from pause")
+                print("⏱️ WhiteNoisesVM.playSounds - TIMER ACTION: Resuming paused timer")
                 timerService.resume()
                 remainingTimerTime = timerService.remainingTime
+                print("⏱️ WhiteNoisesVM.playSounds - TIMER RESUMED: remaining=\(remainingTimerTime)")
             } else if !timerService.hasRemainingTime {
                 // Fresh start
-                print("🎵 Starting new timer")
+                print("⏱️ WhiteNoisesVM.playSounds - TIMER ACTION: Starting new timer")
                 timerService.start(mode: timerService.mode)
                 remainingTimerTime = timerService.remainingTime
+                print("⏱️ WhiteNoisesVM.playSounds - TIMER STARTED: duration=\(remainingTimerTime)")
+            } else {
+                print("⏱️ WhiteNoisesVM.playSounds - TIMER: Already active, no action needed")
             }
+        } else {
+            print("⏱️ WhiteNoisesVM.playSounds - TIMER: Off, skipping timer operations")
         }
         
         // Play all sounds with volume > 0
         let soundsToPlay = soundsViewModels.filter { $0.volume > 0 }
-        print("🎵 Playing \(soundsToPlay.count) sounds")
+        print("🎵 WhiteNoisesVM.playSounds - PLAYING: \(soundsToPlay.count) sounds")
+        for sound in soundsToPlay {
+            print("  - \(sound.sound.name): volume=\(sound.volume)")
+        }
         
         await withTaskGroup(of: Void.self) { group in
             for soundViewModel in soundsToPlay {
@@ -308,24 +418,68 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         
         // Update state if requested (not when called from playingButtonSelected)
         if updateState && !isPlaying {
+            print("🔄 WhiteNoisesVM.playSounds - STATE UPDATE: isPlaying false→true")
             isPlaying = true
+        } else {
+            print("🔄 WhiteNoisesVM.playSounds - STATE: No update needed (updateState=\(updateState), isPlaying=\(isPlaying))")
         }
+        
         updateNowPlayingInfo()
-        print("✅ All sounds started playing")
+        
+        print("📊 WhiteNoisesVM.playSounds - POST-STATE:")
+        print("  - isPlaying: \(isPlaying)")
+        print("  - activeSounds: \(soundsViewModels.filter { $0.isPlaying && $0.volume > 0 }.count)")
+        print("  - timerActive: \(timerService.isActive)")
+        print("✅ WhiteNoisesVM.playSounds - COMPLETED")
     }
     
+    /// Internal implementation for pausing sound playback.
+    ///
+    /// This private method handles the actual pause logic, including timer pausing
+    /// (preserving remaining time), concurrent sound pausing, and state updates.
+    /// It includes duplicate call detection to prevent unnecessary operations.
+    ///
+    /// - Parameters:
+    ///   - fadeDuration: The duration in seconds for the fade-out effect. If `nil`,
+    ///     sounds will pause immediately.
+    ///   - updateState: A Boolean value indicating whether to update the `isPlaying` state.
+    ///     Set to `false` when called from `playingButtonSelected()` to avoid double updates.
+    ///
+    /// - Important: This method will return early if sounds are already paused and
+    ///   `updateState` is `true` to prevent duplicate operations.
+    ///
+    /// - Note: The timer is paused (not stopped) to preserve the remaining time for resume.
     private func pauseSounds(fadeDuration: Double? = nil, updateState: Bool = true) async {
-        print("🎵 Pausing sounds with fade duration: \(fadeDuration ?? 0)")
+        print("🎯 WhiteNoisesVM.pauseSounds - START: fade=\(fadeDuration ?? 0)s, updateState=\(updateState)")
+        
+        // Check if already paused
+        let actuallyPlaying = soundsViewModels.contains { $0.isPlaying && $0.volume > 0 }
+        if !actuallyPlaying && !isPlaying && updateState {
+            print("⚠️ WhiteNoisesVM.pauseSounds - SKIPPED: Already paused (actuallyPlaying=\(actuallyPlaying), isPlaying=\(isPlaying))")
+            return
+        }
+        
+        print("📊 WhiteNoisesVM.pauseSounds - PRE-STATE:")
+        print("  - isPlaying: \(isPlaying)")
+        print("  - actuallyPlaying: \(actuallyPlaying)")
+        print("  - sounds with volume>0: \(soundsViewModels.filter { $0.volume > 0 }.count)")
         
         // Pause timer (don't stop it completely)
         if timerService.isActive {
-            print("🎵 Pausing timer with remaining time: \(timerService.remainingTime)")
+            print("⏱️ WhiteNoisesVM.pauseSounds - TIMER ACTION: Pausing timer")
+            print("⏱️ WhiteNoisesVM.pauseSounds - TIMER STATE: remaining=\(timerService.remainingTime), mode=\(timerService.mode)")
             timerService.pause()
+            print("⏱️ WhiteNoisesVM.pauseSounds - TIMER PAUSED: Will resume from \(timerService.remainingTime)")
+        } else {
+            print("⏱️ WhiteNoisesVM.pauseSounds - TIMER: Not active, no pause needed")
         }
         
         // Pause all sounds
         let soundsToPause = soundsViewModels.filter { $0.volume > 0 }
-        print("🎵 Pausing \(soundsToPause.count) sounds")
+        print("🎵 WhiteNoisesVM.pauseSounds - PAUSING: \(soundsToPause.count) sounds")
+        for sound in soundsToPause {
+            print("  - \(sound.sound.name): volume=\(sound.volume)")
+        }
         
         await withTaskGroup(of: Void.self) { group in
             for soundViewModel in soundsToPause {
@@ -337,10 +491,19 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         
         // Update state if requested (not when called from playingButtonSelected)
         if updateState && isPlaying {
+            print("🔄 WhiteNoisesVM.pauseSounds - STATE UPDATE: isPlaying true→false")
             isPlaying = false
+        } else {
+            print("🔄 WhiteNoisesVM.pauseSounds - STATE: No update needed (updateState=\(updateState), isPlaying=\(isPlaying))")
         }
+        
         updateNowPlayingInfo()
-        print("✅ All sounds paused")
+        
+        print("📊 WhiteNoisesVM.pauseSounds - POST-STATE:")
+        print("  - isPlaying: \(isPlaying)")
+        print("  - activeSounds: \(soundsViewModels.filter { $0.isPlaying && $0.volume > 0 }.count)")
+        print("  - timerActive: \(timerService.isActive)")
+        print("✅ WhiteNoisesVM.pauseSounds - COMPLETED")
     }
 
     // MARK: - Event Handlers
