@@ -7,11 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7400CDF82A3CA0710003292C /* rain medium heavy falling trees forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CDF32A3CA0700003292C /* rain medium heavy falling trees forest.mp3 */; };
-		7400CDF92A3CA0710003292C /* rain medium.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CDF42A3CA0700003292C /* rain medium.mp3 */; };
-		7400CE022A3CA57F0003292C /* soft rain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CDFC2A3CA57F0003292C /* soft rain.mp3 */; };
 		7400CE032A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CDFD2A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 */; };
-		7400CE042A3CA57F0003292C /* spring rain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CDFE2A3CA57F0003292C /* spring rain.mp3 */; };
 		7400CE052A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CDFF2A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 */; };
 		7400CE062A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CE002A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 */; };
 		7400CE072A3CA57F0003292C /* fire burning crackle fireplace.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7400CE012A3CA57F0003292C /* fire burning crackle fireplace.mp3 */; };
@@ -26,10 +22,8 @@
 		74121BCD2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BCC2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 */; };
 		74121BCF2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BCE2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 */; };
 		74121BD12A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BD02A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 */; };
-		74121BD52A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BD42A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 */; };
 		74121BD72A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BD62A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 */; };
 		74121BD92A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BD82A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 */; };
-		74121BDB2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BDA2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 */; };
 		74121BDD2A4B34EC008A2F99 /* sparrow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BDC2A4B34EC008A2F99 /* sparrow.mp3 */; };
 		74121BDF2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BDE2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 */; };
 		74121BE12A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74121BE02A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 */; };
@@ -50,6 +44,7 @@
 		743A959D2A28C37700219803 /* Summer forest insects and birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959C2A28C37700219803 /* Summer forest insects and birds.mp3 */; };
 		743A959F2A28C39300219803 /* Woodland ambience & several birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959E2A28C39300219803 /* Woodland ambience & several birds.mp3 */; };
 		74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */; };
+		85A9862F2E5B640000EF08DB /* car_roof_drips.wav in Resources */ = {isa = PBXBuildFile; fileRef = 85A9862E2E5B640000EF08DB /* car_roof_drips.wav */; };
 		85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */; };
 		85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */; };
 		85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C602E4353E8002AB6F9 /* Sound.swift */; };
@@ -95,11 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7400CDF32A3CA0700003292C /* rain medium heavy falling trees forest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "rain medium heavy falling trees forest.mp3"; sourceTree = "<group>"; };
-		7400CDF42A3CA0700003292C /* rain medium.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "rain medium.mp3"; sourceTree = "<group>"; };
-		7400CDFC2A3CA57F0003292C /* soft rain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "soft rain.mp3"; sourceTree = "<group>"; };
 		7400CDFD2A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "fire crackle spit flames fireplace.mp3"; sourceTree = "<group>"; };
-		7400CDFE2A3CA57F0003292C /* spring rain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "spring rain.mp3"; sourceTree = "<group>"; };
 		7400CDFF2A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "fire in fireplace spit rumble crackle.mp3"; sourceTree = "<group>"; };
 		7400CE002A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "thunder ssolated distant low rumble.mp3"; sourceTree = "<group>"; };
 		7400CE012A3CA57F0003292C /* fire burning crackle fireplace.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "fire burning crackle fireplace.mp3"; sourceTree = "<group>"; };
@@ -114,10 +105,8 @@
 		74121BCC2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = small_light_flow_creek_rainforest.mp3; sourceTree = "<group>"; };
 		74121BCE2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3; sourceTree = "<group>"; };
 		74121BD02A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gentle_rainsforest_jungle_vietnam.mp3; sourceTree = "<group>"; };
-		74121BD42A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = raindrops_on_a_car_window.mp3; sourceTree = "<group>"; };
 		74121BD62A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = HUMAN_CROWD_In_A_Room.mp3; sourceTree = "<group>"; };
 		74121BD82A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flowing_water_loop_03_long.mp3; sourceTree = "<group>"; };
-		74121BDA2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = soft_rain_on_window_glass_surface.mp3; sourceTree = "<group>"; };
 		74121BDC2A4B34EC008A2F99 /* sparrow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sparrow.mp3; sourceTree = "<group>"; };
 		74121BDE2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flowing_water_loop_06_long.mp3; sourceTree = "<group>"; };
 		74121BE02A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = west_wolf_Beach_Sea_Waves.mp3; sourceTree = "<group>"; };
@@ -146,6 +135,7 @@
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		85A9862E2E5B640000EF08DB /* car_roof_drips.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = car_roof_drips.wav; sourceTree = "<group>"; };
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		85F61C602E4353E8002AB6F9 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
@@ -305,12 +295,7 @@
 		748E81AB2A49DC4500CBC255 /* rain */ = {
 			isa = PBXGroup;
 			children = (
-				74121BDA2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 */,
-				74121BD42A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 */,
-				7400CDFC2A3CA57F0003292C /* soft rain.mp3 */,
-				7400CDFE2A3CA57F0003292C /* spring rain.mp3 */,
-				7400CDF42A3CA0700003292C /* rain medium.mp3 */,
-				7400CDF32A3CA0700003292C /* rain medium heavy falling trees forest.mp3 */,
+				85A9862E2E5B640000EF08DB /* car_roof_drips.wav */,
 			);
 			path = rain;
 			sourceTree = "<group>";
@@ -517,7 +502,6 @@
 				74349A4D2A26413C00AB0EF5 /* Frameworks */,
 				74349A4E2A26413C00AB0EF5 /* Resources */,
 				74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */,
-				DC2B8F45A2AC4A58B529C916 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -568,8 +552,6 @@
 			files = (
 				74121BD12A4B3309008A2F99 /* gentle_rainsforest_jungle_vietnam.mp3 in Resources */,
 				743A959B2A28C31C00219803 /* River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest.mp3 in Resources */,
-				7400CE022A3CA57F0003292C /* soft rain.mp3 in Resources */,
-				74121BD52A4B340A008A2F99 /* raindrops_on_a_car_window.mp3 in Resources */,
 				742351762A547D18009E1809 /* snowball_build.mp3 in Resources */,
 				74121BE32A4B357B008A2F99 /* crickets.mp3 in Resources */,
 				743A95992A28C2DC00219803 /* River or stream, water flowing, running.mp3 in Resources */,
@@ -581,18 +563,16 @@
 				743A95912A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 in Resources */,
 				74121BC52A4B2F3E008A2F99 /* isolated_002.mp3 in Resources */,
 				740873742A4B2E9B00392DA8 /* cocoo.mp3 in Resources */,
-				74121BDB2A4B34AD008A2F99 /* soft_rain_on_window_glass_surface.mp3 in Resources */,
 				7400CE032A3CA57F0003292C /* fire crackle spit flames fireplace.mp3 in Resources */,
-				7400CDF92A3CA0710003292C /* rain medium.mp3 in Resources */,
 				85F61C652E4353F2002AB6F9 /* SoundConfiguration.json in Resources */,
 				742351772A547D18009E1809 /* walk_slow.mp3 in Resources */,
 				74121BD92A4B347E008A2F99 /* flowing_water_loop_03_long.mp3 in Resources */,
 				74121BC72A4B2F72008A2F99 /* isolated_001.mp3 in Resources */,
+				85A9862F2E5B640000EF08DB /* car_roof_drips.wav in Resources */,
 				74121BCB2A4B320C008A2F99 /* Beach Sea Waves.mp3 in Resources */,
 				7400CE072A3CA57F0003292C /* fire burning crackle fireplace.mp3 in Resources */,
 				74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */,
 				74121BE12A4B354D008A2F99 /* west_wolf_Beach_Sea_Waves.mp3 in Resources */,
-				7400CE042A3CA57F0003292C /* spring rain.mp3 in Resources */,
 				74121BCD2A4B32C3008A2F99 /* small_light_flow_creek_rainforest.mp3 in Resources */,
 				742351782A547D18009E1809 /* STEP_Snow_Scuff.mp3 in Resources */,
 				74121BD72A4B344E008A2F99 /* HUMAN_CROWD_In_A_Room.mp3 in Resources */,
@@ -604,7 +584,6 @@
 				74121BDD2A4B34EC008A2F99 /* sparrow.mp3 in Resources */,
 				740873752A4B2E9B00392DA8 /* seagall.mp3 in Resources */,
 				74121BCF2A4B32E1008A2F99 /* nature_creek_water_flow_against_rock_waterfall_in_distance_to_right.mp3 in Resources */,
-				7400CDF82A3CA0710003292C /* rain medium heavy falling trees forest.mp3 in Resources */,
 				740873702A4B2DAA00392DA8 /* ducks.mp3 in Resources */,
 				74121BC92A4B3191008A2F99 /* close&distant waves.mp3 in Resources */,
 				7400CE062A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 in Resources */,

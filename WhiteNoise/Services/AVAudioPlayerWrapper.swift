@@ -49,12 +49,23 @@ class AVAudioPlayerWrapper: AudioPlayerProtocol {
 /// Factory for creating AVAudioPlayer instances
 class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
     func createPlayer(for filename: String) async throws -> AudioPlayerProtocol {
-        guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else {
+        // Try multiple audio formats in order of preference
+        let supportedFormats = ["flac", "wav", "mp3", "m4a", "aac", "aiff"]
+        var url: URL?
+        
+        for format in supportedFormats {
+            url = Bundle.main.url(forResource: filename, withExtension: format)
+            if url != nil {
+                break
+            }
+        }
+        
+        guard let audioURL = url else {
             throw AudioError.fileNotFound(filename)
         }
         
         let player = try await Task.detached(priority: .userInitiated) {
-            let avPlayer = try AVAudioPlayer(contentsOf: url)
+            let avPlayer = try AVAudioPlayer(contentsOf: audioURL)
             avPlayer.prepareToPlay()
             return avPlayer
         }.value

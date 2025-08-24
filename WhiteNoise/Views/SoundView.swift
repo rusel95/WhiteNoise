@@ -129,26 +129,3 @@ struct SoundView: View {
         }
     }
 }
-
-struct SoundView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color.black
-                .ignoresSafeArea()
-            
-            SoundView(viewModel: .init(
-                sound: Sound(
-                    name: "Rain",
-                    icon: .system("cloud.rain"),
-                    volume: 0.3,
-                    selectedSoundVariant: nil,
-                    soundVariants: [
-                        .init(name: "Soft Rain", filename: "soft_rain"),
-                        .init(name: "Heavy Rain", filename: "heavy_rain")
-                    ]
-                )
-            ))
-            .padding()
-        }
-    }
-}

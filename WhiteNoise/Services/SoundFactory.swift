@@ -17,15 +17,35 @@ class SoundFactory: SoundFactoryProtocol {
     func getSavedSounds() -> [Sound] {
         let sounds = configurationLoader.loadSounds()
         
-        // Load saved state for each sound
+        // Apply user preferences migration to each sound
         return sounds.map { sound in
-            if let savedSound = persistenceService.load(soundId: sound.id) {
-                print("✅ Loaded saved state for \(sound.name): volume=\(savedSound.volume)")
-                return savedSound
+            let (savedVolume, savedVariantName) = persistenceService.loadUserPreferences(soundId: sound.id)
+            
+            // Use saved volume or default to 0.0 if no preference
+            let finalVolume = savedVolume ?? 0.0
+            
+            // Find matching variant or use first available
+            let finalVariant: Sound.SoundVariant?
+            if let savedVariantName = savedVariantName,
+               let matchingVariant = sound.soundVariants.first(where: { $0.name == savedVariantName }) {
+                finalVariant = matchingVariant
+                print("✅ Migrated \(sound.name): volume=\(finalVolume), variant=\(matchingVariant.name)")
+            } else if !sound.soundVariants.isEmpty {
+                finalVariant = sound.soundVariants.first
+                let variantName = finalVariant?.name ?? "none"
+                print("🔄 Migrated \(sound.name): volume=\(finalVolume), variant=\(variantName) (default)")
             } else {
-                print("ℹ️ No saved state for \(sound.name), using default volume=\(sound.volume)")
-                return sound
+                finalVariant = nil
+                print("⚠️ Migrated \(sound.name): volume=\(finalVolume), no variants available")
             }
+            
+            return Sound(
+                name: sound.name,
+                icon: sound.icon,
+                volume: finalVolume,
+                selectedSoundVariant: finalVariant,
+                soundVariants: sound.soundVariants
+            )
         }
     }
     
@@ -60,15 +80,35 @@ final class EnhancedSoundFactory: SoundFactoryProtocol {
         // If no configuration sounds, create from abstract factories
         let sounds = configSounds.isEmpty ? createSoundsFromFactories() : configSounds
         
-        // Load saved state for each sound
+        // Apply user preferences migration to each sound
         return sounds.map { sound in
-            if let savedSound = persistenceService.load(soundId: sound.id) {
-                print("✅ Loaded saved state for \(sound.name): volume=\(savedSound.volume)")
-                return savedSound
+            let (savedVolume, savedVariantName) = persistenceService.loadUserPreferences(soundId: sound.id)
+            
+            // Use saved volume or default to 0.0 if no preference
+            let finalVolume = savedVolume ?? 0.0
+            
+            // Find matching variant or use first available
+            let finalVariant: Sound.SoundVariant?
+            if let savedVariantName = savedVariantName,
+               let matchingVariant = sound.soundVariants.first(where: { $0.name == savedVariantName }) {
+                finalVariant = matchingVariant
+                print("✅ Enhanced migrated \(sound.name): volume=\(finalVolume), variant=\(matchingVariant.name)")
+            } else if !sound.soundVariants.isEmpty {
+                finalVariant = sound.soundVariants.first
+                let variantName = finalVariant?.name ?? "none"
+                print("🔄 Enhanced migrated \(sound.name): volume=\(finalVolume), variant=\(variantName) (default)")
             } else {
-                print("ℹ️ No saved state for \(sound.name), using default volume=\(sound.volume)")
-                return sound
+                finalVariant = nil
+                print("⚠️ Enhanced migrated \(sound.name): volume=\(finalVolume), no variants available")
             }
+            
+            return Sound(
+                name: sound.name,
+                icon: sound.icon,
+                volume: finalVolume,
+                selectedSoundVariant: finalVariant,
+                soundVariants: sound.soundVariants
+            )
         }
     }
     

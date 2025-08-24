@@ -8,11 +8,7 @@
       },
       "variants": [
         {"name": "soft", "filename": "soft rain"},
-        {"name": "spring", "filename": "spring rain"},
-        {"name": "medium", "filename": "rain medium"},
-        {"name": "medium heavy", "filename": "rain medium heavy falling trees forest"},
-        {"name": "raindrops on a car window", "filename": "raindrops_on_a_car_window"},
-        {"name": "raindrops on glass", "filename": "soft_rain_on_window_glass_surface"}
+        {"name": "car roof drips", "filename": "car_roof_drips"},
       ]
     },
     {

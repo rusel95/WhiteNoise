@@ -10,6 +10,8 @@ import Foundation
 protocol SoundPersistenceServiceProtocol {
     func save(_ sound: Sound)
     func load(soundId: String) -> Sound?
+    func loadUserPreferences(soundId: String) -> (volume: Float?, selectedVariant: String?)
+    func clearAll()
 }
 
 final class SoundPersistenceService: SoundPersistenceServiceProtocol {
@@ -39,5 +41,27 @@ final class SoundPersistenceService: SoundPersistenceServiceProtocol {
             print("Failed to load sound: \(error)")
             return nil
         }
+    }
+    
+    /// Loads only user preferences (volume, selected variant) for migration purposes
+    func loadUserPreferences(soundId: String) -> (volume: Float?, selectedVariant: String?) {
+        guard let data = userDefaults.data(forKey: Keys.sound(soundId)),
+              let sound = try? JSONDecoder().decode(Sound.self, from: data) else {
+            return (nil, nil)
+        }
+        
+        let selectedVariantName = sound.selectedSoundVariant.name
+        return (sound.volume, selectedVariantName)
+    }
+    
+    func clearAll() {
+        let allKeys = userDefaults.dictionaryRepresentation().keys
+        let soundKeys = allKeys.filter { $0.hasPrefix("sound_") }
+        
+        for key in soundKeys {
+            userDefaults.removeObject(forKey: key)
+        }
+        
+        print("🧹 Cleared \(soundKeys.count) cached sounds from UserDefaults")
     }
 }

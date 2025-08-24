@@ -161,22 +161,3 @@ struct SoundVariantPickerView: View {
         }
     }
 }
-
-struct SoundVariantPickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color.black.ignoresSafeArea()
-            
-            SoundVariantPickerView(
-                selectedVariant: .constant(Sound.SoundVariant(name: "Soft Rain", filename: "soft_rain")),
-                isPresented: .constant(true),
-                soundName: "Rain",
-                variants: [
-                    Sound.SoundVariant(name: "Soft Rain", filename: "soft_rain"),
-                    Sound.SoundVariant(name: "Heavy Rain", filename: "heavy_rain"),
-                    Sound.SoundVariant(name: "Rain on Leaves", filename: "rain_leaves")
-                ]
-            )
-        }
-    }
-}
