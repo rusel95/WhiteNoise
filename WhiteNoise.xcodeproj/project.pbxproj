@@ -64,16 +64,10 @@
 		85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */; };
 		85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C852E435402002AB6F9 /* TimerPickerView.swift */; };
 		85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C822E435402002AB6F9 /* ContentView.swift */; };
-		85F61C8B2E435402002AB6F9 /* SoundVariantPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C832E435402002AB6F9 /* SoundVariantPickerView.swift */; };
 		85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C842E435402002AB6F9 /* SoundView.swift */; };
 		85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */; };
 		85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8E2E435410002AB6F9 /* FadeOperation.swift */; };
-		85F61C922E435411002AB6F9 /* AudioCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8F2E435411002AB6F9 /* AudioCommand.swift */; };
-		85F61C932E435412002AB6F9 /* TimerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C902E435412002AB6F9 /* TimerCommand.swift */; };
-		85F61C942E435413002AB6F9 /* SoundState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C912E435413002AB6F9 /* SoundState.swift */; };
-		85F61C952E435414002AB6F9 /* SoundObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C922E435414002AB6F9 /* SoundObserver.swift */; };
 		85F61C962E435415002AB6F9 /* AbstractSoundFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */; };
-		85F61C972E435416002AB6F9 /* AudioSessionFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C942E435416002AB6F9 /* AudioSessionFacade.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -153,18 +147,12 @@
 		85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
 		85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesViewModel.swift; sourceTree = "<group>"; };
 		85F61C822E435402002AB6F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		85F61C832E435402002AB6F9 /* SoundVariantPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundVariantPickerView.swift; sourceTree = "<group>"; };
 		85F61C842E435402002AB6F9 /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
 		85F61C852E435402002AB6F9 /* TimerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerView.swift; sourceTree = "<group>"; };
 		85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesView.swift; sourceTree = "<group>"; };
 		85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStrategy.swift; sourceTree = "<group>"; };
 		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
-		85F61C8F2E435411002AB6F9 /* AudioCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCommand.swift; sourceTree = "<group>"; };
-		85F61C902E435412002AB6F9 /* TimerCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCommand.swift; sourceTree = "<group>"; };
-		85F61C912E435413002AB6F9 /* SoundState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundState.swift; sourceTree = "<group>"; };
-		85F61C922E435414002AB6F9 /* SoundObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundObserver.swift; sourceTree = "<group>"; };
 		85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSoundFactory.swift; sourceTree = "<group>"; };
-		85F61C942E435416002AB6F9 /* AudioSessionFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionFacade.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,11 +226,7 @@
 				85F61C7F2E4353FE002AB6F9 /* ViewModels */,
 				85F61C712E4353F6002AB6F9 /* Services */,
 				85F61C982E435420002AB6F9 /* Strategies */,
-				85F61C992E435421002AB6F9 /* Commands */,
-				85F61C9A2E435422002AB6F9 /* States */,
-				85F61C9B2E435423002AB6F9 /* Observers */,
 				85F61C9C2E435424002AB6F9 /* Factories */,
-				85F61C9D2E435425002AB6F9 /* Facades */,
 				85F61C642E4353F2002AB6F9 /* Resources */,
 				85F61C612E4353E8002AB6F9 /* Models */,
 				85F61C5E2E4353E0002AB6F9 /* Extensions */,
@@ -433,7 +417,6 @@
 			isa = PBXGroup;
 			children = (
 				85F61C822E435402002AB6F9 /* ContentView.swift */,
-				85F61C832E435402002AB6F9 /* SoundVariantPickerView.swift */,
 				85F61C842E435402002AB6F9 /* SoundView.swift */,
 				85F61C852E435402002AB6F9 /* TimerPickerView.swift */,
 				85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */,
@@ -450,45 +433,12 @@
 			path = Strategies;
 			sourceTree = "<group>";
 		};
-		85F61C992E435421002AB6F9 /* Commands */ = {
-			isa = PBXGroup;
-			children = (
-				85F61C8F2E435411002AB6F9 /* AudioCommand.swift */,
-				85F61C902E435412002AB6F9 /* TimerCommand.swift */,
-			);
-			path = Commands;
-			sourceTree = "<group>";
-		};
-		85F61C9A2E435422002AB6F9 /* States */ = {
-			isa = PBXGroup;
-			children = (
-				85F61C912E435413002AB6F9 /* SoundState.swift */,
-			);
-			path = States;
-			sourceTree = "<group>";
-		};
-		85F61C9B2E435423002AB6F9 /* Observers */ = {
-			isa = PBXGroup;
-			children = (
-				85F61C922E435414002AB6F9 /* SoundObserver.swift */,
-			);
-			path = Observers;
-			sourceTree = "<group>";
-		};
 		85F61C9C2E435424002AB6F9 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
 				85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */,
 			);
 			path = Factories;
-			sourceTree = "<group>";
-		};
-		85F61C9D2E435425002AB6F9 /* Facades */ = {
-			isa = PBXGroup;
-			children = (
-				85F61C942E435416002AB6F9 /* AudioSessionFacade.swift */,
-			);
-			path = Facades;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -611,16 +561,10 @@
 				85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */,
 				85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */,
 				85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */,
-				85F61C8B2E435402002AB6F9 /* SoundVariantPickerView.swift in Sources */,
 				85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */,
 				85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */,
 				85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */,
-				85F61C922E435411002AB6F9 /* AudioCommand.swift in Sources */,
-				85F61C932E435412002AB6F9 /* TimerCommand.swift in Sources */,
-				85F61C942E435413002AB6F9 /* SoundState.swift in Sources */,
-				85F61C952E435414002AB6F9 /* SoundObserver.swift in Sources */,
 				85F61C962E435415002AB6F9 /* AbstractSoundFactory.swift in Sources */,
-				85F61C972E435416002AB6F9 /* AudioSessionFacade.swift in Sources */,
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,

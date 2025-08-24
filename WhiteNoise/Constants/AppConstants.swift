@@ -65,8 +65,6 @@ enum AppConstants {
     enum Timer {
         static let updateInterval: UInt64 = 1_000_000_000 // 1 second in nanoseconds
         static let nowPlayingUpdateInterval: Int = 10 // seconds
-        static let preStartDelayMs: Int = 100 // milliseconds delay before starting
-        static let soundSpacingMultiplier: Int = 3 // every 3rd sound gets extra delay
     }
     
     enum UserDefaults {

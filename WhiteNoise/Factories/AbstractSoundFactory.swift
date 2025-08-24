@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - Abstract Factory Protocol
 
+/// Protocol for creating sound-related objects
 protocol AbstractSoundFactory {
     func createSound() -> Sound
     @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel
@@ -18,9 +19,10 @@ protocol AbstractSoundFactory {
 
 // MARK: - Sound Categories
 
+/// Categories for organizing sounds - used for UI grouping and specialized behavior
 enum SoundCategory: String, CaseIterable {
     case nature = "Nature"
-    case weather = "Weather"
+    case weather = "Weather" 
     case ambient = "Ambient"
     case whiteNoise = "White Noise"
     
@@ -34,44 +36,51 @@ enum SoundCategory: String, CaseIterable {
     }
 }
 
-// MARK: - Concrete Factories
+// MARK: - Configuration-Driven Factory
 
-final class NatureSoundFactory: AbstractSoundFactory {
+/// Factory that creates sounds from configuration files only
+final class ConfigurationDrivenSoundFactory: AbstractSoundFactory {
     private let playerFactory: AudioPlayerFactoryProtocol
     private let persistenceService: SoundPersistenceServiceProtocol
+    private let category: SoundCategory
     
     init(
+        category: SoundCategory,
         playerFactory: AudioPlayerFactoryProtocol = AVAudioPlayerFactory(),
         persistenceService: SoundPersistenceServiceProtocol = SoundPersistenceService()
     ) {
+        self.category = category
         self.playerFactory = playerFactory
         self.persistenceService = persistenceService
     }
     
     func createSound() -> Sound {
-        // Create nature-specific sounds
-        let variants = [
-            Sound.SoundVariant(name: "Forest", filename: "forest"),
-            Sound.SoundVariant(name: "Birds", filename: "birds"),
-            Sound.SoundVariant(name: "Ocean Waves", filename: "ocean"),
-            Sound.SoundVariant(name: "River Stream", filename: "river")
-        ]
-        
+        // This method is not used since we load from SoundConfiguration.json
+        // Returning empty sound as placeholder
         return Sound(
-            name: "Nature Sounds",
-            icon: .system("leaf.fill"),
-            volume: 0.5,
-            selectedSoundVariant: variants[0],
-            soundVariants: variants
+            name: "Configuration Sound",
+            icon: .system(category.icon),
+            volume: 0.0,
+            selectedSoundVariant: nil,
+            soundVariants: []
         )
     }
     
     @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel {
-        SoundViewModel(
+        let fadeType: FadeType = {
+            switch category {
+            case .nature: return .logarithmic
+            case .weather: return .exponential  
+            case .ambient: return .sCurve
+            case .whiteNoise: return .linear
+            }
+        }()
+        
+        return SoundViewModel(
             sound: sound,
             playerFactory: playerFactory,
             persistenceService: persistenceService,
-            fadeType: .logarithmic // Nature sounds use logarithmic fade
+            fadeType: fadeType
         )
     }
     
@@ -80,148 +89,7 @@ final class NatureSoundFactory: AbstractSoundFactory {
     }
     
     func getSoundCategory() -> SoundCategory {
-        .nature
-    }
-}
-
-final class WeatherSoundFactory: AbstractSoundFactory {
-    private let playerFactory: AudioPlayerFactoryProtocol
-    private let persistenceService: SoundPersistenceServiceProtocol
-    
-    init(
-        playerFactory: AudioPlayerFactoryProtocol = AVAudioPlayerFactory(),
-        persistenceService: SoundPersistenceServiceProtocol = SoundPersistenceService()
-    ) {
-        self.playerFactory = playerFactory
-        self.persistenceService = persistenceService
-    }
-    
-    func createSound() -> Sound {
-        let variants = [
-            Sound.SoundVariant(name: "Soft Rain", filename: "soft-rain"),
-            Sound.SoundVariant(name: "Heavy Rain", filename: "hard-rain"),
-            Sound.SoundVariant(name: "Thunderstorm", filename: "thunder"),
-            Sound.SoundVariant(name: "Snow", filename: "snow")
-        ]
-        
-        return Sound(
-            name: "Weather Sounds",
-            icon: .system("cloud.rain.fill"),
-            volume: 0.5,
-            selectedSoundVariant: variants[0],
-            soundVariants: variants
-        )
-    }
-    
-    @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel {
-        SoundViewModel(
-            sound: sound,
-            playerFactory: playerFactory,
-            persistenceService: persistenceService,
-            fadeType: .exponential // Weather sounds use exponential fade
-        )
-    }
-    
-    func createAudioPlayer(for fileName: String) async throws -> AudioPlayerProtocol {
-        try await playerFactory.createPlayer(for: fileName)
-    }
-    
-    func getSoundCategory() -> SoundCategory {
-        .weather
-    }
-}
-
-final class AmbientSoundFactory: AbstractSoundFactory {
-    private let playerFactory: AudioPlayerFactoryProtocol
-    private let persistenceService: SoundPersistenceServiceProtocol
-    
-    init(
-        playerFactory: AudioPlayerFactoryProtocol = AVAudioPlayerFactory(),
-        persistenceService: SoundPersistenceServiceProtocol = SoundPersistenceService()
-    ) {
-        self.playerFactory = playerFactory
-        self.persistenceService = persistenceService
-    }
-    
-    func createSound() -> Sound {
-        let variants = [
-            Sound.SoundVariant(name: "Fireplace", filename: "fireplace"),
-            Sound.SoundVariant(name: "Coffee Shop", filename: "coffee-shop"),
-            Sound.SoundVariant(name: "Library", filename: "library"),
-            Sound.SoundVariant(name: "Night City", filename: "city-night")
-        ]
-        
-        return Sound(
-            name: "Ambient Sounds",
-            icon: .system("flame.fill"),
-            volume: 0.5,
-            selectedSoundVariant: variants[0],
-            soundVariants: variants
-        )
-    }
-    
-    @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel {
-        SoundViewModel(
-            sound: sound,
-            playerFactory: playerFactory,
-            persistenceService: persistenceService,
-            fadeType: .sCurve // Ambient sounds use S-curve fade
-        )
-    }
-    
-    func createAudioPlayer(for fileName: String) async throws -> AudioPlayerProtocol {
-        try await playerFactory.createPlayer(for: fileName)
-    }
-    
-    func getSoundCategory() -> SoundCategory {
-        .ambient
-    }
-}
-
-final class WhiteNoiseSoundFactory: AbstractSoundFactory {
-    private let playerFactory: AudioPlayerFactoryProtocol
-    private let persistenceService: SoundPersistenceServiceProtocol
-    
-    init(
-        playerFactory: AudioPlayerFactoryProtocol = AVAudioPlayerFactory(),
-        persistenceService: SoundPersistenceServiceProtocol = SoundPersistenceService()
-    ) {
-        self.playerFactory = playerFactory
-        self.persistenceService = persistenceService
-    }
-    
-    func createSound() -> Sound {
-        let variants = [
-            Sound.SoundVariant(name: "White Noise", filename: "white-noise"),
-            Sound.SoundVariant(name: "Pink Noise", filename: "pink-noise"),
-            Sound.SoundVariant(name: "Brown Noise", filename: "brown-noise"),
-            Sound.SoundVariant(name: "Fan Noise", filename: "fan")
-        ]
-        
-        return Sound(
-            name: "White Noise",
-            icon: .system("waveform"),
-            volume: 0.5,
-            selectedSoundVariant: variants[0],
-            soundVariants: variants
-        )
-    }
-    
-    @MainActor func createSoundViewModel(sound: Sound) -> SoundViewModel {
-        SoundViewModel(
-            sound: sound,
-            playerFactory: playerFactory,
-            persistenceService: persistenceService,
-            fadeType: .linear // White noise uses linear fade
-        )
-    }
-    
-    func createAudioPlayer(for fileName: String) async throws -> AudioPlayerProtocol {
-        try await playerFactory.createPlayer(for: fileName)
-    }
-    
-    func getSoundCategory() -> SoundCategory {
-        .whiteNoise
+        category
     }
 }
 
@@ -229,16 +97,7 @@ final class WhiteNoiseSoundFactory: AbstractSoundFactory {
 
 final class SoundFactoryProvider {
     static func getFactory(for category: SoundCategory) -> AbstractSoundFactory {
-        switch category {
-        case .nature:
-            return NatureSoundFactory()
-        case .weather:
-            return WeatherSoundFactory()
-        case .ambient:
-            return AmbientSoundFactory()
-        case .whiteNoise:
-            return WhiteNoiseSoundFactory()
-        }
+        ConfigurationDrivenSoundFactory(category: category)
     }
     
     static func getAllFactories() -> [AbstractSoundFactory] {
