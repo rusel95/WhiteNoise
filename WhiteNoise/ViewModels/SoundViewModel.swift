@@ -275,13 +275,25 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         audioLoadingTask = Task.detached(priority: .userInitiated) { [weak self] in
             await self?.prepareSound(fileName: self?.sound.selectedSoundVariant.filename ?? "")
             await MainActor.run { [weak self] in
-                self?.isAudioLoaded = true
+                // Only mark as loaded if we actually have a player
+                if self?.player != nil {
+                    self?.isAudioLoaded = true
+                    print("✅ \(self?.sound.name ?? "Unknown") - AUDIO LOADED: Player available")
+                } else {
+                    self?.isAudioLoaded = false
+                    print("❌ \(self?.sound.name ?? "Unknown") - AUDIO LOAD FAILED: No player created")
+                }
                 self?.audioLoadingTask = nil
             }
         }
     }
     
     private func ensureAudioLoaded() async {
+        // Check if we already have a working player
+        if player != nil && isAudioLoaded {
+            return
+        }
+        
         if !isAudioLoaded {
             loadAudioAsync()
             // Wait for audio to load

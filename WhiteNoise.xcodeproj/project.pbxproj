@@ -45,6 +45,8 @@
 		743A959F2A28C39300219803 /* Woodland ambience & several birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 743A959E2A28C39300219803 /* Woodland ambience & several birds.mp3 */; };
 		74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */; };
 		85A9862F2E5B640000EF08DB /* car_roof_drips.wav in Resources */ = {isa = PBXBuildFile; fileRef = 85A9862E2E5B640000EF08DB /* car_roof_drips.wav */; };
+		85A986312E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A986302E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a */; };
+		85A986332E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A986322E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a */; };
 		85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */; };
 		85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */; };
 		85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C602E4353E8002AB6F9 /* Sound.swift */; };
@@ -130,6 +132,8 @@
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		85A9862E2E5B640000EF08DB /* car_roof_drips.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = car_roof_drips.wav; sourceTree = "<group>"; };
+		85A986302E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "177479__unfa__slowly-raining-loop.m4a"; sourceTree = "<group>"; };
+		85A986322E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "584945__richwise__rain-loop-1.m4a"; sourceTree = "<group>"; };
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		85F61C602E4353E8002AB6F9 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
@@ -279,7 +283,9 @@
 		748E81AB2A49DC4500CBC255 /* rain */ = {
 			isa = PBXGroup;
 			children = (
+				85A986302E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a */,
 				85A9862E2E5B640000EF08DB /* car_roof_drips.wav */,
+				85A986322E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a */,
 			);
 			path = rain;
 			sourceTree = "<group>";
@@ -508,6 +514,7 @@
 				7408736E2A4B2D5100392DA8 /* among_the_stars.mp3 in Resources */,
 				74121BDF2A4B3516008A2F99 /* flowing_water_loop_06_long.mp3 in Resources */,
 				74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */,
+				85A986312E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a in Resources */,
 				74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */,
 				7400CE052A3CA57F0003292C /* fire in fireplace spit rumble crackle.mp3 in Resources */,
 				743A95912A28C1E500219803 /* Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand.mp3 in Resources */,
@@ -538,6 +545,7 @@
 				74121BC92A4B3191008A2F99 /* close&distant waves.mp3 in Resources */,
 				7400CE062A3CA57F0003292C /* thunder ssolated distant low rumble.mp3 in Resources */,
 				742351752A547D18009E1809 /* shovel_clearing_snow.mp3 in Resources */,
+				85A986332E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

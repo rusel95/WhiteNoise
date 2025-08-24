@@ -50,17 +50,22 @@ class AVAudioPlayerWrapper: AudioPlayerProtocol {
 class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
     func createPlayer(for filename: String) async throws -> AudioPlayerProtocol {
         // Try multiple audio formats in order of preference
-        let supportedFormats = ["flac", "wav", "mp3", "m4a", "aac", "aiff"]
+        // Note: FLAC is not supported by AVAudioPlayer on iOS
+        let supportedFormats = ["wav", "m4a", "aac", "mp3", "aiff", "caf"]
         var url: URL?
         
         for format in supportedFormats {
             url = Bundle.main.url(forResource: filename, withExtension: format)
             if url != nil {
+                print("🎵 Found audio file: \(filename).\(format)")
                 break
+            } else {
+                print("⚠️ Not found: \(filename).\(format)")
             }
         }
         
         guard let audioURL = url else {
+            print("❌ No audio file found for: \(filename) in formats: \(supportedFormats)")
             throw AudioError.fileNotFound(filename)
         }
         
