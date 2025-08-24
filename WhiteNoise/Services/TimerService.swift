@@ -145,29 +145,57 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
     ///
     /// - Note: If the timer was not paused or has no remaining time, this method does nothing.
     func resume() {
-        guard mode != .off && remainingSeconds > 0 && isPaused else { return }
+        print("🎯 TimerSvc.resume - START")
+        print("📊 TimerSvc.resume - PRE-STATE: mode=\(mode), paused=\(isPaused), remaining=\(remainingSeconds)s")
+        
+        guard mode != .off && remainingSeconds > 0 && isPaused else {
+            print("⚠️ TimerSvc.resume - SKIPPED: Invalid state (mode=\(mode), remaining=\(remainingSeconds), paused=\(isPaused))")
+            return
+        }
         
         isPaused = false
         isActive = true
         updateDisplay()
         
-        timerTask?.cancel()
+        if timerTask != nil {
+            print("🔄 TimerSvc.resume - CANCELLING: Previous timer task")
+            timerTask?.cancel()
+        }
+        
+        print("⏱️ TimerSvc.resume - CREATING: Resume task for \(remainingSeconds) seconds")
+        
         timerTask = Task { [weak self] in
+            print("⏱️ TimerSvc.resume - TASK STARTED: Resuming countdown from \(self?.remainingTime ?? "unknown")")
+            
             while !Task.isCancelled {
                 try? await Task.sleep(nanoseconds: AppConstants.Timer.updateInterval)
                 
-                guard let self = self else { break }
+                guard let self = self else {
+                    print("❌ TimerSvc.resume - TASK CANCELLED: Self deallocated")
+                    break
+                }
                 
                 if self.remainingSeconds > 0 {
                     self.remainingSeconds -= 1
                     self.updateDisplay()
+                    
+                    // Log every 10 seconds or when less than 10 seconds remain
+                    if self.remainingSeconds % 10 == 0 || self.remainingSeconds < 10 {
+                        print("⏱️ TimerSvc - TICK: \(self.remainingTime) remaining")
+                    }
+                    
                     self.onTimerTick?(self.remainingSeconds)
                 } else {
+                    print("⏱️ TimerSvc - EXPIRED: Timer reached zero")
                     await self.handleTimerExpired()
                     break
                 }
             }
+            
+            print("⏱️ TimerSvc.resume - TASK ENDED")
         }
+        
+        print("✅ TimerSvc.resume - COMPLETED: Timer resumed at \(remainingTime)")
     }
     
     /// Completely stops and resets the timer.
@@ -182,13 +210,23 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
     ///
     /// - Important: Use `pause()` if you want to preserve the timer state for later resumption.
     func stop() {
-        timerTask?.cancel()
-        timerTask = nil
+        print("🎯 TimerSvc.stop - START")
+        print("📊 TimerSvc.stop - PRE-STATE: mode=\(mode), active=\(isActive), paused=\(isPaused), remaining=\(remainingSeconds)s")
+        
+        if timerTask != nil {
+            print("🔄 TimerSvc.stop - CANCELLING: Timer task")
+            timerTask?.cancel()
+            timerTask = nil
+        }
+        
         mode = .off
         remainingSeconds = 0
         remainingTime = ""
         isActive = false
         isPaused = false
+        
+        print("📊 TimerSvc.stop - POST-STATE: All timer state reset")
+        print("✅ TimerSvc.stop - COMPLETED: Timer fully stopped and reset")
     }
     
     private func updateDisplay() {

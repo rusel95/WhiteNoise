@@ -56,10 +56,14 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     // MARK: - Published Properties
     @Published var volume: Float {
         didSet {
+            let oldValue = oldValue
+            print("🔊 SoundVM.\(sound.name) - VOLUME CHANGE: \(String(format: "%.2f", oldValue))→\(String(format: "%.2f", volume))")
+            
             Task {
                 await updatePlayerVolume(volume)
                 sound.volume = volume
                 persistenceService.save(sound)
+                print("💾 SoundVM.\(sound.name) - VOLUME SAVED: \(String(format: "%.2f", volume))")
             }
         }
     }
@@ -182,31 +186,45 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     /// - Important: The method ensures audio is loaded before playback, which may
     ///   cause a slight delay on first play.
     func playSound(fadeDuration: Double? = nil) async {
-        print("🎵 \(sound.name): playSound called with fade: \(fadeDuration ?? 0)")
+        print("🎯 SoundVM.\(sound.name).playSound - START: fade=\(fadeDuration ?? 0)s, volume=\(volume)")
+        print("📊 SoundVM.\(sound.name) - PRE-STATE: isPlaying=\(isPlaying), audioLoaded=\(isAudioLoaded)")
         
+        print("🔄 SoundVM.\(sound.name) - CANCELLING: Any previous fade operation")
         fadeOperation.cancel()
         
         // Ensure audio is loaded before playing
+        if !isAudioLoaded {
+            print("🎵 SoundVM.\(sound.name) - LOADING: Audio not loaded, loading now...")
+        }
         await ensureAudioLoaded()
         
         guard let player = player else {
-            print("❌ \(sound.name): No player available")
+            print("❌ SoundVM.\(sound.name).playSound - FAILED: No player available after loading")
             return
         }
         
+        print("🎵 SoundVM.\(sound.name) - PLAYER STATE: isPlaying=\(player.isPlaying), volume=\(player.volume)")
+        
         if let fadeDuration = fadeDuration, fadeDuration > 0 {
+            print("🎚️ SoundVM.\(sound.name) - FADE IN: Starting \(fadeDuration)s fade to volume \(sound.volume)")
             await fadeOperation.fadeIn(
                 player: player,
                 targetVolume: sound.volume,
                 duration: fadeDuration
             )
+            print("✅ SoundVM.\(sound.name) - FADE IN COMPLETED")
         } else {
             player.volume = sound.volume
             if !player.isPlaying {
+                print("🎵 SoundVM.\(sound.name) - PLAY: Starting immediate playback at volume \(sound.volume)")
                 let success = player.play()
-                print("\(success ? "✅" : "❌") \(sound.name): Started playing (success: \(success))")
+                print("\(success ? "✅" : "❌") SoundVM.\(sound.name) - PLAY \(success ? "SUCCESS" : "FAILED")")
+            } else {
+                print("🎵 SoundVM.\(sound.name) - ALREADY PLAYING: Skipping play call")
             }
         }
+        
+        print("✅ SoundVM.\(sound.name).playSound - COMPLETED: isPlaying=\(player.isPlaying)")
     }
     
     /// Pauses playback of the sound with an optional fade-out effect.
@@ -220,22 +238,34 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     ///
     /// - Note: Any ongoing fade operations will be cancelled before starting the pause.
     func pauseSound(fadeDuration: Double? = nil) async {
-        print("🎵 \(sound.name): pauseSound called with fade: \(fadeDuration ?? 0)")
+        print("🎯 SoundVM.\(sound.name).pauseSound - START: fade=\(fadeDuration ?? 0)s")
+        print("📊 SoundVM.\(sound.name) - PRE-STATE: isPlaying=\(isPlaying)")
         
+        print("🔄 SoundVM.\(sound.name) - CANCELLING: Any previous fade operation")
         fadeOperation.cancel()
         
         guard let player = player else {
-            print("❌ \(sound.name): No player to pause")
+            print("⚠️ SoundVM.\(sound.name).pauseSound - SKIPPED: No player to pause")
             return
         }
         
+        print("🎵 SoundVM.\(sound.name) - PLAYER STATE: isPlaying=\(player.isPlaying), volume=\(player.volume)")
+        
         if let fadeDuration = fadeDuration, fadeDuration > 0 {
+            print("🎚️ SoundVM.\(sound.name) - FADE OUT: Starting \(fadeDuration)s fade out")
             await fadeOperation.fadeOut(player: player, duration: fadeDuration)
-            print("✅ \(sound.name): Paused with fade")
+            print("✅ SoundVM.\(sound.name) - FADE OUT COMPLETED")
         } else {
-            player.pause()
-            print("✅ \(sound.name): Paused immediately")
+            if player.isPlaying {
+                print("🎵 SoundVM.\(sound.name) - PAUSE: Stopping playback immediately")
+                player.pause()
+                print("✅ SoundVM.\(sound.name) - PAUSED")
+            } else {
+                print("⚠️ SoundVM.\(sound.name) - ALREADY PAUSED: Skipping pause call")
+            }
         }
+        
+        print("✅ SoundVM.\(sound.name).pauseSound - COMPLETED: isPlaying=\(player.isPlaying)")
     }
     
     // MARK: - Private Methods

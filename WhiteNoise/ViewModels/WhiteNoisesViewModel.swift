@@ -42,6 +42,11 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         soundsViewModels.filter { $0.volume > 0 }
     }
     
+    /// Checks if any sounds are actually playing (based on real audio state, not UI state)
+    private var actuallyPlayingAudio: Bool {
+        soundsViewModels.contains { $0.isPlaying && $0.volume > 0 }
+    }
+    
     // MARK: - Published Properties
     @Published var soundsViewModels: [SoundViewModel] = []
     @Published var isPlaying: Bool = false
@@ -100,6 +105,45 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         appLifecycleObservers.removeAll()
     }
 
+    // MARK: - Public Methods
+    
+    /// Synchronizes the UI state (button, timer) with the actual audio playing state.
+    ///
+    /// This method checks if audio is actually playing and updates the UI state to match.
+    /// It's called when the app becomes active to ensure consistency after lock screen
+    /// control usage or other external state changes.
+    private func syncStateWithActualAudio() {
+        let wasUIPlaying = isPlaying
+        let actuallyPlaying = actuallyPlayingAudio
+        
+        print("🔄 WhiteNoisesVM.syncStateWithActualAudio - CHECKING SYNC:")
+        print("  - UI state (isPlaying): \(wasUIPlaying)")
+        print("  - Actual audio state: \(actuallyPlaying)")
+        print("  - Timer active: \(timerService.isActive)")
+        print("  - Timer has remaining: \(timerService.hasRemainingTime)")
+        
+        if actuallyPlaying != wasUIPlaying {
+            print("⚠️ WhiteNoisesVM.syncStateWithActualAudio - STATE MISMATCH DETECTED!")
+            print("🔄 WhiteNoisesVM.syncStateWithActualAudio - SYNCING: UI state \(wasUIPlaying) → \(actuallyPlaying)")
+            isPlaying = actuallyPlaying
+            
+            // Also sync timer state
+            if actuallyPlaying && timerService.hasRemainingTime && !timerService.isActive {
+                print("⏱️ WhiteNoisesVM.syncStateWithActualAudio - RESUMING TIMER to match playing state")
+                timerService.resume()
+                remainingTimerTime = timerService.remainingTime
+            } else if !actuallyPlaying && timerService.isActive {
+                print("⏱️ WhiteNoisesVM.syncStateWithActualAudio - PAUSING TIMER to match paused state")
+                timerService.pause()
+            }
+            
+            updateNowPlayingInfo()
+            print("✅ WhiteNoisesVM.syncStateWithActualAudio - SYNC COMPLETED")
+        } else {
+            print("✅ WhiteNoisesVM.syncStateWithActualAudio - Already in sync")
+        }
+    }
+    
     // MARK: - Public Methods
     
     /// Toggles the playback state between playing and paused.
@@ -201,17 +245,65 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         
         // Remote command callbacks
         remoteCommandService.onPlayCommand = { [weak self] in
-            guard let self = self, !self.isPlaying else { return }
-            await self.playSounds(fadeDuration: AppConstants.Animation.fadeLong)
+            guard let self = self else { return }
+            print("📡 WhiteNoisesVM - REMOTE COMMAND: Play received")
+            print("  - Current UI state: \(self.isPlaying)")
+            print("  - Actual audio state: \(self.actuallyPlayingAudio)")
+            
+            // Check actual state first
+            if !self.actuallyPlayingAudio {
+                print("📡 WhiteNoisesVM - REMOTE: Starting playback")
+                self.isPlaying = true
+                await self.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
+                
+                // Resume timer if needed
+                if self.timerService.hasRemainingTime && !self.timerService.isActive {
+                    print("📡 WhiteNoisesVM - REMOTE: Resuming timer")
+                    self.timerService.resume()
+                    self.remainingTimerTime = self.timerService.remainingTime
+                }
+            } else {
+                print("📡 WhiteNoisesVM - REMOTE: Already playing, syncing UI state")
+                self.isPlaying = true
+            }
         }
         
         remoteCommandService.onPauseCommand = { [weak self] in
-            guard let self = self, self.isPlaying else { return }
-            await self.pauseSounds(fadeDuration: AppConstants.Animation.fadeLong)
+            guard let self = self else { return }
+            print("📡 WhiteNoisesVM - REMOTE COMMAND: Pause received")
+            print("  - Current UI state: \(self.isPlaying)")
+            print("  - Actual audio state: \(self.actuallyPlayingAudio)")
+            
+            // Check actual state first
+            if self.actuallyPlayingAudio {
+                print("📡 WhiteNoisesVM - REMOTE: Pausing playback")
+                self.isPlaying = false
+                await self.pauseSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
+                
+                // Pause timer if active
+                if self.timerService.isActive {
+                    print("📡 WhiteNoisesVM - REMOTE: Pausing timer")
+                    self.timerService.pause()
+                }
+            } else {
+                print("📡 WhiteNoisesVM - REMOTE: Already paused, syncing UI state")
+                self.isPlaying = false
+            }
         }
         
         remoteCommandService.onToggleCommand = { [weak self] in
-            self?.playingButtonSelected()
+            guard let self = self else { return }
+            print("📡 WhiteNoisesVM - REMOTE COMMAND: Toggle received")
+            print("  - Current UI state: \(self.isPlaying)")
+            print("  - Actual audio state: \(self.actuallyPlayingAudio)")
+            
+            // Sync state first, then toggle based on actual audio state
+            if self.actuallyPlayingAudio != self.isPlaying {
+                print("📡 WhiteNoisesVM - REMOTE: State mismatch detected, syncing first")
+                self.syncStateWithActualAudio()
+            }
+            
+            self.playingButtonSelected()
         }
     }
     
@@ -520,24 +612,39 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     }
     
     func handleTimerModeChange(_ newMode: TimerService.TimerMode) {
+        print("🎯 WhiteNoisesVM.handleTimerModeChange - START: newMode=\(newMode.displayText)")
+        print("📊 WhiteNoisesVM.handleTimerModeChange - CURRENT STATE: isPlaying=\(isPlaying), timerActive=\(timerService.isActive)")
+        
         if newMode != .off {
+            print("⏱️ WhiteNoisesVM.handleTimerModeChange - ACTION: Starting timer with mode \(newMode.displayText)")
+            
             // Start the timer
             timerService.start(mode: newMode)
             remainingTimerTime = timerService.remainingTime
+            print("⏱️ WhiteNoisesVM.handleTimerModeChange - TIMER STARTED: \(remainingTimerTime)")
             
             // Only start playing if not already playing
             if !isPlaying {
+                print("🎵 WhiteNoisesVM.handleTimerModeChange - TRIGGERING PLAY: Not currently playing")
                 Task {
                     await playSounds(fadeDuration: AppConstants.Animation.fadeLong)
                 }
+            } else {
+                print("🎵 WhiteNoisesVM.handleTimerModeChange - ALREADY PLAYING: No need to start")
             }
             updateNowPlayingInfo()
         } else {
+            print("⏱️ WhiteNoisesVM.handleTimerModeChange - ACTION: Turning timer off")
+            
             // Fully stop the timer when turned off
             timerService.stop()
             remainingTimerTime = ""
             updateNowPlayingInfo()
+            
+            print("⏱️ WhiteNoisesVM.handleTimerModeChange - TIMER STOPPED")
         }
+        
+        print("✅ WhiteNoisesVM.handleTimerModeChange - COMPLETED")
     }
     
     private func handleAudioInterruption(_ isInterrupted: Bool) async {
@@ -553,18 +660,28 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     }
     
     private func handleAppDidBecomeActive() async {
-        print("🎵 Handling app did become active")
+        print("📱 WhiteNoisesVM.handleAppDidBecomeActive - START")
         
         await audioSessionService.reconfigure()
         
-        // Only refresh audio if we were actually playing
-        // Don't refresh on initial app launch
-        if isPlaying {
+        // CRITICAL: Sync UI state with actual audio state
+        // This handles cases where lock screen controls changed the state
+        syncStateWithActualAudio()
+        
+        // Only refresh audio if we were actually playing (after sync)
+        if isPlaying && actuallyPlayingAudio {
+            print("📱 WhiteNoisesVM.handleAppDidBecomeActive - Refreshing active audio")
             // Resume playing sounds that were playing
             for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
                 await soundViewModel.playSound()
             }
+        } else if isPlaying && !actuallyPlayingAudio {
+            // UI says playing but audio is not - restart audio
+            print("📱 WhiteNoisesVM.handleAppDidBecomeActive - UI says playing but audio stopped, restarting")
+            await playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
         }
+        
+        print("📱 WhiteNoisesVM.handleAppDidBecomeActive - COMPLETED")
     }
     
     private func updateNowPlayingInfo() {
