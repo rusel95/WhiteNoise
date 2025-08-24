@@ -30,12 +30,7 @@
         "value": "snow"
       },
       "variants": [
-        {"name": "frozen tribal", "filename": "frozen_tribal_organic_snow"},
-        {"name": "blastwave blizzard", "filename": "Blastwave_Blizzard"},
-        {"name": "walk slow", "filename": "walk_slow"},
-        {"name": "snowball build", "filename": "snowball_build"},
-        {"name": "shovel clearing", "filename": "shovel_clearing_snow"},
-        {"name": "step scuff", "filename": "STEP_Snow_Scuff"}
+          {"name": "test", "filename":  "test"}
       ]
     },
     {
@@ -45,9 +40,7 @@
         "value": "cloud.bolt"
       },
       "variants": [
-        {"name": "distand low", "filename": "thunder ssolated distant low rumble"},
-        {"name": "isolated 1", "filename": "isolated_001"},
-        {"name": "isolated 2", "filename": "isolated_002"}
+          {"name": "test", "filename":  "test"}
       ]
     },
     {
@@ -57,10 +50,7 @@
         "value": "sea"
       },
       "variants": [
-        {"name": "calm", "filename": "Mediterranean sea, calm ocean waves splashing on rocks pebbles and sand"},
-        {"name": "close&distant", "filename": "close&distant waves"},
-        {"name": "strong waves", "filename": "Beach Sea Waves"},
-        {"name": "soft waves", "filename": "west_wolf_Beach_Sea_Waves"}
+          {"name": "test", "filename":  "test"}
       ]
     },
     {
@@ -70,10 +60,7 @@
         "value": "water.waves"
       },
       "variants": [
-        {"name": "regular", "filename": "River or stream, water flowing, running"},
-        {"name": "mountain", "filename": "River, French Alps, Binaural, Close perspective, Water, Flow, Mountain, Forest"},
-        {"name": "flowing", "filename": "flowing_water_loop_03_long"},
-        {"name": "flowing 2", "filename": "flowing_water_loop_06_long"}
+          {"name": "test", "filename":  "test"}
       ]
     },
     {
@@ -83,10 +70,7 @@
         "value": "waterfall"
       },
       "variants": [
-        {"name": "medium", "filename": "Waterfall, medium close, people chatting, Bridal Falls, Canada"},
-        {"name": "small", "filename": "small_light_flow_creek_rainforest"},
-        {"name": "distant", "filename": "nature_creek_water_flow_against_rock_waterfall_in_distance_to_right"},
-        {"name": "gentle", "filename": "gentle_rainsforest_jungle_vietnam"}
+          {"name": "medium", "filename":  "127840__martats__waterfall_cycle"},
       ]
     },
     {
@@ -96,8 +80,7 @@
         "value": "tree"
       },
       "variants": [
-        {"name": "summer", "filename": "Summer forest insects and birds"},
-        {"name": "ambiance", "filename": "Woodland ambience & several birds"}
+          {"name": "medium", "filename":  "127840__martats__waterfall_cycle"}
       ]
     },
     {
@@ -107,11 +90,7 @@
         "value": "bird"
       },
       "variants": [
-        {"name": "ducks", "filename": "ducks"},
-        {"name": "cocoo", "filename": "cocoo"},
-        {"name": "seagall", "filename": "seagall"},
-        {"name": "sparrow", "filename": "sparrow"},
-        {"name": "crickets", "filename": "crickets"}
+          {"name": "test", "filename":  "test"}
       ]
     },
     {
@@ -121,8 +100,7 @@
         "value": "voice-command"
       },
       "variants": [
-        {"name": "angels", "filename": "among_the_stars"},
-        {"name": "crowd in a room", "filename": "HUMAN_CROWD_In_A_Room"}
+          {"name": "test", "filename":  "test"}
       ]
     }
   ]
