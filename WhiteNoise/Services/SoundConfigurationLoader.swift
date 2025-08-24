@@ -55,10 +55,27 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
                     Sound.SoundVariant(name: variantData.name, filename: variantData.filename)
                 }
                 
+                // Set specific default volumes for certain sounds
+                let defaultVolume: Float = {
+                    switch soundData.name.lowercased() {
+                    case "rain":
+                        print("🎵 SoundConfigurationLoader: Setting rain default volume to 70%")
+                        return 0.7  // 70%
+                    case "thunder":
+                        print("🎵 SoundConfigurationLoader: Setting thunder default volume to 30%")
+                        return 0.3  // 30%
+                    case "birds":
+                        print("🎵 SoundConfigurationLoader: Setting birds default volume to 20%")
+                        return 0.2  // 20%
+                    default:
+                        return AppConstants.Audio.defaultVolume
+                    }
+                }()
+                
                 return Sound(
                     name: soundData.name,
                     icon: icon,
-                    volume: AppConstants.Audio.defaultVolume,
+                    volume: defaultVolume,
                     selectedSoundVariant: nil,
                     soundVariants: variants
                 )
@@ -75,10 +92,28 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
             Sound(
                 name: "rain",
                 icon: .system("cloud.rain"),
-                volume: AppConstants.Audio.defaultVolume,
+                volume: 0.7,  // 70% default for rain
                 selectedSoundVariant: nil,
                 soundVariants: [
                     .init(name: "soft", filename: "soft rain")
+                ]
+            ),
+            Sound(
+                name: "thunder",
+                icon: .system("cloud.bolt"),
+                volume: 0.3,  // 30% default for thunder
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(name: "distant", filename: "thunder distant")
+                ]
+            ),
+            Sound(
+                name: "birds",
+                icon: .system("bird"),
+                volume: 0.2,  // 20% default for birds
+                selectedSoundVariant: nil,
+                soundVariants: [
+                    .init(name: "chirping", filename: "birds chirping")
                 ]
             ),
             Sound(
