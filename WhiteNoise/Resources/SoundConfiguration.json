@@ -19,9 +19,8 @@
         "value": "fireplace"
       },
       "variants": [
-        {"name": "crackle spit", "filename": "fire crackle spit flames fireplace"},
-        {"name": "burning crackle", "filename": "fire burning crackle fireplace"},
-        {"name": "spit crackle", "filename": "fire in fireplace spit rumble crackle"}
+        {"name": "regular", "filename": "414482__giddster__fireplace-burning"},
+        {"name": "burning crackle", "filename": "495660__aunrea__fireplace"},
       ]
     },
     {
