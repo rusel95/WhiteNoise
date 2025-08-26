@@ -70,6 +70,7 @@
         "value": "waterfall"
       },
       "variants": [
+          {"name": "small", "filename":  "188295__willstepp__small-waterfall-at-the-mill"},
           {"name": "medium", "filename":  "127840__martats__waterfall_cycle"},
       ]
     },
@@ -80,7 +81,7 @@
         "value": "tree"
       },
       "variants": [
-          {"name": "medium", "filename":  "127840__martats__waterfall_cycle"}
+          {"name": "test", "filename":  "test"}
       ]
     },
     {

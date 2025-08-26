@@ -4,6 +4,8 @@
   <img src="https://img.shields.io/badge/iOS-15.0+-000000?style=flat-square&logo=apple&logoColor=white" alt="iOS 15.0+">
   <img src="https://img.shields.io/badge/Swift-5.0+-FA7343?style=flat-square&logo=swift&logoColor=white" alt="Swift 5.0+">
   <img src="https://img.shields.io/badge/SwiftUI-blue?style=flat-square&logo=swift&logoColor=white" alt="SwiftUI">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="MIT License">
+  <img src="https://img.shields.io/badge/Open%20Source-❤️-red?style=flat-square" alt="Open Source">
   <br>
   <img src="https://visitor-badge.laobi.icu/badge?page_id=ruslanpopesku.whitenoise" alt="Visitors">
 </div>
@@ -50,12 +52,9 @@ Built with SwiftUI + AVFoundation using MVVM architecture.
 
 PRs welcome! Please follow Swift API Design Guidelines.
 
-## License
-
-MIT License
-
 ---
 
 <div align="center">
   <p>Made with 🎵 by Ruslan Popesku</p>
+  <p>MIT Licensed</p>
 </div>

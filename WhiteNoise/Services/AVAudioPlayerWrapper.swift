@@ -51,7 +51,7 @@ class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
     func createPlayer(for filename: String) async throws -> AudioPlayerProtocol {
         // Try multiple audio formats in order of preference
         // Note: FLAC is not supported by AVAudioPlayer on iOS
-        let supportedFormats = ["wav", "m4a", "aac", "mp3", "aiff", "caf"]
+        let supportedFormats = ["m4a", "wav", "aac", "mp3", "aiff", "caf"]
         var url: URL?
         
         for format in supportedFormats {
