@@ -9,5 +9,4 @@ import Foundation
 
 protocol SoundFactoryProtocol {
     func getSavedSounds() -> [Sound]
-    func getSavedSoundsAsync() async -> [Sound]
 }

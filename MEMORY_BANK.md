@@ -19,6 +19,12 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 - Build (Debug): `xcodebuild -project WhiteNoise.xcodeproj -scheme WhiteNoise -configuration Debug build`
 - Tests: Minimal UI tests in `WhiteNoiseUITests/*`; no unit tests for services/view models yet.
 
+## Conventions
+
+- Design principles: Follow SOLID, DRY, KISS, and YAGNI across the codebase and features.
+- Abstractions: Prefer protocols and dependency injection for extensibility and testability.
+- Scope: Keep implementations simple; avoid speculative complexity; remove duplication proactively.
+
 ## Components
 
 - App: `WhiteNoise/WhiteNoiseApp.swift` initializes Sentry (profiling enabled, tracesSampleRate=1.0) and loads `ContentView`.
@@ -33,15 +39,15 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
   - `RemoteCommandService`: sets up play/pause/toggle; updates MPNowPlayingInfo (optional artwork: `LaunchScreenIcon`).
   - `SoundPersistenceService`: stores `Sound` JSON per `sound_<id>` key; migration helper exposes volume + variant name.
   - `SoundConfigurationLoader`: loads `SoundConfiguration.json` → `Sound` list; applies special default volumes (rain 0.7, thunder 0.3, birds 0.2).
-  - `AbstractSoundFactory`/`ConfigurationDrivenSoundFactory`: category-based providers (set fade type per category); currently not wired into main flow.
+  - Removed unused factory abstractions (previously under `Factories/`) during principles refactor.
 
 ## Audio & Configuration
 
 - Config file: `WhiteNoise/Resources/SoundConfiguration.json`
-  - Note: Contains trailing commas; `JSONDecoder()` rejects; loader falls back to hardcoded minimal defaults.
+  - JSON fixed (removed trailing commas). Loader now decodes successfully.
+  - Only configured sounds with real assets remain: rain, fireplace, waterfall.
   - Variants map to base filenames; `AVAudioPlayerFactory` appends supported extensions and searches bundle root.
   - Ensure Xcode “Copy Bundle Resources” flattens subfolders or pass `withSubdirectory` when looking up files.
-- Assets present: waterfall (2), rain (3), fireplace (2). Others (snow, thunder, birds, sea, river, voice) have placeholder filenames like "test" and may not exist.
 - Player loops forever (`numberOfLoops = -1`).
 
 ## Playback & Concurrency
@@ -79,7 +85,7 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 
 ## Constants & Tunables
 
-- Animation: springDuration=1.0; fades as above; `fadeSteps=50` (per-second granularity).
+- Animation: springDuration=1.0; fades — standard=2.0s, long=3.0s, out=5.0s; `fadeSteps=50` (per-second granularity).
 - Audio: `slowLoadThreshold=0.5s` logs a warning; `loopForever=-1`.
 - Timer: `updateInterval=1s`; now playing update cadence = 10s.
 - UI sizing: control button 50x50 (iOS); various font/icon sizes under `AppConstants.UI`.
@@ -101,11 +107,12 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 
 ## TODOs
 
-- Fix `WhiteNoise/Resources/SoundConfiguration.json` (remove trailing commas) and ensure assets exist for all variants.
+- Fix `WhiteNoise/Resources/SoundConfiguration.json` (remove trailing commas) and ensure assets exist for all variants. [Done — pruned placeholders]
 - Decide default volume behavior (honor loader defaults when no saved prefs vs force 0.0). Update `SoundFactory` accordingly.
-- Reconcile fade durations across docs and `AppConstants`; consider using `fadeTimerEnd` for timer expiry.
-- Add unit tests for `TimerService`, `FadeOperation`, and `SoundViewModel` fade/load paths; expand UI tests.
-- Consider centralizing Now Playing time math (avoid string parsing) and expose seconds directly from `TimerService`.
+- Reconcile fade durations across docs and `AppConstants`. [Done — 2/3/5s]
+- Add unit tests for `TimerService` and `FadeOperation`; expand UI tests. [Added test files; create unit test target in Xcode to run]
+  - Unit Test target wired in Xcode project (scheme updated). Run with `xcodebuild test -project WhiteNoise.xcodeproj -scheme WhiteNoise -destination 'platform=iOS Simulator,name=iPhone 15'`.
+- Consider centralizing Now Playing time math (avoid string parsing) and expose seconds directly from `TimerService`. [Done]
 - Evaluate `AppConstants.Animation.fadeStepDuration` (currently unused) vs computed step duration.
 - Provide artwork asset named `LaunchScreenIcon` or parameterize via constants.
 - Consider wiring `AbstractSoundFactory` categories into main flow or removing until used.
@@ -114,6 +121,15 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 
 - 2025-09-09: Added `AGENT.md` and `MEMORY_BANK.md` to guide Codex usage and persist knowledge.
 - 2025-09-09: Established logging, concurrency, and timer behavior snapshot in memory bank for future consistency.
+ - 2025-09-09: Principles refactor:
+   - Fixed trailing commas in `WhiteNoise/Resources/SoundConfiguration.json` (KISS).
+   - Exposed `remainingSecondsValue` in `TimerService` and used it in `WhiteNoisesViewModel.updateNowPlayingInfo` (DRY, KISS).
+   - Align fade durations: standard=2s, long=3s, out=5s across code and docs (KISS).
+   - Removed unused `fadeStepDuration` constant from `AppConstants.Animation` (YAGNI).
+   - Removed unused `Factories/AbstractSoundFactory.swift` (YAGNI).
+   - Removed unused `getSavedSoundsAsync` from `SoundFactoryProtocol` and implementation (YAGNI).
+   - Added unit test files for `TimerService` and `FadeOperation` under `WhiteNoiseUnitTests/`.
+ - 2025-09-09: Codified SOLID, DRY, KISS, YAGNI as project conventions in memory bank.
 
 ## How To Update This File
 

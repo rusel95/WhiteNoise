@@ -48,6 +48,20 @@ Press `Cmd + R` to build and run.
 
 Built with SwiftUI + AVFoundation using MVVM architecture.
 
+## Tests
+
+- Run all tests from CLI:
+  - `xcodebuild test -project WhiteNoise.xcodeproj -scheme WhiteNoise -destination 'platform=iOS Simulator,name=iPhone 15'`
+- Or use the helper script:
+  - `bash scripts/test.sh`
+- In Xcode: open the project and press `Cmd + U`.
+
+Notes:
+- Includes unit tests for timer lifecycle and fade operations:
+  - `WhiteNoiseUnitTests/TimerServiceTests.swift`
+  - `WhiteNoiseUnitTests/FadeOperationTests.swift`
+- The scheme already includes the `WhiteNoiseUnitTests` target.
+
 ## Contributing
 
 PRs welcome! Please follow Swift API Design Guidelines.

@@ -48,10 +48,4 @@ class SoundFactory: SoundFactoryProtocol {
             )
         }
     }
-    
-    func getSavedSoundsAsync() async -> [Sound] {
-        await Task.detached(priority: .userInitiated) { [weak self] in
-            self?.getSavedSounds() ?? []
-        }.value
-    }
 }

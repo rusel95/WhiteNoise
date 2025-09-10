@@ -34,15 +34,26 @@
 		85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C702E4353F6002AB6F9 /* TimerService.swift */; };
 		85F61C802E4353FE002AB6F9 /* WhiteNoisesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */; };
 		85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */; };
+		95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2002F00000100000001 /* TimerServiceTests.swift */; };
+		95E0C2032F00000100000001 /* FadeOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2022F00000100000001 /* FadeOperationTests.swift */; };
 		85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */; };
 		85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C852E435402002AB6F9 /* TimerPickerView.swift */; };
 		85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C822E435402002AB6F9 /* ContentView.swift */; };
 		85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C842E435402002AB6F9 /* SoundView.swift */; };
 		85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */; };
 		85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8E2E435410002AB6F9 /* FadeOperation.swift */; };
-		85F61C962E435415002AB6F9 /* AbstractSoundFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */; };
 		B678D69DEFCA4A21B89BD180 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB30BA50C54483B8B12D6A /* Sentry */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		95E0C2052F00000100000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74349A482A26413C00AB0EF5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 74349A4F2A26413C00AB0EF5;
+			remoteInfo = WhiteNoise;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */ = {
@@ -80,6 +91,10 @@
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		85F61C602E4353E8002AB6F9 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		95E0C1F92F00000100000001 /* WhiteNoiseUnitTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WhiteNoiseUnitTests; sourceTree = "<group>"; };
+		95E0C1FA2F00000100000001 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
+		95E0C2022F00000100000001 /* FadeOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperationTests.swift; sourceTree = "<group>"; };
 		85F61C632E4353F2002AB6F9 /* SoundConfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SoundConfiguration.json; sourceTree = "<group>"; };
 		85F61C662E4353F6002AB6F9 /* AudioPlayerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerProtocol.swift; sourceTree = "<group>"; };
 		85F61C672E4353F6002AB6F9 /* AudioSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionService.swift; sourceTree = "<group>"; };
@@ -99,7 +114,6 @@
 		85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesView.swift; sourceTree = "<group>"; };
 		85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStrategy.swift; sourceTree = "<group>"; };
 		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
-		85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSoundFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +122,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B678D69DEFCA4A21B89BD180 /* Sentry in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95E0C1FE2F00000100000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +162,7 @@
 				854592702E3B9BF400095568 /* README.md */,
 				74349A522A26413C00AB0EF5 /* WhiteNoise */,
 				74349A6D2A26413F00AB0EF5 /* WhiteNoiseUITests */,
+				95E0C1FB2F00000100000001 /* WhiteNoiseUnitTests */,
 				74CD16762A45EC27004FE649 /* Frameworks */,
 				74349A512A26413C00AB0EF5 /* Products */,
 			);
@@ -161,7 +183,6 @@
 				85F61C7F2E4353FE002AB6F9 /* ViewModels */,
 				85F61C712E4353F6002AB6F9 /* Services */,
 				85F61C982E435420002AB6F9 /* Strategies */,
-				85F61C9C2E435424002AB6F9 /* Factories */,
 				85F61C642E4353F2002AB6F9 /* Resources */,
 				85F61C612E4353E8002AB6F9 /* Models */,
 				85F61C5E2E4353E0002AB6F9 /* Extensions */,
@@ -192,6 +213,15 @@
 				74349A702A26413F00AB0EF5 /* WhiteNoiseUITestsLaunchTests.swift */,
 			);
 			path = WhiteNoiseUITests;
+			sourceTree = "<group>";
+		};
+		95E0C1FB2F00000100000001 /* WhiteNoiseUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				95E0C2002F00000100000001 /* TimerServiceTests.swift */,
+				95E0C2022F00000100000001 /* FadeOperationTests.swift */,
+			);
+			path = WhiteNoiseUnitTests;
 			sourceTree = "<group>";
 		};
 		74349A832A26494300AB0EF5 /* Sounds */ = {
@@ -354,14 +384,6 @@
 			path = Strategies;
 			sourceTree = "<group>";
 		};
-		85F61C9C2E435424002AB6F9 /* Factories */ = {
-			isa = PBXGroup;
-			children = (
-				85F61C932E435415002AB6F9 /* AbstractSoundFactory.swift */,
-			);
-			path = Factories;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -386,6 +408,24 @@
 			packageProductDependencies = (
 				63AB30BA50C54483B8B12D6A /* Sentry */,
 			);
+		};
+/* Test target */
+		95E0C1FC2F00000100000001 /* WhiteNoiseUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 95E0C2062F00000100000001 /* Build configuration list for PBXNativeTarget "WhiteNoiseUnitTests" */;
+			buildPhases = (
+				95E0C1FD2F00000100000001 /* Sources */,
+				95E0C1FE2F00000100000001 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				95E0C2042F00000100000001 /* PBXTargetDependency */,
+			);
+			name = WhiteNoiseUnitTests;
+			productName = WhiteNoiseUnitTests;
+			productReference = 95E0C1FA2F00000100000001 /* WhiteNoiseUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -416,6 +456,7 @@
 			projectRoot = "";
 			targets = (
 				74349A4F2A26413C00AB0EF5 /* WhiteNoise */,
+				95E0C1FC2F00000100000001 /* WhiteNoiseUnitTests */,
 			);
 			packageReferences = (
 				C03D6D82924248D1A4F9FB5C /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
@@ -444,6 +485,18 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXSourcesBuildPhase section for tests */
+		95E0C1FD2F00000100000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */,
+				95E0C2032F00000100000001 /* FadeOperationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section for tests */
+
 /* Begin PBXSourcesBuildPhase section */
 		74349A4C2A26413C00AB0EF5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -465,7 +518,6 @@
 				85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */,
 				85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */,
 				85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */,
-				85F61C962E435415002AB6F9 /* AbstractSoundFactory.swift in Sources */,
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
@@ -478,6 +530,40 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		95E0C2072F00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FWHF624C4H;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		95E0C2082F00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FWHF624C4H;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		74349A722A26413F00AB0EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -703,6 +789,15 @@
 			buildConfigurations = (
 				74349A752A26413F00AB0EF5 /* Debug */,
 				74349A762A26413F00AB0EF5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		95E0C2062F00000100000001 /* Build configuration list for PBXNativeTarget "WhiteNoiseUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95E0C2072F00000100000001 /* Debug */,
+				95E0C2082F00000100000001 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

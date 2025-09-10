@@ -34,20 +34,9 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "74349A5F2A26413F00AB0EF5"
-               BuildableName = "WhiteNoiseTests.xctest"
-               BlueprintName = "WhiteNoiseTests"
-               ReferencedContainer = "container:WhiteNoise.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "74349A692A26413F00AB0EF5"
-               BuildableName = "WhiteNoiseUITests.xctest"
-               BlueprintName = "WhiteNoiseUITests"
+               BlueprintIdentifier = "95E0C1FC2F00000100000001"
+               BuildableName = "WhiteNoiseUnitTests.xctest"
+               BlueprintName = "WhiteNoiseUnitTests"
                ReferencedContainer = "container:WhiteNoise.xcodeproj">
             </BuildableReference>
          </TestableReference>

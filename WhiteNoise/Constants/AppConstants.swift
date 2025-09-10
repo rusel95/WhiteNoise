@@ -11,12 +11,10 @@ enum AppConstants {
     
     enum Animation {
         static let springDuration: Double = 1.0
-        static let fadeStandard: Double = 2.0 // Standard fade in/out duration
-        static let fadeOut: Double = 2.0 // Fade out duration
-        static let fadeLong: Double = 5.0
-        static let fadeTimerEnd: Double = 10.0 // Fade out when timer ends
+        static let fadeStandard: Double = 2.0 // Standard fade for button presses
+        static let fadeLong: Double = 3.0 // Remote commands, interruptions
+        static let fadeOut: Double = 5.0 // Timer expiry fade out
         static let fadeSteps: Int = 50 // Updates per second for fade
-        static let fadeStepDuration: UInt64 = 20_000_000 // 20ms in nanoseconds
     }
     
     enum Audio {

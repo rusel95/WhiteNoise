@@ -137,9 +137,9 @@ Volume Change → handleVolumeChange → playSound/pauseSound (individual)
 ```
 
 ## Fade Durations
-- **Standard**: 2.0 seconds (button press)
-- **Long**: 3.0 seconds (remote commands, interruptions)
-- **Out**: 5.0 seconds (timer expiry)
+- Standard: 2.0s (button press)
+- Long: 3.0s (remote commands, interruptions)
+- Out: 5.0s (timer expiry)
 
 ## Timer Lifecycle
 

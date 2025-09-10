@@ -9,7 +9,7 @@
       "variants": [
         {"name": "slow soft", "filename": "177479__unfa__slowly-raining-loop"},
         {"name": "soft drops", "filename": "584945__richwise__rain-loop-1"},
-        {"name": "car roof drips", "filename": "car_roof_drips"},
+        {"name": "car roof drips", "filename": "car_roof_drips"}
       ]
     },
     {
@@ -20,47 +20,7 @@
       },
       "variants": [
         {"name": "regular", "filename": "414482__giddster__fireplace-burning"},
-        {"name": "burning crackle", "filename": "495660__aunrea__fireplace"},
-      ]
-    },
-    {
-      "name": "snow",
-      "icon": {
-        "type": "system",
-        "value": "snow"
-      },
-      "variants": [
-          {"name": "test", "filename":  "test"}
-      ]
-    },
-    {
-      "name": "thunder",
-      "icon": {
-        "type": "system",
-        "value": "cloud.bolt"
-      },
-      "variants": [
-          {"name": "test", "filename":  "test"}
-      ]
-    },
-    {
-      "name": "sea",
-      "icon": {
-        "type": "custom",
-        "value": "sea"
-      },
-      "variants": [
-          {"name": "test", "filename":  "test"}
-      ]
-    },
-    {
-      "name": "river",
-      "icon": {
-        "type": "system",
-        "value": "water.waves"
-      },
-      "variants": [
-          {"name": "test", "filename":  "test"}
+        {"name": "burning crackle", "filename": "495660__aunrea__fireplace"}
       ]
     },
     {
@@ -71,37 +31,7 @@
       },
       "variants": [
           {"name": "small", "filename":  "188295__willstepp__small-waterfall-at-the-mill"},
-          {"name": "medium", "filename":  "127840__martats__waterfall_cycle"},
-      ]
-    },
-    {
-      "name": "forest",
-      "icon": {
-        "type": "system",
-        "value": "tree"
-      },
-      "variants": [
-          {"name": "test", "filename":  "test"}
-      ]
-    },
-    {
-      "name": "birds",
-      "icon": {
-        "type": "system",
-        "value": "bird"
-      },
-      "variants": [
-          {"name": "test", "filename":  "test"}
-      ]
-    },
-    {
-      "name": "voice",
-      "icon": {
-        "type": "custom",
-        "value": "voice-command"
-      },
-      "variants": [
-          {"name": "test", "filename":  "test"}
+          {"name": "medium", "filename":  "127840__martats__waterfall_cycle"}
       ]
     }
   ]
