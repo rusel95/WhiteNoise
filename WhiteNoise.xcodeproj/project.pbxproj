@@ -11,6 +11,9 @@
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
 		74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */; };
+		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
+		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
+		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
 		85A986312E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A986302E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a */; };
 		85A986332E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A986322E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a */; };
 		85A986352E5B7A7D00EF08DB /* car_roof_drips.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A986342E5B7A7D00EF08DB /* car_roof_drips.m4a */; };
@@ -34,26 +37,15 @@
 		85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C702E4353F6002AB6F9 /* TimerService.swift */; };
 		85F61C802E4353FE002AB6F9 /* WhiteNoisesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */; };
 		85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */; };
-		95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2002F00000100000001 /* TimerServiceTests.swift */; };
-		95E0C2032F00000100000001 /* FadeOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2022F00000100000001 /* FadeOperationTests.swift */; };
 		85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */; };
 		85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C852E435402002AB6F9 /* TimerPickerView.swift */; };
 		85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C822E435402002AB6F9 /* ContentView.swift */; };
 		85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C842E435402002AB6F9 /* SoundView.swift */; };
 		85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */; };
 		85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8E2E435410002AB6F9 /* FadeOperation.swift */; };
+		95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2002F00000100000001 /* TimerServiceTests.swift */; };
 		B678D69DEFCA4A21B89BD180 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB30BA50C54483B8B12D6A /* Sentry */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		95E0C2052F00000100000001 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74349A482A26413C00AB0EF5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 74349A4F2A26413C00AB0EF5;
-			remoteInfo = WhiteNoise;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */ = {
@@ -81,6 +73,10 @@
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "160893__ecfike__quiet-spring-woodland-ambience.m4a"; sourceTree = "<group>"; };
+		85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 422048__nimlos__forest_cicada_loop.m4a; sourceTree = "<group>"; };
+		85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "471891__hargissssound__spring-birds-2019-processed-loop.m4a"; sourceTree = "<group>"; };
 		85A986302E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "177479__unfa__slowly-raining-loop.m4a"; sourceTree = "<group>"; };
 		85A986322E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "584945__richwise__rain-loop-1.m4a"; sourceTree = "<group>"; };
 		85A986342E5B7A7D00EF08DB /* car_roof_drips.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = car_roof_drips.m4a; sourceTree = "<group>"; };
@@ -91,10 +87,6 @@
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		85F61C602E4353E8002AB6F9 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
-		95E0C1F92F00000100000001 /* WhiteNoiseUnitTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WhiteNoiseUnitTests; sourceTree = "<group>"; };
-		95E0C1FA2F00000100000001 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
-		95E0C2022F00000100000001 /* FadeOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperationTests.swift; sourceTree = "<group>"; };
 		85F61C632E4353F2002AB6F9 /* SoundConfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SoundConfiguration.json; sourceTree = "<group>"; };
 		85F61C662E4353F6002AB6F9 /* AudioPlayerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerProtocol.swift; sourceTree = "<group>"; };
 		85F61C672E4353F6002AB6F9 /* AudioSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionService.swift; sourceTree = "<group>"; };
@@ -114,6 +106,7 @@
 		85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesView.swift; sourceTree = "<group>"; };
 		85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStrategy.swift; sourceTree = "<group>"; };
 		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
+		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,27 +128,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7408736C2A4B2D0200392DA8 /* voice */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = voice;
-			sourceTree = "<group>";
-		};
-		740873712A4B2DAD00392DA8 /* Birds */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Birds;
-			sourceTree = "<group>";
-		};
-		7423516E2A547D0B009E1809 /* snow */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = snow;
-			sourceTree = "<group>";
-		};
 		74349A472A26413C00AB0EF5 = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */,
+				85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,7 +156,6 @@
 				85F61C7F2E4353FE002AB6F9 /* ViewModels */,
 				85F61C712E4353F6002AB6F9 /* Services */,
 				85F61C982E435420002AB6F9 /* Strategies */,
-				85F61C642E4353F2002AB6F9 /* Resources */,
 				85F61C612E4353E8002AB6F9 /* Models */,
 				85F61C5E2E4353E0002AB6F9 /* Extensions */,
 				85F61C5B2E4353D9002AB6F9 /* Constants */,
@@ -215,28 +187,14 @@
 			path = WhiteNoiseUITests;
 			sourceTree = "<group>";
 		};
-		95E0C1FB2F00000100000001 /* WhiteNoiseUnitTests */ = {
-			isa = PBXGroup;
-			children = (
-				95E0C2002F00000100000001 /* TimerServiceTests.swift */,
-				95E0C2022F00000100000001 /* FadeOperationTests.swift */,
-			);
-			path = WhiteNoiseUnitTests;
-			sourceTree = "<group>";
-		};
 		74349A832A26494300AB0EF5 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				7423516E2A547D0B009E1809 /* snow */,
+				85F61C632E4353F2002AB6F9 /* SoundConfiguration.json */,
+				85A181382E7860EF00E26988 /* forest */,
 				748E81AB2A49DC4500CBC255 /* rain */,
 				748E81AC2A49DEB700CBC255 /* fireplace */,
-				748E81AD2A49DEC100CBC255 /* thunder */,
-				748E81AE2A49DED300CBC255 /* sea */,
-				748E81B02A49DEF800CBC255 /* river */,
 				748E81AF2A49DEEE00CBC255 /* waterfall */,
-				748E81B12A49DF0200CBC255 /* forest */,
-				740873712A4B2DAD00392DA8 /* Birds */,
-				7408736C2A4B2D0200392DA8 /* voice */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -260,20 +218,6 @@
 			path = fireplace;
 			sourceTree = "<group>";
 		};
-		748E81AD2A49DEC100CBC255 /* thunder */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = thunder;
-			sourceTree = "<group>";
-		};
-		748E81AE2A49DED300CBC255 /* sea */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = sea;
-			sourceTree = "<group>";
-		};
 		748E81AF2A49DEEE00CBC255 /* waterfall */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,20 +227,6 @@
 			path = waterfall;
 			sourceTree = "<group>";
 		};
-		748E81B02A49DEF800CBC255 /* river */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = river;
-			sourceTree = "<group>";
-		};
-		748E81B12A49DF0200CBC255 /* forest */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = forest;
-			sourceTree = "<group>";
-		};
 		74CD16762A45EC27004FE649 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +234,16 @@
 				74CD16792A45EC27004FE649 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		85A181382E7860EF00E26988 /* forest */ = {
+			isa = PBXGroup;
+			children = (
+				85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */,
+				85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */,
+				85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */,
+			);
+			path = forest;
 			sourceTree = "<group>";
 		};
 		85F61C5B2E4353D9002AB6F9 /* Constants */ = {
@@ -328,14 +268,6 @@
 				85F61C602E4353E8002AB6F9 /* Sound.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		85F61C642E4353F2002AB6F9 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				85F61C632E4353F2002AB6F9 /* SoundConfiguration.json */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		85F61C712E4353F6002AB6F9 /* Services */ = {
@@ -384,6 +316,14 @@
 			path = Strategies;
 			sourceTree = "<group>";
 		};
+		95E0C1FB2F00000100000001 /* WhiteNoiseUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				95E0C2002F00000100000001 /* TimerServiceTests.swift */,
+			);
+			path = WhiteNoiseUnitTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -402,14 +342,13 @@
 			dependencies = (
 			);
 			name = WhiteNoise;
-			productName = WhiteNoise;
-			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
-			productType = "com.apple.product-type.application";
 			packageProductDependencies = (
 				63AB30BA50C54483B8B12D6A /* Sentry */,
 			);
+			productName = WhiteNoise;
+			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
+			productType = "com.apple.product-type.application";
 		};
-/* Test target */
 		95E0C1FC2F00000100000001 /* WhiteNoiseUnitTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95E0C2062F00000100000001 /* Build configuration list for PBXNativeTarget "WhiteNoiseUnitTests" */;
@@ -420,11 +359,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				95E0C2042F00000100000001 /* PBXTargetDependency */,
 			);
 			name = WhiteNoiseUnitTests;
 			productName = WhiteNoiseUnitTests;
-			productReference = 95E0C1FA2F00000100000001 /* WhiteNoiseUnitTests.xctest */;
+			productReference = 85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -451,15 +389,15 @@
 				Base,
 			);
 			mainGroup = 74349A472A26413C00AB0EF5;
+			packageReferences = (
+				C03D6D82924248D1A4F9FB5C /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+			);
 			productRefGroup = 74349A512A26413C00AB0EF5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				74349A4F2A26413C00AB0EF5 /* WhiteNoise */,
 				95E0C1FC2F00000100000001 /* WhiteNoiseUnitTests */,
-			);
-			packageReferences = (
-				C03D6D82924248D1A4F9FB5C /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 		};
 /* End PBXProject section */
@@ -474,6 +412,9 @@
 				74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */,
 				85A986352E5B7A7D00EF08DB /* car_roof_drips.m4a in Resources */,
 				85A986372E5B7AAE00EF08DB /* 414482__giddster__fireplace-burning.m4a in Resources */,
+				85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */,
+				85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */,
+				85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */,
 				85F61C652E4353F2002AB6F9 /* SoundConfiguration.json in Resources */,
 				74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */,
 				85A9863B2E5B7BED00EF08DB /* 127840__martats__waterfall_cycle.m4a in Resources */,
@@ -485,17 +426,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXSourcesBuildPhase section for tests */
-		95E0C1FD2F00000100000001 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+/* Begin PBXShellScriptBuildPhase section */
+		923CC1064FA74EB188CB7D80 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */,
-				95E0C2032F00000100000001 /* FadeOperationTests.swift in Sources */,
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n  export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=ruslanpopesku\n  export SENTRY_PROJECT=white-noise\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\n";
 		};
-/* End PBXSourcesBuildPhase section for tests */
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		74349A4C2A26413C00AB0EF5 /* Sources */ = {
@@ -527,43 +474,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		95E0C1FD2F00000100000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		95E0C2072F00000100000001 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FWHF624C4H;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseUnitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		95E0C2082F00000100000001 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FWHF624C4H;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseUnitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		74349A722A26413F00AB0EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -696,9 +617,11 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
@@ -724,8 +647,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 16.0;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_USER_SCRIPT_SANDBOXING = "NO";
 			};
 			name = Debug;
 		};
@@ -739,9 +660,11 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
@@ -767,8 +690,48 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 16.0;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_USER_SCRIPT_SANDBOXING = "NO";
+			};
+			name = Release;
+		};
+		95E0C2072F00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FWHF624C4H;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		95E0C2082F00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FWHF624C4H;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoiseUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -803,39 +766,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		923CC1064FA74EB188CB7D80 /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.
-if [[ \"$(uname -m)\" == arm64 ]]; then
-  export PATH=\"/opt/homebrew/bin:$PATH\"
-fi
-
-if which sentry-cli >/dev/null; then
-  export SENTRY_ORG=ruslanpopesku
-  export SENTRY_PROJECT=white-noise
-  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)
-  if [ ! $? -eq 0 ]; then
-    echo \"warning: sentry-cli - $ERROR\"
-  fi
-else
-  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"
-fi
-";
-			name = "Upload Debug Symbols to Sentry";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		C03D6D82924248D1A4F9FB5C /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {

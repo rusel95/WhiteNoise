@@ -33,6 +33,18 @@
           {"name": "small", "filename":  "188295__willstepp__small-waterfall-at-the-mill"},
           {"name": "medium", "filename":  "127840__martats__waterfall_cycle"}
       ]
+    },
+    {
+      "name": "forest",
+      "icon": {
+        "type": "system",
+        "value": "tree"
+      },
+      "variants": [
+          {"name": "quite", "filename":  "160893__ecfike__quiet-spring-woodland-ambience"},
+          {"name": "cicada", "filename":  "422048__nimlos__forest_cicada_loop"},
+          {"name": "sprint", "filename":  "471891__hargissssound__spring-birds-2019-processed-loop"}
+      ]
     }
   ]
 }
