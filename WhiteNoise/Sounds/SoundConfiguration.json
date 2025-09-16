@@ -69,6 +69,20 @@
           {"name": "soft", "filename": "365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer"},
           {"name": "deep", "filename": "737409__tracyradio__brown-noise"}
       ]
-    }
+    },
+    {
+      "name": "ocean",
+      "icon": {
+        "type": "system",
+        "value": "water.waves"
+      },
+      "variants": [
+          {"name": "soft", "filename": "531015__noted451__ocean-waves"},
+          {"name": "hawaii", "filename": "450755__florianreichelt__waves-of-hawaii"},
+          {"name": "deep", "filename": "156354__rmutt__oceanwaves-9"},
+          {"name": "venice", "filename": "157881__stomachache__endlessocean-venicebeach-loop"},
+          {"name": "calm", "filename": "578524__samsterbirdies__calm-ocean-waves"},
+      ]
+    },
   ]
 }
