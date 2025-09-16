@@ -21,6 +21,10 @@
 		85A986392E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A986382E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a */; };
 		85A9863B2E5B7BED00EF08DB /* 127840__martats__waterfall_cycle.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A9863A2E5B7BED00EF08DB /* 127840__martats__waterfall_cycle.m4a */; };
 		85A9863F2E5B7DD000EF08DB /* 188295__willstepp__small-waterfall-at-the-mill.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A9863E2E5B7DCF00EF08DB /* 188295__willstepp__small-waterfall-at-the-mill.m4a */; };
+		85AB61DB2E79809500549201 /* 165395__shawnyboy__white-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61D72E79809500549201 /* 165395__shawnyboy__white-noise.m4a */; };
+		85AB61DC2E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61D82E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a */; };
+		85AB61DD2E79809500549201 /* 255890__andreasmustola__white-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */; };
+		85AB61DE2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */; };
 		85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */; };
 		85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */; };
 		85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C602E4353E8002AB6F9 /* Sound.swift */; };
@@ -84,6 +88,10 @@
 		85A986382E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 495660__aunrea__fireplace.m4a; sourceTree = "<group>"; };
 		85A9863A2E5B7BED00EF08DB /* 127840__martats__waterfall_cycle.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 127840__martats__waterfall_cycle.m4a; sourceTree = "<group>"; };
 		85A9863E2E5B7DCF00EF08DB /* 188295__willstepp__small-waterfall-at-the-mill.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "188295__willstepp__small-waterfall-at-the-mill.m4a"; sourceTree = "<group>"; };
+		85AB61D72E79809500549201 /* 165395__shawnyboy__white-noise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "165395__shawnyboy__white-noise.m4a"; sourceTree = "<group>"; };
+		85AB61D82E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "249313__jarredgibb__white-noise-20dbfs-30-second.m4a"; sourceTree = "<group>"; };
+		85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "255890__andreasmustola__white-noise.m4a"; sourceTree = "<group>"; };
+		85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "349315__newagesoup__white_noise-10s.m4a"; sourceTree = "<group>"; };
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		85F61C602E4353E8002AB6F9 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
@@ -191,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				85F61C632E4353F2002AB6F9 /* SoundConfiguration.json */,
+				85AB61D62E79808000549201 /* WhiteNoise */,
 				85A181382E7860EF00E26988 /* forest */,
 				748E81AB2A49DC4500CBC255 /* rain */,
 				748E81AC2A49DEB700CBC255 /* fireplace */,
@@ -244,6 +253,17 @@
 				85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */,
 			);
 			path = forest;
+			sourceTree = "<group>";
+		};
+		85AB61D62E79808000549201 /* WhiteNoise */ = {
+			isa = PBXGroup;
+			children = (
+				85AB61D72E79809500549201 /* 165395__shawnyboy__white-noise.m4a */,
+				85AB61D82E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a */,
+				85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */,
+				85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */,
+			);
+			path = WhiteNoise;
 			sourceTree = "<group>";
 		};
 		85F61C5B2E4353D9002AB6F9 /* Constants */ = {
@@ -418,6 +438,10 @@
 				85F61C652E4353F2002AB6F9 /* SoundConfiguration.json in Resources */,
 				74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */,
 				85A9863B2E5B7BED00EF08DB /* 127840__martats__waterfall_cycle.m4a in Resources */,
+				85AB61DB2E79809500549201 /* 165395__shawnyboy__white-noise.m4a in Resources */,
+				85AB61DC2E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a in Resources */,
+				85AB61DD2E79809500549201 /* 255890__andreasmustola__white-noise.m4a in Resources */,
+				85AB61DE2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a in Resources */,
 				85A9863F2E5B7DD000EF08DB /* 188295__willstepp__small-waterfall-at-the-mill.m4a in Resources */,
 				85A986332E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a in Resources */,
 				85A986392E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a in Resources */,

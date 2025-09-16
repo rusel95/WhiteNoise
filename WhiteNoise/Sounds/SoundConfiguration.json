@@ -45,6 +45,18 @@
           {"name": "cicada", "filename":  "422048__nimlos__forest_cicada_loop"},
           {"name": "sprint", "filename":  "471891__hargissssound__spring-birds-2019-processed-loop"}
       ]
+    },
+    {
+      "name": "white noise",
+      "icon": {
+        "type": "system",
+        "value": "tree"
+      },
+      "variants": [
+          {"name": "soft", "filename": "249313__jarredgibb__white-noise-20dbfs-30-second"},
+          {"name": "bass", "filename": "165395__shawnyboy__white-noise"},
+          {"name": "deep", "filename": "349315__newagesoup__white_noise-10s"}
+      ]
     }
   ]
 }
