@@ -84,5 +84,17 @@
           {"name": "calm", "filename": "578524__samsterbirdies__calm-ocean-waves"},
       ]
     },
+    {
+      "name": "thunderstorm",
+      "icon": {
+        "type": "system",
+        "value": "cloud.bolt"
+      },
+      "variants": [
+          {"name": "distant", "filename": "529535__straget__thunder-2"},
+          {"name": "strong", "filename": "238295__regosss__thunderstorm"},
+          {"name": "rapid", "filename": "625354__johnnydekk__lightning"},
+      ]
+    },
   ]
 }
