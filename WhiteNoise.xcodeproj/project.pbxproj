@@ -11,6 +11,9 @@
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
 		74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */; };
+		851396742E79876500552A9D /* 737409__tracyradio__brown-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */; };
+		851396752E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */; };
+		851396762E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396722E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a */; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
 		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
@@ -76,6 +79,9 @@
 		74CD166E2A45DCB7004FE649 /* WhiteNoise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhiteNoise.entitlements; sourceTree = "<group>"; };
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 242513__hinoirocks__brownnoise.m4a; sourceTree = "<group>"; };
+		851396722E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a"; sourceTree = "<group>"; };
+		851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "737409__tracyradio__brown-noise.m4a"; sourceTree = "<group>"; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "160893__ecfike__quiet-spring-woodland-ambience.m4a"; sourceTree = "<group>"; };
@@ -199,11 +205,12 @@
 			isa = PBXGroup;
 			children = (
 				85F61C632E4353F2002AB6F9 /* SoundConfiguration.json */,
-				85AB61D62E79808000549201 /* WhiteNoise */,
 				85A181382E7860EF00E26988 /* forest */,
 				748E81AB2A49DC4500CBC255 /* rain */,
 				748E81AC2A49DEB700CBC255 /* fireplace */,
 				748E81AF2A49DEEE00CBC255 /* waterfall */,
+				85AB61D62E79808000549201 /* WhiteNoise */,
+				851396702E79874B00552A9D /* Brown Noise */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -243,6 +250,16 @@
 				74CD16792A45EC27004FE649 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		851396702E79874B00552A9D /* Brown Noise */ = {
+			isa = PBXGroup;
+			children = (
+				851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */,
+				851396722E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a */,
+				851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */,
+			);
+			path = "Brown Noise";
 			sourceTree = "<group>";
 		};
 		85A181382E7860EF00E26988 /* forest */ = {
@@ -444,6 +461,9 @@
 				85AB61DE2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a in Resources */,
 				85A9863F2E5B7DD000EF08DB /* 188295__willstepp__small-waterfall-at-the-mill.m4a in Resources */,
 				85A986332E5B782100EF08DB /* 584945__richwise__rain-loop-1.m4a in Resources */,
+				851396742E79876500552A9D /* 737409__tracyradio__brown-noise.m4a in Resources */,
+				851396752E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a in Resources */,
+				851396762E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a in Resources */,
 				85A986392E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

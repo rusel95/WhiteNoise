@@ -49,13 +49,25 @@
     {
       "name": "white noise",
       "icon": {
-        "type": "system",
-        "value": "tree"
+        "type": "custom",
+        "value": "1024-Logo"
       },
       "variants": [
           {"name": "soft", "filename": "249313__jarredgibb__white-noise-20dbfs-30-second"},
           {"name": "bass", "filename": "165395__shawnyboy__white-noise"},
           {"name": "deep", "filename": "349315__newagesoup__white_noise-10s"}
+      ]
+    },
+    {
+      "name": "brown noise",
+      "icon": {
+        "type": "system",
+        "value": "waveform.path"
+      },
+      "variants": [
+          {"name": "regular", "filename": "242513__hinoirocks__brownnoise"},
+          {"name": "soft", "filename": "365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer"},
+          {"name": "deep", "filename": "737409__tracyradio__brown-noise"}
       ]
     }
   ]
