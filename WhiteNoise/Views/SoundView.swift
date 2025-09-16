@@ -93,7 +93,10 @@ struct SoundView: View {
                                     viewModel.selectedSoundVariant = variant
                                     hapticService.impact(style: .light)
                                 }) {
-                                    Label(variant.name, systemImage: "waveform")
+                                    Text(variant.name)
+                                        .font(.system(size: AppConstants.UI.soundVariantFontSize))
+                                        .foregroundColor(.white.opacity(0.8))
+                                        .lineLimit(1)
                                 }
                             }
                         } label: {

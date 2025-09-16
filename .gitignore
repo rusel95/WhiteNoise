@@ -130,3 +130,6 @@ iOSInjectionProject/
 SentryConfiguration.local.swift
 sentry.properties
 .sentryclirc
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md

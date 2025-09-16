@@ -104,6 +104,10 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 - Artwork name `LaunchScreenIcon` may not exist; Now Playing will have no artwork.
 - Asset bundling: filenames live under `WhiteNoise/Sounds/...`; ensure bundle flattening or adjust lookup to subdirectories.
 - Race windows remain possible under extreme rapid toggles despite guards (UI immediate flip vs async audio).
+- 2025-09-16: `SoundConfiguration.json` in `WhiteNoise/Sounds/` still has trailing commas/incomplete arrays; loader will fail until cleaned or relocated to Resources.
+- 2025-09-16: `TimerServiceTests` depend on missing `remainingSecondsValue`; reconcile API vs tests before running suite.
+
+
 
 ## TODOs
 
@@ -116,6 +120,10 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 - Evaluate `AppConstants.Animation.fadeStepDuration` (currently unused) vs computed step duration.
 - Provide artwork asset named `LaunchScreenIcon` or parameterize via constants.
 - Consider wiring `AbstractSoundFactory` categories into main flow or removing until used.
+- Reintroduce a public timer remaining accessor or adjust tests to observe state without `remainingSecondsValue`.
+- Move `SoundConfiguration.json` into a bundle-accessible Resources folder and lint it before release.
+
+
 
 ## Decisions Log
 
@@ -130,6 +138,9 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
    - Removed unused `getSavedSoundsAsync` from `SoundFactoryProtocol` and implementation (YAGNI).
    - Added unit test files for `TimerService` and `FadeOperation` under `WhiteNoiseUnitTests/`.
  - 2025-09-09: Codified SOLID, DRY, KISS, YAGNI as project conventions in memory bank.
+- 2025-09-16: Added ARCHITECTURE.md, DEVELOPMENT_PRINCIPLES.md, TESTING.md, and SOUND_CONFIGURATION.md to document structure, workflows, and asset management; captured outstanding config/test gaps.
+
+
 
 ## How To Update This File
 
