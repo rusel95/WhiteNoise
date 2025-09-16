@@ -22,6 +22,8 @@
 		851396872E79965100552A9D /* 238295__regosss__thunderstorm.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396832E79965100552A9D /* 238295__regosss__thunderstorm.m4a */; };
 		851396882E79965100552A9D /* 529535__straget__thunder-2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396852E79965100552A9D /* 529535__straget__thunder-2.m4a */; };
 		8513968A2E79965100552A9D /* 625354__johnnydekk__lightning.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396862E79965100552A9D /* 625354__johnnydekk__lightning.m4a */; };
+		8513968D2E799F1400552A9D /* 17374__homejrande__fire-wood-bonfire-high-eq.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8513968B2E799F1400552A9D /* 17374__homejrande__fire-wood-bonfire-high-eq.m4a */; };
+		8513968E2E799F1400552A9D /* 170247__matucha__campfire_01.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8513968C2E799F1400552A9D /* 170247__matucha__campfire_01.m4a */; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
 		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
@@ -98,6 +100,8 @@
 		851396832E79965100552A9D /* 238295__regosss__thunderstorm.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 238295__regosss__thunderstorm.m4a; sourceTree = "<group>"; };
 		851396852E79965100552A9D /* 529535__straget__thunder-2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "529535__straget__thunder-2.m4a"; sourceTree = "<group>"; };
 		851396862E79965100552A9D /* 625354__johnnydekk__lightning.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 625354__johnnydekk__lightning.m4a; sourceTree = "<group>"; };
+		8513968B2E799F1400552A9D /* 17374__homejrande__fire-wood-bonfire-high-eq.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "17374__homejrande__fire-wood-bonfire-high-eq.m4a"; sourceTree = "<group>"; };
+		8513968C2E799F1400552A9D /* 170247__matucha__campfire_01.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 170247__matucha__campfire_01.m4a; sourceTree = "<group>"; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "160893__ecfike__quiet-spring-woodland-ambience.m4a"; sourceTree = "<group>"; };
@@ -223,7 +227,7 @@
 				85F61C632E4353F2002AB6F9 /* SoundConfiguration.json */,
 				85A181382E7860EF00E26988 /* forest */,
 				748E81AB2A49DC4500CBC255 /* rain */,
-				748E81AC2A49DEB700CBC255 /* fireplace */,
+				748E81AC2A49DEB700CBC255 /* bonfire */,
 				748E81AF2A49DEEE00CBC255 /* waterfall */,
 				85AB61D62E79808000549201 /* WhiteNoise */,
 				851396702E79874B00552A9D /* Brown Noise */,
@@ -243,13 +247,15 @@
 			path = rain;
 			sourceTree = "<group>";
 		};
-		748E81AC2A49DEB700CBC255 /* fireplace */ = {
+		748E81AC2A49DEB700CBC255 /* bonfire */ = {
 			isa = PBXGroup;
 			children = (
 				85A986382E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a */,
 				85A986362E5B7AAE00EF08DB /* 414482__giddster__fireplace-burning.m4a */,
+				8513968B2E799F1400552A9D /* 17374__homejrande__fire-wood-bonfire-high-eq.m4a */,
+				8513968C2E799F1400552A9D /* 170247__matucha__campfire_01.m4a */,
 			);
-			path = fireplace;
+			path = bonfire;
 			sourceTree = "<group>";
 		};
 		748E81AF2A49DEEE00CBC255 /* waterfall */ = {
@@ -511,6 +517,8 @@
 				851396882E79965100552A9D /* 529535__straget__thunder-2.m4a in Resources */,
 				8513968A2E79965100552A9D /* 625354__johnnydekk__lightning.m4a in Resources */,
 				851396812E798E5D00552A9D /* 156354__rmutt__oceanwaves-9.m4a in Resources */,
+				8513968D2E799F1400552A9D /* 17374__homejrande__fire-wood-bonfire-high-eq.m4a in Resources */,
+				8513968E2E799F1400552A9D /* 170247__matucha__campfire_01.m4a in Resources */,
 				851396762E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a in Resources */,
 				85A986392E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a in Resources */,
 			);

@@ -13,14 +13,17 @@
       ]
     },
     {
-      "name": "fireplace",
+      "name": "bonfire",
       "icon": {
         "type": "system",
-        "value": "fireplace"
+        "value": "flame"
       },
       "variants": [
-        {"name": "regular", "filename": "414482__giddster__fireplace-burning"},
-        {"name": "burning crackle", "filename": "495660__aunrea__fireplace"}
+        {"name": "fireplace", "filename": "414482__giddster__fireplace-burning"},
+        {"name": "crackle", "filename": "495660__aunrea__fireplace"},
+        {"name": "intense", "filename": "17374__homejrande__fire-wood-bonfire-high-eq"},
+        {"name": "campfire", "filename": "170247__matucha__campfire_01"},
+        
       ]
     },
     {
