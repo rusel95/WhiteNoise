@@ -21,8 +21,14 @@ class SoundFactory: SoundFactoryProtocol {
         return sounds.map { sound in
             let (savedVolume, savedVariantName) = persistenceService.loadUserPreferences(soundId: sound.id)
             
-            // Use saved volume or default to 0.0 if no preference
-            let finalVolume = savedVolume ?? 0.0
+            // Prefer persisted volume; otherwise honor the loader's default
+            let finalVolume: Float
+            if let savedVolume = savedVolume {
+                finalVolume = savedVolume
+            } else {
+                finalVolume = sound.volume
+                print("🎚️ Using default volume for \(sound.name): volume=\(finalVolume))")
+            }
             
             // Find matching variant or use first available
             let finalVariant: Sound.SoundVariant?

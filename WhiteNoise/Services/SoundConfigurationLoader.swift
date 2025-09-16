@@ -61,12 +61,12 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
                     case "rain":
                         print("🎵 SoundConfigurationLoader: Setting rain default volume to 70%")
                         return 0.7  // 70%
-                    case "thunder":
-                        print("🎵 SoundConfigurationLoader: Setting thunder default volume to 30%")
-                        return 0.3  // 30%
-                    case "birds":
+                    case "bonfire":
                         print("🎵 SoundConfigurationLoader: Setting birds default volume to 20%")
-                        return 0.2  // 20%
+                        return 0.5  // 20%
+                    case "thunderstorm":
+                        print("🎵 SoundConfigurationLoader: Setting thunder default volume to 30%")
+                        return 0.1  // 30%
                     default:
                         return AppConstants.Audio.defaultVolume
                     }

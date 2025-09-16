@@ -28,6 +28,15 @@
 		851396952E79A2F300552A9D /* 637789__kyles__river-or-stream-close-soft-babbly-current2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396922E79A2F300552A9D /* 637789__kyles__river-or-stream-close-soft-babbly-current2.m4a */; };
 		851396962E79A2F300552A9D /* 779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396932E79A2F300552A9D /* 779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away.m4a */; };
 		851396972E79A2F300552A9D /* 457960__fabrizio84__river-stream.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396912E79A2F300552A9D /* 457960__fabrizio84__river-stream.m4a */; };
+		851396A12E79B01900552A9D /* SOUND_CONFIGURATION.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */; };
+		851396A22E79B01900552A9D /* TESTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396A02E79B01900552A9D /* TESTING.md */; };
+		851396A32E79B01900552A9D /* MEMORY_BANK.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969C2E79B01900552A9D /* MEMORY_BANK.md */; };
+		851396A42E79B01900552A9D /* LOGGING_STANDARD.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */; };
+		851396A52E79B01900552A9D /* ARCHITECTURE.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396992E79B01900552A9D /* ARCHITECTURE.md */; };
+		851396A62E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */; };
+		851396A72E79B01900552A9D /* PLAY_PAUSE_FLOW.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */; };
+		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
+		851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
 		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
@@ -109,6 +118,15 @@
 		851396912E79A2F300552A9D /* 457960__fabrizio84__river-stream.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "457960__fabrizio84__river-stream.m4a"; sourceTree = "<group>"; };
 		851396922E79A2F300552A9D /* 637789__kyles__river-or-stream-close-soft-babbly-current2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "637789__kyles__river-or-stream-close-soft-babbly-current2.m4a"; sourceTree = "<group>"; };
 		851396932E79A2F300552A9D /* 779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away.m4a"; sourceTree = "<group>"; };
+		851396982E79B01900552A9D /* AGENT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENT.md; sourceTree = "<group>"; };
+		851396992E79B01900552A9D /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
+		8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DEVELOPMENT_PRINCIPLES.md; sourceTree = "<group>"; };
+		8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LOGGING_STANDARD.md; sourceTree = "<group>"; };
+		8513969C2E79B01900552A9D /* MEMORY_BANK.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MEMORY_BANK.md; sourceTree = "<group>"; };
+		8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PAYWALL_STRATEGY.md; sourceTree = "<group>"; };
+		8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PLAY_PAUSE_FLOW.md; sourceTree = "<group>"; };
+		8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SOUND_CONFIGURATION.md; sourceTree = "<group>"; };
+		851396A02E79B01900552A9D /* TESTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TESTING.md; sourceTree = "<group>"; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "160893__ecfike__quiet-spring-woodland-ambience.m4a"; sourceTree = "<group>"; };
@@ -172,6 +190,15 @@
 			isa = PBXGroup;
 			children = (
 				854592702E3B9BF400095568 /* README.md */,
+				851396982E79B01900552A9D /* AGENT.md */,
+				851396992E79B01900552A9D /* ARCHITECTURE.md */,
+				8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */,
+				8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */,
+				8513969C2E79B01900552A9D /* MEMORY_BANK.md */,
+				8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */,
+				8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */,
+				8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */,
+				851396A02E79B01900552A9D /* TESTING.md */,
 				74349A522A26413C00AB0EF5 /* WhiteNoise */,
 				74349A6D2A26413F00AB0EF5 /* WhiteNoiseUITests */,
 				95E0C1FB2F00000100000001 /* WhiteNoiseUnitTests */,
@@ -538,6 +565,15 @@
 				851396812E798E5D00552A9D /* 156354__rmutt__oceanwaves-9.m4a in Resources */,
 				8513968D2E799F1400552A9D /* 17374__homejrande__fire-wood-bonfire-high-eq.m4a in Resources */,
 				8513968E2E799F1400552A9D /* 170247__matucha__campfire_01.m4a in Resources */,
+				851396A12E79B01900552A9D /* SOUND_CONFIGURATION.md in Resources */,
+				851396A22E79B01900552A9D /* TESTING.md in Resources */,
+				851396A32E79B01900552A9D /* MEMORY_BANK.md in Resources */,
+				851396A42E79B01900552A9D /* LOGGING_STANDARD.md in Resources */,
+				851396A52E79B01900552A9D /* ARCHITECTURE.md in Resources */,
+				851396A62E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md in Resources */,
+				851396A72E79B01900552A9D /* PLAY_PAUSE_FLOW.md in Resources */,
+				851396A82E79B01900552A9D /* AGENT.md in Resources */,
+				851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */,
 				851396762E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a in Resources */,
 				85A986392E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a in Resources */,
 			);
@@ -738,7 +774,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.15;
+				MARKETING_VERSION = 0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -781,7 +817,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.15;
+				MARKETING_VERSION = 0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

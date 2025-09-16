@@ -139,6 +139,7 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
    - Added unit test files for `TimerService` and `FadeOperation` under `WhiteNoiseUnitTests/`.
  - 2025-09-09: Codified SOLID, DRY, KISS, YAGNI as project conventions in memory bank.
 - 2025-09-16: Added ARCHITECTURE.md, DEVELOPMENT_PRINCIPLES.md, TESTING.md, and SOUND_CONFIGURATION.md to document structure, workflows, and asset management; captured outstanding config/test gaps.
+- 2025-09-16: Documented delayed-paywall monetization approach in `PAYWALL_STRATEGY.md`; includes 7-day free usage, 30-day trial, and $0.99/quarter pricing plan.
 
 
 
