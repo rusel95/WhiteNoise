@@ -76,8 +76,8 @@
     {
       "name": "ocean",
       "icon": {
-        "type": "system",
-        "value": "water.waves"
+        "type": "custom",
+        "value": "sea"
       },
       "variants": [
           {"name": "soft", "filename": "531015__noted451__ocean-waves"},
@@ -97,6 +97,19 @@
           {"name": "distant", "filename": "529535__straget__thunder-2"},
           {"name": "strong", "filename": "238295__regosss__thunderstorm"},
           {"name": "rapid", "filename": "625354__johnnydekk__lightning"},
+      ]
+    },
+    {
+      "name": "river",
+      "icon": {
+        "type": "system",
+        "value": "water.waves"
+      },
+      "variants": [
+          {"name": "soft", "filename": "637789__kyles__river-or-stream-close-soft-babbly-current2"},
+          {"name": "waves", "filename": "318064__ceich93__water_lapping_river"},
+          {"name": "stream", "filename": "457960__fabrizio84__river-stream"},
+          {"name": "tiny", "filename": "779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away"},
       ]
     },
   ]
