@@ -15,7 +15,25 @@ struct WhiteNoiseApp: App {
  
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
+    }
+}
+
+struct RootView: View {
+    @StateObject private var entitlements = EntitlementsCoordinator()
+    @Environment(\.scenePhase) private var scenePhase
+
+    var body: some View {
+        ContentView()
+            .onAppear { entitlements.onAppLaunch() }
+            .onChange(of: scenePhase) { _, newPhase in
+                if newPhase == .active {
+                    entitlements.onAppForeground()
+                }
+            }
+            .sheet(isPresented: $entitlements.isPaywallPresented) {
+                PaywallSheetView(coordinator: entitlements)
+            }
     }
 }

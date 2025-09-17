@@ -9,49 +9,48 @@ This document captures the agreed monetization approach, paywall UX, and impleme
 - **Offer**: 30-day free trial, then **$0.99 every 3 months** (auto-renewing subscription). Existing subscribers are grandfathered if pricing increases later.
 
 ## Paywall Experience
-- **Presentation**: Adapty Paywall (remote template) styled to match our night-friendly glass/gradient theme.
-- **Content Blocks (in Adapty)**:
+- **Presentation**: Adapty Paywall (remote template) rendered through `AdaptyPaywallView` inside a SwiftUI sheet, matching the dark glass aesthetic.
+- **Content Blocks (configured in Adapty)**:
   1. Headline – “Unlock Deep Sleep” + brief value subcopy.
-  2. Value List – premium sounds, advanced fades, offline mode, sleep timer automations.
-  3. Trial Banner – “30 days free, cancel anytime.”
-  4. Pricing Footer – “Then $0.99 every 3 months.”
+  2. Value list – premium sounds, advanced fades, offline mode, sleep timer automations.
+  3. Trial banner – “30 days free, cancel anytime.”
+  4. Pricing footer – “Then $0.99 every 3 months.”
   5. Primary CTA – Start free trial.
-  6. Secondary – Restore purchases (no dismiss without entitlement in production).
+  6. Secondary – Restore purchases (no free dismiss in production).
   7. Legal – Auto-renewal blurb + Terms/Privacy links.
-- **Theme**: Use Adapty builder tokens to match dark palette, rounded corners, and spacing.
+- **Theme**: Use builder tokens to keep typography, gradients, and spacing consistent with the rest of the app.
 
 ## Trigger Logic
-- **Debug Mode**: Force-show Adapty paywall on app start (feature flag or `#if DEBUG`).
+- **Debug mode**: Set `FORCE_SHOW_PAYWALL=1` to present the sheet immediately for QA.
 - **Production**:
-  - Query Adapty entitlements on launch/foreground; if inactive, present Adapty paywall.
-  - Unlock playback only while entitlement is active.
-  - On lapse/cancellation, re-present paywall and block playback.
-- **Trial Handling**: Use Adapty purchase with intro offer (30-day trial). On success, entitlement active → dismiss paywall; on expiry, entitlement inactive → show paywall.
+  - `EntitlementsCoordinator` loads the Adapty profile on launch/foreground; if entitlement inactive, it fetches the paywall configuration and toggles the sheet.
+  - Playback stays unlocked only while entitlement is active; on lapse/cancellation the sheet reappears.
+- **Trial handling**: Adapty purchase with 30-day intro trial. On success or restore, entitlements refresh and the sheet dismisses. On expiry, entitlements drop→sheet shows again.
 
 ## Implementation Plan (Adapty)
-1. **SDK Integration**
-   - Add Adapty via SPM; initialize with API Key on launch (before UI).
-   - Store keys in `Configuration/Local.xcconfig`; avoid hardcoding.
-2. **Remote Paywall**
-   - Create a paywall in Adapty (builder), set placement ID, style to dark/night.
-   - Fetch and present Adapty paywall; handle purchase callbacks.
-3. **Entitlements Gating**
-   - Observe Adapty profile/entitlements; gate playback when inactive.
-   - Dismiss paywall on activation; re-present on lapse.
-4. **Debug Controls**
-   - Force-show paywall in Debug builds; add a hidden reset/restore tester action.
-5. **Analytics & Logging**
-   - Log `🎯 Paywall.presented`, `✅ Paywall.trialStarted`, `❌ Paywall.purchaseFailed` aligned with Adapty events.
-6. **Clean-up**
-   - Remove local paywall scaffolding (custom manager/view) in favor of Adapty.
+1. **SDK initialization**
+   - Add Adapty + AdaptyUI (SPM). `AdaptyService.activate()` builds a configuration, activates Adapty, then awaits `AdaptyUI.activate()`.
+2. **Remote paywall setup**
+   - Design paywall in Adapty Builder, attach quarterly product with trial, set placement ID (default `main_paywall`), align copy/colors.
+3. **Entitlement coordinator**
+   - `EntitlementsCoordinator` uses async/await (`Adapty.getProfile`, `AdaptyUI.getPaywallConfiguration`) to determine access and cache paywall configuration.
+4. **UI wiring**
+   - `RootView` owns the coordinator and presents `PaywallSheetView` via `.sheet(isPresented:)`.
+   - `PaywallSheetView` hosts `AdaptyPaywallView` and forwards purchase/restore/rendering callbacks back to the coordinator.
+5. **Debug controls**
+   - `FORCE_SHOW_PAYWALL` env variable for QA; consider hidden reset gesture.
+6. **Analytics & logging**
+   - Log `🎯 Paywall.presented`, `✅ Paywall.trialStarted`, `❌ Paywall.purchaseFailed`, `🏁 Paywall.dismissed`.
+7. **Offline policy (MVP)**
+   - If profile fetch fails (offline), mark entitlement as active and skip the sheet to prioritize UX. Revisit later to tighten revenue guardrails.
 
 ## Progress Tracker
 - [x] Monetization model defined (trial-only paywall + 30-day trial + $0.99/quarter).
 - [x] Removed local paywall scaffolding (custom manager/view).
 - [x] Adapty SDK integrated (SPM + init + keys via env/Info.plist).
 - [ ] Remote paywall created in Adapty (placement + design).
-- [ ] Entitlement gating wired on launch/foreground.
-- [ ] Debug/test hooks implemented.
+- [x] Entitlement gating wired on launch/foreground (EntitlementsCoordinator + RootView).
+- [x] Debug/test hooks implemented (FORCE_SHOW_PAYWALL env + sheet wiring).
 - [ ] Analytics and documentation updates.
 
 ## Open Questions

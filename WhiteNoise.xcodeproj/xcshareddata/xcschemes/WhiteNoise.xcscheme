@@ -68,6 +68,11 @@
             value = "public_live_G39osQhh.Qs8c8RqjPcCHiHPtyuRD"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "ADAPTY_PLACEMENT_ID"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
          <AdditionalOption

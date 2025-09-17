@@ -9,6 +9,7 @@ import Foundation
 
 #if os(iOS)
 import Adapty
+import AdaptyUI
 #endif
 
 enum AdaptyService {
@@ -24,9 +25,21 @@ enum AdaptyService {
         }
 
         print("🎯 AdaptyService.activate - Activating Adapty SDK")
-        Adapty.activate(key)
+        let configuration = AdaptyConfiguration
+            .builder(withAPIKey: key)
+            .build()
+
+        Adapty.activate(with: configuration)
         print("✅ AdaptyService.activate - Adapty activated")
+
+        Task {
+            do {
+                try await AdaptyUI.activate()
+                print("✅ AdaptyService.activate - AdaptyUI activated")
+            } catch {
+                print("⚠️ AdaptyService.activate - Failed to activate AdaptyUI: \(error)")
+            }
+        }
         #endif
     }
 }
-

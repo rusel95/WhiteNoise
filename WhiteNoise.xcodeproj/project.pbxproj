@@ -16,6 +16,9 @@
 		850C1EA92E7B214400545D95 /* AdaptyUI in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EA82E7B214400545D95 /* AdaptyUI */; };
 		850C1EAB2E7B214400545D95 /* AdaptyUITesting in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EAA2E7B214400545D95 /* AdaptyUITesting */; };
 		850C1EAD2E7B256E00545D95 /* AdaptyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAC2E7B256E00545D95 /* AdaptyService.swift */; };
+		850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */; };
+		850C1EB52E7B519B00545D95 /* main.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 850C1EB42E7B519B00545D95 /* main.storekit */; };
+		850C1EB62E7B55C200545D95 /* PaywallSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */; };
 		851396742E79876500552A9D /* 737409__tracyradio__brown-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */; };
 		851396752E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */; };
 		851396762E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396722E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a */; };
@@ -107,6 +110,9 @@
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		850C1EAC2E7B256E00545D95 /* AdaptyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptyService.swift; sourceTree = "<group>"; };
+		850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementsCoordinator.swift; sourceTree = "<group>"; };
+		850C1EB42E7B519B00545D95 /* main.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.storekit; sourceTree = "<group>"; };
+		850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallSheetView.swift; sourceTree = "<group>"; };
 		851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 242513__hinoirocks__brownnoise.m4a; sourceTree = "<group>"; };
 		851396722E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a"; sourceTree = "<group>"; };
 		851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "737409__tracyradio__brown-noise.m4a"; sourceTree = "<group>"; };
@@ -199,6 +205,7 @@
 		74349A472A26413C00AB0EF5 = {
 			isa = PBXGroup;
 			children = (
+				850C1EB42E7B519B00545D95 /* main.storekit */,
 				854592702E3B9BF400095568 /* README.md */,
 				851396982E79B01900552A9D /* AGENT.md */,
 				851396992E79B01900552A9D /* ARCHITECTURE.md */,
@@ -411,6 +418,7 @@
 		85F61C712E4353F6002AB6F9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */,
 				850C1EAC2E7B256E00545D95 /* AdaptyService.swift */,
 				85F61C662E4353F6002AB6F9 /* AudioPlayerProtocol.swift */,
 				85F61C672E4353F6002AB6F9 /* AudioSessionService.swift */,
@@ -439,6 +447,7 @@
 			isa = PBXGroup;
 			children = (
 				85F61C822E435402002AB6F9 /* ContentView.swift */,
+				850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */,
 				85F61C842E435402002AB6F9 /* SoundView.swift */,
 				85F61C852E435402002AB6F9 /* TimerPickerView.swift */,
 				85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */,
@@ -562,6 +571,7 @@
 				85AB61DB2E79809500549201 /* 165395__shawnyboy__white-noise.m4a in Resources */,
 				85AB61DC2E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a in Resources */,
 				85AB61DD2E79809500549201 /* 255890__andreasmustola__white-noise.m4a in Resources */,
+				850C1EB52E7B519B00545D95 /* main.storekit in Resources */,
 				85AB61DE2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a in Resources */,
 				85A9863F2E5B7DD000EF08DB /* 188295__willstepp__small-waterfall-at-the-mill.m4a in Resources */,
 				851396942E79A2F300552A9D /* 318064__ceich93__water_lapping_river.m4a in Resources */,
@@ -612,12 +622,15 @@
 				85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */,
 				85F61C792E4353F6002AB6F9 /* SoundFactory.swift in Sources */,
 				85F61C7A2E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift in Sources */,
+				850C1EB62E7B55C200545D95 /* PaywallSheetView.swift in Sources */,
 				85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */,
 				85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */,
 				85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */,
 				85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */,
 				85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */,
 				85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */,
+				850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */,
+				850C1EB72E7B5EFA00545D95 /* PaywallSheetView.swift in Sources */,
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
