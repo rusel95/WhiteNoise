@@ -48,7 +48,7 @@ This document captures the agreed monetization approach, paywall UX, and impleme
 ## Progress Tracker
 - [x] Monetization model defined (trial-only paywall + 30-day trial + $0.99/quarter).
 - [x] Removed local paywall scaffolding (custom manager/view).
-- [ ] Adapty SDK integrated (SPM + init + keys).
+- [x] Adapty SDK integrated (SPM + init + keys via env/Info.plist).
 - [ ] Remote paywall created in Adapty (placement + design).
 - [ ] Entitlement gating wired on launch/foreground.
 - [ ] Debug/test hooks implemented.

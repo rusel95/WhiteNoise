@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct WhiteNoiseApp: App {
+    init() {
+        AdaptyService.activate()
+    }
  
     var body: some Scene {
         WindowGroup {

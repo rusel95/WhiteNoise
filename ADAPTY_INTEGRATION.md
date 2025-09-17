@@ -7,20 +7,19 @@ This guide explains how to wire Adapty for subscriptions, remote paywalls, and e
 - Add to the `WhiteNoise` target.
 
 ## 2) Configure Keys
-- Put your Adapty API Key in `WhiteNoise/Configuration/Local.xcconfig`:
+- In `WhiteNoise/Configuration/Local.xcconfig` add:
 ```
 ADAPTY_API_KEY = YOUR_ADAPTY_API_KEY
 ```
-- Ensure `Local.xcconfig` is included in the project build settings (and gitignored).
+- Add this key to `Info.plist` (already configured):
+```
+ADAPTY_API_KEY = $(ADAPTY_API_KEY)
+```
+- At runtime `AdaptyService` reads the API key from `ProcessInfo.environment["ADAPTY_API_KEY"]` first, then falls back to `Info.plist`.
 
 ## 3) Initialize Early
-- Initialize Adapty before UI composition (e.g., in `WhiteNoiseApp` init):
-```
-import Adapty
-
-Adapty.activate(apiKey: ProcessInfo.processInfo.environment["ADAPTY_API_KEY"] ?? "")
-```
-- Optionally set a user identifier if needed for analytics (let Adapty manage IDs otherwise).
+- `WhiteNoiseApp.init()` calls `AdaptyService.activate()`, which activates Adapty using env/Info.plist value.
+- Optionally set a user identifier if needed for analytics (default anonymous is fine).
 
 ## 4) Create a Remote Paywall
 - In Adapty Console → Paywalls Builder:
@@ -58,4 +57,3 @@ Adapty.activate(apiKey: ProcessInfo.processInfo.environment["ADAPTY_API_KEY"] ??
 - Ensure the auto-renewable subscription has a 30-day introductory free trial and 3-month period.
 - Use the same product identifier in Adapty.
 - Test with Sandbox and TestFlight to verify the Apple pay sheet appears and entitlements activate.
-

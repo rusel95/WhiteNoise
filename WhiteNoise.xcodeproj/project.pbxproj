@@ -11,6 +11,11 @@
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
 		74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */; };
+		850C1EA52E7B214400545D95 /* Adapty in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EA42E7B214400545D95 /* Adapty */; };
+		850C1EA72E7B214400545D95 /* AdaptyPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EA62E7B214400545D95 /* AdaptyPlugin */; };
+		850C1EA92E7B214400545D95 /* AdaptyUI in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EA82E7B214400545D95 /* AdaptyUI */; };
+		850C1EAB2E7B214400545D95 /* AdaptyUITesting in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EAA2E7B214400545D95 /* AdaptyUITesting */; };
+		850C1EAD2E7B256E00545D95 /* AdaptyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAC2E7B256E00545D95 /* AdaptyService.swift */; };
 		851396742E79876500552A9D /* 737409__tracyradio__brown-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */; };
 		851396752E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */; };
 		851396762E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396722E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a */; };
@@ -101,6 +106,7 @@
 		74CD166E2A45DCB7004FE649 /* WhiteNoise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhiteNoise.entitlements; sourceTree = "<group>"; };
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		850C1EAC2E7B256E00545D95 /* AdaptyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptyService.swift; sourceTree = "<group>"; };
 		851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 242513__hinoirocks__brownnoise.m4a; sourceTree = "<group>"; };
 		851396722E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a"; sourceTree = "<group>"; };
 		851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "737409__tracyradio__brown-noise.m4a"; sourceTree = "<group>"; };
@@ -173,6 +179,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				850C1EA92E7B214400545D95 /* AdaptyUI in Frameworks */,
+				850C1EA72E7B214400545D95 /* AdaptyPlugin in Frameworks */,
+				850C1EAB2E7B214400545D95 /* AdaptyUITesting in Frameworks */,
+				850C1EA52E7B214400545D95 /* Adapty in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +411,7 @@
 		85F61C712E4353F6002AB6F9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				850C1EAC2E7B256E00545D95 /* AdaptyService.swift */,
 				85F61C662E4353F6002AB6F9 /* AudioPlayerProtocol.swift */,
 				85F61C672E4353F6002AB6F9 /* AudioSessionService.swift */,
 				85F61C682E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift */,
@@ -470,6 +481,10 @@
 			);
 			name = WhiteNoise;
 			packageProductDependencies = (
+				850C1EA42E7B214400545D95 /* Adapty */,
+				850C1EA62E7B214400545D95 /* AdaptyPlugin */,
+				850C1EA82E7B214400545D95 /* AdaptyUI */,
+				850C1EAA2E7B214400545D95 /* AdaptyUITesting */,
 			);
 			productName = WhiteNoise;
 			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
@@ -516,6 +531,7 @@
 			);
 			mainGroup = 74349A472A26413C00AB0EF5;
 			packageReferences = (
+				850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */,
 			);
 			productRefGroup = 74349A512A26413C00AB0EF5 /* Products */;
 			projectDirPath = "";
@@ -605,6 +621,7 @@
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
+				850C1EAD2E7B256E00545D95 /* AdaptyService.swift in Sources */,
 				85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */,
 				85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */,
 				85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */,
@@ -903,6 +920,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adaptyteam/AdaptySDK-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		850C1EA42E7B214400545D95 /* Adapty */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
+			productName = Adapty;
+		};
+		850C1EA62E7B214400545D95 /* AdaptyPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
+			productName = AdaptyPlugin;
+		};
+		850C1EA82E7B214400545D95 /* AdaptyUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
+			productName = AdaptyUI;
+		};
+		850C1EAA2E7B214400545D95 /* AdaptyUITesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
+			productName = AdaptyUITesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 74349A482A26413C00AB0EF5 /* Project object */;
 }

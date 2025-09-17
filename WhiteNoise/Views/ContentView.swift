@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
 
     @StateObject var viewModel = WhiteNoisesViewModel()
-
+    
     var body: some View {
         WhiteNoisesView(viewModel: viewModel)
     }

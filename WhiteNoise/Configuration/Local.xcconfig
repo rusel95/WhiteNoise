@@ -11,3 +11,7 @@
 // Format: https://YOUR_KEY@YOUR_ORG.ingest.sentry.io/YOUR_PROJECT_ID
 // SECURITY: Replace with your actual DSN - this file should be gitignored
 SENTRY_DSN = YOUR_SENTRY_DSN_HERE
+
+// Adapty API key (used by AdaptyService via Info.plist expansion)
+// Set your real key here for local/TestFlight builds
+ADAPTY_API_KEY = YOUR_ADAPTY_API_KEY_HERE
