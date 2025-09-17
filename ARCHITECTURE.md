@@ -43,6 +43,7 @@ WhiteNoiseApp → ContentView → WhiteNoisesView
    - Timer sheet writes through `timerMode` binding, which the view model translates into `TimerService` operations and optional auto-play triggers.
 5. **Background & Remote Control**: `RemoteCommandService` wires MPRemoteCommandCenter play/pause/toggle callbacks back into the view model and keeps Now Playing metadata in sync with active sounds/timer state.
 6. **Timer Expiry**: `TimerService` invokes `onTimerExpired` which in turn calls `WhiteNoisesViewModel.pauseSounds(fadeDuration: fadeOut)`.
+7. **Paywall Enforcement**: Adapty checks subscription entitlements on launch/foreground; when inactive, the app presents an Adapty Paywall full-screen and locks playback until the user starts the 30-day trial or renews the quarterly subscription.
 
 ## Services at a Glance
 | Service | Responsibility | Key Interactions |

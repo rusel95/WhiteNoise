@@ -106,6 +106,8 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 - Race windows remain possible under extreme rapid toggles despite guards (UI immediate flip vs async audio).
 - 2025-09-16: `SoundConfiguration.json` in `WhiteNoise/Sounds/` still has trailing commas/incomplete arrays; loader will fail until cleaned or relocated to Resources.
 - 2025-09-16: `TimerServiceTests` depend on missing `remainingSecondsValue`; reconcile API vs tests before running suite.
+- 2025-09-16: Trial-only monetization means playback is unavailable without active entitlement; ensure paywall gracefully blocks UI when trial ends.
+
 
 
 
@@ -139,7 +141,10 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
    - Added unit test files for `TimerService` and `FadeOperation` under `WhiteNoiseUnitTests/`.
  - 2025-09-09: Codified SOLID, DRY, KISS, YAGNI as project conventions in memory bank.
 - 2025-09-16: Added ARCHITECTURE.md, DEVELOPMENT_PRINCIPLES.md, TESTING.md, and SOUND_CONFIGURATION.md to document structure, workflows, and asset management; captured outstanding config/test gaps.
-- 2025-09-16: Documented delayed-paywall monetization approach in `PAYWALL_STRATEGY.md`; includes 7-day free usage, 30-day trial, and $0.99/quarter pricing plan.
+- 2025-09-16: Documented delayed-paywall monetization approach in `PAYWALL_STRATEGY.md`; initial plan included 7-day free usage before gating (superseded the same day by trial-only model below).
+- 2025-09-16: Shifted to trial-only paywall (30-day trial → $0.99/quarter) with no permanent free tier; paywall returns after entitlement lapse.
+- 2025-09-16: Replaced custom paywall scaffolding with Adapty-managed paywall; removed `WhiteNoise/Services/PaywallManager.swift` and `WhiteNoise/Views/PaywallView.swift`.
+
 
 
 
