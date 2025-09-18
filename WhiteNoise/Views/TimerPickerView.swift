@@ -6,14 +6,39 @@
 //
 
 import SwiftUI
+#if os(iOS)
+import UIKit
+#endif
 
 struct TimerPickerView: View {
     @Binding var timerMode: TimerService.TimerMode
     @Binding var isPresented: Bool
-    
+
     let timerOptions = TimerService.TimerMode.allCases
-    
+
     @State private var selectedMode: TimerService.TimerMode
+
+#if os(iOS)
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    private var usesExpandedLayout: Bool {
+        horizontalSizeClass == .regular && UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
+    private var containerWidth: CGFloat { usesExpandedLayout ? 360 : 280 }
+    private var pickerHeight: CGFloat { usesExpandedLayout ? 220 : 150 }
+    private var titleFont: Font { usesExpandedLayout ? .system(size: 22, weight: .semibold) : .headline }
+    private var optionFont: Font { usesExpandedLayout ? .system(size: 18) : .system(size: 16) }
+    private var doneButtonSize: CGSize { usesExpandedLayout ? CGSize(width: 140, height: 48) : CGSize(width: 100, height: 40) }
+    private var doneButtonFont: Font { usesExpandedLayout ? .system(size: 18, weight: .semibold) : .system(size: 16, weight: .medium) }
+#else
+    private let containerWidth: CGFloat = 280
+    private let pickerHeight: CGFloat = 150
+    private let titleFont: Font = .headline
+    private let optionFont: Font = .system(size: 16)
+    private let doneButtonSize: CGSize = CGSize(width: 100, height: 40)
+    private let doneButtonFont: Font = .system(size: 16, weight: .medium)
+#endif
     
     init(timerMode: Binding<TimerService.TimerMode>, isPresented: Binding<Bool>) {
         self._timerMode = timerMode
@@ -36,21 +61,21 @@ struct TimerPickerView: View {
             
             VStack(spacing: 20) {
                 Text("Sleep Timer")
-                    .font(.headline)
+                    .font(titleFont)
                     .foregroundColor(.white)
                     .padding(.top, 20)
-                
+
                 // Native Picker with wheel style
                 Picker("Timer", selection: $selectedMode) {
                     ForEach(timerOptions, id: \.self) { option in
                         Text(option.displayText)
-                            .font(.system(size: 16))
+                            .font(optionFont)
                             .tag(option)
                             .foregroundColor(.white)
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
-                .frame(height: 150)
+                .frame(height: pickerHeight)
                 .clipped()
                 .colorScheme(.dark)
                 .onChange(of: selectedMode) { _, _ in
@@ -68,9 +93,9 @@ struct TimerPickerView: View {
                     }
                 }) {
                     Text("Done")
-                        .font(.system(size: 16, weight: .medium))
+                        .font(doneButtonFont)
                         .foregroundColor(.white)
-                        .frame(width: 100, height: 40)
+                        .frame(width: doneButtonSize.width, height: doneButtonSize.height)
                         .background(
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(LinearGradient(
@@ -85,7 +110,7 @@ struct TimerPickerView: View {
                 }
                 .padding(.bottom, 20)
             }
-            .frame(width: 280)
+            .frame(width: containerWidth)
             .background(
                 RoundedRectangle(cornerRadius: 25)
                     .fill(Color(white: 0.1))

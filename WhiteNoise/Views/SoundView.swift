@@ -64,7 +64,7 @@ struct SoundView: View {
                 ZStack {
                     Circle()
                         .fill(Color.white.opacity(0.1))
-                        .frame(width: 44, height: 44)
+                        .frame(width: AppConstants.UI.soundIconSize, height: AppConstants.UI.soundIconSize)
                     
                     switch viewModel.sound.icon {
                     case .system(let systemName):
@@ -128,7 +128,7 @@ struct SoundView: View {
                     }
                 }
             }
-            .padding(.vertical, 16)
+            .padding(.vertical, AppConstants.UI.soundCardVerticalPadding)
         }
     }
 }

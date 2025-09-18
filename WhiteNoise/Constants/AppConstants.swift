@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+#if os(iOS)
+import UIKit
+#endif
 
 enum AppConstants {
     
@@ -25,9 +28,21 @@ enum AppConstants {
     }
     
     enum UI {
-        static let soundGridSpacing: CGFloat = 16
+        static var soundGridSpacing: CGFloat {
+#if os(macOS)
+            16
+#else
+            isPad ? 18 : 12
+#endif
+        }
         static let soundCardCornerRadius: CGFloat = 20
-        static let bottomControllerPadding: CGFloat = 100
+        static var bottomControllerPadding: CGFloat {
+#if os(iOS)
+            isPad ? 140 : 100
+#else
+            100
+#endif
+        }
         
         // Colors
         static let primaryGradientStart = Color(red: 0.2, green: 0.5, blue: 0.6)
@@ -44,19 +59,103 @@ enum AppConstants {
         static let maxSoundCardWidth: CGFloat = 400
         static let controlButtonSize: CGFloat = 30
         #elseif os(iOS)
-        static let minSoundCardWidth: CGFloat = 100
-        static let maxSoundCardWidth: CGFloat = 200
-        static let controlButtonSize: CGFloat = 50
-        static let controlButtonIconSize: CGFloat = 20
-        static let soundIconSize: CGFloat = 44
-        static let soundNameFontSize: CGFloat = 20
-        static let soundCardIconSize: CGFloat = 24
-        static let soundTitleFontSize: CGFloat = 14
-        static let soundVariantFontSize: CGFloat = 11
-        static let soundVariantChevronSize: CGFloat = 8
-        static let soundVariantPaddingHorizontal: CGFloat = 10
-        static let soundVariantPaddingVertical: CGFloat = 4
-        static let soundVariantCornerRadius: CGFloat = 8
+        static var minSoundCardWidth: CGFloat {
+            isPad ? 220 : phoneMinSoundCardWidth
+        }
+
+        static var maxSoundCardWidth: CGFloat {
+            isPad ? 400 : phoneMaxSoundCardWidth
+        }
+
+        static var controlButtonSize: CGFloat {
+            isPad ? 64 : 50
+        }
+
+        static var controlButtonIconSize: CGFloat {
+            isPad ? 24 : 20
+        }
+
+        static var soundIconSize: CGFloat {
+            isPad ? 56 : 44
+        }
+
+        static var soundNameFontSize: CGFloat {
+            isPad ? 26 : 20
+        }
+
+        static var soundCardIconSize: CGFloat {
+            isPad ? 32 : 24
+        }
+
+        static var soundTitleFontSize: CGFloat {
+            isPad ? 17 : 14
+        }
+
+        static var soundVariantFontSize: CGFloat {
+            isPad ? 13 : 11
+        }
+
+        static var soundVariantChevronSize: CGFloat {
+            isPad ? 10 : 8
+        }
+
+        static var soundVariantPaddingHorizontal: CGFloat {
+            isPad ? 14 : 10
+        }
+
+        static var soundVariantPaddingVertical: CGFloat {
+            isPad ? 6 : 4
+        }
+
+        static var soundVariantCornerRadius: CGFloat {
+            isPad ? 10 : 8
+        }
+
+        static var controlContainerHorizontalPadding: CGFloat {
+            isPad ? 240 : 80
+        }
+
+        static var controlContainerVerticalPadding: CGFloat {
+            isPad ? 16 : 12
+        }
+
+        static var controlStackSpacing: CGFloat {
+            isPad ? 28 : 20
+        }
+
+        static var controlTrayCornerRadius: CGFloat {
+            isPad ? 28 : 25
+        }
+
+        static var controlTrayMaxWidth: CGFloat {
+            isPad ? 480 : .infinity
+        }
+
+        static var gridHorizontalPadding: CGFloat {
+            isPad ? 44 : 16
+        }
+
+        static var controlTrayHorizontalInsets: CGFloat {
+            isPad ? 32 : 30
+        }
+
+        static var controlTrayBottomPadding: CGFloat {
+            isPad ? 32 : 20
+        }
+
+        static let phoneMinSoundCardWidth: CGFloat = 100
+        static let phoneMaxSoundCardWidth: CGFloat = 200
+        static let phoneControlContainerHorizontalPadding: CGFloat = 80
+        static let phoneControlContainerVerticalPadding: CGFloat = 12
+        static let phoneControlStackSpacing: CGFloat = 20
+        static let phoneControlTrayCornerRadius: CGFloat = 25
+        static let phoneControlTrayHorizontalInsets: CGFloat = 30
+        static let phoneControlTrayBottomPadding: CGFloat = 20
+        static let phoneControlButtonCornerRadius: CGFloat = 16
+
+        static var soundCardVerticalPadding: CGFloat {
+            isPad ? 18 : 12
+        }
         #endif
     }
     
@@ -69,6 +168,14 @@ enum AppConstants {
         static let soundPrefix = "sound_"
     }
 }
+
+#if os(iOS)
+private extension AppConstants.UI {
+    static var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+}
+#endif
 
 // MARK: - Gradient Extensions
 extension LinearGradient {
