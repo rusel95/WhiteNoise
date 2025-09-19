@@ -39,9 +39,11 @@ This document captures the agreed monetization approach, paywall UX, and impleme
    - `PaywallSheetView` hosts `AdaptyPaywallView` and forwards purchase/restore/rendering callbacks back to the coordinator.
 5. **Debug controls**
    - `FORCE_SHOW_PAYWALL` env variable for QA; consider hidden reset gesture.
-6. **Analytics & logging**
+6. **Trial reminder & grace window**
+   - After purchase/restore, `EntitlementsCoordinator` keeps a short local grace window (≈5 minutes) and schedules a reminder 1 day before trial expiry to avoid instant re-show while Adapty profile sync catches up.
+7. **Analytics & logging**
    - Log `🎯 Paywall.presented`, `✅ Paywall.trialStarted`, `❌ Paywall.purchaseFailed`, `🏁 Paywall.dismissed`.
-7. **Offline policy (MVP)**
+8. **Offline policy (MVP)**
    - If profile fetch fails (offline), mark entitlement as active and skip the sheet to prioritize UX. Revisit later to tighten revenue guardrails.
 
 ## Progress Tracker
