@@ -630,7 +630,6 @@
 				85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */,
 				85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */,
 				850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */,
-				850C1EB72E7B5EFA00545D95 /* PaywallSheetView.swift in Sources */,
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
@@ -804,7 +803,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.17;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -847,7 +846,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.17;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

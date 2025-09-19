@@ -68,51 +68,51 @@ enum AppConstants {
         }
 
         static var controlButtonSize: CGFloat {
-            isPad ? 64 : 50
+            isPad ? 100 : 50
         }
 
         static var controlButtonIconSize: CGFloat {
-            isPad ? 24 : 20
+            isPad ? 40 : 20
         }
 
         static var soundIconSize: CGFloat {
-            isPad ? 56 : 44
+            isPad ? 96 : 44
         }
 
         static var soundNameFontSize: CGFloat {
-            isPad ? 26 : 20
+            isPad ? 40 : 20
         }
 
         static var soundCardIconSize: CGFloat {
-            isPad ? 32 : 24
+            isPad ? 52 : 24
         }
 
         static var soundTitleFontSize: CGFloat {
-            isPad ? 17 : 14
+            isPad ? 24 : 14
         }
 
         static var soundVariantFontSize: CGFloat {
-            isPad ? 13 : 11
+            isPad ? 18 : 11
         }
 
         static var soundVariantChevronSize: CGFloat {
-            isPad ? 10 : 8
+            isPad ? 14 : 8
         }
 
         static var soundVariantPaddingHorizontal: CGFloat {
-            isPad ? 14 : 10
+            isPad ? 20 : 10
         }
 
         static var soundVariantPaddingVertical: CGFloat {
-            isPad ? 6 : 4
+            isPad ? 10 : 4
         }
 
         static var soundVariantCornerRadius: CGFloat {
-            isPad ? 10 : 8
+            isPad ? 14 : 8
         }
 
         static var controlContainerHorizontalPadding: CGFloat {
-            isPad ? 240 : 80
+            isPad ? controlContainerVerticalPadding : 80
         }
 
         static var controlContainerVerticalPadding: CGFloat {
@@ -120,15 +120,15 @@ enum AppConstants {
         }
 
         static var controlStackSpacing: CGFloat {
-            isPad ? 28 : 20
+            isPad ? 40 : 20
         }
 
         static var controlTrayCornerRadius: CGFloat {
-            isPad ? 28 : 25
+            isPad ? 36 : 25
         }
 
         static var controlTrayMaxWidth: CGFloat {
-            isPad ? 480 : .infinity
+            (controlButtonSize * 2) + controlStackSpacing
         }
 
         static var gridHorizontalPadding: CGFloat {
@@ -136,11 +136,15 @@ enum AppConstants {
         }
 
         static var controlTrayHorizontalInsets: CGFloat {
-            isPad ? 32 : 30
+            isPad ? controlButtonSize * 1.8 : phoneControlTrayHorizontalInsets
         }
 
         static var controlTrayBottomPadding: CGFloat {
-            isPad ? 32 : 20
+            isPad ? 40 : 20
+        }
+
+        static var controlButtonCornerRadius: CGFloat {
+            isPad ? 32 : phoneControlButtonCornerRadius
         }
 
         static let phoneMinSoundCardWidth: CGFloat = 100
@@ -149,12 +153,12 @@ enum AppConstants {
         static let phoneControlContainerVerticalPadding: CGFloat = 12
         static let phoneControlStackSpacing: CGFloat = 20
         static let phoneControlTrayCornerRadius: CGFloat = 25
-        static let phoneControlTrayHorizontalInsets: CGFloat = 30
+        static let phoneControlTrayHorizontalInsets: CGFloat = phoneControlContainerVerticalPadding
         static let phoneControlTrayBottomPadding: CGFloat = 20
         static let phoneControlButtonCornerRadius: CGFloat = 16
 
         static var soundCardVerticalPadding: CGFloat {
-            isPad ? 18 : 12
+            isPad ? 28 : 12
         }
         #endif
     }
