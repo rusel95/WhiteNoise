@@ -144,6 +144,7 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 - 2025-09-16: Documented delayed-paywall monetization approach in `PAYWALL_STRATEGY.md`; initial plan included 7-day free usage before gating (superseded the same day by trial-only model below).
 - 2025-09-16: Shifted to trial-only paywall (30-day trial → $0.99/quarter) with no permanent free tier; paywall returns after entitlement lapse.
 - 2025-09-16: Replaced custom paywall scaffolding with Adapty-managed paywall; removed `WhiteNoise/Services/PaywallManager.swift` and `WhiteNoise/Views/PaywallView.swift`.
+- 2025-09-17: Added 5-minute local post-purchase grace window plus trial reminder scheduler to prevent immediate paywall reappearance while Adapty profile syncs.
 - 2025-09-16: Adopted AdaptyPaywallView sheet integration (EntitlementsCoordinator + PaywallSheetView) replacing UIKit presenter.
 
 

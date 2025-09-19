@@ -14,6 +14,7 @@ import Adapty
 import AdaptyUI
 #endif
 
+/// Hosts the Adapty paywall inside a SwiftUI sheet and forwards events to the coordinator.
 struct PaywallSheetView: View {
     @ObservedObject var coordinator: EntitlementsCoordinator
 
@@ -26,8 +27,14 @@ struct PaywallSheetView: View {
                     didDisappear: {
                         coordinator.handlePaywallDismissed()
                     },
-                    didFinishPurchase: { _, _ in
-                        coordinator.handlePurchaseCompleted()
+                    didFinishPurchase: { _, result in
+                        // When we provide a custom handler, Adapty's default auto-dismiss is overridden.
+                        // Manually dismiss the sheet and refresh entitlements on successful purchase.
+                        if !result.isPurchaseCancelled {
+                            print("✅ PaywallSheetView - Purchase completed, dismissing sheet")
+                            coordinator.handlePurchaseCompleted(profile: result.profile)
+                            coordinator.isPaywallPresented = false
+                        }
                     },
                     didFailPurchase: { _, error in
                         print("⚠️ PaywallSheetView - Purchase failed: \(error.localizedDescription)")
@@ -57,4 +64,3 @@ struct PaywallSheetView: View {
         }
     }
 }
-

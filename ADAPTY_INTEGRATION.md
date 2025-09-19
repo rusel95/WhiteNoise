@@ -39,11 +39,9 @@ ADAPTY_API_KEY = $(ADAPTY_API_KEY)
 - `PaywallSheetView` wraps `AdaptyPaywallView`, providing callbacks for purchase, restore, and error events.
 
 ## 6) Entitlement Gating Flow
-- `RootView` owns a `@StateObject EntitlementsCoordinator` and calls:
-  - `.onAppear { coordinator.onAppLaunch() }`
-  - `.onChange(of: scenePhase)` to re-check when the app becomes active.
-- `.sheet(isPresented: $coordinator.isPaywallPresented)` renders the Adapty paywall when the entitlement is missing.
-- On purchase/restore success the coordinator re-fetches the profile and dismisses the sheet.
+- `RootView` owns a `@StateObject EntitlementsCoordinator` and calls `.onAppear { coordinator.onAppLaunch() }` and reacts to scene phase changes.
+- `.sheet(isPresented: $coordinator.isPaywallPresented)` renders the paywall when entitlement is missing.
+- After purchase/restore, the coordinator enables a short local grace window (≈5 minutes) while awaiting the next profile sync, keeping the sheet dismissed and scheduling the trial-ending reminder. When Adapty confirms the entitlement, the grace window is cleared.
 
 ## 7) Offline Behaviour (MVP)
 - If the profile fetch fails (e.g., no internet), we set `hasActiveEntitlement = true` and skip the paywall to prioritise UX. Purchases/restores remain unavailable until connectivity returns.
