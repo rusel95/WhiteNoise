@@ -1,8 +1,8 @@
-# WhiteNoise Terms of Service
+# White Sound Terms of Service
 
 Effective date: 2025-09-16
 
-These Terms of Service (the “Terms”) govern your use of the WhiteNoise mobile application (the “App”). By downloading or using the App, you agree to these Terms. If you do not agree, do not use the App.
+These Terms of Service (the “Terms”) govern your use of the White Sound mobile application (the “App”). By downloading or using the App, you agree to these Terms. If you do not agree, do not use the App.
 
 ## 1. Subscription & Billing
 - The App offers an auto‑renewable subscription with a complimentary 30‑day free trial, then $0.99 every 3 months (pricing may vary by region). 
@@ -55,4 +55,4 @@ These Terms of Service (the “Terms”) govern your use of the WhiteNoise mobil
 
 ## 13. Contact
 - Email: ruslanpopesku95@gmail.com
-- Developer: WhiteNoise (Ruslan Popesku)
+- Developer: White Sound (Ruslan Popesku)

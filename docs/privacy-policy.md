@@ -1,8 +1,8 @@
-# WhiteNoise Privacy Policy
+# White Sound Privacy Policy
 
 Effective date: 2025-09-16
 
-This Privacy Policy explains how the WhiteNoise mobile application (the “App”) collects, uses, and shares information. If you do not agree with this policy, please do not use the App.
+This Privacy Policy explains how the White Sound mobile application (the “App”) collects, uses, and shares information. If you do not agree with this policy, please do not use the App.
 
 ## Summary
 - We don’t create accounts or ask for your name or email.
@@ -41,7 +41,7 @@ We do not intentionally collect names, emails, contact lists, photos, precise lo
 - We do not sell personal information. We do not share with ad networks.
 
 ## Children’s Privacy
-The App may be used by children aged **4 and above** under a parent’s or guardian’s supervision. We designed WhiteNoise to work without accounts and to store preferences locally. We do not knowingly collect personal information from children.
+The App may be used by children aged **4 and above** under a parent’s or guardian’s supervision. We designed White Sound to work without accounts and to store preferences locally. We do not knowingly collect personal information from children.
 
 If a user is under the age of 13, a parent or legal guardian should review and consent to any in‑app purchase. Purchases are processed by Apple using the device’s Apple ID. We recommend enabling parental controls and Family Sharing where appropriate.
 
@@ -72,4 +72,4 @@ We may update this policy from time to time. Continued use of the App after chan
 ## Contact Us
 If you have questions or requests, contact:
 - Email: ruslanpopesku95@gmail.com
-- Developer: WhiteNoise (Ruslan Popesku)
+- Developer: White Sound (Ruslan Popesku)
