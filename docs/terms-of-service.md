@@ -29,7 +29,7 @@ These Terms of Service (the “Terms”) govern your use of the WhiteNoise mobil
 
 ## 6. Privacy
 - Use of the App is also governed by our Privacy Policy, which explains how we handle information. 
-- Privacy Policy: ../privacy-policy.md (or the hosted URL you provide in App Store Connect).
+- Privacy Policy: Available from the in-app Subscription Info screen and in the App Store Connect listing.
 
 ## 7. Third‑Party Services
 - The App may integrate with third‑party services (e.g., Apple In‑App Purchases, Adapty for subscription management). Your use of those services is subject to their terms and policies.
@@ -54,8 +54,5 @@ These Terms of Service (the “Terms”) govern your use of the WhiteNoise mobil
 - These Terms are governed by the laws of your country or state of residence, except where preempted by applicable consumer protection laws. Venue and jurisdiction shall be as permitted by those laws.
 
 ## 13. Contact
-- Email: replace-with-your-contact@example.com
+- Email: ruslanpopesku95@gmail.com
 - Developer: WhiteNoise (Ruslan Popesku)
-
----
-Hosting tip: Publish this file via GitHub Pages (repo Settings → Pages → Source: `docs/` folder) and use the resulting URL (e.g., `https://<username>.github.io/WhiteNoise/terms-of-service`).

@@ -72,11 +72,6 @@ final class EntitlementsCoordinator: ObservableObject {
         Task { await refreshEntitlement(forceShow: isForceShowEnabled()) }
     }
 
-    func onAppForeground() {
-        print("🎯 EntitlementsCoordinator.onAppForeground")
-        Task { await refreshEntitlement(forceShow: false) }
-    }
-
     func handlePurchaseCompleted(profile: AdaptyProfile? = nil) {
 #if canImport(Adapty)
         activateEntitlementOverride()

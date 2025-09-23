@@ -71,8 +71,5 @@ We may update this policy from time to time. Continued use of the App after chan
 
 ## Contact Us
 If you have questions or requests, contact:
-- Email: replace-with-your-contact@example.com
+- Email: ruslanpopesku95@gmail.com
 - Developer: WhiteNoise (Ruslan Popesku)
-
----
-Hosting tip: You can publish this file via GitHub Pages. In your GitHub repo settings, enable Pages for the `docs/` folder and use the resulting URL (e.g., `https://<username>.github.io/WhiteNoise/privacy-policy`).

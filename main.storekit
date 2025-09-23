@@ -1,11 +1,11 @@
 {
   "appPolicies" : {
-    "eula" : "",
+    "eula" : "https://ruslanpopesku.github.io/WhiteNoise/terms-of-service",
     "policies" : [
       {
         "locale" : "en_US",
         "policyText" : "",
-        "policyURL" : ""
+        "policyURL" : "https://ruslanpopesku.github.io/WhiteNoise/privacy-policy"
       }
     ]
   },
