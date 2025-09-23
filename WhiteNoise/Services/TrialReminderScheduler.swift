@@ -20,23 +20,12 @@ final class TrialReminderScheduler {
     private let scheduledDateKey = "trialReminderScheduledDate"
 
     func scheduleReminderIfNeeded(for accessLevel: AdaptyProfile.AccessLevel) {
-        guard let expiresAt = accessLevel.expiresAt,
-              accessLevel.activeIntroductoryOfferType == "free_trial",
-              !accessLevel.isLifetime else {
+        guard let reminderDate = reminderDate(for: accessLevel) else {
             cancelReminder()
             return
         }
 
-        guard let reminderDate = Calendar.current.date(byAdding: .day, value: -1, to: expiresAt),
-              reminderDate > Date() else {
-            cancelReminder()
-            return
-        }
-
-        if let storedDate = defaults.object(forKey: scheduledDateKey) as? Date,
-           abs(storedDate.timeIntervalSince(reminderDate)) < 1 {
-            return
-        }
+        guard !isReminderScheduled(for: reminderDate) else { return }
 
         notificationCenter.getNotificationSettings { [weak self] settings in
             guard let self = self else { return }
@@ -54,6 +43,19 @@ final class TrialReminderScheduler {
                 break
             }
         }
+    }
+
+    func ensureReminderScheduled(for accessLevel: AdaptyProfile.AccessLevel) {
+        guard let reminderDate = reminderDate(for: accessLevel) else {
+            cancelReminder()
+            return
+        }
+
+        if isReminderScheduled(for: reminderDate) {
+            return
+        }
+
+        scheduleReminderIfNeeded(for: accessLevel)
     }
 
     func cancelReminder() {
@@ -75,5 +77,25 @@ final class TrialReminderScheduler {
             guard error == nil, let self = self else { return }
             self.defaults.set(date, forKey: self.scheduledDateKey)
         }
+    }
+
+    private func reminderDate(for accessLevel: AdaptyProfile.AccessLevel) -> Date? {
+        guard let expiresAt = accessLevel.expiresAt,
+              accessLevel.activeIntroductoryOfferType == "free_trial",
+              !accessLevel.isLifetime else {
+            return nil
+        }
+
+        guard let reminderDate = Calendar.current.date(byAdding: .day, value: -1, to: expiresAt),
+              reminderDate > Date() else {
+            return nil
+        }
+
+        return reminderDate
+    }
+
+    private func isReminderScheduled(for date: Date) -> Bool {
+        guard let storedDate = defaults.object(forKey: scheduledDateKey) as? Date else { return false }
+        return abs(storedDate.timeIntervalSince(date)) < 1
     }
 }

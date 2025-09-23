@@ -4,13 +4,9 @@
 <dict>
 	<key>ADAPTY_API_KEY</key>
 	<string>$(ADAPTY_API_KEY)</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 </dict>
 </plist>

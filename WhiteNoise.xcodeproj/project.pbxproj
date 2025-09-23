@@ -782,7 +782,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 56;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
@@ -791,9 +791,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2023 Ruslan Popesku. All rights reserved.";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
@@ -803,7 +806,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.23;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -825,7 +828,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 56;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
@@ -834,9 +837,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2023 Ruslan Popesku. All rights reserved.";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
@@ -846,7 +852,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.23;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
