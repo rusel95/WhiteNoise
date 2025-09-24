@@ -15,8 +15,6 @@
 		850656A72E835B680014A941 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 850656A62E835B680014A941 /* RevenueCatUI */; };
 		850C1EAD2E7B256E00545D95 /* RevenueCatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */; };
 		850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */; };
-		85E4A0B12E9C8B1F0046A9D3 /* TrialReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */; };
-		850C1EB52E7B519B00545D95 /* main.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 850C1EB42E7B519B00545D95 /* main.storekit */; };
 		850C1EB62E7B55C200545D95 /* PaywallSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */; };
 		851396742E79876500552A9D /* 737409__tracyradio__brown-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */; };
 		851396752E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */; };
@@ -58,6 +56,7 @@
 		85AB61DC2E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61D82E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a */; };
 		85AB61DD2E79809500549201 /* 255890__andreasmustola__white-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */; };
 		85AB61DE2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */; };
+		85E4A0B12E9C8B1F0046A9D3 /* TrialReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */; };
 		85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */; };
 		85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */; };
 		85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C602E4353E8002AB6F9 /* Sound.swift */; };
@@ -110,8 +109,6 @@
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatService.swift; sourceTree = "<group>"; };
 		850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementsCoordinator.swift; sourceTree = "<group>"; };
-		85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialReminderScheduler.swift; sourceTree = "<group>"; };
-		850C1EB42E7B519B00545D95 /* main.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.storekit; sourceTree = "<group>"; };
 		850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallSheetView.swift; sourceTree = "<group>"; };
 		851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 242513__hinoirocks__brownnoise.m4a; sourceTree = "<group>"; };
 		851396722E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a"; sourceTree = "<group>"; };
@@ -155,6 +152,7 @@
 		85AB61D82E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "249313__jarredgibb__white-noise-20dbfs-30-second.m4a"; sourceTree = "<group>"; };
 		85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "255890__andreasmustola__white-noise.m4a"; sourceTree = "<group>"; };
 		85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "349315__newagesoup__white_noise-10s.m4a"; sourceTree = "<group>"; };
+		85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialReminderScheduler.swift; sourceTree = "<group>"; };
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		85F61C602E4353E8002AB6F9 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 		74349A472A26413C00AB0EF5 = {
 			isa = PBXGroup;
 			children = (
-				850C1EB42E7B519B00545D95 /* main.storekit */,
 				854592702E3B9BF400095568 /* README.md */,
 				851396982E79B01900552A9D /* AGENT.md */,
 				851396992E79B01900552A9D /* ARCHITECTURE.md */,
@@ -568,7 +565,6 @@
 				85AB61DB2E79809500549201 /* 165395__shawnyboy__white-noise.m4a in Resources */,
 				85AB61DC2E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a in Resources */,
 				85AB61DD2E79809500549201 /* 255890__andreasmustola__white-noise.m4a in Resources */,
-				850C1EB52E7B519B00545D95 /* main.storekit in Resources */,
 				85AB61DE2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a in Resources */,
 				85A9863F2E5B7DD000EF08DB /* 188295__willstepp__small-waterfall-at-the-mill.m4a in Resources */,
 				851396942E79A2F300552A9D /* 318064__ceich93__water_lapping_river.m4a in Resources */,
@@ -780,7 +776,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
@@ -791,7 +787,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2023 Ruslan Popesku. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 Ruslan Popesku. All rights reserved.";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
@@ -804,7 +800,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.23;
+				MARKETING_VERSION = 0.24;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -826,7 +822,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				DEVELOPMENT_TEAM = FWHF624C4H;
@@ -837,7 +833,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2023 Ruslan Popesku. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 Ruslan Popesku. All rights reserved.";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
@@ -850,7 +846,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.23;
+				MARKETING_VERSION = 0.24;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -105,6 +105,19 @@ final class EntitlementsCoordinator: ObservableObject {
                 hasActiveEntitlement = true
                 isPaywallPresented = false
                 print("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active during failure")
+            } else if isForceShowEnabled() || !isFailOpenEnabled() {
+                // In debug or when explicitly requested, try to show the paywall
+                // even if customer info failed, as long as we can load an offering.
+                do {
+                    try await loadOffering()
+                    hasActiveEntitlement = false
+                    isPaywallPresented = true
+                    print("🔒 EntitlementsCoordinator.refreshEntitlement - Showing paywall despite failure (debug)")
+                } catch {
+                    hasActiveEntitlement = true
+                    isPaywallPresented = false
+                    print("⚠️ EntitlementsCoordinator.refreshEntitlement - Fallback to fail-open after offering load failure")
+                }
             } else {
                 hasActiveEntitlement = true
                 isPaywallPresented = false
@@ -118,9 +131,14 @@ final class EntitlementsCoordinator: ObservableObject {
             currentOffering = nil
             let offerings = try await Purchases.shared.offerings()
 
-            let offeringToUse: Offering?
+            var offeringToUse: Offering?
             if let identifier = offeringIdentifier, !identifier.isEmpty {
                 offeringToUse = offerings.offering(identifier: identifier)
+                if offeringToUse == nil {
+                    // Fallback to current to keep debugging smooth when identifier mismatches.
+                    offeringToUse = offerings.current
+                    print("⚠️ EntitlementsCoordinator.loadOffering - Offering \(identifier) not found, falling back to current offering")
+                }
             } else {
                 offeringToUse = offerings.current
             }
@@ -190,6 +208,14 @@ final class EntitlementsCoordinator: ObservableObject {
 
     private func isForceShowEnabled() -> Bool {
         ProcessInfo.processInfo.environment["FORCE_SHOW_PAYWALL"] == "1"
+    }
+
+    private func isFailOpenEnabled() -> Bool {
+        // Defaults to current behavior (fail-open) unless explicitly disabled.
+        if let value = ProcessInfo.processInfo.environment["PAYWALL_FAILS_OPEN"]?.lowercased() {
+            return value != "0" && value != "false"
+        }
+        return true
     }
 
     private static func resolveValue(
