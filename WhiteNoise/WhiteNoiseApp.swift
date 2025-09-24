@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct WhiteNoiseApp: App {
     init() {
-        AdaptyService.activate()
+        RevenueCatService.configure()
     }
  
     var body: some Scene {

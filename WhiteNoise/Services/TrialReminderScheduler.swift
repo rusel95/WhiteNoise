@@ -9,9 +9,7 @@
 import Foundation
 import UserNotifications
 
-#if canImport(Adapty)
-import Adapty
-#endif
+import RevenueCat
 
 final class TrialReminderScheduler {
     private let notificationCenter = UNUserNotificationCenter.current()
@@ -19,8 +17,8 @@ final class TrialReminderScheduler {
     private let reminderIdentifier = "whitenoise_trial_reminder"
     private let scheduledDateKey = "trialReminderScheduledDate"
 
-    func scheduleReminderIfNeeded(for accessLevel: AdaptyProfile.AccessLevel) {
-        guard let reminderDate = reminderDate(for: accessLevel) else {
+    func scheduleReminderIfNeeded(for entitlement: EntitlementInfo) {
+        guard let reminderDate = reminderDate(for: entitlement) else {
             cancelReminder()
             return
         }
@@ -45,8 +43,8 @@ final class TrialReminderScheduler {
         }
     }
 
-    func ensureReminderScheduled(for accessLevel: AdaptyProfile.AccessLevel) {
-        guard let reminderDate = reminderDate(for: accessLevel) else {
+    func ensureReminderScheduled(for entitlement: EntitlementInfo) {
+        guard let reminderDate = reminderDate(for: entitlement) else {
             cancelReminder()
             return
         }
@@ -55,7 +53,7 @@ final class TrialReminderScheduler {
             return
         }
 
-        scheduleReminderIfNeeded(for: accessLevel)
+        scheduleReminderIfNeeded(for: entitlement)
     }
 
     func cancelReminder() {
@@ -79,10 +77,9 @@ final class TrialReminderScheduler {
         }
     }
 
-    private func reminderDate(for accessLevel: AdaptyProfile.AccessLevel) -> Date? {
-        guard let expiresAt = accessLevel.expiresAt,
-              accessLevel.activeIntroductoryOfferType == "free_trial",
-              !accessLevel.isLifetime else {
+    private func reminderDate(for entitlement: EntitlementInfo) -> Date? {
+        guard entitlement.periodType == .trial,
+              let expiresAt = entitlement.expirationDate else {
             return nil
         }
 

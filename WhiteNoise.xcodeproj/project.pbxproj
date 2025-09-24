@@ -11,12 +11,11 @@
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
 		74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */; };
-		850C1EA52E7B214400545D95 /* Adapty in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EA42E7B214400545D95 /* Adapty */; };
-		850C1EA72E7B214400545D95 /* AdaptyPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EA62E7B214400545D95 /* AdaptyPlugin */; };
-		850C1EA92E7B214400545D95 /* AdaptyUI in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EA82E7B214400545D95 /* AdaptyUI */; };
-		850C1EAB2E7B214400545D95 /* AdaptyUITesting in Frameworks */ = {isa = PBXBuildFile; productRef = 850C1EAA2E7B214400545D95 /* AdaptyUITesting */; };
-		850C1EAD2E7B256E00545D95 /* AdaptyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAC2E7B256E00545D95 /* AdaptyService.swift */; };
+		850656A52E835B680014A941 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 850656A42E835B680014A941 /* RevenueCat */; };
+		850656A72E835B680014A941 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 850656A62E835B680014A941 /* RevenueCatUI */; };
+		850C1EAD2E7B256E00545D95 /* RevenueCatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */; };
 		850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */; };
+		85E4A0B12E9C8B1F0046A9D3 /* TrialReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */; };
 		850C1EB52E7B519B00545D95 /* main.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 850C1EB42E7B519B00545D95 /* main.storekit */; };
 		850C1EB62E7B55C200545D95 /* PaywallSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */; };
 		851396742E79876500552A9D /* 737409__tracyradio__brown-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396732E79876500552A9D /* 737409__tracyradio__brown-noise.m4a */; };
@@ -109,8 +108,9 @@
 		74CD166E2A45DCB7004FE649 /* WhiteNoise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhiteNoise.entitlements; sourceTree = "<group>"; };
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		850C1EAC2E7B256E00545D95 /* AdaptyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptyService.swift; sourceTree = "<group>"; };
+		850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatService.swift; sourceTree = "<group>"; };
 		850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementsCoordinator.swift; sourceTree = "<group>"; };
+		85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialReminderScheduler.swift; sourceTree = "<group>"; };
 		850C1EB42E7B519B00545D95 /* main.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.storekit; sourceTree = "<group>"; };
 		850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallSheetView.swift; sourceTree = "<group>"; };
 		851396712E79876500552A9D /* 242513__hinoirocks__brownnoise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 242513__hinoirocks__brownnoise.m4a; sourceTree = "<group>"; };
@@ -185,10 +185,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				850C1EA92E7B214400545D95 /* AdaptyUI in Frameworks */,
-				850C1EA72E7B214400545D95 /* AdaptyPlugin in Frameworks */,
-				850C1EAB2E7B214400545D95 /* AdaptyUITesting in Frameworks */,
-				850C1EA52E7B214400545D95 /* Adapty in Frameworks */,
+				850656A72E835B680014A941 /* RevenueCatUI in Frameworks */,
+				850656A52E835B680014A941 /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +417,8 @@
 			isa = PBXGroup;
 			children = (
 				850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */,
-				850C1EAC2E7B256E00545D95 /* AdaptyService.swift */,
+				850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */,
+				85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */,
 				85F61C662E4353F6002AB6F9 /* AudioPlayerProtocol.swift */,
 				85F61C672E4353F6002AB6F9 /* AudioSessionService.swift */,
 				85F61C682E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift */,
@@ -490,10 +489,8 @@
 			);
 			name = WhiteNoise;
 			packageProductDependencies = (
-				850C1EA42E7B214400545D95 /* Adapty */,
-				850C1EA62E7B214400545D95 /* AdaptyPlugin */,
-				850C1EA82E7B214400545D95 /* AdaptyUI */,
-				850C1EAA2E7B214400545D95 /* AdaptyUITesting */,
+				850656A42E835B680014A941 /* RevenueCat */,
+				850656A62E835B680014A941 /* RevenueCatUI */,
 			);
 			productName = WhiteNoise;
 			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
@@ -540,7 +537,7 @@
 			);
 			mainGroup = 74349A472A26413C00AB0EF5;
 			packageReferences = (
-				850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */,
+				850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = 74349A512A26413C00AB0EF5 /* Products */;
 			projectDirPath = "";
@@ -630,10 +627,11 @@
 				85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */,
 				85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */,
 				850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */,
+				85E4A0B12E9C8B1F0046A9D3 /* TrialReminderScheduler.swift in Sources */,
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
-				850C1EAD2E7B256E00545D95 /* AdaptyService.swift in Sources */,
+				850C1EAD2E7B256E00545D95 /* RevenueCatService.swift in Sources */,
 				85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */,
 				85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */,
 				85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */,
@@ -940,36 +938,26 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */ = {
+		850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/adaptyteam/AdaptySDK-iOS.git";
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.11.0;
+				minimumVersion = 5.39.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		850C1EA42E7B214400545D95 /* Adapty */ = {
+		850656A42E835B680014A941 /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
-			productName = Adapty;
+			package = 850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
 		};
-		850C1EA62E7B214400545D95 /* AdaptyPlugin */ = {
+		850656A62E835B680014A941 /* RevenueCatUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
-			productName = AdaptyPlugin;
-		};
-		850C1EA82E7B214400545D95 /* AdaptyUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
-			productName = AdaptyUI;
-		};
-		850C1EAA2E7B214400545D95 /* AdaptyUITesting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 850C1EA32E7B214400545D95 /* XCRemoteSwiftPackageReference "AdaptySDK-iOS" */;
-			productName = AdaptyUITesting;
+			package = 850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCatUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

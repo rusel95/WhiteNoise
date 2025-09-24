@@ -32,9 +32,9 @@ These Terms of Service (the “Terms”) govern your use of the White Sound mobi
 - Privacy Policy: Available from the in-app Subscription Info screen and in the App Store Connect listing.
 
 ## 7. Third‑Party Services
-- The App may integrate with third‑party services (e.g., Apple In‑App Purchases, Adapty for subscription management). Your use of those services is subject to their terms and policies.
+- The App may integrate with third‑party services (e.g., Apple In‑App Purchases, RevenueCat for subscription management). Your use of those services is subject to their terms and policies.
 - Apple Media Services Terms: https://www.apple.com/legal/internet-services/itunes/
-- Adapty Privacy Policy: https://adapty.io/privacy-policy
+- RevenueCat Privacy Policy: https://www.revenuecat.com/privacy
 
 ## 8. Disclaimers
 - THE APP IS PROVIDED “AS IS” AND “AS AVAILABLE” WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON‑INFRINGEMENT.

@@ -12,6 +12,11 @@
 // SECURITY: Replace with your actual DSN - this file should be gitignored
 SENTRY_DSN = YOUR_SENTRY_DSN_HERE
 
-// Adapty API key (used by AdaptyService via Info.plist expansion)
+// RevenueCat API key (used by RevenueCatService via Info.plist expansion)
 // Set your real key here for local/TestFlight builds
-ADAPTY_API_KEY = YOUR_ADAPTY_API_KEY_HERE
+REVENUECAT_API_KEY = YOUR_REVENUECAT_API_KEY_HERE
+
+// Optional overrides for entitlement and offering identifiers
+// Uncomment and adjust if you use custom identifiers in RevenueCat
+// REVENUECAT_ENTITLEMENT_ID = premium
+// REVENUECAT_OFFERING_ID = default

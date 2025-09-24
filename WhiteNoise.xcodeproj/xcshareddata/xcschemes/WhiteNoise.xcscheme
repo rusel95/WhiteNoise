@@ -64,13 +64,18 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "ADAPTY_API_KEY"
-            value = "public_live_G39osQhh.Qs8c8RqjPcCHiHPtyuRD"
+            key = "REVENUECAT_API_KEY"
+            value = "appl_BAEXfCawKRBFbNclwzVmxRcaAlt"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "ADAPTY_PLACEMENT_ID"
-            value = "1"
+            key = "REVENUECAT_ENTITLEMENT_ID"
+            value = "premium"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "REVENUECAT_OFFERING_ID"
+            value = "default"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
@@ -86,6 +91,9 @@
             isEnabled = "YES">
          </AdditionalOption>
       </AdditionalOptions>
+      <StoreKitConfigurationFileReference
+         identifier = "../../main.storekit">
+      </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
