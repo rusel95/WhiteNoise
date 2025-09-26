@@ -27,13 +27,11 @@ final class EntitlementsCoordinator: ObservableObject {
     init(entitlementIdentifier: String? = nil, offeringIdentifier: String? = nil) {
         self.entitlementIdentifier = Self.resolveValue(
             provided: entitlementIdentifier,
-            envKey: "REVENUECAT_ENTITLEMENT_ID",
             plistKey: "REVENUECAT_ENTITLEMENT_ID",
             defaultValue: "premium"
         )
         self.offeringIdentifier = Self.resolveOptionalValue(
             provided: offeringIdentifier,
-            envKey: "REVENUECAT_OFFERING_ID",
             plistKey: "REVENUECAT_OFFERING_ID"
         )
     }
@@ -220,12 +218,10 @@ final class EntitlementsCoordinator: ObservableObject {
 
     private static func resolveValue(
         provided: String?,
-        envKey: String,
         plistKey: String,
         defaultValue: String
     ) -> String {
         if let provided, !provided.isEmpty { return provided }
-        if let env = ProcessInfo.processInfo.environment[envKey], !env.isEmpty { return env }
         if let plist = Bundle.main.object(forInfoDictionaryKey: plistKey) as? String, !plist.isEmpty {
             return plist
         }
@@ -234,11 +230,9 @@ final class EntitlementsCoordinator: ObservableObject {
 
     private static func resolveOptionalValue(
         provided: String?,
-        envKey: String,
         plistKey: String
     ) -> String? {
         if let provided, !provided.isEmpty { return provided }
-        if let env = ProcessInfo.processInfo.environment[envKey], !env.isEmpty { return env }
         if let plist = Bundle.main.object(forInfoDictionaryKey: plistKey) as? String, !plist.isEmpty {
             return plist
         }
