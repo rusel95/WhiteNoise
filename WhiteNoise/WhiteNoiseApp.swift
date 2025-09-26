@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct WhiteNoiseApp: App {
     init() {
-        AdaptyService.activate()
+        RevenueCatService.configure()
     }
  
     var body: some Scene {
@@ -27,11 +27,6 @@ struct RootView: View {
     var body: some View {
         ContentView()
             .onAppear { entitlements.onAppLaunch() }
-            .onChange(of: scenePhase) { _, newPhase in
-                if newPhase == .active {
-                    entitlements.onAppForeground()
-                }
-            }
             .sheet(isPresented: $entitlements.isPaywallPresented) {
                 PaywallSheetView(coordinator: entitlements)
             }

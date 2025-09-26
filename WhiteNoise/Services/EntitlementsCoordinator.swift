@@ -2,38 +2,177 @@
 //  EntitlementsCoordinator.swift
 //  WhiteNoise
 //
-//  Handles Adapty entitlement checks and paywall presentation lifecycle.
+//  Handles RevenueCat entitlement checks and paywall presentation lifecycle.
 //
 
 import Foundation
+import RevenueCat
 import SwiftUI
-import UserNotifications
-
-#if canImport(Adapty)
-import Adapty
-#endif
-#if canImport(AdaptyUI)
-import AdaptyUI
-#endif
 
 /// Coordinates subscription entitlements, paywall presentation, and trial reminders.
 @MainActor
 final class EntitlementsCoordinator: ObservableObject {
-    #if canImport(AdaptyUI)
-    typealias PaywallConfigurationType = AdaptyUI.PaywallConfiguration
-    #else
-    typealias PaywallConfigurationType = Any
-    #endif
-
     @Published private(set) var hasActiveEntitlement: Bool = false
-    @Published var paywallConfiguration: PaywallConfigurationType?
+    @Published var currentOffering: Offering?
     @Published var isPaywallPresented: Bool = false
 
-#if canImport(Adapty)
     private let trialReminderScheduler = TrialReminderScheduler()
     private let defaults = UserDefaults.standard
     private let overrideKey = "whitenoise_entitlement_override_until"
-    private let overrideDuration: TimeInterval = 300 // 5 minutes grace while awaiting profile sync
+    private let overrideDuration: TimeInterval = 300 // 5 minutes grace while awaiting customer info sync
+
+    private let entitlementIdentifier: String
+    private let offeringIdentifier: String?
+
+    init(entitlementIdentifier: String? = nil, offeringIdentifier: String? = nil) {
+        self.entitlementIdentifier = Self.resolveValue(
+            provided: entitlementIdentifier,
+            plistKey: "REVENUECAT_ENTITLEMENT_ID",
+            defaultValue: "premium"
+        )
+        self.offeringIdentifier = Self.resolveOptionalValue(
+            provided: offeringIdentifier,
+            plistKey: "REVENUECAT_OFFERING_ID"
+        )
+    }
+
+    func onAppLaunch() {
+        print("🎯 EntitlementsCoordinator.onAppLaunch")
+        Task { await refreshEntitlement() }
+    }
+
+    func handlePurchaseCompleted(with customerInfo: CustomerInfo) {
+        activateEntitlementOverride()
+        scheduleReminderIfNeeded(from: customerInfo)
+        hasActiveEntitlement = true
+        isPaywallPresented = false
+        print("✅ EntitlementsCoordinator.handlePurchaseCompleted - Override active, hiding paywall")
+        Task { await refreshEntitlement() }
+    }
+
+    func handleRestoreCompleted(with customerInfo: CustomerInfo) {
+        activateEntitlementOverride()
+        scheduleReminderIfNeeded(from: customerInfo)
+        hasActiveEntitlement = activeEntitlement(in: customerInfo)?.isActive == true
+        isPaywallPresented = !hasActiveEntitlement && !isForceShowEnabled()
+        print("♻️ EntitlementsCoordinator.handleRestoreCompleted - Override active, refreshing")
+        Task { await refreshEntitlement() }
+    }
+
+    func handlePaywallDismissed() {
+        if !hasActiveEntitlement && isForceShowEnabled() {
+            Task { await refreshEntitlement() }
+        }
+    }
+
+    func handlePaywallRenderingFailure() {
+        isPaywallPresented = false
+    }
+
+    @discardableResult
+    private func refreshEntitlement() async -> CustomerInfo? {
+        do {
+            let customerInfo = try await Purchases.shared.customerInfo()
+
+            if let entitlement = activeEntitlement(in: customerInfo) {
+                clearEntitlementOverride()
+                trialReminderScheduler.ensureReminderScheduled(for: entitlement)
+                hasActiveEntitlement = true
+                isPaywallPresented = false
+                print("✅ EntitlementsCoordinator.refreshEntitlement - Premium active via customer info")
+                return customerInfo
+            }
+
+            if isEntitlementOverrideActive {
+                hasActiveEntitlement = true
+                isPaywallPresented = false
+                print("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active, keeping paywall hidden")
+                return customerInfo
+            }
+
+            trialReminderScheduler.cancelReminder()
+            hasActiveEntitlement = false
+
+            try await loadOffering()
+            isPaywallPresented = true
+            print("🔒 EntitlementsCoordinator.refreshEntitlement - Paywall shown (no entitlement)")
+            return customerInfo
+        } catch {
+            print("⚠️ EntitlementsCoordinator.refreshEntitlement - customer info fetch failed: \(error.localizedDescription)")
+            if isEntitlementOverrideActive {
+                hasActiveEntitlement = true
+                isPaywallPresented = false
+                print("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active during failure")
+            } else if isForceShowEnabled() || !isFailOpenEnabled() {
+                // In debug or when explicitly requested, try to show the paywall
+                // even if customer info failed, as long as we can load an offering.
+                do {
+                    try await loadOffering()
+                    hasActiveEntitlement = false
+                    isPaywallPresented = true
+                    print("🔒 EntitlementsCoordinator.refreshEntitlement - Showing paywall despite failure (debug)")
+                } catch {
+                    hasActiveEntitlement = true
+                    isPaywallPresented = false
+                    print("⚠️ EntitlementsCoordinator.refreshEntitlement - Fallback to fail-open after offering load failure")
+                }
+            } else {
+                hasActiveEntitlement = true
+                isPaywallPresented = false
+            }
+            return nil
+        }
+    }
+
+    private func loadOffering() async throws {
+        do {
+            currentOffering = nil
+            let offerings = try await Purchases.shared.offerings()
+
+            var offeringToUse: Offering?
+            if let identifier = offeringIdentifier, !identifier.isEmpty {
+                offeringToUse = offerings.offering(identifier: identifier)
+                if offeringToUse == nil {
+                    // Fallback to current to keep debugging smooth when identifier mismatches.
+                    offeringToUse = offerings.current
+                    print("⚠️ EntitlementsCoordinator.loadOffering - Offering \(identifier) not found, falling back to current offering")
+                }
+            } else {
+                offeringToUse = offerings.current
+            }
+
+            guard let offering = offeringToUse else {
+                print("⚠️ EntitlementsCoordinator.loadOffering - No offering found for identifier \(offeringIdentifier ?? "current")")
+                throw PaywallLoadingError.offeringNotFound
+            }
+
+            if !offering.hasPaywall {
+                print("⚠️ EntitlementsCoordinator.loadOffering - Offering \(offering.identifier) has no configured paywall")
+            }
+
+            currentOffering = offering
+            print("🧩 EntitlementsCoordinator.loadOffering - Loaded offering \(offering.identifier)")
+        } catch {
+            currentOffering = nil
+            print("ℹ️ EntitlementsCoordinator.loadOffering - Failed to load offering: \(error.localizedDescription)")
+            throw error
+        }
+    }
+
+    private func activeEntitlement(in info: CustomerInfo) -> EntitlementInfo? {
+        guard let entitlement = info.entitlements[entitlementIdentifier], entitlement.isActive else {
+            return nil
+        }
+        return entitlement
+    }
+
+    private func scheduleReminderIfNeeded(from info: CustomerInfo) {
+        if let entitlement = activeEntitlement(in: info) {
+            trialReminderScheduler.ensureReminderScheduled(for: entitlement)
+        } else {
+            trialReminderScheduler.cancelReminder()
+        }
+    }
 
     private var entitlementOverrideUntil: Date? {
         get { defaults.object(forKey: overrideKey) as? Date }
@@ -64,190 +203,43 @@ final class EntitlementsCoordinator: ObservableObject {
         entitlementOverrideUntil = nil
         print("⏱️ EntitlementsCoordinator - Cleared entitlement override")
     }
-#endif
-    private let placementId = ProcessInfo.processInfo.environment["ADAPTY_PLACEMENT_ID"] ?? "main_paywall"
-
-    func onAppLaunch() {
-        print("🎯 EntitlementsCoordinator.onAppLaunch")
-        Task { await refreshEntitlement(forceShow: isForceShowEnabled()) }
-    }
-
-    func onAppForeground() {
-        print("🎯 EntitlementsCoordinator.onAppForeground")
-        Task { await refreshEntitlement(forceShow: false) }
-    }
-
-    func handlePurchaseCompleted(profile: AdaptyProfile? = nil) {
-#if canImport(Adapty)
-        activateEntitlementOverride()
-        if let access = profile?.accessLevels["premium"] {
-            trialReminderScheduler.scheduleReminderIfNeeded(for: access)
-        }
-#endif
-        hasActiveEntitlement = true
-        isPaywallPresented = false
-        print("✅ EntitlementsCoordinator.handlePurchaseCompleted - Override active, hiding paywall")
-        Task { await refreshEntitlement(forceShow: false) }
-    }
-
-    func handleRestoreCompleted(with profile: AdaptyProfile) {
-#if canImport(Adapty)
-        activateEntitlementOverride()
-        if let access = profile.accessLevels["premium"] {
-            trialReminderScheduler.scheduleReminderIfNeeded(for: access)
-        } else {
-            trialReminderScheduler.cancelReminder()
-        }
-#endif
-        hasActiveEntitlement = profile.accessLevels["premium"]?.isActive == true
-        isPaywallPresented = !hasActiveEntitlement && !isForceShowEnabled()
-        print("♻️ EntitlementsCoordinator.handleRestoreCompleted - Override active, refreshing")
-        Task { await refreshEntitlement(forceShow: false) }
-    }
-
-    func handlePaywallDismissed() {
-        if !hasActiveEntitlement && isForceShowEnabled() {
-            Task { await refreshEntitlement(forceShow: true) }
-        }
-    }
-
-    func handlePaywallRenderingFailure() {
-        isPaywallPresented = false
-    }
-
-    private func refreshEntitlement(forceShow: Bool) async {
-        #if canImport(Adapty)
-        do {
-            let profile = try await Adapty.getProfile()
-            if let access = profile.accessLevels["premium"], access.isActive {
-#if canImport(Adapty)
-                clearEntitlementOverride()
-                trialReminderScheduler.scheduleReminderIfNeeded(for: access)
-#endif
-                hasActiveEntitlement = true
-                isPaywallPresented = false
-                print("✅ EntitlementsCoordinator.refreshEntitlement - Premium active via profile")
-                return
-            }
-
-#if canImport(Adapty)
-            if isEntitlementOverrideActive {
-                hasActiveEntitlement = true
-                isPaywallPresented = false
-                print("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active, keeping paywall hidden")
-                return
-            }
-            trialReminderScheduler.cancelReminder()
-#endif
-
-            hasActiveEntitlement = false
-
-            try await loadPaywallConfiguration()
-            isPaywallPresented = true
-            print("🔒 EntitlementsCoordinator.refreshEntitlement - Paywall shown (no entitlement)")
-        } catch {
-            print("⚠️ EntitlementsCoordinator.refreshEntitlement - profile fetch failed: \(error.localizedDescription)")
-            // MVP offline policy: allow playback when profile is unavailable.
-            #if canImport(Adapty)
-            if isEntitlementOverrideActive {
-                hasActiveEntitlement = true
-                isPaywallPresented = false
-                print("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active during failure")
-            } else {
-                hasActiveEntitlement = true
-                isPaywallPresented = false
-            }
-            #else
-            hasActiveEntitlement = true
-            isPaywallPresented = false
-            #endif
-        }
-        #else
-        hasActiveEntitlement = true
-        isPaywallPresented = false
-        #endif
-    }
-
-    private func loadPaywallConfiguration() async throws {
-        #if canImport(Adapty) && canImport(AdaptyUI)
-        paywallConfiguration = nil
-        let paywall = try await Adapty.getPaywall(placementId: placementId)
-        let configuration = try await AdaptyUI.getPaywallConfiguration(forPaywall: paywall)
-        paywallConfiguration = configuration
-        print("🧩 EntitlementsCoordinator.loadPaywallConfiguration - Loaded configuration for placement \(placementId)")
-        #else
-        print("ℹ️ EntitlementsCoordinator.loadPaywallConfiguration - AdaptyUI not available")
-        #endif
-    }
 
     private func isForceShowEnabled() -> Bool {
         ProcessInfo.processInfo.environment["FORCE_SHOW_PAYWALL"] == "1"
     }
-}
 
-#if canImport(Adapty)
-/// Schedules a local notification one day before the trial expires.
-private final class TrialReminderScheduler {
-    private let notificationCenter = UNUserNotificationCenter.current()
-    private let defaults = UserDefaults.standard
-    private let reminderIdentifier = "whitenoise_trial_reminder"
-    private let scheduledDateKey = "trialReminderScheduledDate"
-
-    func scheduleReminderIfNeeded(for accessLevel: AdaptyProfile.AccessLevel) {
-        guard let expiresAt = accessLevel.expiresAt,
-              accessLevel.activeIntroductoryOfferType == "free_trial",
-              !accessLevel.isLifetime else {
-            cancelReminder()
-            return
+    private func isFailOpenEnabled() -> Bool {
+        // Defaults to current behavior (fail-open) unless explicitly disabled.
+        if let value = ProcessInfo.processInfo.environment["PAYWALL_FAILS_OPEN"]?.lowercased() {
+            return value != "0" && value != "false"
         }
-
-        guard let reminderDate = Calendar.current.date(byAdding: .day, value: -1, to: expiresAt),
-              reminderDate > Date() else {
-            cancelReminder()
-            return
-        }
-
-        if let stored = defaults.object(forKey: scheduledDateKey) as? Date,
-           abs(stored.timeIntervalSince(reminderDate)) < 1 {
-            return
-        }
-
-        notificationCenter.getNotificationSettings { [weak self] settings in
-            guard let self = self else { return }
-            switch settings.authorizationStatus {
-            case .notDetermined:
-                self.notificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, _ in
-                    if granted {
-                        self.createReminder(at: reminderDate)
-                    }
-                }
-            case .authorized, .provisional:
-                self.createReminder(at: reminderDate)
-            default:
-                break
-            }
-        }
+        return true
     }
 
-    func cancelReminder() {
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [reminderIdentifier])
-        defaults.removeObject(forKey: scheduledDateKey)
+    private static func resolveValue(
+        provided: String?,
+        plistKey: String,
+        defaultValue: String
+    ) -> String {
+        if let provided, !provided.isEmpty { return provided }
+        if let plist = Bundle.main.object(forInfoDictionaryKey: plistKey) as? String, !plist.isEmpty {
+            return plist
+        }
+        return defaultValue
     }
 
-    private func createReminder(at date: Date) {
-        let content = UNMutableNotificationContent()
-        content.title = "Trial Ending Soon"
-        content.body = "Your WhiteNoise trial ends tomorrow. Start your subscription to keep relaxing sounds playing without interruption."
-        content.sound = .default
-
-        let comps = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
-        let request = UNNotificationRequest(identifier: reminderIdentifier, content: content, trigger: trigger)
-
-        notificationCenter.add(request) { [weak self] error in
-            guard error == nil, let self = self else { return }
-            self.defaults.set(date, forKey: self.scheduledDateKey)
+    private static func resolveOptionalValue(
+        provided: String?,
+        plistKey: String
+    ) -> String? {
+        if let provided, !provided.isEmpty { return provided }
+        if let plist = Bundle.main.object(forInfoDictionaryKey: plistKey) as? String, !plist.isEmpty {
+            return plist
         }
+        return nil
+    }
+
+    private enum PaywallLoadingError: Error {
+        case offeringNotFound
     }
 }
-#endif

@@ -146,6 +146,7 @@ A living log of key facts, conventions, risks, and decisions to accelerate futur
 - 2025-09-16: Replaced custom paywall scaffolding with Adapty-managed paywall; removed `WhiteNoise/Services/PaywallManager.swift` and `WhiteNoise/Views/PaywallView.swift`.
 - 2025-09-17: Added 5-minute local post-purchase grace window plus trial reminder scheduler to prevent immediate paywall reappearance while Adapty profile syncs.
 - 2025-09-16: Adopted AdaptyPaywallView sheet integration (EntitlementsCoordinator + PaywallSheetView) replacing UIKit presenter.
+- 2025-09-24: Migrated subscription stack from Adapty to RevenueCat (Purchases + RevenueCatUI); introduced `RevenueCatService.configure`, updated entitlement coordinator/paywall sheet, and refreshed docs/config keys while retaining the grace window + trial reminder flow.
 
 
 

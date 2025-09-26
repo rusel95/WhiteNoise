@@ -1,8 +1,8 @@
-# WhiteNoise Terms of Service
+# White Sound Terms of Service
 
 Effective date: 2025-09-16
 
-These Terms of Service (the “Terms”) govern your use of the WhiteNoise mobile application (the “App”). By downloading or using the App, you agree to these Terms. If you do not agree, do not use the App.
+These Terms of Service (the “Terms”) govern your use of the White Sound mobile application (the “App”). By downloading or using the App, you agree to these Terms. If you do not agree, do not use the App.
 
 ## 1. Subscription & Billing
 - The App offers an auto‑renewable subscription with a complimentary 30‑day free trial, then $0.99 every 3 months (pricing may vary by region). 
@@ -29,12 +29,12 @@ These Terms of Service (the “Terms”) govern your use of the WhiteNoise mobil
 
 ## 6. Privacy
 - Use of the App is also governed by our Privacy Policy, which explains how we handle information. 
-- Privacy Policy: ../privacy-policy.md (or the hosted URL you provide in App Store Connect).
+- Privacy Policy: Available from the in-app Subscription Info screen and in the App Store Connect listing.
 
 ## 7. Third‑Party Services
-- The App may integrate with third‑party services (e.g., Apple In‑App Purchases, Adapty for subscription management). Your use of those services is subject to their terms and policies.
+- The App may integrate with third‑party services (e.g., Apple In‑App Purchases, RevenueCat for subscription management). Your use of those services is subject to their terms and policies.
 - Apple Media Services Terms: https://www.apple.com/legal/internet-services/itunes/
-- Adapty Privacy Policy: https://adapty.io/privacy-policy
+- RevenueCat Privacy Policy: https://www.revenuecat.com/privacy
 
 ## 8. Disclaimers
 - THE APP IS PROVIDED “AS IS” AND “AS AVAILABLE” WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON‑INFRINGEMENT.
@@ -54,8 +54,5 @@ These Terms of Service (the “Terms”) govern your use of the WhiteNoise mobil
 - These Terms are governed by the laws of your country or state of residence, except where preempted by applicable consumer protection laws. Venue and jurisdiction shall be as permitted by those laws.
 
 ## 13. Contact
-- Email: replace-with-your-contact@example.com
-- Developer: WhiteNoise (Ruslan Popesku)
-
----
-Hosting tip: Publish this file via GitHub Pages (repo Settings → Pages → Source: `docs/` folder) and use the resulting URL (e.g., `https://<username>.github.io/WhiteNoise/terms-of-service`).
+- Email: ruslanpopesku95@gmail.com
+- Developer: White Sound (Ruslan Popesku)

@@ -1,4 +1,4 @@
-# 🎵 WhiteNoise
+# 🎵 White Sound
 
 <div align="center">
   <img src="https://img.shields.io/badge/iOS-15.0+-000000?style=flat-square&logo=apple&logoColor=white" alt="iOS 15.0+">
@@ -14,7 +14,7 @@
 
 ![ScreenRecording_07-30-202512-07-55_1-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/114063c8-1fe3-478c-b676-247698841ed7)
 
-WhiteNoise is an iOS ambient sound mixer for focus, relaxation, and better sleep. Mix multiple sounds, set sleep timers, and enjoy background playback.
+White Sound is an iOS ambient sound mixer for focus, relaxation, and better sleep. Mix multiple sounds, set sleep timers, and enjoy background playback.
 
 ### Features
 

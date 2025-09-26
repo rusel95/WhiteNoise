@@ -1,13 +1,13 @@
-# WhiteNoise Privacy Policy
+# White Sound Privacy Policy
 
 Effective date: 2025-09-16
 
-This Privacy Policy explains how the WhiteNoise mobile application (the “App”) collects, uses, and shares information. If you do not agree with this policy, please do not use the App.
+This Privacy Policy explains how the White Sound mobile application (the “App”) collects, uses, and shares information. If you do not agree with this policy, please do not use the App.
 
 ## Summary
 - We don’t create accounts or ask for your name or email.
 - Sound preferences (e.g., volumes, selected variants) are stored locally on your device.
-- Purchases are handled by Apple; we use Adapty to manage subscription status (entitlements).
+- Purchases are handled by Apple; we use RevenueCat to manage subscription status (entitlements).
 - We don’t sell your data. We do not use third‑party advertising networks.
 
 ## Information We Collect
@@ -17,7 +17,7 @@ This Privacy Policy explains how the WhiteNoise mobile application (the “App�
    - Retention: on your device until you delete the App or reset data.
 
 2. Purchase & subscription data
-   - What: transaction receipts and subscription status from Apple; app/device identifiers (e.g., IDFV) and purchase metadata via Adapty.
+   - What: transaction receipts and subscription status from Apple; app/device identifiers (e.g., IDFV) and purchase metadata via RevenueCat.
    - Purpose: verify eligibility, activate trial, unlock or restore subscription, prevent fraud, and support purchases across devices.
    - Retention: kept as necessary to operate subscriptions and comply with legal/financial obligations.
 
@@ -36,12 +36,12 @@ We do not intentionally collect names, emails, contact lists, photos, precise lo
 
 ## Sharing of Information
 - Apple (App Store / In‑App Purchases): to process payments and manage subscriptions.
-- Adapty (Subscription Management): to verify entitlements, apply trials/offers, and restore purchases.
+- RevenueCat (Subscription Management): to verify entitlements, apply trials/offers, and restore purchases.
 - Diagnostics providers (if enabled): to collect crash/performance data.
 - We do not sell personal information. We do not share with ad networks.
 
 ## Children’s Privacy
-The App may be used by children aged **4 and above** under a parent’s or guardian’s supervision. We designed WhiteNoise to work without accounts and to store preferences locally. We do not knowingly collect personal information from children.
+The App may be used by children aged **4 and above** under a parent’s or guardian’s supervision. We designed White Sound to work without accounts and to store preferences locally. We do not knowingly collect personal information from children.
 
 If a user is under the age of 13, a parent or legal guardian should review and consent to any in‑app purchase. Purchases are processed by Apple using the device’s Apple ID. We recommend enabling parental controls and Family Sharing where appropriate.
 
@@ -63,7 +63,7 @@ Service providers may process information in countries other than your own. We r
 ## Third‑Party Policies
 - Apple: https://www.apple.com/privacy/
 - Apple Media Services Terms: https://www.apple.com/legal/internet-services/itunes/
-- Adapty: https://adapty.io/privacy-policy
+- RevenueCat: https://www.revenuecat.com/privacy
 - (If used) Diagnostics provider, e.g., Sentry: https://sentry.io/privacy/
 
 ## Changes to This Policy
@@ -71,8 +71,5 @@ We may update this policy from time to time. Continued use of the App after chan
 
 ## Contact Us
 If you have questions or requests, contact:
-- Email: replace-with-your-contact@example.com
-- Developer: WhiteNoise (Ruslan Popesku)
-
----
-Hosting tip: You can publish this file via GitHub Pages. In your GitHub repo settings, enable Pages for the `docs/` folder and use the resulting URL (e.g., `https://<username>.github.io/WhiteNoise/privacy-policy`).
+- Email: ruslanpopesku95@gmail.com
+- Developer: White Sound (Ruslan Popesku)

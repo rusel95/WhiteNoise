@@ -22,12 +22,17 @@ struct WhiteNoisesView: View {
     let columns = [GridItem(.adaptive(minimum: 150, maximum: 400))]
 #elseif os(iOS)
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     private var usesExpandedLayout: Bool {
         horizontalSizeClass == .regular && UIDevice.current.userInterfaceIdiom == .pad
     }
 
     private var columns: [GridItem] {
+        if usesExpandedLayout {
+            return expandedLayoutColumns
+        }
+
         let minimum = usesExpandedLayout ? AppConstants.UI.minSoundCardWidth : AppConstants.UI.phoneMinSoundCardWidth
         let maximum = usesExpandedLayout ? AppConstants.UI.maxSoundCardWidth : AppConstants.UI.phoneMaxSoundCardWidth
         return [GridItem(
@@ -36,12 +41,26 @@ struct WhiteNoisesView: View {
         )]
     }
 
+    private var expandedLayoutColumns: [GridItem] {
+        Array(
+            repeating: GridItem(.flexible(), spacing: gridSpacing),
+            count: expandedLayoutColumnCount
+        )
+    }
+
+    private var expandedLayoutColumnCount: Int {
+        if let verticalSizeClass, verticalSizeClass == .regular {
+            return 3
+        }
+        return 4
+    }
+
     private var horizontalPadding: CGFloat {
         usesExpandedLayout ? AppConstants.UI.gridHorizontalPadding : 16
     }
 
     private var timeLabelFont: Font {
-        usesExpandedLayout ? .system(size: 11, weight: .medium) : .system(size: 9, weight: .medium)
+        usesExpandedLayout ? .system(size: 14, weight: .medium) : .system(size: 9, weight: .medium)
     }
 
     private var gridSpacing: CGFloat {
@@ -49,7 +68,7 @@ struct WhiteNoisesView: View {
     }
 
     private var controlButtonCornerRadius: CGFloat {
-        usesExpandedLayout ? 20 : AppConstants.UI.phoneControlButtonCornerRadius
+        usesExpandedLayout ? AppConstants.UI.controlButtonCornerRadius : AppConstants.UI.phoneControlButtonCornerRadius
     }
 
     private var controlStackSpacing: CGFloat {

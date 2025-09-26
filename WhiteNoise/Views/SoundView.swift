@@ -6,11 +6,19 @@
 //
 
 import SwiftUI
+#if os(iOS)
+import UIKit
+#endif
 
 struct SoundView: View {
 
     @ObservedObject var viewModel: SoundViewModel
     private let hapticService: HapticFeedbackServiceProtocol = HapticFeedbackService.shared
+#if os(iOS)
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+#endif
     
     var body: some View {
         ZStack {
@@ -59,7 +67,7 @@ struct SoundView: View {
             })
             .clipShape(RoundedRectangle(cornerRadius: 20)) // Clip the entire GeometryReader
             
-            VStack(spacing: 12) {
+            VStack(spacing: cardContentSpacing) {
                 // Icon with background
                 ZStack {
                     Circle()
@@ -80,7 +88,7 @@ struct SoundView: View {
                     }
                 }
                 
-                VStack(spacing: 6) {
+                VStack(spacing: textStackSpacing) {
                     Text(viewModel.sound.name)
                         .font(.system(size: AppConstants.UI.soundTitleFontSize, weight: .semibold))
                         .foregroundColor(.white)
@@ -130,5 +138,23 @@ struct SoundView: View {
             }
             .padding(.vertical, AppConstants.UI.soundCardVerticalPadding)
         }
+    }
+}
+
+private extension SoundView {
+    var cardContentSpacing: CGFloat {
+#if os(iOS)
+        return isPad ? 20 : 12
+#else
+        return 12
+#endif
+    }
+    
+    var textStackSpacing: CGFloat {
+#if os(iOS)
+        return isPad ? 10 : 6
+#else
+        return 6
+#endif
     }
 }
