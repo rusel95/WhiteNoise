@@ -18,6 +18,7 @@ enum AppConstants {
         static let fadeLong: Double = 3.0 // Remote commands, interruptions
         static let fadeOut: Double = 5.0 // Timer expiry fade out
         static let fadeSteps: Int = 50 // Updates per second for fade
+        static let initialVolumeDuration: Double = 1.0
     }
     
     enum Audio {

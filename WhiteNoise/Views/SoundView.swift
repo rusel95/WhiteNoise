@@ -49,6 +49,7 @@ struct SoundView: View {
                     viewModel.maxWidth = newWidth
                 }
                 .onTapGesture { location in
+                    guard viewModel.isVolumeInteractive else { return }
                     viewModel.sliderWidth = max(0, min(location.x, viewModel.maxWidth))
                     viewModel.lastDragValue = viewModel.sliderWidth
                     
@@ -66,6 +67,7 @@ struct SoundView: View {
                 )
             })
             .clipShape(RoundedRectangle(cornerRadius: 20)) // Clip the entire GeometryReader
+            .allowsHitTesting(viewModel.isVolumeInteractive)
             
             VStack(spacing: cardContentSpacing) {
                 // Icon with background

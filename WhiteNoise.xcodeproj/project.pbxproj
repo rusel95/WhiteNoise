@@ -98,6 +98,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteSoundRuslan1234.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseApp.swift; sourceTree = "<group>"; };
 		74349A572A26413F00AB0EF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -139,8 +140,6 @@
 		8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SOUND_CONFIGURATION.md; sourceTree = "<group>"; };
 		851396A02E79B01900552A9D /* TESTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TESTING.md; sourceTree = "<group>"; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
-		A480E0A4F5924F3385D92F93 /* Local.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.example.xcconfig; sourceTree = "<group>"; };
 		85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "160893__ecfike__quiet-spring-woodland-ambience.m4a"; sourceTree = "<group>"; };
 		85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 422048__nimlos__forest_cicada_loop.m4a; sourceTree = "<group>"; };
@@ -180,6 +179,7 @@
 		85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStrategy.swift; sourceTree = "<group>"; };
 		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
 		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
+		A480E0A4F5924F3385D92F93 /* Local.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.example.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -401,15 +401,6 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		EE37D754B833475BB2129E7D /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */,
-				A480E0A4F5924F3385D92F93 /* Local.example.xcconfig */,
-			);
-			path = Configuration;
-			sourceTree = "<group>";
-		};
 		85F61C5E2E4353E0002AB6F9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -482,6 +473,15 @@
 				95E0C2002F00000100000001 /* TimerServiceTests.swift */,
 			);
 			path = WhiteNoiseUnitTests;
+			sourceTree = "<group>";
+		};
+		EE37D754B833475BB2129E7D /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */,
+				A480E0A4F5924F3385D92F93 /* Local.example.xcconfig */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -819,7 +819,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 59;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -842,7 +842,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.25;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -864,7 +864,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 59;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -887,7 +887,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.25;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

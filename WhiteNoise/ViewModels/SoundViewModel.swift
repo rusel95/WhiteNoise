@@ -71,23 +71,37 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     @Published var sliderWidth: CGFloat
     @Published var sliderHeight: CGFloat
     @Published var lastDragValue: CGFloat
+    @Published var isVolumeInteractive: Bool
     
     // MARK: - Public Properties
     var maxWidth: CGFloat = 0 {
         didSet {
-            withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
-                self.sliderWidth = CGFloat(volume) * self.maxWidth
+            guard maxWidth > 0 else { return }
+            if shouldRunInitialVolumeAnimation {
+                sliderWidth = 0
+                lastDragValue = 0
+            } else if !isRunningInitialVolumeAnimation {
+                withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
+                    sliderWidth = CGFloat(volume) * maxWidth
+                }
+                lastDragValue = sliderWidth
             }
-            self.lastDragValue = self.sliderWidth
+            runInitialVolumeAnimationIfNeeded()
         }
     }
     
     var maxHeight: CGFloat = 0 {
         didSet {
-            withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
-                self.sliderHeight = CGFloat(volume) * self.maxHeight
+            guard maxHeight > 0 else { return }
+            if shouldRunInitialVolumeAnimation {
+                sliderHeight = 0
+            } else if !isRunningInitialVolumeAnimation {
+                withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
+                    sliderHeight = CGFloat(volume) * maxHeight
+                }
+                lastDragValue = sliderHeight
             }
-            self.lastDragValue = self.sliderHeight
+            runInitialVolumeAnimationIfNeeded()
         }
     }
     
@@ -102,6 +116,9 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     private var fadeTask: Task<Void, Never>?
     private var isAudioLoaded = false
     private var audioLoadingTask: Task<Void, Never>?
+    private var initialVolumeAnimationTask: Task<Void, Never>?
+    private var shouldRunInitialVolumeAnimation = true
+    private var isRunningInitialVolumeAnimation = false
     
     // MARK: - Initialization
     init(
@@ -115,14 +132,11 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         self.playerFactory = playerFactory
         self.persistenceService = persistenceService
         self.fadeOperation = FadeOperation(fadeType: fadeType)
-        
-        // Initialize slider properties with estimated default width
-        // This will be updated when maxWidth is set, but provides immediate visual feedback
-        let estimatedWidth: CGFloat = 150 // Reasonable default for initial display
-        let initialSliderWidth = CGFloat(sound.volume) * estimatedWidth
-        self.sliderWidth = initialSliderWidth
-        self.sliderHeight = CGFloat(sound.volume) * estimatedWidth
-        self.lastDragValue = initialSliderWidth
+        self.sliderWidth = 0
+        self.sliderHeight = 0
+        self.lastDragValue = 0
+        self.shouldRunInitialVolumeAnimation = sound.volume > 0
+        self.isVolumeInteractive = !shouldRunInitialVolumeAnimation
         
         setupSoundVariantObserver()
         // Don't load audio in init - let it load lazily when needed
@@ -131,6 +145,7 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     deinit {
         fadeTask?.cancel()
         audioLoadingTask?.cancel()
+        initialVolumeAnimationTask?.cancel()
     }
     
     // MARK: - Public Methods
@@ -150,6 +165,7 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     }
     
     func dragDidChange(newTranslationWidth: CGFloat) {
+        guard isVolumeInteractive else { return }
         let newWidth = newTranslationWidth + lastDragValue
         sliderWidth = min(max(0, newWidth), maxWidth)
         
@@ -158,6 +174,7 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     }
     
     func dragDidChangeVertical(newTranslationHeight: CGFloat) {
+        guard isVolumeInteractive else { return }
         let newHeight = newTranslationHeight + lastDragValue
         sliderHeight = min(max(0, newHeight), maxHeight)
         
@@ -166,9 +183,61 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     }
     
     func dragDidEnded() {
+        guard isVolumeInteractive else { return }
         sliderWidth = min(max(0, sliderWidth), maxWidth)
         sliderHeight = min(max(0, sliderHeight), maxHeight)
         lastDragValue = sliderWidth
+    }
+
+    private func runInitialVolumeAnimationIfNeeded() {
+        guard shouldRunInitialVolumeAnimation else { return }
+        guard maxWidth > 0 || maxHeight > 0 else { return }
+
+        shouldRunInitialVolumeAnimation = false
+
+        let targetWidth = CGFloat(volume) * maxWidth
+        let targetHeight = CGFloat(volume) * maxHeight
+
+        guard targetWidth > 0 || targetHeight > 0 else {
+            isVolumeInteractive = true
+            return
+        }
+
+        isRunningInitialVolumeAnimation = true
+        isVolumeInteractive = false
+        sliderWidth = 0
+        sliderHeight = 0
+        lastDragValue = 0
+
+        initialVolumeAnimationTask?.cancel()
+        let duration = AppConstants.Animation.initialVolumeDuration
+        initialVolumeAnimationTask = Task { @MainActor [weak self] in
+            guard let self = self else { return }
+
+            withAnimation(.easeInOut(duration: duration)) {
+                self.sliderWidth = targetWidth
+                self.sliderHeight = targetHeight
+            }
+
+            let nanoseconds = UInt64(duration * 1_000_000_000)
+            if nanoseconds > 0 {
+                try? await Task.sleep(nanoseconds: nanoseconds)
+            }
+
+            let finalWidth = CGFloat(self.volume) * self.maxWidth
+            let finalHeight = CGFloat(self.volume) * self.maxHeight
+            self.sliderWidth = finalWidth
+            self.sliderHeight = finalHeight
+
+            if self.maxWidth > 0 {
+                self.lastDragValue = self.sliderWidth
+            } else {
+                self.lastDragValue = self.sliderHeight
+            }
+            self.isRunningInitialVolumeAnimation = false
+            self.isVolumeInteractive = true
+            self.initialVolumeAnimationTask = nil
+        }
     }
     
     /// Starts playback of the sound with an optional fade-in effect.
