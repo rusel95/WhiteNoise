@@ -6,6 +6,8 @@
 	<string>appl_BAEXfCawKRBFbNclwzVmxRcaAlt</string>
 	<key>REVENUECAT_LOG_LEVEL</key>
 	<string>debug</string>
+	<key>SENTRY_DSN</key>
+	<string>$(SENTRY_DSN)</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

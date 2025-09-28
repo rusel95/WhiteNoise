@@ -124,7 +124,7 @@ iOSInjectionProject/
 *.tmp
 .env
 .env.local
-
+WhiteNoise/Configuration/
 ## Sentry
 # Sentry configuration files that may contain sensitive DSN
 SentryConfiguration.local.swift

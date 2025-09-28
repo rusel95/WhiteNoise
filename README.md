@@ -48,6 +48,12 @@ Press `Cmd + R` to build and run.
 
 Built with SwiftUI + AVFoundation using MVVM architecture.
 
+### Configuration
+
+- Copy `WhiteNoise/Configuration/Local.example.xcconfig` to `WhiteNoise/Configuration/Local.xcconfig`.
+- Add your private `SENTRY_DSN` (and optional RevenueCat overrides) to the copied file.
+- Alternatively, pass `SENTRY_DSN` via scheme/run arguments or `SENTRY_DSN=... xcodebuild …` when running from the command line.
+
 ## Tests
 
 - Run all tests from CLI:

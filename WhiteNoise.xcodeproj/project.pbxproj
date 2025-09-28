@@ -42,6 +42,8 @@
 		851396A72E79B01900552A9D /* PLAY_PAUSE_FLOW.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */; };
 		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
 		851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */; };
+		859C90952E8940E9008D9088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		859C909D2E894296008D9088 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 859C909C2E894296008D9088 /* Sentry */; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
 		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
@@ -137,6 +139,8 @@
 		8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SOUND_CONFIGURATION.md; sourceTree = "<group>"; };
 		851396A02E79B01900552A9D /* TESTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TESTING.md; sourceTree = "<group>"; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
+		A480E0A4F5924F3385D92F93 /* Local.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.example.xcconfig; sourceTree = "<group>"; };
 		85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "160893__ecfike__quiet-spring-woodland-ambience.m4a"; sourceTree = "<group>"; };
 		85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 422048__nimlos__forest_cicada_loop.m4a; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 			files = (
 				850656A72E835B680014A941 /* RevenueCatUI in Frameworks */,
 				850656A52E835B680014A941 /* RevenueCat in Frameworks */,
+				859C909D2E894296008D9088 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				859C90952E8940E9008D9088 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +237,7 @@
 		74349A522A26413C00AB0EF5 /* WhiteNoise */ = {
 			isa = PBXGroup;
 			children = (
+				EE37D754B833475BB2129E7D /* Configuration */,
 				85F61C872E435402002AB6F9 /* Views */,
 				85F61C7F2E4353FE002AB6F9 /* ViewModels */,
 				85F61C712E4353F6002AB6F9 /* Services */,
@@ -394,6 +401,15 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		EE37D754B833475BB2129E7D /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */,
+				A480E0A4F5924F3385D92F93 /* Local.example.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		85F61C5E2E4353E0002AB6F9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,6 +495,7 @@
 				74349A4D2A26413C00AB0EF5 /* Frameworks */,
 				74349A4E2A26413C00AB0EF5 /* Resources */,
 				74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */,
+				465837187E9E47C29B4A089C /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -488,6 +505,7 @@
 			packageProductDependencies = (
 				850656A42E835B680014A941 /* RevenueCat */,
 				850656A62E835B680014A941 /* RevenueCatUI */,
+				859C909C2E894296008D9088 /* Sentry */,
 			);
 			productName = WhiteNoise;
 			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
@@ -535,6 +553,7 @@
 			mainGroup = 74349A472A26413C00AB0EF5;
 			packageReferences = (
 				850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				859C909B2E894296008D9088 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = 74349A512A26413C00AB0EF5 /* Products */;
 			projectDirPath = "";
@@ -600,6 +619,24 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		465837187E9E47C29B4A089C /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=ruslanpopesku\n  export SENTRY_PROJECT=white-noise\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		74349A4C2A26413C00AB0EF5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -647,6 +684,7 @@
 /* Begin XCBuildConfiguration section */
 		74349A722A26413F00AB0EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -713,6 +751,7 @@
 		};
 		74349A732A26413F00AB0EF5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -940,6 +979,14 @@
 				minimumVersion = 5.39.3;
 			};
 		};
+		859C909B2E894296008D9088 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.56.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -952,6 +999,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCatUI;
+		};
+		859C909C2E894296008D9088 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 859C909B2E894296008D9088 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
