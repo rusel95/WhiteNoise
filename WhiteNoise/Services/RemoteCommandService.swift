@@ -140,8 +140,17 @@ final class MPNowPlayingInfoCenterAdapter: NowPlayingInfoCenterProtocol {
 /// Factory for creating artwork
 final class ArtworkFactory {
     static func createArtwork(imageName: String, size: CGSize) -> MPMediaItemArtwork? {
-        guard let image = UIImage(named: imageName) else { return nil }
-        
+        guard let image = UIImage(named: imageName) else {
+            TelemetryService.captureNonFatal(
+                message: "ArtworkFactory missing UIImage",
+                extra: [
+                    "imageName": imageName,
+                    "size": "\(size.width)x\(size.height)"
+                ]
+            )
+            return nil
+        }
+
         return MPMediaItemArtwork(boundsSize: size) { _ in
             let renderer = UIGraphicsImageRenderer(size: size)
             return renderer.image { _ in
@@ -191,19 +200,34 @@ final class RemoteCommandService: @preconcurrency RemoteCommandHandling {
     
     private func setupRemoteCommands() {
         commandCenter.setupPlayCommand { [weak self] in
-            guard let self = self else { return .failed }
+            guard let self = self else {
+                TelemetryService.captureNonFatal(
+                    message: "RemoteCommandService.playCommand lost self"
+                )
+                return .failed
+            }
             await self.onPlayCommand?()
             return .success
         }
-        
+
         commandCenter.setupPauseCommand { [weak self] in
-            guard let self = self else { return .failed }
+            guard let self = self else {
+                TelemetryService.captureNonFatal(
+                    message: "RemoteCommandService.pauseCommand lost self"
+                )
+                return .failed
+            }
             await self.onPauseCommand?()
             return .success
         }
-        
+
         commandCenter.setupToggleCommand { [weak self] in
-            guard let self = self else { return .failed }
+            guard let self = self else {
+                TelemetryService.captureNonFatal(
+                    message: "RemoteCommandService.toggleCommand lost self"
+                )
+                return .failed
+            }
             self.onToggleCommand?()
             return .success
         }

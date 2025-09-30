@@ -266,9 +266,16 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
             print("🎵 SoundVM.\(sound.name) - LOADING: Audio not loaded, loading now...")
         }
         await ensureAudioLoaded()
-        
+
         guard let player = player else {
             print("❌ SoundVM.\(sound.name).playSound - FAILED: No player available after loading")
+            TelemetryService.captureNonFatal(
+                message: "SoundViewModel.playSound missing player after load",
+                extra: [
+                    "soundName": sound.name,
+                    "audioLoaded": isAudioLoaded
+                ]
+            )
             return
         }
         
@@ -315,6 +322,11 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         
         guard let player = player else {
             print("⚠️ SoundVM.\(sound.name).pauseSound - SKIPPED: No player to pause")
+            TelemetryService.captureNonFatal(
+                message: "SoundViewModel.pauseSound missing player",
+                level: .warning,
+                extra: ["soundName": sound.name]
+            )
             return
         }
         
@@ -351,6 +363,14 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
                 } else {
                     self?.isAudioLoaded = false
                     print("❌ \(self?.sound.name ?? "Unknown") - AUDIO LOAD FAILED: No player created")
+                    TelemetryService.captureNonFatal(
+                        message: "SoundViewModel.loadAudioAsync completed without player",
+                        level: .error,
+                        extra: [
+                            "soundName": self?.sound.name ?? "Unknown",
+                            "variant": self?.sound.selectedSoundVariant.filename ?? "unknown"
+                        ]
+                    )
                 }
                 self?.audioLoadingTask = nil
             }
@@ -407,7 +427,7 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         do {
             player = try await playerFactory.createPlayer(for: fileName)
             player?.volume = sound.volume
-            
+
             let loadTime = CFAbsoluteTimeGetCurrent() - startTime
             if loadTime > AppConstants.Audio.slowLoadThreshold {
                 print("⚠️ Slow audio load for \(fileName): \(String(format: "%.2f", loadTime))s")
@@ -416,6 +436,14 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
             }
         } catch {
             print("❌ \(sound.name): Error loading audio player: \(error)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "SoundViewModel.prepareSound failed",
+                extra: [
+                    "soundName": sound.name,
+                    "fileName": fileName
+                ]
+            )
         }
     }
     
@@ -429,12 +457,30 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
 // MARK: - FadeOperations Protocol Implementation
 extension SoundViewModel {
     func fadeIn(duration: Double) async {
-        guard let player = player else { return }
+        guard let player = player else {
+            TelemetryService.captureNonFatal(
+                message: "SoundViewModel.fadeIn missing player",
+                extra: [
+                    "soundName": sound.name,
+                    "duration": duration
+                ]
+            )
+            return
+        }
         await fadeOperation.fadeIn(player: player, targetVolume: sound.volume, duration: duration)
     }
-    
+
     func fadeOut(duration: Double) async {
-        guard let player = player else { return }
+        guard let player = player else {
+            TelemetryService.captureNonFatal(
+                message: "SoundViewModel.fadeOut missing player",
+                extra: [
+                    "soundName": sound.name,
+                    "duration": duration
+                ]
+            )
+            return
+        }
         await fadeOperation.fadeOut(player: player, duration: duration)
     }
     

@@ -26,13 +26,23 @@ final class TrialReminderScheduler {
         guard !isReminderScheduled(for: reminderDate) else { return }
 
         notificationCenter.getNotificationSettings { [weak self] settings in
-            guard let self = self else { return }
+            guard let self = self else {
+                TelemetryService.captureNonFatal(
+                    message: "TrialReminderScheduler.getNotificationSettings lost self"
+                )
+                return
+            }
 
             switch settings.authorizationStatus {
             case .notDetermined:
                 self.notificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, _ in
                     if granted {
                         self.createReminder(at: reminderDate)
+                    } else {
+                        TelemetryService.captureNonFatal(
+                            message: "TrialReminderScheduler authorization not granted",
+                            extra: ["identifier": self.reminderIdentifier]
+                        )
                     }
                 }
             case .authorized, .provisional:
@@ -72,7 +82,28 @@ final class TrialReminderScheduler {
         let request = UNNotificationRequest(identifier: reminderIdentifier, content: content, trigger: trigger)
 
         notificationCenter.add(request) { [weak self] error in
-            guard error == nil, let self = self else { return }
+            if let error {
+                TelemetryService.captureNonFatal(
+                    error: error,
+                    message: "TrialReminderScheduler failed to schedule reminder",
+                    extra: [
+                        "identifier": self?.reminderIdentifier ?? "unknown",
+                        "fireDate": date.description
+                    ]
+                )
+                return
+            }
+
+            guard let self = self else {
+                TelemetryService.captureNonFatal(
+                    message: "TrialReminderScheduler scheduling completion lost self",
+                    extra: [
+                        "identifier": self?.reminderIdentifier ?? "unknown"
+                    ]
+                )
+                return
+            }
+
             self.defaults.set(date, forKey: self.scheduledDateKey)
         }
     }

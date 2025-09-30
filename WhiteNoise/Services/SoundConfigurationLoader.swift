@@ -39,6 +39,14 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
     func loadSounds() -> [Sound] {
         guard let url = Bundle.main.url(forResource: filename, withExtension: fileExtension) else {
             print("❌ Failed to find \(filename).\(fileExtension) in bundle")
+            TelemetryService.captureNonFatal(
+                message: "SoundConfigurationLoader missing configuration file",
+                level: .error,
+                extra: [
+                    "filename": filename,
+                    "extension": fileExtension
+                ]
+            )
             return createDefaultSounds()
         }
         
@@ -82,6 +90,14 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
             }
         } catch {
             print("❌ Failed to load sound configuration: \(error)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "SoundConfigurationLoader failed to decode configuration",
+                extra: [
+                    "filename": filename,
+                    "extension": fileExtension
+                ]
+            )
             return createDefaultSounds()
         }
     }

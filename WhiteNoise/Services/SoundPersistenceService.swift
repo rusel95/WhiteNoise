@@ -27,6 +27,13 @@ final class SoundPersistenceService: SoundPersistenceServiceProtocol {
             userDefaults.set(soundData, forKey: Keys.sound(sound.id))
         } catch {
             print("Failed to save sound: \(error)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "SoundPersistenceService failed to encode sound",
+                extra: [
+                    "soundId": sound.id
+                ]
+            )
         }
     }
     
@@ -39,6 +46,13 @@ final class SoundPersistenceService: SoundPersistenceServiceProtocol {
             return try JSONDecoder().decode(Sound.self, from: data)
         } catch {
             print("Failed to load sound: \(error)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "SoundPersistenceService failed to decode sound",
+                extra: [
+                    "soundId": soundId
+                ]
+            )
             return nil
         }
     }

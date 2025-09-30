@@ -66,6 +66,14 @@ class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
         
         guard let audioURL = url else {
             print("❌ No audio file found for: \(filename) in formats: \(supportedFormats)")
+            TelemetryService.captureNonFatal(
+                message: "AVAudioPlayerFactory missing audio asset",
+                level: .error,
+                extra: [
+                    "filename": filename,
+                    "attemptedExtensions": supportedFormats.joined(separator: ",")
+                ]
+            )
             throw AudioError.fileNotFound(filename)
         }
         

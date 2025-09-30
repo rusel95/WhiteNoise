@@ -85,6 +85,10 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
                 
                 guard let self = self else {
                     print("❌ TimerSvc.start - TASK CANCELLED: Self deallocated")
+                    TelemetryService.captureNonFatal(
+                        message: "TimerService.start countdown lost self",
+                        extra: ["mode": mode.displayText]
+                    )
                     break
                 }
                 
@@ -172,6 +176,10 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
                 
                 guard let self = self else {
                     print("❌ TimerSvc.resume - TASK CANCELLED: Self deallocated")
+                    TelemetryService.captureNonFatal(
+                        message: "TimerService.resume countdown lost self",
+                        extra: ["mode": self?.mode.displayText ?? "unknown"]
+                    )
                     break
                 }
                 

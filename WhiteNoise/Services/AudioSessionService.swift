@@ -39,6 +39,10 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
             print("✅ Audio session activated successfully")
         } catch {
             print("❌ Failed to set audio session: \(error)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "AudioSessionService.setupAudioSession failed"
+            )
         }
         #endif
     }
@@ -53,6 +57,10 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
             }
         } catch {
             print("❌ Failed to activate audio session: \(error)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "AudioSessionService.ensureActive failed"
+            )
         }
         #endif
     }
@@ -66,6 +74,10 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
             print("✅ Audio session reconfigured")
         } catch {
             print("❌ Failed to reconfigure audio session: \(error)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "AudioSessionService.reconfigure failed"
+            )
         }
         #endif
     }
@@ -85,6 +97,10 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
               let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+            TelemetryService.captureNonFatal(
+                message: "AudioSessionService.handleInterruption missing interruption type",
+                extra: ["userInfo": notification.userInfo ?? [:]]
+            )
             return
         }
         
@@ -102,6 +118,10 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
                 }
             }
         @unknown default:
+            TelemetryService.captureNonFatal(
+                message: "AudioSessionService.handleInterruption encountered unknown type",
+                extra: ["rawValue": type.rawValue]
+            )
             break
         }
         #endif

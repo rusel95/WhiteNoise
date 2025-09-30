@@ -99,6 +99,15 @@ final class EntitlementsCoordinator: ObservableObject {
             return customerInfo
         } catch {
             print("⚠️ EntitlementsCoordinator.refreshEntitlement - customer info fetch failed: \(error.localizedDescription)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "EntitlementsCoordinator.refreshEntitlement failed to fetch customer info",
+                extra: [
+                    "overrideActive": isEntitlementOverrideActive,
+                    "forceShowEnabled": isForceShowEnabled(),
+                    "failOpenEnabled": isFailOpenEnabled()
+                ]
+            )
             if isEntitlementOverrideActive {
                 hasActiveEntitlement = true
                 isPaywallPresented = false
@@ -115,6 +124,14 @@ final class EntitlementsCoordinator: ObservableObject {
                     hasActiveEntitlement = true
                     isPaywallPresented = false
                     print("⚠️ EntitlementsCoordinator.refreshEntitlement - Fallback to fail-open after offering load failure")
+                    TelemetryService.captureNonFatal(
+                        error: error,
+                        message: "EntitlementsCoordinator.refreshEntitlement fallback offering load failed",
+                        extra: [
+                            "overrideActive": isEntitlementOverrideActive,
+                            "forceShowEnabled": isForceShowEnabled()
+                        ]
+                    )
                 }
             } else {
                 hasActiveEntitlement = true
@@ -142,12 +159,21 @@ final class EntitlementsCoordinator: ObservableObject {
             }
 
             guard let offering = offeringToUse else {
-                print("⚠️ EntitlementsCoordinator.loadOffering - No offering found for identifier \(offeringIdentifier ?? "current")")
+                let identifier = offeringIdentifier ?? "current"
+                print("⚠️ EntitlementsCoordinator.loadOffering - No offering found for identifier \(identifier)")
+                TelemetryService.captureNonFatal(
+                    message: "EntitlementsCoordinator.loadOffering missing offering",
+                    extra: ["requestedIdentifier": identifier]
+                )
                 throw PaywallLoadingError.offeringNotFound
             }
 
             if !offering.hasPaywall {
                 print("⚠️ EntitlementsCoordinator.loadOffering - Offering \(offering.identifier) has no configured paywall")
+                TelemetryService.captureNonFatal(
+                    message: "EntitlementsCoordinator.loadOffering offering missing paywall",
+                    extra: ["offeringIdentifier": offering.identifier]
+                )
             }
 
             currentOffering = offering
@@ -155,6 +181,13 @@ final class EntitlementsCoordinator: ObservableObject {
         } catch {
             currentOffering = nil
             print("ℹ️ EntitlementsCoordinator.loadOffering - Failed to load offering: \(error.localizedDescription)")
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "EntitlementsCoordinator.loadOffering failed",
+                extra: [
+                    "offeringIdentifier": offeringIdentifier ?? "current"
+                ]
+            )
             throw error
         }
     }
