@@ -44,7 +44,7 @@
 		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
 		851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */; };
 		859C90952E8940E9008D9088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		859C909D2E894296008D9088 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 859C909C2E894296008D9088 /* Sentry */; };
+		859C909D2E894296008D9088 /* Sentry-Dynamic-WithARM64e in Frameworks */ = {isa = PBXBuildFile; productRef = 859C909C2E894296008D9088 /* Sentry-Dynamic-WithARM64e */; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
 		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
@@ -191,7 +191,7 @@
 			files = (
 				850656A72E835B680014A941 /* RevenueCatUI in Frameworks */,
 				850656A52E835B680014A941 /* RevenueCat in Frameworks */,
-				859C909D2E894296008D9088 /* Sentry in Frameworks */,
+				859C909D2E894296008D9088 /* Sentry-Dynamic-WithARM64e in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,7 +508,7 @@
 			packageProductDependencies = (
 				850656A42E835B680014A941 /* RevenueCat */,
 				850656A62E835B680014A941 /* RevenueCatUI */,
-				859C909C2E894296008D9088 /* Sentry */,
+				859C909C2E894296008D9088 /* Sentry-Dynamic-WithARM64e */,
 			);
 			productName = WhiteNoise;
 			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
@@ -824,7 +824,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 62;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -847,7 +847,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.03;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -869,7 +869,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 62;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -892,7 +892,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.03;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1005,10 +1005,10 @@
 			package = 850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCatUI;
 		};
-		859C909C2E894296008D9088 /* Sentry */ = {
+		859C909C2E894296008D9088 /* Sentry-Dynamic-WithARM64e */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 859C909B2E894296008D9088 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = Sentry;
+			productName = "Sentry-Dynamic-WithARM64e";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
