@@ -824,7 +824,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 63;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -847,7 +847,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.03;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -869,7 +869,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 63;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -892,7 +892,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.03;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
