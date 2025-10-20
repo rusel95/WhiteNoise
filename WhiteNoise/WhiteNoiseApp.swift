@@ -37,8 +37,6 @@ struct WhiteNoiseApp: App {
             // Enable experimental logging features
             options.experimental.enableLogs = true
         }
-        // Remove the next line after confirming that your Sentry integration is working.
-        SentrySDK.capture(message: "This app uses Sentry! :)")
 
         RevenueCatService.configure()
     }

@@ -11,6 +11,7 @@
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
 		74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */; };
+		78201BA8BCA54DF599C4FA5E /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = A21DA2181FD246BB9FB23FEC /* Sentry */; };
 		850656A52E835B680014A941 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 850656A42E835B680014A941 /* RevenueCat */; };
 		850656A72E835B680014A941 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 850656A62E835B680014A941 /* RevenueCatUI */; };
 		850AD41F2E8C192E0047D214 /* TelemetryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AD41E2E8C192E0047D214 /* TelemetryService.swift */; };
@@ -43,6 +44,7 @@
 		851396A72E79B01900552A9D /* PLAY_PAUSE_FLOW.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */; };
 		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
 		851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */; };
+		858B370B2EA6544B003818E5 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		859C90952E8940E9008D9088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
@@ -82,7 +84,6 @@
 		85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */; };
 		85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8E2E435410002AB6F9 /* FadeOperation.swift */; };
 		95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2002F00000100000001 /* TimerServiceTests.swift */; };
-		78201BA8BCA54DF599C4FA5E /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = A21DA2181FD246BB9FB23FEC /* Sentry */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -181,7 +182,6 @@
 		85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStrategy.swift; sourceTree = "<group>"; };
 		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
 		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
-		A480E0A4F5924F3385D92F93 /* Local.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.example.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,7 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				859C90952E8940E9008D9088 /* (null) in Frameworks */,
-				78201BA8BCA54DF599C4FA5E /* Sentry in Frameworks */,
+				858B370B2EA6544B003818E5 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,7 +483,6 @@
 			isa = PBXGroup;
 			children = (
 				0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */,
-				A480E0A4F5924F3385D92F93 /* Local.example.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -638,18 +637,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.
-if which sentry-cli >/dev/null; then
-  export SENTRY_ORG=ruslanpopesku
-  export SENTRY_PROJECT=white-noise
-  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)
-  if [ ! $? -eq 0 ]; then
-    echo \"warning: sentry-cli - $ERROR\"
-  fi
-else
-  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"
-fi
-";
+			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=ruslanpopesku\n  export SENTRY_PROJECT=white-noise\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -840,7 +828,7 @@ fi
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = "NO";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
@@ -886,7 +874,7 @@ fi
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = "NO";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
