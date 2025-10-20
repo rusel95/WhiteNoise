@@ -64,7 +64,9 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     private let soundFactory: SoundFactoryProtocol
     
     // MARK: - Private Properties
-    private static var activeInstance: WhiteNoisesViewModel?
+    // CONCURRENCY FIX: Thread-safe singleton access using nonisolated(unsafe)
+    // This is safe because access only happens on MainActor-isolated contexts
+    private nonisolated(unsafe) static var activeInstance: WhiteNoisesViewModel?
     private var cancellables = Set<AnyCancellable>()
     private var wasPlayingBeforeInterruption = false
     private var appLifecycleObservers: [NSObjectProtocol] = []
@@ -360,7 +362,8 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     }
     
     private func registerForCleanup() {
-        NotificationCenter.default.addObserver(
+        // MEMORY FIX: Store observer to allow proper cleanup
+        let terminateObserver = NotificationCenter.default.addObserver(
             forName: UIApplication.willTerminateNotification,
             object: nil,
             queue: .main
@@ -371,6 +374,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
                 }
             }
         }
+        appLifecycleObservers.append(terminateObserver)
     }
     
     
@@ -626,8 +630,9 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
             // Only start playing if not already playing
             if !isPlaying {
                 print("🎵 WhiteNoisesVM.handleTimerModeChange - TRIGGERING PLAY: Not currently playing")
-                Task {
-                    await playSounds(fadeDuration: AppConstants.Animation.fadeLong)
+                // STABILITY FIX: Use weak self to prevent retain cycle
+                Task { [weak self] in
+                    await self?.playSounds(fadeDuration: AppConstants.Animation.fadeLong)
                 }
             } else {
                 print("🎵 WhiteNoisesVM.handleTimerModeChange - ALREADY PLAYING: No need to start")

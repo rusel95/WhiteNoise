@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 protocol SoundPersistenceServiceProtocol {
     func save(_ sound: Sound)
     func load(soundId: String) -> Sound?
@@ -14,6 +15,8 @@ protocol SoundPersistenceServiceProtocol {
     func clearAll()
 }
 
+// CONCURRENCY FIX: Ensure thread-safe UserDefaults access
+@MainActor
 final class SoundPersistenceService: SoundPersistenceServiceProtocol {
     private let userDefaults = UserDefaults.standard
     

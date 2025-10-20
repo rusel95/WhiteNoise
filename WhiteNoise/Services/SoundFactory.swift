@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - Legacy Factory (For Backward Compatibility)
 
+@MainActor
 class SoundFactory: SoundFactoryProtocol {
 
     private let persistenceService: SoundPersistenceServiceProtocol = SoundPersistenceService()
@@ -45,7 +46,7 @@ class SoundFactory: SoundFactoryProtocol {
                 print("⚠️ Migrated \(sound.name): volume=\(finalVolume), no variants available")
             }
             
-            return Sound(
+            return try! Sound(
                 name: sound.name,
                 icon: sound.icon,
                 volume: finalVolume,

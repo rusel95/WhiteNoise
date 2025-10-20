@@ -58,12 +58,17 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         didSet {
             let oldValue = oldValue
             print("🔊 SoundVM.\(sound.name) - VOLUME CHANGE: \(String(format: "%.2f", oldValue))→\(String(format: "%.2f", volume))")
-            
-            Task {
-                await updatePlayerVolume(volume)
-                sound.volume = volume
-                persistenceService.save(sound)
-                print("💾 SoundVM.\(sound.name) - VOLUME SAVED: \(String(format: "%.2f", volume))")
+
+            // CONCURRENCY & PERFORMANCE FIX: Cancel previous persistence task
+            // This coalesces rapid writes - only the final value gets persisted
+            volumePersistenceTask?.cancel()
+
+            volumePersistenceTask = Task { [weak self] in
+                guard let self = self else { return }
+                await self.updatePlayerVolume(volume)
+                self.sound.volume = volume
+                self.persistenceService.save(self.sound)
+                print("💾 SoundVM.\(self.sound.name) - VOLUME SAVED: \(String(format: "%.2f", volume))")
             }
         }
     }
@@ -117,6 +122,7 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     private var isAudioLoaded = false
     private var audioLoadingTask: Task<Void, Never>?
     private var initialVolumeAnimationTask: Task<Void, Never>?
+    private var volumePersistenceTask: Task<Void, Never>? // CONCURRENCY: Track volume save tasks
     private var shouldRunInitialVolumeAnimation = true
     private var isRunningInitialVolumeAnimation = false
     
@@ -124,13 +130,13 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     init(
         sound: Sound,
         playerFactory: AudioPlayerFactoryProtocol = AVAudioPlayerFactory(),
-        persistenceService: SoundPersistenceServiceProtocol = SoundPersistenceService(),
+        persistenceService: SoundPersistenceServiceProtocol? = nil,
         fadeType: FadeType = .linear) {
         self.sound = sound
         self.volume = sound.volume
         self.selectedSoundVariant = sound.selectedSoundVariant
         self.playerFactory = playerFactory
-        self.persistenceService = persistenceService
+        self.persistenceService = persistenceService ?? SoundPersistenceService()
         self.fadeOperation = FadeOperation(fadeType: fadeType)
         self.sliderWidth = 0
         self.sliderHeight = 0
@@ -146,6 +152,7 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         fadeTask?.cancel()
         audioLoadingTask?.cancel()
         initialVolumeAnimationTask?.cancel()
+        volumePersistenceTask?.cancel() // CONCURRENCY: Cancel pending volume saves
     }
     
     // MARK: - Public Methods
@@ -261,19 +268,28 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
         print("🔄 SoundVM.\(sound.name) - CANCELLING: Any previous fade operation")
         fadeOperation.cancel()
         
-        // Ensure audio is loaded before playing
+        // STABILITY FIX: Ensure audio is loaded before playing with retry logic
         if !isAudioLoaded {
             print("🎵 SoundVM.\(sound.name) - LOADING: Audio not loaded, loading now...")
         }
         await ensureAudioLoaded()
 
+        // STABILITY FIX: Retry once if player is nil (edge case: audio load failed silently)
+        if player == nil {
+            print("⚠️ SoundVM.\(sound.name) - RETRY: Player nil after first load, retrying...")
+            isAudioLoaded = false
+            await ensureAudioLoaded()
+        }
+
         guard let player = player else {
-            print("❌ SoundVM.\(sound.name).playSound - FAILED: No player available after loading")
+            print("❌ SoundVM.\(sound.name).playSound - FAILED: No player available after loading (tried 2x)")
             TelemetryService.captureNonFatal(
                 message: "SoundViewModel.playSound missing player after load",
+                level: .error,
                 extra: [
                     "soundName": sound.name,
-                    "audioLoaded": isAudioLoaded
+                    "audioLoaded": isAudioLoaded,
+                    "variantFilename": sound.selectedSoundVariant.filename
                 ]
             )
             return

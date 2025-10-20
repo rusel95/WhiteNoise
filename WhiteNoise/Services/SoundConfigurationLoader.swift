@@ -54,7 +54,7 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
             let data = try Data(contentsOf: url)
             let configuration = try JSONDecoder().decode(SoundConfiguration.self, from: data)
             
-            return configuration.sounds.map { soundData in
+            return configuration.sounds.compactMap { soundData in
                 let icon: Sound.Icon = soundData.icon.type == "system" ?
                     .system(soundData.icon.value) :
                     .custom(soundData.icon.value)
@@ -80,13 +80,23 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
                     }
                 }()
                 
-                return Sound(
-                    name: soundData.name,
-                    icon: icon,
-                    volume: defaultVolume,
-                    selectedSoundVariant: nil,
-                    soundVariants: variants
-                )
+                // STABILITY FIX: Handle throwing Sound initializer
+                do {
+                    return try Sound(
+                        name: soundData.name,
+                        icon: icon,
+                        volume: defaultVolume,
+                        selectedSoundVariant: nil,
+                        soundVariants: variants
+                    )
+                } catch {
+                    TelemetryService.captureNonFatal(
+                        error: error,
+                        message: "SoundConfigurationLoader failed to create Sound object",
+                        extra: ["soundName": soundData.name]
+                    )
+                    return nil  // Skip invalid sounds
+                }
             }
         } catch {
             print("❌ Failed to load sound configuration: \(error)")
@@ -103,44 +113,32 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
     }
     
     private func createDefaultSounds() -> [Sound] {
-        // Fallback to a minimal set of sounds if configuration fails to load
-        return [
-            Sound(
-                name: "rain",
-                icon: .system("cloud.rain"),
-                volume: 0.7,  // 70% default for rain
-                selectedSoundVariant: nil,
-                soundVariants: [
-                    .init(name: "soft", filename: "soft rain")
-                ]
-            ),
-            Sound(
-                name: "thunder",
-                icon: .system("cloud.bolt"),
-                volume: 0.3,  // 30% default for thunder
-                selectedSoundVariant: nil,
-                soundVariants: [
-                    .init(name: "distant", filename: "thunder distant")
-                ]
-            ),
-            Sound(
-                name: "birds",
-                icon: .system("bird"),
-                volume: 0.2,  // 20% default for birds
-                selectedSoundVariant: nil,
-                soundVariants: [
-                    .init(name: "chirping", filename: "birds chirping")
-                ]
-            ),
-            Sound(
-                name: "fireplace",
-                icon: .system("fireplace"),
-                volume: AppConstants.Audio.defaultVolume,
-                selectedSoundVariant: nil,
-                soundVariants: [
-                    .init(name: "crackle", filename: "fire crackle spit flames fireplace")
-                ]
-            )
+        // STABILITY FIX: Fallback to a minimal set of sounds if configuration fails to load
+        // Handle throwing initializer safely
+        let defaultSoundSpecs: [(String, Sound.Icon, Float, String, String)] = [
+            ("rain", .system("cloud.rain"), 0.7, "soft", "soft rain"),
+            ("thunder", .system("cloud.bolt"), 0.3, "distant", "thunder distant"),
+            ("birds", .system("bird"), 0.2, "chirping", "birds chirping"),
+            ("fireplace", .system("fireplace"), AppConstants.Audio.defaultVolume, "crackle", "fire crackle spit flames fireplace")
         ]
+
+        return defaultSoundSpecs.compactMap { (name, icon, volume, variantName, filename) in
+            do {
+                return try Sound(
+                    name: name,
+                    icon: icon,
+                    volume: volume,
+                    selectedSoundVariant: nil,
+                    soundVariants: [.init(name: variantName, filename: filename)]
+                )
+            } catch {
+                TelemetryService.captureNonFatal(
+                    error: error,
+                    message: "Failed to create default sound",
+                    extra: ["soundName": name]
+                )
+                return nil
+            }
+        }
     }
 }

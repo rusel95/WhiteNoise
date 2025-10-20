@@ -119,9 +119,19 @@ private extension TelemetryService {
 
     static func sanitised(extras: [String: Any]) -> [String: Any] {
         extras.reduce(into: [String: Any]()) { partialResult, entry in
+            // PRIVACY: Filter out potentially sensitive keys
+            let sensitiveKeys = ["password", "token", "secret", "key", "credential", "dsn", "apikey", "api_key"]
+            let lowercaseKey = entry.key.lowercased()
+
+            if sensitiveKeys.contains(where: { lowercaseKey.contains($0) }) {
+                partialResult[entry.key] = "[REDACTED]"
+                return
+            }
+
             switch entry.value {
             case let value as String:
-                partialResult[entry.key] = value
+                // Additional safety: Redact long strings that might contain sensitive data
+                partialResult[entry.key] = value.count > 1000 ? "[LONG_STRING_TRUNCATED]" : value
             case let value as Int:
                 partialResult[entry.key] = value
             case let value as Double:
@@ -131,9 +141,12 @@ private extension TelemetryService {
             case let value as Bool:
                 partialResult[entry.key] = value
             case let value as CustomStringConvertible:
-                partialResult[entry.key] = value.description
+                // SECURITY: Limit description length to prevent accidental data leaks
+                let description = value.description
+                partialResult[entry.key] = description.count > 500 ? "[DESCRIPTION_TRUNCATED]" : description
             default:
-                partialResult[entry.key] = String(describing: entry.value)
+                // SECURITY: Safe fallback for unknown types
+                partialResult[entry.key] = "[TYPE_NOT_SANITIZED: \(type(of: entry.value))]"
             }
         }
     }

@@ -38,11 +38,26 @@ class Sound: Codable, Identifiable {
         case system(String)
         case custom(String)
     }
-    
+
+    // STABILITY FIX: Use throwing init instead of fatalError for runtime errors
+    enum SoundError: Error, LocalizedError {
+        case noVariantsProvided
+        case invalidVariantSelection
+
+        var errorDescription: String? {
+            switch self {
+            case .noVariantsProvided:
+                return "Sound must have at least one variant"
+            case .invalidVariantSelection:
+                return "Selected variant is not in variants list"
+            }
+        }
+    }
+
     var id: String {
         name
     }
-    
+
     let name: String
     let icon: Icon
     var volume: Float
@@ -55,23 +70,36 @@ class Sound: Codable, Identifiable {
         volume: Float = 0.0,
         selectedSoundVariant: SoundVariant?,
         soundVariants: [SoundVariant]
-    ) {
+    ) throws {
         guard !soundVariants.isEmpty else {
-            fatalError("Sound must have at least one variant")
+            TelemetryService.captureNonFatal(
+                message: "Sound.init failed: no variants provided",
+                level: .error,
+                extra: ["soundName": name]
+            )
+            throw SoundError.noVariantsProvided
         }
-        
+
         self.name = name
         self.icon = icon
         self.volume = volume
-        if let selected = selectedSoundVariant {
-            self.selectedSoundVariant = selected
-        } else if let firstVariant = soundVariants.first {
-            self.selectedSoundVariant = firstVariant
-        } else {
-            // This should never happen due to the guard above, but satisfies the compiler
-            fatalError("Logic error: soundVariants was empty after validation")
-        }
         self.soundVariants = soundVariants
+
+        if let selected = selectedSoundVariant {
+            // Validate that selected variant exists in the list
+            guard soundVariants.contains(where: { $0.id == selected.id }) else {
+                TelemetryService.captureNonFatal(
+                    message: "Sound.init failed: invalid variant selection",
+                    level: .error,
+                    extra: ["soundName": name, "selectedVariant": selected.name]
+                )
+                throw SoundError.invalidVariantSelection
+            }
+            self.selectedSoundVariant = selected
+        } else {
+            // Safe to force unwrap here due to guard above
+            self.selectedSoundVariant = soundVariants.first!
+        }
     }
     
 }

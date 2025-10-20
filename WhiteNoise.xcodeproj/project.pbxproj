@@ -44,7 +44,6 @@
 		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
 		851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */; };
 		859C90952E8940E9008D9088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		859C909D2E894296008D9088 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 859C909C2E894296008D9088 /* Sentry */; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
 		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
@@ -191,7 +190,6 @@
 			files = (
 				850656A72E835B680014A941 /* RevenueCatUI in Frameworks */,
 				850656A52E835B680014A941 /* RevenueCat in Frameworks */,
-				859C909D2E894296008D9088 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,7 +506,6 @@
 			packageProductDependencies = (
 				850656A42E835B680014A941 /* RevenueCat */,
 				850656A62E835B680014A941 /* RevenueCatUI */,
-				859C909C2E894296008D9088 /* Sentry */,
 			);
 			productName = WhiteNoise;
 			productReference = 74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */;
@@ -556,7 +553,6 @@
 			mainGroup = 74349A472A26413C00AB0EF5;
 			packageReferences = (
 				850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */,
-				859C909B2E894296008D9088 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = 74349A512A26413C00AB0EF5 /* Products */;
 			projectDirPath = "";
@@ -637,7 +633,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=ruslanpopesku\n  export SENTRY_PROJECT=white-noise\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\nDATE=$(date '+%Y-%m-%d %H:%M:%S')\necho \"$DATE - Sentry upload script completed\" > \"$SCRIPT_OUTPUT_FILE_0\"\n";
+			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=ruslanpopesku\n  export SENTRY_PROJECT=white-noise\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -829,6 +825,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
@@ -874,6 +871,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
@@ -984,14 +982,6 @@
 				minimumVersion = 5.39.3;
 			};
 		};
-		859C909B2E894296008D9088 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.56.2;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1004,11 +994,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 850656A32E835B680014A941 /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCatUI;
-		};
-		859C909C2E894296008D9088 /* Sentry */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 859C909B2E894296008D9088 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = Sentry;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
