@@ -45,11 +45,11 @@ enum AppConstants {
 #endif
         }
         
-        // Colors
-        static let primaryGradientStart = Color(red: 0.2, green: 0.5, blue: 0.6)
-        static let primaryGradientEnd = Color(red: 0.1, green: 0.4, blue: 0.5)
-        static let secondaryGradientStart = Color(red: 0.1, green: 0.4, blue: 0.5)
-        static let secondaryGradientEnd = Color(red: 0.05, green: 0.3, blue: 0.4)
+        // Asset Catalog Colors - using Swift generated asset symbols
+        static let primaryGradientStart = Color.primaryGradientStart
+        static let primaryGradientEnd = Color.primaryGradientEnd
+        static let secondaryGradientStart = Color.secondaryGradientStart
+        static let secondaryGradientEnd = Color.secondaryGradientEnd
         static let glassEffectOpacity: Double = 0.05
         static let glassHighlightOpacity: Double = 0.1
         static let volumeSliderBackgroundOpacity: Double = 0.8

@@ -10,6 +10,9 @@ import SwiftUI
 import UIKit
 #endif
 
+// Note: SF Symbols can be used with the SystemImage enum for type-safe access:
+// Example: Image(system: .cloudRain) instead of Image(systemName: "cloud.rain")
+
 struct SoundView: View {
 
     @ObservedObject var viewModel: SoundViewModel
@@ -83,9 +86,15 @@ struct SoundView: View {
                             .foregroundColor(.white)
                             .allowsHitTesting(false)
                     case .custom(let name):
+                        // Using string-based Image initialization
+                        // Swift generates asset symbols (e.g., Image.waterfall, Image.sea)
+                        // which are available in the generated GeneratedAssetSymbols.swift file
                         Image(name)
                             .resizable()
-                            .frame(width: AppConstants.UI.soundCardIconSize, height: AppConstants.UI.soundCardIconSize)
+                            .frame(
+                                width: AppConstants.UI.soundCardIconSize,
+                                height: AppConstants.UI.soundCardIconSize
+                            )
                             .allowsHitTesting(false)
                     }
                 }

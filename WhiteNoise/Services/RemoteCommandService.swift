@@ -15,7 +15,6 @@ private enum RemoteCommandConstants {
     static let artworkSize = CGSize(width: 300, height: 300)
     static let defaultPlaybackRate: Double = 1.0
     static let pausedPlaybackRate: Double = 0.0
-    static let appIconName = "LaunchScreenIcon"
 }
 
 // MARK: - Protocols
@@ -137,28 +136,6 @@ final class MPNowPlayingInfoCenterAdapter: NowPlayingInfoCenterProtocol {
     }
 }
 
-/// Factory for creating artwork
-final class ArtworkFactory {
-    static func createArtwork(imageName: String, size: CGSize) -> MPMediaItemArtwork? {
-        guard let image = UIImage(named: imageName) else {
-            TelemetryService.captureNonFatal(
-                message: "ArtworkFactory missing UIImage",
-                extra: [
-                    "imageName": imageName,
-                    "size": "\(size.width)x\(size.height)"
-                ]
-            )
-            return nil
-        }
-
-        return MPMediaItemArtwork(boundsSize: size) { _ in
-            let renderer = UIGraphicsImageRenderer(size: size)
-            return renderer.image { _ in
-                image.draw(in: CGRect(origin: .zero, size: size))
-            }
-        }
-    }
-}
 #endif
 
 // MARK: - Main Service
@@ -239,10 +216,11 @@ final class RemoteCommandService: @preconcurrency RemoteCommandHandling {
     
     func updateNowPlayingInfo(title: String, isPlaying: Bool, timerInfo: (duration: Int, elapsed: Int)? = nil) {
         #if os(iOS)
-        let artwork = ArtworkFactory.createArtwork(
-            imageName: RemoteCommandConstants.appIconName,
-            size: RemoteCommandConstants.artworkSize
-        )
+        // Use app icon from asset catalog with Swift generated asset symbol
+        let artwork: MPMediaItemArtwork? = {
+            let image = UIImage.launchScreenIcon
+            return MPMediaItemArtwork(boundsSize: RemoteCommandConstants.artworkSize) { _ in image }
+        }()
         
         let info = NowPlayingInfo(
             title: title,

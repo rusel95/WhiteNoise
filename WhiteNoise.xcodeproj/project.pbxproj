@@ -37,7 +37,6 @@
 		851396972E79A2F300552A9D /* 457960__fabrizio84__river-stream.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396912E79A2F300552A9D /* 457960__fabrizio84__river-stream.m4a */; };
 		851396A12E79B01900552A9D /* SOUND_CONFIGURATION.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */; };
 		851396A22E79B01900552A9D /* TESTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396A02E79B01900552A9D /* TESTING.md */; };
-		851396A32E79B01900552A9D /* MEMORY_BANK.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969C2E79B01900552A9D /* MEMORY_BANK.md */; };
 		851396A42E79B01900552A9D /* LOGGING_STANDARD.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */; };
 		851396A52E79B01900552A9D /* ARCHITECTURE.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396992E79B01900552A9D /* ARCHITECTURE.md */; };
 		851396A62E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */; };
@@ -137,7 +136,6 @@
 		851396992E79B01900552A9D /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
 		8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DEVELOPMENT_PRINCIPLES.md; sourceTree = "<group>"; };
 		8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LOGGING_STANDARD.md; sourceTree = "<group>"; };
-		8513969C2E79B01900552A9D /* MEMORY_BANK.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MEMORY_BANK.md; sourceTree = "<group>"; };
 		8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PAYWALL_STRATEGY.md; sourceTree = "<group>"; };
 		8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PLAY_PAUSE_FLOW.md; sourceTree = "<group>"; };
 		8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SOUND_CONFIGURATION.md; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 				851396992E79B01900552A9D /* ARCHITECTURE.md */,
 				8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */,
 				8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */,
-				8513969C2E79B01900552A9D /* MEMORY_BANK.md */,
 				8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */,
 				8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */,
 				8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */,
@@ -608,7 +605,6 @@
 				8513968E2E799F1400552A9D /* 170247__matucha__campfire_01.m4a in Resources */,
 				851396A12E79B01900552A9D /* SOUND_CONFIGURATION.md in Resources */,
 				851396A22E79B01900552A9D /* TESTING.md in Resources */,
-				851396A32E79B01900552A9D /* MEMORY_BANK.md in Resources */,
 				851396A42E79B01900552A9D /* LOGGING_STANDARD.md in Resources */,
 				851396A52E79B01900552A9D /* ARCHITECTURE.md in Resources */,
 				851396A62E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md in Resources */,
