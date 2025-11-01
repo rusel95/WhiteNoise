@@ -71,6 +71,11 @@ struct RootView: View {
     var body: some View {
         ContentView()
             .onAppear { entitlements.onAppLaunch() }
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .active {
+                    entitlements.onForeground()
+                }
+            }
             .sheet(isPresented: $entitlements.isPaywallPresented) {
                 PaywallSheetView(coordinator: entitlements)
             }

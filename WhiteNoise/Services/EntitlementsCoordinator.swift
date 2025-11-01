@@ -19,7 +19,8 @@ final class EntitlementsCoordinator: ObservableObject {
     private let trialReminderScheduler = TrialReminderScheduler()
     private let defaults = UserDefaults.standard
     private let overrideKey = "whitenoise_entitlement_override_until"
-    private let overrideDuration: TimeInterval = 300 // 5 minutes grace while awaiting customer info sync
+    private let overrideDuration: TimeInterval = 600 // 10 minutes grace while awaiting customer info sync
+    private var isRefreshing = false // Prevent concurrent refresh calls
 
     private let entitlementIdentifier: String
     private let offeringIdentifier: String?
@@ -38,7 +39,13 @@ final class EntitlementsCoordinator: ObservableObject {
 
     func onAppLaunch() {
         print("🎯 EntitlementsCoordinator.onAppLaunch")
-        Task { await refreshEntitlement() }
+        Task { await refreshEntitlement(forceFetch: true) }
+    }
+
+    func onForeground() {
+        print("🎯 EntitlementsCoordinator.onForeground")
+        // Force fetch on foreground to catch purchases made elsewhere (e.g., Settings app)
+        Task { await refreshEntitlement(forceFetch: true) }
     }
 
     func handlePurchaseCompleted(with customerInfo: CustomerInfo) {
@@ -60,8 +67,12 @@ final class EntitlementsCoordinator: ObservableObject {
     }
 
     func handlePaywallDismissed() {
-        if !hasActiveEntitlement && isForceShowEnabled() {
-            Task { await refreshEntitlement() }
+        print("ℹ️ EntitlementsCoordinator.handlePaywallDismissed - User dismissed paywall")
+        // Don't auto-refresh after dismissal to avoid showing paywall again
+        // Only refresh in force-show debug mode for testing purposes
+        if isForceShowEnabled() {
+            print("🔧 EntitlementsCoordinator.handlePaywallDismissed - Force show enabled, refreshing for debug")
+            Task { await refreshEntitlement(forceFetch: true) }
         }
     }
 
@@ -70,9 +81,18 @@ final class EntitlementsCoordinator: ObservableObject {
     }
 
     @discardableResult
-    private func refreshEntitlement() async -> CustomerInfo? {
+    private func refreshEntitlement(forceFetch: Bool = false) async -> CustomerInfo? {
+        // Prevent concurrent refreshes from causing race conditions
+        guard !isRefreshing else {
+            print("⚠️ EntitlementsCoordinator.refreshEntitlement - Already refreshing, skipping")
+            return nil
+        }
+
+        isRefreshing = true
+        defer { isRefreshing = false }
+
         do {
-            let customerInfo = try await Purchases.shared.customerInfo()
+            let customerInfo = try await Purchases.shared.customerInfo(fetchPolicy: forceFetch ? .fetchCurrent : .cachedOrFetched)
 
             if let entitlement = activeEntitlement(in: customerInfo) {
                 clearEntitlementOverride()
@@ -194,6 +214,9 @@ final class EntitlementsCoordinator: ObservableObject {
 
     private func activeEntitlement(in info: CustomerInfo) -> EntitlementInfo? {
         guard let entitlement = info.entitlements[entitlementIdentifier], entitlement.isActive else {
+            // Debug logging to help identify entitlement identifier mismatches
+            let availableEntitlements = info.entitlements.all.map { "\($0.key):\($0.value.isActive ? "active" : "inactive")" }.joined(separator: ", ")
+            print("ℹ️ EntitlementsCoordinator - No active entitlement for '\(entitlementIdentifier)'. Available: [\(availableEntitlements)]")
             return nil
         }
         return entitlement
