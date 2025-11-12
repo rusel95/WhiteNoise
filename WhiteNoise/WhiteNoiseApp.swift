@@ -13,6 +13,7 @@ import SwiftUI
 @main
 struct WhiteNoiseApp: App {
     init() {
+        // Initialize Sentry for error tracking
         SentrySDK.start { options in
             options.dsn = "https://c8cf829b48cb5afa4c6d0ef6a8fb72e8@o1271632.ingest.us.sentry.io/4510221384810496"
 
@@ -33,11 +34,12 @@ struct WhiteNoiseApp: App {
             // Uncomment the following lines to add more data to your events
             // options.attachScreenshot = true // This adds a screenshot to the error events
             // options.attachViewHierarchy = true // This adds the view hierarchy to the error events
-            
+
             // Enable experimental logging features
             options.experimental.enableLogs = true
         }
 
+        // Initialize RevenueCat for subscriptions
         RevenueCatService.configure()
     }
 

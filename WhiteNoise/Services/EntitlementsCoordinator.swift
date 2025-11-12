@@ -35,6 +35,7 @@ final class EntitlementsCoordinator: ObservableObject {
             provided: offeringIdentifier,
             plistKey: "REVENUECAT_OFFERING_ID"
         )
+        print("🔑 EntitlementsCoordinator.init - Using entitlement identifier: '\(self.entitlementIdentifier)'")
     }
 
     func onAppLaunch() {

@@ -17,6 +17,21 @@ enum RevenueCatService {
         guard let key = Bundle.main.object(forInfoDictionaryKey: "REVENUECAT_API_KEY") as? String,
               !key.isEmpty else {
             print("⚠️ RevenueCatService.configure - Missing REVENUECAT_API_KEY (Info.plist)")
+            TelemetryService.captureNonFatal(
+                message: "RevenueCatService.configure - Missing API key",
+                level: .error
+            )
+            return
+        }
+
+        // Validate key format (should be appl_xxxxxxxxxxxxxxxxxxxxxxx)
+        if key.contains("your_") || key.contains("placeholder") || !key.hasPrefix("appl_") {
+            print("⚠️ RevenueCatService.configure - Invalid API key format: \(key)")
+            TelemetryService.captureNonFatal(
+                message: "RevenueCatService.configure - Invalid API key format",
+                level: .error,
+                extra: ["keyPrefix": String(key.prefix(10))]
+            )
             return
         }
 

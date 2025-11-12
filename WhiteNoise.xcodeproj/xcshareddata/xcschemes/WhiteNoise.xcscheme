@@ -64,13 +64,13 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "REVENUECAT_API_KEY"
-            value = "appl_BAEXfCawKRBFbNclwzVmxRcaAlt"
+            key = "REVENUECAT_ENTITLEMENT_ID"
+            value = "premium"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "REVENUECAT_ENTITLEMENT_ID"
-            value = "premium"
+            key = "-FIRAnalyticsDebugEnabled"
+            value = "true"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
