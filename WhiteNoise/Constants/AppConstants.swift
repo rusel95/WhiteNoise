@@ -209,8 +209,8 @@ extension LinearGradient {
     static var glassEffect: LinearGradient {
         LinearGradient(
             gradient: Gradient(colors: [
-                Color.white.opacity(AppConstants.UI.glassHighlightOpacity),
-                Color.white.opacity(AppConstants.UI.glassEffectOpacity)
+                Color.primary.opacity(AppConstants.UI.glassHighlightOpacity),
+                Color.primary.opacity(AppConstants.UI.glassEffectOpacity)
             ]),
             startPoint: .topLeading,
             endPoint: .bottomTrailing

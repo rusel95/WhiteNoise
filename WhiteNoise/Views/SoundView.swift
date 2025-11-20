@@ -26,9 +26,11 @@ struct SoundView: View {
     var body: some View {
         ZStack {
             // Background with gradient - using Rectangle instead of RoundedRectangle
+            // Background with gradient - using Rectangle instead of RoundedRectangle
             Rectangle()
-                .fill(LinearGradient.glassEffect)
-                .cornerRadius(AppConstants.UI.soundCardCornerRadius) // Apply corner radius to the rectangle
+                .fill(Color(UIColor.secondarySystemBackground))
+                .overlay(LinearGradient.glassEffect.opacity(0.5)) // Subtle glass overlay
+                .cornerRadius(AppConstants.UI.soundCardCornerRadius)
             
             GeometryReader(content: { geometry in
                 ZStack(content: {
@@ -36,7 +38,7 @@ struct SoundView: View {
                     ZStack(alignment: .leading) {
                         // Background track
                         Rectangle()
-                            .fill(Color.white.opacity(0.05))
+                            .fill(Color.primary.opacity(0.05))
                         
                         // Filled track
                         Rectangle()
@@ -76,14 +78,14 @@ struct SoundView: View {
                 // Icon with background
                 ZStack {
                     Circle()
-                        .fill(Color.white.opacity(0.1))
+                        .fill(Color.primary.opacity(0.1))
                         .frame(width: AppConstants.UI.soundIconSize, height: AppConstants.UI.soundIconSize)
                     
                     switch viewModel.sound.icon {
                     case .system(let systemName):
                         Image(systemName: systemName)
                             .font(.system(size: AppConstants.UI.soundNameFontSize))
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                             .allowsHitTesting(false)
                     case .custom(let name):
                         // Using string-based Image initialization
@@ -102,7 +104,7 @@ struct SoundView: View {
                 VStack(spacing: textStackSpacing) {
                     Text(viewModel.sound.name)
                         .font(.system(size: AppConstants.UI.soundTitleFontSize, weight: .semibold))
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                         .allowsHitTesting(false)
                     
                     if viewModel.sound.soundVariants.count > 1 {
@@ -114,7 +116,7 @@ struct SoundView: View {
                                 }) {
                                     Text(variant.name)
                                         .font(.system(size: AppConstants.UI.soundVariantFontSize))
-                                        .foregroundColor(.white.opacity(0.8))
+                                        .foregroundColor(.primary.opacity(0.8))
                                         .lineLimit(1)
                                 }
                             }
@@ -122,19 +124,18 @@ struct SoundView: View {
                             HStack(spacing: 4) {
                                 Text(viewModel.selectedSoundVariant.name)
                                     .font(.system(size: AppConstants.UI.soundVariantFontSize))
-                                    .foregroundColor(.white.opacity(0.8))
+                                    .foregroundColor(.primary.opacity(0.8))
                                     .lineLimit(1)
                                 
                                 Image(systemName: "chevron.down")
                                     .font(.system(size: AppConstants.UI.soundVariantChevronSize))
-                                    .foregroundColor(.white.opacity(0.6))
+                                    .foregroundColor(.primary.opacity(0.6))
                             }
                             .padding(.horizontal, AppConstants.UI.soundVariantPaddingHorizontal)
                             .padding(.vertical, AppConstants.UI.soundVariantPaddingVertical)
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.primary.opacity(0.1))
                             .cornerRadius(AppConstants.UI.soundVariantCornerRadius)
                         }
-                        .environment(\.colorScheme, .dark)
                         .gesture(
                             DragGesture(minimumDistance: 0)
                                 .onChanged({ value in

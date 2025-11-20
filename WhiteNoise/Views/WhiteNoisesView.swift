@@ -96,14 +96,19 @@ struct WhiteNoisesView: View {
     }
 #endif
 
+    @State private var showSettings = false
+
     var body: some View {
         ZStack {
-            // Pure black background
-            Color.black
+            // Adaptive background
+            Color(UIColor.systemBackground)
                 .ignoresSafeArea()
             
             ScrollView {
                 VStack(spacing: gridSpacing) {
+                    // Header spacer to keep grid pushed down slightly if needed
+                    Color.clear.frame(height: 20)
+
                     // Sound grid
                     LazyVGrid(columns: columns, spacing: gridSpacing) {
                         ForEach(viewModel.soundsViewModels) { viewModel in
@@ -115,7 +120,7 @@ struct WhiteNoisesView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .foregroundColor(Color.white)
+            .foregroundColor(.primary)
             
             // MARK: - Bottom Controller
 #if os(macOS)
@@ -152,7 +157,7 @@ struct WhiteNoisesView: View {
                                     .frame(width: 60)
                             }
                         }
-                        .foregroundColor(viewModel.timerMode != .off ? .cyan : .white)
+                        .foregroundColor(viewModel.timerMode != .off ? .cyan : .primary)
                     }
                     .background(Color.clear)
                     .buttonStyle(PlainButtonStyle())
@@ -175,12 +180,12 @@ struct WhiteNoisesView: View {
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                             .font(.system(size: AppConstants.UI.controlButtonIconSize, weight: .semibold))
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                             .offset(x: viewModel.isPlaying ? 0 : 1)
                             .frame(width: AppConstants.UI.controlButtonSize, height: AppConstants.UI.controlButtonSize)
                             .background(
                                 RoundedRectangle(cornerRadius: controlButtonCornerRadius)
-                                    .fill(LinearGradient.primaryGradient)
+                                    .fill(LinearGradient.glassEffect)
                             )
                     }
                     .buttonStyle(ScaleButtonStyle())
@@ -196,12 +201,12 @@ struct WhiteNoisesView: View {
                         VStack(spacing: 3) {
                             Image(systemName: "timer")
                                 .font(.system(size: AppConstants.UI.controlButtonIconSize - 2, weight: .medium))
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
 
                             if viewModel.timerMode != .off {
                                 Text(viewModel.remainingTimerTime)
                                     .font(timeLabelFont)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.primary)
                             }
                         }
                         .frame(width: AppConstants.UI.controlButtonSize, height: AppConstants.UI.controlButtonSize)
@@ -220,18 +225,49 @@ struct WhiteNoisesView: View {
                 .padding(.vertical, controlContainerVerticalPadding)
                 .background(
                     RoundedRectangle(cornerRadius: controlTrayCornerRadius)
-                        .fill(Color.white.opacity(0.05))
+                        .fill(Color.primary.opacity(0.05))
                         .overlay(
                             RoundedRectangle(cornerRadius: controlTrayCornerRadius)
-                                .stroke(Color.white.opacity(0.05), lineWidth: 1)
+                                .stroke(Color.primary.opacity(0.05), lineWidth: 1)
                         )
                 )
                 .padding(.horizontal, controlContainerHorizontalPadding)
                 .padding(.bottom, controlTrayBottomPadding)
             }
+            .overlay(alignment: .bottomTrailing) {
+                Button(action: {
+                    hapticService.impact(style: .light)
+                    showSettings = true
+                }) {
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: AppConstants.UI.controlButtonIconSize, weight: .semibold))
+                        .foregroundColor(.primary)
+                        .frame(width: AppConstants.UI.controlButtonSize, height: AppConstants.UI.controlButtonSize)
+                        .background(
+                            RoundedRectangle(cornerRadius: controlButtonCornerRadius)
+                                .fill(LinearGradient.glassEffect)
+                        )
+                }
+                .buttonStyle(ScaleButtonStyle())
+                // Add container layer matching the control tray
+                .padding(12) // Padding inside the container (similar to controlContainerVerticalPadding)
+                .background(
+                    RoundedRectangle(cornerRadius: controlTrayCornerRadius)
+                        .fill(Color.primary.opacity(0.05))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: controlTrayCornerRadius)
+                                .stroke(Color.primary.opacity(0.05), lineWidth: 1)
+                        )
+                )
+                .padding(.trailing, 16) // Closer to the right edge
+                .padding(.bottom, controlTrayBottomPadding) // Align bottom with the control tray
+            }
 #endif
         }
         .ignoresSafeArea(.all, edges: .bottom)
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+        }
         .overlay(
             // Timer picker overlay
             ZStack {

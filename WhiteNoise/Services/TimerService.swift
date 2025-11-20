@@ -281,22 +281,22 @@ extension TimerService {
         
         var displayText: String {
             switch self {
-            case .off: return "Off"
-            case .oneMinute: return "1 minute"
-            case .twoMinutes: return "2 minutes"
-            case .threeMinutes: return "3 minutes"
-            case .fiveMinutes: return "5 minutes"
-            case .tenMinutes: return "10 minutes"
-            case .fifteenMinutes: return "15 minutes"
-            case .thirtyMinutes: return "30 minutes"
-            case .sixtyMinutes: return "1 hour"
-            case .twoHours: return "2 hours"
-            case .threeHours: return "3 hours"
-            case .fourHours: return "4 hours"
-            case .fiveHours: return "5 hours"
-            case .sixHours: return "6 hours"
-            case .sevenHours: return "7 hours"
-            case .eightHours: return "8 hours"
+            case .off: return String(localized: "Off")
+            case .oneMinute: return String(localized: "1 minute")
+            case .twoMinutes: return String(localized: "2 minutes")
+            case .threeMinutes: return String(localized: "3 minutes")
+            case .fiveMinutes: return String(localized: "5 minutes")
+            case .tenMinutes: return String(localized: "10 minutes")
+            case .fifteenMinutes: return String(localized: "15 minutes")
+            case .thirtyMinutes: return String(localized: "30 minutes")
+            case .sixtyMinutes: return String(localized: "1 hour")
+            case .twoHours: return String(localized: "2 hours")
+            case .threeHours: return String(localized: "3 hours")
+            case .fourHours: return String(localized: "4 hours")
+            case .fiveHours: return String(localized: "5 hours")
+            case .sixHours: return String(localized: "6 hours")
+            case .sevenHours: return String(localized: "7 hours")
+            case .eightHours: return String(localized: "8 hours")
             }
         }
     }

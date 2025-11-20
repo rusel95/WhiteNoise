@@ -60,9 +60,9 @@ struct TimerPickerView: View {
                 }
             
             VStack(spacing: 20) {
-                Text("Sleep Timer")
+                Text(String(localized: "Sleep Timer"))
                     .font(titleFont)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                     .padding(.top, 20)
 
                 // Native Picker with wheel style
@@ -71,13 +71,12 @@ struct TimerPickerView: View {
                         Text(option.displayText)
                             .font(optionFont)
                             .tag(option)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
                 .frame(height: pickerHeight)
                 .clipped()
-                .colorScheme(.dark)
                 .onChange(of: selectedMode) { _, _ in
                     HapticFeedbackService.shared.selection()
                 }
@@ -92,7 +91,7 @@ struct TimerPickerView: View {
                         isPresented = false
                     }
                 }) {
-                    Text("Done")
+                    Text(String(localized: "Done"))
                         .font(doneButtonFont)
                         .foregroundColor(.white)
                         .frame(width: doneButtonSize.width, height: doneButtonSize.height)
@@ -113,10 +112,10 @@ struct TimerPickerView: View {
             .frame(width: containerWidth)
             .background(
                 RoundedRectangle(cornerRadius: 25)
-                    .fill(Color(white: 0.1))
+                    .fill(Color(UIColor.secondarySystemBackground))
                     .overlay(
                         RoundedRectangle(cornerRadius: 25)
-                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                            .stroke(Color.primary.opacity(0.1), lineWidth: 1)
                     )
             )
             .scaleEffect(isPresented ? 1 : 0.9)

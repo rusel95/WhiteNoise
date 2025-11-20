@@ -60,7 +60,7 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
                     .custom(soundData.icon.value)
                 
                 let variants = soundData.variants.map { variantData in
-                    Sound.SoundVariant(name: variantData.name, filename: variantData.filename)
+                    Sound.SoundVariant(name: String(localized: String.LocalizationValue(variantData.name)), filename: variantData.filename)
                 }
                 
                 // Set specific default volumes for certain sounds
@@ -83,7 +83,7 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
                 // STABILITY FIX: Handle throwing Sound initializer
                 do {
                     return try Sound(
-                        name: soundData.name,
+                        name: String(localized: String.LocalizationValue(soundData.name)),
                         icon: icon,
                         volume: defaultVolume,
                         selectedSoundVariant: nil,
@@ -125,11 +125,11 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
         return defaultSoundSpecs.compactMap { (name, icon, volume, variantName, filename) in
             do {
                 return try Sound(
-                    name: name,
+                    name: String(localized: String.LocalizationValue(name)),
                     icon: icon,
                     volume: volume,
                     selectedSoundVariant: nil,
-                    soundVariants: [.init(name: variantName, filename: filename)]
+                    soundVariants: [.init(name: String(localized: String.LocalizationValue(variantName)), filename: filename)]
                 )
             } catch {
                 TelemetryService.captureNonFatal(

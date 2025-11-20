@@ -69,9 +69,12 @@ private extension WhiteNoiseApp {
 struct RootView: View {
     @StateObject private var entitlements = EntitlementsCoordinator()
     @Environment(\.scenePhase) private var scenePhase
+    @AppStorage("isDarkMode") private var isDarkMode = true
 
     var body: some View {
         ContentView()
+            .environmentObject(entitlements)
+            .preferredColorScheme(isDarkMode ? .dark : .light)
             .onAppear { entitlements.onAppLaunch() }
             .onChange(of: scenePhase) { newPhase in
                 if newPhase == .active {
