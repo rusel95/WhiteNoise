@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		85LOCALEBF2F0EB54100123456 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 85LOCALE2F0EB54100123456 /* Localizable.xcstrings */; };
 		74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */; };
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
@@ -43,7 +44,7 @@
 		851396A72E79B01900552A9D /* PLAY_PAUSE_FLOW.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */; };
 		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
 		851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */; };
-		8548D4F72ECF883A0091FEB2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8548D4F62ECF883A0091FEB2 /* SettingsView.swift */; };
+		85709F372ED6612000740A9B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85709F362ED6612000740A9B /* SettingsView.swift */; };
 		858B370B2EA6544B003818E5 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		859C90952E8940E9008D9088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
@@ -60,6 +61,7 @@
 		85AB61DC2E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61D82E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a */; };
 		85AB61DD2E79809500549201 /* 255890__andreasmustola__white-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */; };
 		85AB61DE2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */; };
+		85AD4DBB2ED6423100C48EDB /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AD4DBA2ED6423100C48EDB /* LoggingService.swift */; };
 		85E4A0B12E9C8B1F0046A9D3 /* TrialReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */; };
 		85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */; };
 		85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */; };
@@ -101,6 +103,7 @@
 
 /* Begin PBXFileReference section */
 		0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
+		85LOCALE2F0EB54100123456 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteSoundRuslan1234.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseApp.swift; sourceTree = "<group>"; };
 		74349A572A26413F00AB0EF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -142,7 +145,7 @@
 		8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SOUND_CONFIGURATION.md; sourceTree = "<group>"; };
 		851396A02E79B01900552A9D /* TESTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TESTING.md; sourceTree = "<group>"; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		8548D4F62ECF883A0091FEB2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		85709F362ED6612000740A9B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "160893__ecfike__quiet-spring-woodland-ambience.m4a"; sourceTree = "<group>"; };
 		85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 422048__nimlos__forest_cicada_loop.m4a; sourceTree = "<group>"; };
@@ -158,6 +161,7 @@
 		85AB61D82E79809500549201 /* 249313__jarredgibb__white-noise-20dbfs-30-second.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "249313__jarredgibb__white-noise-20dbfs-30-second.m4a"; sourceTree = "<group>"; };
 		85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "255890__andreasmustola__white-noise.m4a"; sourceTree = "<group>"; };
 		85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "349315__newagesoup__white_noise-10s.m4a"; sourceTree = "<group>"; };
+		85AD4DBA2ED6423100C48EDB /* LoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialReminderScheduler.swift; sourceTree = "<group>"; };
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 				85F61C5B2E4353D9002AB6F9 /* Constants */,
 				74CD166E2A45DCB7004FE649 /* WhiteNoise.entitlements */,
 				74349ACB2A2651AC00AB0EF5 /* Info.plist */,
+				85LOCALE2F0EB54100123456 /* Localizable.xcstrings */,
 				74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */,
 				74349A832A26494300AB0EF5 /* Sounds */,
 				74349A572A26413F00AB0EF5 /* Assets.xcassets */,
@@ -427,6 +432,7 @@
 				850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */,
 				85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */,
 				85F61C662E4353F6002AB6F9 /* AudioPlayerProtocol.swift */,
+				85AD4DBA2ED6423100C48EDB /* LoggingService.swift */,
 				85F61C672E4353F6002AB6F9 /* AudioSessionService.swift */,
 				85F61C682E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift */,
 				85F61C692E4353F6002AB6F9 /* HapticFeedbackService.swift */,
@@ -454,7 +460,7 @@
 			children = (
 				85F61C822E435402002AB6F9 /* ContentView.swift */,
 				850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */,
-				8548D4F62ECF883A0091FEB2 /* SettingsView.swift */,
+				85709F362ED6612000740A9B /* SettingsView.swift */,
 				85F61C842E435402002AB6F9 /* SoundView.swift */,
 				85F61C852E435402002AB6F9 /* TimerPickerView.swift */,
 				85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */,
@@ -552,6 +558,25 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
+				de,
+				es,
+				fr,
+				hi,
+				id,
+				it,
+				ja,
+				ko,
+				nl,
+				pl,
+				"pt-BR",
+				ru,
+				th,
+				tr,
+				uk,
+				vi,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 74349A472A26413C00AB0EF5;
 			packageReferences = (
@@ -573,6 +598,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85LOCALEBF2F0EB54100123456 /* Localizable.xcstrings in Resources */,
 				74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */,
 				85A986312E5B77B800EF08DB /* 177479__unfa__slowly-raining-loop.m4a in Resources */,
 				74ABCD172A5E8FBB00123456 /* LaunchScreen.storyboard in Resources */,
@@ -655,6 +681,7 @@
 				85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */,
 				85F61C792E4353F6002AB6F9 /* SoundFactory.swift in Sources */,
 				85F61C7A2E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift in Sources */,
+				85AD4DBB2ED6423100C48EDB /* LoggingService.swift in Sources */,
 				850C1EB62E7B55C200545D95 /* PaywallSheetView.swift in Sources */,
 				85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */,
 				85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */,
@@ -662,11 +689,11 @@
 				85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */,
 				85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */,
 				85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */,
+				85709F372ED6612000740A9B /* SettingsView.swift in Sources */,
 				850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */,
 				85E4A0B12E9C8B1F0046A9D3 /* TrialReminderScheduler.swift in Sources */,
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
-				8548D4F72ECF883A0091FEB2 /* SettingsView.swift in Sources */,
 				850AD41F2E8C192E0047D214 /* TelemetryService.swift in Sources */,
 				74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */,
 				850C1EAD2E7B256E00545D95 /* RevenueCatService.swift in Sources */,

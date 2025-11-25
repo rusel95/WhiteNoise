@@ -72,26 +72,6 @@ struct SettingsView: View {
                             .toggleStyle(SwitchToggleStyle(tint: Color(red: 0.1, green: 0.4, blue: 0.5)))
                         }
                         
-                        // Language Section (System Settings Link)
-                        SettingsSection(title: String(localized: "Language")) {
-                            Button(action: {
-                                if let url = URL(string: UIApplication.openSettingsURLString) {
-                                    UIApplication.shared.open(url)
-                                }
-                            }) {
-                                HStack {
-                                    Image(systemName: "globe")
-                                        .foregroundColor(.primary)
-                                    Text(String(localized: "App Language"))
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                    Image(systemName: "arrow.up.right")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.primary.opacity(0.6))
-                                }
-                            }
-                        }
-                        
                         // Subscription Section
                         SettingsSection(title: String(localized: "Subscription")) {
                             HStack {
@@ -145,7 +125,6 @@ struct SettingsView: View {
         .sheet(isPresented: $showMailView) {
             MailView(result: $result)
         }
-        // We don't set preferredColorScheme here anymore, it will be set globally
         .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }

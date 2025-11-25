@@ -249,17 +249,7 @@ struct WhiteNoisesView: View {
                         )
                 }
                 .buttonStyle(ScaleButtonStyle())
-                // Add container layer matching the control tray
-                .padding(12) // Padding inside the container (similar to controlContainerVerticalPadding)
-                .background(
-                    RoundedRectangle(cornerRadius: controlTrayCornerRadius)
-                        .fill(Color.primary.opacity(0.05))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: controlTrayCornerRadius)
-                                .stroke(Color.primary.opacity(0.05), lineWidth: 1)
-                        )
-                )
-                .padding(.trailing, 16) // Closer to the right edge
+                .padding(.trailing, horizontalPadding) // Align with grid padding
                 .padding(.bottom, controlTrayBottomPadding) // Align bottom with the control tray
             }
 #endif
