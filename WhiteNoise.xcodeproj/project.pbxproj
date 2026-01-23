@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		85LOCALEBF2F0EB54100123456 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 85LOCALE2F0EB54100123456 /* Localizable.xcstrings */; };
 		74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */; };
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
@@ -85,6 +84,7 @@
 		85F61C8C2E435402002AB6F9 /* SoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C842E435402002AB6F9 /* SoundView.swift */; };
 		85F61C902E435410002AB6F9 /* FadeStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */; };
 		85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8E2E435410002AB6F9 /* FadeOperation.swift */; };
+		85LOCALEBF2F0EB54100123456 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 85LOCALE2F0EB54100123456 /* Localizable.xcstrings */; };
 		95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2002F00000100000001 /* TimerServiceTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -103,7 +103,6 @@
 
 /* Begin PBXFileReference section */
 		0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
-		85LOCALE2F0EB54100123456 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		74349A502A26413C00AB0EF5 /* WhiteSoundRuslan1234.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteSoundRuslan1234.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoiseApp.swift; sourceTree = "<group>"; };
 		74349A572A26413F00AB0EF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -185,6 +184,7 @@
 		85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesView.swift; sourceTree = "<group>"; };
 		85F61C8D2E435410002AB6F9 /* FadeStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStrategy.swift; sourceTree = "<group>"; };
 		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
+		85LOCALE2F0EB54100123456 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -544,7 +544,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					74349A4F2A26413C00AB0EF5 = {
 						CreatedOnToolsVersion = 14.3;
@@ -559,18 +559,48 @@
 				en,
 				Base,
 				ar,
+				bg,
+				bn,
+				ca,
+				cs,
+				da,
 				de,
+				el,
 				es,
+				et,
+				fi,
+				fil,
 				fr,
+				gu,
+				he,
 				hi,
+				hr,
+				hu,
 				id,
 				it,
 				ja,
+				kn,
 				ko,
+				lt,
+				lv,
+				ml,
+				mr,
+				ms,
 				nl,
+				no,
+				pa,
 				pl,
 				"pt-BR",
+				"pt-PT",
+				ro,
 				ru,
+				sk,
+				sl,
+				sr,
+				sv,
+				sw,
+				ta,
+				te,
 				th,
 				tr,
 				uk,
@@ -720,6 +750,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -787,6 +818,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -882,6 +914,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 16.0;
@@ -928,6 +961,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 16.0;

@@ -32,6 +32,20 @@ struct SettingsView: View {
         
         return String(localized: "Loading...")
     }
+    
+    private var currentLanguageName: String {
+        // Get the app's preferred language (respects per-app language settings in iOS Settings)
+        let preferredLanguage = Bundle.main.preferredLocalizations.first ?? "en"
+        let locale = Locale(identifier: preferredLanguage)
+        // Display the language name in its native form (e.g., "Deutsch" for German)
+        return locale.localizedString(forLanguageCode: preferredLanguage)?.capitalized ?? preferredLanguage
+    }
+    
+    private func openAppLanguageSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
+        }
+    }
 
     var body: some View {
         ZStack {
@@ -70,6 +84,25 @@ struct SettingsView: View {
                                 }
                             }
                             .toggleStyle(SwitchToggleStyle(tint: Color(red: 0.1, green: 0.4, blue: 0.5)))
+                        }
+                        
+                        // Language Section
+                        SettingsSection(title: String(localized: "Language")) {
+                            Button(action: {
+                                openAppLanguageSettings()
+                            }) {
+                                HStack {
+                                    Image(systemName: "globe")
+                                        .foregroundColor(.primary)
+                                    Text(String(localized: "App Language"))
+                                        .foregroundColor(.primary)
+                                    Spacer()
+                                    Text(currentLanguageName)
+                                        .foregroundColor(.primary.opacity(0.6))
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.primary.opacity(0.6))
+                                }
+                            }
                         }
                         
                         // Subscription Section
