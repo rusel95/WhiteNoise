@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BD1267615B97628E7E51259 /* GlassDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */; };
 		74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */; };
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
@@ -44,8 +45,8 @@
 		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
 		851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */; };
 		85709F372ED6612000740A9B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85709F362ED6612000740A9B /* SettingsView.swift */; };
-		858B370B2EA6544B003818E5 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		859C90952E8940E9008D9088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		858B370B2EA6544B003818E5 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		859C90952E8940E9008D9088 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
 		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
@@ -186,6 +187,7 @@
 		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
 		85LOCALE2F0EB54100123456 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
+		BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GlassDesignSystem.swift; path = GlassDesignSystem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,14 +205,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				859C90952E8940E9008D9088 /* (null) in Frameworks */,
-				858B370B2EA6544B003818E5 /* (null) in Frameworks */,
+				859C90952E8940E9008D9088 /* BuildFile in Frameworks */,
+				858B370B2EA6544B003818E5 /* BuildFile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6CED74548EFAA3036F01E0E6 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */,
+			);
+			name = Theme;
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		74349A472A26413C00AB0EF5 = {
 			isa = PBXGroup;
 			children = (
@@ -259,6 +270,7 @@
 				74349A572A26413F00AB0EF5 /* Assets.xcassets */,
 				74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */,
 				74349A592A26413F00AB0EF5 /* Preview Content */,
+				6CED74548EFAA3036F01E0E6 /* Theme */,
 			);
 			path = WhiteNoise;
 			sourceTree = "<group>";
@@ -730,6 +742,7 @@
 				85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */,
 				85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */,
 				85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */,
+				3BD1267615B97628E7E51259 /* GlassDesignSystem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

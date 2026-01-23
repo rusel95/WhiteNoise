@@ -75,7 +75,6 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     // TODO: [Swift 6 Migration] Consider moving cleanup to a separate non-isolated method
     private nonisolated(unsafe) var appLifecycleObservers: [any NSObjectProtocol] = []
     private var playPauseTask: Task<Void, Never>?
-    private var isProcessingPlayPause = false
 
     // MARK: - Initialization
     init(
@@ -158,41 +157,36 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     /// UI feedback by updating the `isPlaying` state synchronously, then performs the actual
     /// audio operations asynchronously.
     ///
-    /// The method includes debouncing logic to prevent rapid successive calls and ensures
-    /// that only one play/pause operation is processed at a time.
+    /// The method cancels any ongoing fade operations to allow immediate response to user input.
     ///
     /// - Important: This method updates the UI state immediately for responsiveness,
     ///   but the actual audio state change happens asynchronously.
-    ///
-    /// - Note: The method will ignore calls if a play/pause operation is already in progress.
     func playingButtonSelected() {
-        print("🎯 WhiteNoisesVM.playingButtonSelected - START: isPlaying=\(isPlaying), processing=\(isProcessingPlayPause)")
-        
-        // Prevent rapid button presses
-        guard !isProcessingPlayPause else {
-            print("⚠️ WhiteNoisesVM.playingButtonSelected - SKIPPED: Already processing play/pause")
-            return
-        }
-        
-        // Cancel any existing play/pause task
+        print("🎯 WhiteNoisesVM.playingButtonSelected - START: isPlaying=\(isPlaying)")
+
+        // Cancel any existing play/pause task and its fade operations
         if playPauseTask != nil {
             print("🔄 WhiteNoisesVM.playingButtonSelected - CANCELLING: Previous play/pause task")
             playPauseTask?.cancel()
+            playPauseTask = nil
+
+            // Cancel all ongoing fade operations on sounds
+            for soundViewModel in soundsViewModels {
+                soundViewModel.cancelFade()
+            }
         }
-        
+
         // Update state immediately for instant UI feedback
         let wasPlaying = isPlaying
         isPlaying = !wasPlaying
-        isProcessingPlayPause = true
-        
+
         print("🔄 WhiteNoisesVM.playingButtonSelected - STATE CHANGE: isPlaying \(wasPlaying)→\(!wasPlaying)")
         print("📊 WhiteNoisesVM.playingButtonSelected - STATE SNAPSHOT:")
         print("  - isPlaying: \(isPlaying)")
-        print("  - isProcessing: \(isProcessingPlayPause)")
         print("  - activeSounds: \(soundsViewModels.filter { $0.volume > 0 }.count)")
         print("  - timerMode: \(timerService.mode)")
         print("  - timerActive: \(timerService.isActive)")
-        
+
         playPauseTask = Task { [weak self] in
             guard let self = self else {
                 print("❌ WhiteNoisesVM.playingButtonSelected - FAILED: Self deallocated")
@@ -200,11 +194,6 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
             }
 
             print("🔄 WhiteNoisesVM.playingButtonSelected - ASYNC START: wasPlaying=\(wasPlaying)")
-
-            defer {
-                self.isProcessingPlayPause = false
-                print("🏁 WhiteNoisesVM.playingButtonSelected - ASYNC END: processing=false")
-            }
 
             if wasPlaying {
                 print("🔘 WhiteNoisesVM.playingButtonSelected - ACTION: Pausing sounds")
@@ -214,7 +203,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
                 await self.audioSessionService.ensureActive()
                 await self.playSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
             }
-            
+
             print("✅ WhiteNoisesVM.playingButtonSelected - COMPLETED: Action finished")
         }
     }
@@ -642,9 +631,11 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
             // Only start playing if not already playing
             if !isPlaying {
                 print("🎵 WhiteNoisesVM.handleTimerModeChange - TRIGGERING PLAY: Not currently playing")
+                // Update state immediately for instant UI feedback
+                isPlaying = true
                 // STABILITY FIX: Use weak self to prevent retain cycle
                 Task { [weak self] in
-                    await self?.playSounds(fadeDuration: AppConstants.Animation.fadeLong)
+                    await self?.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
                 }
             } else {
                 print("🎵 WhiteNoisesVM.handleTimerModeChange - ALREADY PLAYING: No need to start")

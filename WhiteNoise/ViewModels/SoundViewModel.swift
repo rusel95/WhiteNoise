@@ -220,27 +220,17 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
         lastDragValue = 0
 
         initialVolumeAnimationTask?.cancel()
-        let duration = AppConstants.Animation.initialVolumeDuration
         initialVolumeAnimationTask = Task { [weak self] in
             guard let self = self else { return }
 
-            withAnimation(.easeInOut(duration: duration)) {
-                self.sliderWidth = targetWidth
-                self.sliderHeight = targetHeight
-            }
+            // Small delay to let the view render at 0 first
+            try? await Task.sleep(nanoseconds: 50_000_000) // 50ms
 
-            let nanoseconds = UInt64(duration * 1_000_000_000)
-            if nanoseconds > 0 {
-                try? await Task.sleep(nanoseconds: nanoseconds)
-            }
-
-            // Check cancellation after sleep
             guard !Task.isCancelled else { return }
 
-            let finalWidth = CGFloat(self.volume) * self.maxWidth
-            let finalHeight = CGFloat(self.volume) * self.maxHeight
-            self.sliderWidth = finalWidth
-            self.sliderHeight = finalHeight
+            // Just set the target values - let the view's animation handle the transition
+            self.sliderWidth = targetWidth
+            self.sliderHeight = targetHeight
 
             if self.maxWidth > 0 {
                 self.lastDragValue = self.sliderWidth
@@ -522,7 +512,12 @@ extension SoundViewModel {
         fadeOperation.cancel()
         player?.stop()
     }
-    
+
+    /// Cancel any ongoing fade operation
+    func cancelFade() {
+        fadeOperation.cancel()
+    }
+
     /// Update volume on the player
     func updateVolume(_ volume: Float) async {
         await updatePlayerVolume(volume)
