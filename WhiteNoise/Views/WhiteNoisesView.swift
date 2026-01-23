@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-#if os(iOS)
-import UIKit
-#endif
 
 struct WhiteNoisesView: View {
 
@@ -17,33 +14,32 @@ struct WhiteNoisesView: View {
 
     @State private var showPicker = false
     @State private var showTimerPicker = false
+    @State private var showSettings = false
 
 #if os(macOS)
     let columns = [GridItem(.adaptive(minimum: 150, maximum: 400))]
+    private let layout = AdaptiveLayout(horizontalSizeClass: nil)
 #elseif os(iOS)
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
-    private var usesExpandedLayout: Bool {
-        horizontalSizeClass == .regular && UIDevice.current.userInterfaceIdiom == .pad
+    private var layout: AdaptiveLayout {
+        AdaptiveLayout(horizontalSizeClass: horizontalSizeClass)
     }
 
     private var columns: [GridItem] {
-        if usesExpandedLayout {
+        if layout.isRegular {
             return expandedLayoutColumns
         }
-
-        let minimum = usesExpandedLayout ? AppConstants.UI.minSoundCardWidth : AppConstants.UI.phoneMinSoundCardWidth
-        let maximum = usesExpandedLayout ? AppConstants.UI.maxSoundCardWidth : AppConstants.UI.phoneMaxSoundCardWidth
         return [GridItem(
-            .adaptive(minimum: minimum, maximum: maximum),
-            spacing: gridSpacing
+            .adaptive(minimum: layout.minSoundCardWidth, maximum: layout.maxSoundCardWidth),
+            spacing: layout.soundGridSpacing
         )]
     }
 
     private var expandedLayoutColumns: [GridItem] {
         Array(
-            repeating: GridItem(.flexible(), spacing: gridSpacing),
+            repeating: GridItem(.flexible(), spacing: layout.soundGridSpacing),
             count: expandedLayoutColumnCount
         )
     }
@@ -54,79 +50,37 @@ struct WhiteNoisesView: View {
         }
         return 4
     }
-
-    private var horizontalPadding: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.gridHorizontalPadding : 16
-    }
-
-    private var timeLabelFont: Font {
-        usesExpandedLayout ? .system(size: 14, weight: .medium) : .system(size: 9, weight: .medium)
-    }
-
-    private var gridSpacing: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.soundGridSpacing : 16
-    }
-
-    private var controlButtonCornerRadius: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.controlButtonCornerRadius : AppConstants.UI.phoneControlButtonCornerRadius
-    }
-
-    private var controlStackSpacing: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.controlStackSpacing : AppConstants.UI.phoneControlStackSpacing
-    }
-
-    private var controlTrayHorizontalInsets: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.controlTrayHorizontalInsets : AppConstants.UI.phoneControlTrayHorizontalInsets
-    }
-
-    private var controlContainerVerticalPadding: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.controlContainerVerticalPadding : AppConstants.UI.phoneControlContainerVerticalPadding
-    }
-
-    private var controlTrayCornerRadius: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.controlTrayCornerRadius : AppConstants.UI.phoneControlTrayCornerRadius
-    }
-
-    private var controlContainerHorizontalPadding: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.controlContainerHorizontalPadding : AppConstants.UI.phoneControlContainerHorizontalPadding
-    }
-
-    private var controlTrayBottomPadding: CGFloat {
-        usesExpandedLayout ? AppConstants.UI.controlTrayBottomPadding : AppConstants.UI.phoneControlTrayBottomPadding
-    }
 #endif
-
-    @State private var showSettings = false
 
     var body: some View {
         ZStack {
             // Adaptive background
             Color(UIColor.systemBackground)
                 .ignoresSafeArea()
-            
+
             ScrollView {
-                VStack(spacing: gridSpacing) {
+                VStack(spacing: layout.soundGridSpacing) {
                     // Header spacer to keep grid pushed down slightly if needed
                     Color.clear.frame(height: 20)
 
                     // Sound grid
-                    LazyVGrid(columns: columns, spacing: gridSpacing) {
-                        ForEach(viewModel.soundsViewModels) { viewModel in
-                            SoundView(viewModel: viewModel)
+                    LazyVGrid(columns: columns, spacing: layout.soundGridSpacing) {
+                        ForEach(viewModel.soundsViewModels) { soundVM in
+                            SoundView(viewModel: soundVM, layout: layout)
                         }
                     }
-                    .padding(.horizontal, horizontalPadding)
-                    .padding(.bottom, AppConstants.UI.bottomControllerPadding) // Space for bottom controller
+                    .padding(.horizontal, layout.gridHorizontalPadding)
+                    .padding(.bottom, layout.bottomControllerPadding)
                 }
             }
             .frame(maxWidth: .infinity)
             .foregroundColor(.primary)
-            
+
             // MARK: - Bottom Controller
 #if os(macOS)
             VStack {
                 Spacer()
-                
+
                 HStack(spacing: 20) {
                     Button(action: {
                         viewModel.playingButtonSelected()
@@ -140,7 +94,7 @@ struct WhiteNoisesView: View {
                     .buttonStyle(PlainButtonStyle())
                     .padding(.vertical, 20)
                     .padding(.leading, 24)
-                    
+
                     Menu {
                         ForEach(WhiteNoisesViewModel.TimerMode.allCases) { mode in
                             Button(mode.description) {
@@ -173,18 +127,18 @@ struct WhiteNoisesView: View {
             VStack {
                 Spacer()
 
-                HStack(spacing: controlStackSpacing) {
+                HStack(spacing: layout.controlStackSpacing) {
                     // Play/Pause button
                     Button(action: {
                         viewModel.playingButtonSelected()
                     }) {
                         Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                            .font(.system(size: AppConstants.UI.controlButtonIconSize, weight: .semibold))
+                            .font(.system(size: layout.controlButtonIconSize, weight: .semibold))
                             .foregroundColor(.primary)
                             .offset(x: viewModel.isPlaying ? 0 : 1)
-                            .frame(width: AppConstants.UI.controlButtonSize, height: AppConstants.UI.controlButtonSize)
+                            .frame(width: layout.controlButtonSize, height: layout.controlButtonSize)
                             .background(
-                                RoundedRectangle(cornerRadius: controlButtonCornerRadius)
+                                RoundedRectangle(cornerRadius: layout.controlButtonCornerRadius)
                                     .fill(LinearGradient.glassEffect)
                             )
                     }
@@ -193,25 +147,25 @@ struct WhiteNoisesView: View {
                     // Timer button
                     Button(action: {
                         hapticService.impact(style: .light)
-                        
+
                         withAnimation(.spring()) {
                             showTimerPicker = true
                         }
                     }) {
                         VStack(spacing: 3) {
                             Image(systemName: "timer")
-                                .font(.system(size: AppConstants.UI.controlButtonIconSize - 2, weight: .medium))
+                                .font(.system(size: layout.controlButtonIconSize - 2, weight: .medium))
                                 .foregroundColor(.primary)
 
                             if viewModel.timerMode != .off {
                                 Text(viewModel.remainingTimerTime)
-                                    .font(timeLabelFont)
+                                    .font(layout.timeLabelFont)
                                     .foregroundColor(.primary)
                             }
                         }
-                        .frame(width: AppConstants.UI.controlButtonSize, height: AppConstants.UI.controlButtonSize)
+                        .frame(width: layout.controlButtonSize, height: layout.controlButtonSize)
                         .background(
-                            RoundedRectangle(cornerRadius: controlButtonCornerRadius)
+                            RoundedRectangle(cornerRadius: layout.controlButtonCornerRadius)
                                 .fill(viewModel.timerMode != .off ?
                                       LinearGradient.secondaryGradient :
                                       LinearGradient.glassEffect
@@ -220,19 +174,19 @@ struct WhiteNoisesView: View {
                     }
                     .buttonStyle(ScaleButtonStyle())
                 }
-                .frame(maxWidth: AppConstants.UI.controlTrayMaxWidth)
-                .padding(.horizontal, controlTrayHorizontalInsets)
-                .padding(.vertical, controlContainerVerticalPadding)
+                .frame(maxWidth: layout.controlTrayMaxWidth)
+                .padding(.horizontal, layout.controlTrayHorizontalInsets)
+                .padding(.vertical, layout.controlContainerVerticalPadding)
                 .background(
-                    RoundedRectangle(cornerRadius: controlTrayCornerRadius)
+                    RoundedRectangle(cornerRadius: layout.controlTrayCornerRadius)
                         .fill(Color.primary.opacity(0.05))
                         .overlay(
-                            RoundedRectangle(cornerRadius: controlTrayCornerRadius)
+                            RoundedRectangle(cornerRadius: layout.controlTrayCornerRadius)
                                 .stroke(Color.primary.opacity(0.05), lineWidth: 1)
                         )
                 )
-                .padding(.horizontal, controlContainerHorizontalPadding)
-                .padding(.bottom, controlTrayBottomPadding)
+                .padding(.horizontal, layout.controlContainerHorizontalPadding)
+                .padding(.bottom, layout.controlTrayBottomPadding)
             }
             .overlay(alignment: .bottomTrailing) {
                 Button(action: {
@@ -240,17 +194,17 @@ struct WhiteNoisesView: View {
                     showSettings = true
                 }) {
                     Image(systemName: "gearshape.fill")
-                        .font(.system(size: AppConstants.UI.controlButtonIconSize, weight: .semibold))
+                        .font(.system(size: layout.controlButtonIconSize, weight: .semibold))
                         .foregroundColor(.primary)
-                        .frame(width: AppConstants.UI.controlButtonSize, height: AppConstants.UI.controlButtonSize)
+                        .frame(width: layout.controlButtonSize, height: layout.controlButtonSize)
                         .background(
-                            RoundedRectangle(cornerRadius: controlButtonCornerRadius)
+                            RoundedRectangle(cornerRadius: layout.controlButtonCornerRadius)
                                 .fill(LinearGradient.glassEffect)
                         )
                 }
                 .buttonStyle(ScaleButtonStyle())
-                .padding(.trailing, horizontalPadding) // Align with grid padding
-                .padding(.bottom, controlTrayBottomPadding) // Align bottom with the control tray
+                .padding(.trailing, layout.gridHorizontalPadding)
+                .padding(.bottom, layout.controlTrayBottomPadding)
             }
 #endif
         }

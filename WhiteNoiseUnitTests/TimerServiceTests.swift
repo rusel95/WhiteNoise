@@ -4,9 +4,11 @@
 //
 //  Basic unit tests for TimerService lifecycle and tick behavior.
 //  Note: Add a Unit Test target in Xcode and include this file.
+//  FIXME: Test target needs WhiteNoise as a dependency to run these tests
 //
 
 import XCTest
+// @testable import WhiteNoise  // Uncomment when test target is properly configured
 
 final class TimerServiceTests: XCTestCase {
     func testStartPauseResumeStop() async throws {

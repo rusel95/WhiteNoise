@@ -76,7 +76,7 @@ struct RootView: View {
             .environmentObject(entitlements)
             .preferredColorScheme(isDarkMode ? .dark : .light)
             .onAppear { entitlements.onAppLaunch() }
-            .onChange(of: scenePhase) { newPhase in
+            .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     entitlements.onForeground()
                 }

@@ -13,6 +13,7 @@ import SwiftUI
 // MARK: - Protocols
 
 /// Protocol for volume control with drag gesture handling
+@MainActor
 protocol VolumeControlWithGestures: AnyObject {
     var volume: Float { get set }
     var sliderWidth: CGFloat { get set }
@@ -20,7 +21,7 @@ protocol VolumeControlWithGestures: AnyObject {
     var lastDragValue: CGFloat { get set }
     var maxWidth: CGFloat { get set }
     var maxHeight: CGFloat { get set }
-    
+
     func updateVolume(_ volume: Float) async
     func dragDidChange(newTranslationWidth: CGFloat)
     func dragDidChangeVertical(newTranslationHeight: CGFloat)
@@ -28,10 +29,11 @@ protocol VolumeControlWithGestures: AnyObject {
 }
 
 /// Protocol for sound playback control
+@MainActor
 protocol SoundPlaybackControl: AnyObject {
     var sound: Sound { get }
     var isPlaying: Bool { get }
-    
+
     func playSound(fadeDuration: Double?) async
     func pauseSound(fadeDuration: Double?) async
     func stop() async
@@ -39,6 +41,7 @@ protocol SoundPlaybackControl: AnyObject {
 }
 
 /// Protocol for fade operations
+@MainActor
 protocol FadeOperations: AnyObject {
     func fadeIn(duration: Double) async
     func fadeOut(duration: Double) async
@@ -46,7 +49,7 @@ protocol FadeOperations: AnyObject {
 }
 
 @MainActor
-class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeControlWithGestures, @preconcurrency SoundPlaybackControl, FadeOperations {
+class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures, SoundPlaybackControl, FadeOperations {
     
     // MARK: - Computed Properties for Protocols
     var isPlaying: Bool {
@@ -218,7 +221,7 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
 
         initialVolumeAnimationTask?.cancel()
         let duration = AppConstants.Animation.initialVolumeDuration
-        initialVolumeAnimationTask = Task { @MainActor [weak self] in
+        initialVolumeAnimationTask = Task { [weak self] in
             guard let self = self else { return }
 
             withAnimation(.easeInOut(duration: duration)) {
@@ -230,6 +233,9 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
             if nanoseconds > 0 {
                 try? await Task.sleep(nanoseconds: nanoseconds)
             }
+
+            // Check cancellation after sleep
+            guard !Task.isCancelled else { return }
 
             let finalWidth = CGFloat(self.volume) * self.maxWidth
             let finalHeight = CGFloat(self.volume) * self.maxHeight
@@ -368,28 +374,30 @@ class SoundViewModel: ObservableObject, Identifiable, @preconcurrency VolumeCont
     // MARK: - Private Methods
     func loadAudioAsync() {
         guard !isAudioLoaded && audioLoadingTask == nil else { return }
-        
-        audioLoadingTask = Task.detached(priority: .userInitiated) { [weak self] in
-            await self?.prepareSound(fileName: self?.sound.selectedSoundVariant.filename ?? "")
-            await MainActor.run { [weak self] in
-                // Only mark as loaded if we actually have a player
-                if self?.player != nil {
-                    self?.isAudioLoaded = true
-                    print("✅ \(self?.sound.name ?? "Unknown") - AUDIO LOADED: Player available")
-                } else {
-                    self?.isAudioLoaded = false
-                    print("❌ \(self?.sound.name ?? "Unknown") - AUDIO LOAD FAILED: No player created")
-                    TelemetryService.captureNonFatal(
-                        message: "SoundViewModel.loadAudioAsync completed without player",
-                        level: .error,
-                        extra: [
-                            "soundName": self?.sound.name ?? "Unknown",
-                            "variant": self?.sound.selectedSoundVariant.filename ?? "unknown"
-                        ]
-                    )
-                }
-                self?.audioLoadingTask = nil
+
+        // Capture values before Task to avoid Sendable issues
+        let filename = sound.selectedSoundVariant.filename
+        let soundName = sound.name
+
+        audioLoadingTask = Task { [weak self] in
+            await self?.prepareSound(fileName: filename)
+            // Only mark as loaded if we actually have a player
+            if self?.player != nil {
+                self?.isAudioLoaded = true
+                print("✅ \(soundName) - AUDIO LOADED: Player available")
+            } else {
+                self?.isAudioLoaded = false
+                print("❌ \(soundName) - AUDIO LOAD FAILED: No player created")
+                TelemetryService.captureNonFatal(
+                    message: "SoundViewModel.loadAudioAsync completed without player",
+                    level: .error,
+                    extra: [
+                        "soundName": soundName,
+                        "variant": filename
+                    ]
+                )
             }
+            self?.audioLoadingTask = nil
         }
     }
     

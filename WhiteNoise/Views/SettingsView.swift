@@ -199,13 +199,14 @@ struct SettingsSection<Content: View>: View {
 struct MailView: UIViewControllerRepresentable {
     @Binding var result: Result<MFMailComposeResult, Error>?
 
-    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+    class Coordinator: NSObject, @preconcurrency MFMailComposeViewControllerDelegate {
         @Binding var result: Result<MFMailComposeResult, Error>?
 
         init(result: Binding<Result<MFMailComposeResult, Error>?>) {
             _result = result
         }
 
+        @MainActor
         func mailComposeController(_ controller: MFMailComposeViewController,
                                  didFinishWith result: MFMailComposeResult,
                                  error: Error?) {

@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-#if os(iOS)
-import UIKit
-#endif
 
 // Note: SF Symbols can be used with the SystemImage enum for type-safe access:
 // Example: Image(system: .cloudRain) instead of Image(systemName: "cloud.rain")
@@ -16,22 +13,17 @@ import UIKit
 struct SoundView: View {
 
     @ObservedObject var viewModel: SoundViewModel
+    let layout: AdaptiveLayout
     private let hapticService: HapticFeedbackServiceProtocol = HapticFeedbackService.shared
-#if os(iOS)
-    private var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
-#endif
-    
+
     var body: some View {
         ZStack {
-            // Background with gradient - using Rectangle instead of RoundedRectangle
             // Background with gradient - using Rectangle instead of RoundedRectangle
             Rectangle()
                 .fill(Color(UIColor.secondarySystemBackground))
                 .overlay(LinearGradient.glassEffect.opacity(0.5)) // Subtle glass overlay
                 .cornerRadius(AppConstants.UI.soundCardCornerRadius)
-            
+
             GeometryReader(content: { geometry in
                 ZStack(content: {
                     // MARK: Slider - without rounded corners on the track
@@ -39,7 +31,7 @@ struct SoundView: View {
                         // Background track
                         Rectangle()
                             .fill(Color.primary.opacity(0.05))
-                        
+
                         // Filled track
                         Rectangle()
                             .fill(LinearGradient.secondaryGradient.opacity(AppConstants.UI.volumeSliderBackgroundOpacity))
@@ -57,7 +49,7 @@ struct SoundView: View {
                     guard viewModel.isVolumeInteractive else { return }
                     viewModel.sliderWidth = max(0, min(location.x, viewModel.maxWidth))
                     viewModel.lastDragValue = viewModel.sliderWidth
-                    
+
                     let progress = viewModel.sliderWidth / viewModel.maxWidth
                     viewModel.volume = progress <= 1.0 ? Float(progress) : 1.0
                 }
@@ -73,18 +65,18 @@ struct SoundView: View {
             })
             .clipShape(RoundedRectangle(cornerRadius: 20)) // Clip the entire GeometryReader
             .allowsHitTesting(viewModel.isVolumeInteractive)
-            
+
             VStack(spacing: cardContentSpacing) {
                 // Icon with background
                 ZStack {
                     Circle()
                         .fill(Color.primary.opacity(0.1))
-                        .frame(width: AppConstants.UI.soundIconSize, height: AppConstants.UI.soundIconSize)
-                    
+                        .frame(width: layout.soundIconSize, height: layout.soundIconSize)
+
                     switch viewModel.sound.icon {
                     case .system(let systemName):
                         Image(systemName: systemName)
-                            .font(.system(size: AppConstants.UI.soundNameFontSize))
+                            .font(.system(size: layout.soundNameFontSize))
                             .foregroundColor(.primary)
                             .allowsHitTesting(false)
                     case .custom(let name):
@@ -94,19 +86,19 @@ struct SoundView: View {
                         Image(name)
                             .resizable()
                             .frame(
-                                width: AppConstants.UI.soundCardIconSize,
-                                height: AppConstants.UI.soundCardIconSize
+                                width: layout.soundCardIconSize,
+                                height: layout.soundCardIconSize
                             )
                             .allowsHitTesting(false)
                     }
                 }
-                
+
                 VStack(spacing: textStackSpacing) {
                     Text(viewModel.sound.name)
-                        .font(.system(size: AppConstants.UI.soundTitleFontSize, weight: .semibold))
+                        .font(.system(size: layout.soundTitleFontSize, weight: .semibold))
                         .foregroundColor(.primary)
                         .allowsHitTesting(false)
-                    
+
                     if viewModel.sound.soundVariants.count > 1 {
                         Menu {
                             ForEach(viewModel.sound.soundVariants) { variant in
@@ -115,7 +107,7 @@ struct SoundView: View {
                                     hapticService.impact(style: .light)
                                 }) {
                                     Text(variant.name)
-                                        .font(.system(size: AppConstants.UI.soundVariantFontSize))
+                                        .font(.system(size: layout.soundVariantFontSize))
                                         .foregroundColor(.primary.opacity(0.8))
                                         .lineLimit(1)
                                 }
@@ -123,18 +115,18 @@ struct SoundView: View {
                         } label: {
                             HStack(spacing: 4) {
                                 Text(viewModel.selectedSoundVariant.name)
-                                    .font(.system(size: AppConstants.UI.soundVariantFontSize))
+                                    .font(.system(size: layout.soundVariantFontSize))
                                     .foregroundColor(.primary.opacity(0.8))
                                     .lineLimit(1)
-                                
+
                                 Image(systemName: "chevron.down")
-                                    .font(.system(size: AppConstants.UI.soundVariantChevronSize))
+                                    .font(.system(size: layout.soundVariantChevronSize))
                                     .foregroundColor(.primary.opacity(0.6))
                             }
-                            .padding(.horizontal, AppConstants.UI.soundVariantPaddingHorizontal)
-                            .padding(.vertical, AppConstants.UI.soundVariantPaddingVertical)
+                            .padding(.horizontal, layout.soundVariantPaddingHorizontal)
+                            .padding(.vertical, layout.soundVariantPaddingVertical)
                             .background(Color.primary.opacity(0.1))
-                            .cornerRadius(AppConstants.UI.soundVariantCornerRadius)
+                            .cornerRadius(layout.soundVariantCornerRadius)
                         }
                         .gesture(
                             DragGesture(minimumDistance: 0)
@@ -148,25 +140,17 @@ struct SoundView: View {
                     }
                 }
             }
-            .padding(.vertical, AppConstants.UI.soundCardVerticalPadding)
+            .padding(.vertical, layout.soundCardVerticalPadding)
         }
     }
 }
 
 private extension SoundView {
     var cardContentSpacing: CGFloat {
-#if os(iOS)
-        return isPad ? 20 : 12
-#else
-        return 12
-#endif
+        layout.isRegular ? 20 : 12
     }
-    
+
     var textStackSpacing: CGFloat {
-#if os(iOS)
-        return isPad ? 10 : 6
-#else
-        return 6
-#endif
+        layout.isRegular ? 10 : 6
     }
 }
