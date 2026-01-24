@@ -248,7 +248,10 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
                 if !strongSelf.actuallyPlayingAudio {
                     print("📡 WhiteNoisesVM - REMOTE: Starting playback")
                     strongSelf.isPlaying = true
-                    Task {
+
+                    // Cancel existing task and track new one
+                    strongSelf.playPauseTask?.cancel()
+                    strongSelf.playPauseTask = Task {
                         await strongSelf.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
                     }
 
@@ -276,7 +279,10 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
                 if strongSelf.actuallyPlayingAudio {
                     print("📡 WhiteNoisesVM - REMOTE: Pausing playback")
                     strongSelf.isPlaying = false
-                    Task {
+
+                    // Cancel existing task and track new one
+                    strongSelf.playPauseTask?.cancel()
+                    strongSelf.playPauseTask = Task {
                         await strongSelf.pauseSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
                     }
 
@@ -347,17 +353,22 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         }
         
         // Preload audio for favorite sounds after UI is shown
+        // Load sequentially to avoid disk I/O contention - faster than parallel on flash storage
         Task.detached(priority: .background) { [weak self] in
-            // Wait a bit for UI to settle
+            // Wait for UI to settle
             try? await Task.sleep(nanoseconds: 100_000_000) // 100ms
-            
+
             guard let self = self else { return }
-            
-            // Preload sounds with volume > 0 in background
-            await MainActor.run {
-                for soundViewModel in self.soundsViewModels where soundViewModel.sound.volume > 0 {
-                    soundViewModel.loadAudioAsync()
-                }
+
+            // Get sounds to preload
+            let soundsToPreload = await MainActor.run {
+                self.soundsViewModels.filter { $0.sound.volume > 0 }
+            }
+
+            // Load sounds one at a time - each completes before next starts
+            // This avoids I/O contention and is faster than parallel loading
+            for soundViewModel in soundsToPreload {
+                await soundViewModel.preloadAudio()
             }
         }
     }

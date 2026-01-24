@@ -50,11 +50,11 @@ struct TimerPickerView: View {
 
     var body: some View {
         ZStack {
-            // Dimmed background - delayed fade in so edges aren't visible during container scale
+            // Dimmed background - slightly delayed fade in, animated fade out
             Color.black
                 .opacity(showBackground ? (colorScheme == .dark ? 0.7 : 0.5) : 0)
                 .ignoresSafeArea()
-                .animation(.easeInOut(duration: 0.8), value: showBackground)
+                .animation(.easeInOut(duration: showBackground ? 0.4 : 0.25), value: showBackground)
                 .onTapGesture {
                     dismissPicker()
                 }
@@ -76,14 +76,13 @@ struct TimerPickerView: View {
             .opacity(isPresented ? 1 : 0)
             .animation(.spring(response: 0.35, dampingFraction: 0.8), value: isPresented)
         }
-        .onChange(of: isPresented) { _, newValue in
-            if newValue {
-                // Delay background fade-in until container has scaled up
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    showBackground = true
-                }
+        .task(id: isPresented) {
+            if isPresented {
+                // Short delay for container to start scaling, then fade in background
+                try? await Task.sleep(nanoseconds: 150_000_000) // 0.15 seconds
+                showBackground = true
             } else {
-                // Fade out background immediately when dismissing
+                // Animate background fade out
                 showBackground = false
             }
         }

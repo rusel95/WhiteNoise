@@ -69,7 +69,7 @@ struct WhiteNoisesView: View {
                         }
                     }
                     .padding(.horizontal, layout.gridHorizontalPadding)
-                    .padding(.bottom, layout.bottomControllerPadding + 20)
+                    .padding(.bottom, layout.bottomControllerPadding + layout.gridBottomExtraPadding)
                 }
             }
             .frame(maxWidth: .infinity)
@@ -169,18 +169,17 @@ struct WhiteNoisesView: View {
 
     // MARK: - Timer Picker Overlay
 
+    @ViewBuilder
     private var timerPickerOverlay: some View {
-        ZStack {
-            if showTimerPicker {
-                TimerPickerView(
-                    timerMode: $viewModel.timerMode,
-                    isPresented: $showTimerPicker
-                )
-                .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                .zIndex(999)
-            }
+        if showTimerPicker {
+            TimerPickerView(
+                timerMode: $viewModel.timerMode,
+                isPresented: $showTimerPicker
+            )
+            .transition(.opacity.combined(with: .scale(scale: 0.95)))
+            .zIndex(999)
+            .animation(.spring(response: 0.35, dampingFraction: 0.8), value: showTimerPicker)
         }
-        .animation(.spring(response: 0.35, dampingFraction: 0.8), value: showTimerPicker)
     }
 }
 

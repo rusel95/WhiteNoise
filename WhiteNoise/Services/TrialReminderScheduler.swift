@@ -95,10 +95,12 @@ final class TrialReminderScheduler {
 
         let identifier = reminderIdentifier
         let dateKey = scheduledDateKey
-        Task { [weak self] in
+        let notificationCenter = self.notificationCenter
+        let defaults = self.defaults
+        Task {
             do {
-                try await self?.notificationCenter.add(request)
-                self?.defaults.set(date, forKey: dateKey)
+                try await notificationCenter.add(request)
+                defaults.set(date, forKey: dateKey)
             } catch {
                 TelemetryService.captureNonFatal(
                     error: error,

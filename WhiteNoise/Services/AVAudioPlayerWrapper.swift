@@ -17,7 +17,9 @@ final class AVAudioPlayerWrapper: AudioPlayerProtocol {
         self.player = player
         self.player.numberOfLoops = AppConstants.Audio.loopForever
     }
-    
+
+    deinit {}
+
     var isPlaying: Bool {
         player.isPlaying
     }
@@ -51,6 +53,8 @@ final class AVAudioPlayerWrapper: AudioPlayerProtocol {
 /// Factory for creating AVAudioPlayer instances
 @MainActor
 final class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
+    deinit {}
+
     func createPlayer(for filename: String) async throws -> AudioPlayerProtocol {
         // Try multiple audio formats in order of preference
         // Note: FLAC is not supported by AVAudioPlayer on iOS
@@ -81,11 +85,12 @@ final class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
         }
 
         // Load audio on background thread, then create wrapper on MainActor
+        // Note: We skip prepareToPlay() here for faster loading.
+        // Audio will buffer on first play() call instead.
         let player = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<AVAudioPlayer, Error>) in
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
                     let avPlayer = try AVAudioPlayer(contentsOf: audioURL)
-                    avPlayer.prepareToPlay()
                     continuation.resume(returning: avPlayer)
                 } catch {
                     continuation.resume(throwing: error)

@@ -64,6 +64,7 @@ enum AppConstants {
             static let soundGridSpacing: CGFloat = 12
             static let gridHorizontalPadding: CGFloat = 16
             static let bottomControllerPadding: CGFloat = 100
+            static let gridBottomExtraPadding: CGFloat = 20
             static let timeLabelFontSize: CGFloat = 9
         }
 
@@ -93,6 +94,7 @@ enum AppConstants {
             static let soundGridSpacing: CGFloat = 18
             static let gridHorizontalPadding: CGFloat = 44
             static let bottomControllerPadding: CGFloat = 140
+            static let gridBottomExtraPadding: CGFloat = 30
             static let timeLabelFontSize: CGFloat = 14
         }
     }
@@ -213,6 +215,10 @@ struct AdaptiveLayout {
 
     var bottomControllerPadding: CGFloat {
         isRegular ? AppConstants.UI.Regular.bottomControllerPadding : AppConstants.UI.Compact.bottomControllerPadding
+    }
+
+    var gridBottomExtraPadding: CGFloat {
+        isRegular ? AppConstants.UI.Regular.gridBottomExtraPadding : AppConstants.UI.Compact.gridBottomExtraPadding
     }
 
     var controlTrayMaxWidth: CGFloat {

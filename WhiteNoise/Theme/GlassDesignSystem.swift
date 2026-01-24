@@ -295,7 +295,18 @@ struct GlassIconButtonStyle: ButtonStyle {
 
 struct AnimatedGlassBackground: View {
     @Environment(\.colorScheme) private var colorScheme
-    @State private var animateOrbs = false
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
+
+    // Independent random positions for each orb (normalized 0-1 range)
+    @State private var orb1Position: CGPoint = CGPoint(x: 0.2, y: 0.2)
+    @State private var orb2Position: CGPoint = CGPoint(x: 0.7, y: 0.6)
+    @State private var orb3Position: CGPoint = CGPoint(x: 0.5, y: 0.4)
+
+    // Separate tasks for each orb to avoid TaskGroup isolation warnings
+    @State private var orb1Task: Task<Void, Never>?
+    @State private var orb2Task: Task<Void, Never>?
+    @State private var orb3Task: Task<Void, Never>?
 
     var primaryColor: Color = Color(hex: "4A90D9")
     var secondaryColor: Color = Color(hex: "6BA3E0")
@@ -311,16 +322,16 @@ struct AnimatedGlassBackground: View {
                 endPoint: .bottom
             )
 
-            // Animated primary orb
+            // Animated orbs
             GeometryReader { geometry in
                 ZStack {
-                    // Primary orb (top-leading)
+                    // Primary orb - large, moves chaotically
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
-                                    primaryColor.opacity(colorScheme == .dark ? 0.35 : 0.20),
-                                    primaryColor.opacity(colorScheme == .dark ? 0.15 : 0.08),
+                                    primaryColor.opacity(colorScheme == .dark ? 0.45 : 0.35),
+                                    primaryColor.opacity(colorScheme == .dark ? 0.20 : 0.15),
                                     Color.clear
                                 ],
                                 center: .center,
@@ -328,20 +339,20 @@ struct AnimatedGlassBackground: View {
                                 endRadius: geometry.size.width * 0.5
                             )
                         )
-                        .frame(width: geometry.size.width * 0.9)
+                        .frame(width: geometry.size.width * 1.0)
                         .offset(
-                            x: animateOrbs ? -geometry.size.width * 0.1 : -geometry.size.width * 0.3,
-                            y: animateOrbs ? -geometry.size.height * 0.2 : -geometry.size.height * 0.0
+                            x: (orb1Position.x - 0.5) * geometry.size.width,
+                            y: (orb1Position.y - 0.5) * geometry.size.height
                         )
-                        .blur(radius: 35)
+                        .blur(radius: colorScheme == .dark ? 40 : 50)
 
-                    // Secondary orb (bottom-trailing)
+                    // Secondary orb - medium, moves chaotically
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
-                                    secondaryColor.opacity(colorScheme == .dark ? 0.30 : 0.18),
-                                    secondaryColor.opacity(colorScheme == .dark ? 0.12 : 0.06),
+                                    secondaryColor.opacity(colorScheme == .dark ? 0.40 : 0.30),
+                                    secondaryColor.opacity(colorScheme == .dark ? 0.18 : 0.12),
                                     Color.clear
                                 ],
                                 center: .center,
@@ -349,44 +360,121 @@ struct AnimatedGlassBackground: View {
                                 endRadius: geometry.size.width * 0.45
                             )
                         )
-                        .frame(width: geometry.size.width * 0.8)
+                        .frame(width: geometry.size.width * 0.9)
                         .offset(
-                            x: animateOrbs ? geometry.size.width * 0.15 : geometry.size.width * 0.35,
-                            y: animateOrbs ? geometry.size.height * 0.3 : geometry.size.height * 0.1
+                            x: (orb2Position.x - 0.5) * geometry.size.width,
+                            y: (orb2Position.y - 0.5) * geometry.size.height
                         )
-                        .blur(radius: 45)
+                        .blur(radius: colorScheme == .dark ? 50 : 60)
 
-                    // Tertiary subtle orb
+                    // Tertiary orb - smaller, moves chaotically
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
-                                    primaryColor.opacity(colorScheme == .dark ? 0.22 : 0.12),
+                                    primaryColor.opacity(colorScheme == .dark ? 0.30 : 0.22),
+                                    secondaryColor.opacity(colorScheme == .dark ? 0.12 : 0.08),
                                     Color.clear
                                 ],
                                 center: .center,
                                 startRadius: 0,
-                                endRadius: geometry.size.width * 0.3
+                                endRadius: geometry.size.width * 0.35
                             )
                         )
-                        .frame(width: geometry.size.width * 0.5)
+                        .frame(width: geometry.size.width * 0.6)
                         .offset(
-                            x: animateOrbs ? geometry.size.width * 0.15 : -geometry.size.width * 0.1,
-                            y: animateOrbs ? geometry.size.height * 0.55 : geometry.size.height * 0.4
+                            x: (orb3Position.x - 0.5) * geometry.size.width,
+                            y: (orb3Position.y - 0.5) * geometry.size.height
                         )
-                        .blur(radius: 25)
+                        .blur(radius: colorScheme == .dark ? 30 : 40)
                 }
             }
         }
         .ignoresSafeArea()
         .onAppear {
-            withAnimation(
-                .easeInOut(duration: 6)
-                .repeatForever(autoreverses: true)
-            ) {
-                animateOrbs = true
+            startAnimationIfNeeded()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            // Pause animation when app is not active to conserve battery
+            if newPhase == .active {
+                startAnimationIfNeeded()
+            } else {
+                stopAnimation()
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .NSProcessInfoPowerStateDidChange)) { _ in
+            isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
+            if isLowPowerMode {
+                stopAnimation()
+            } else if scenePhase == .active {
+                startAnimationIfNeeded()
+            }
+        }
+    }
+
+    private func stopAnimation() {
+        orb1Task?.cancel()
+        orb2Task?.cancel()
+        orb3Task?.cancel()
+        orb1Task = nil
+        orb2Task = nil
+        orb3Task = nil
+    }
+
+    private func startAnimationIfNeeded() {
+        guard !isLowPowerMode else { return }
+
+        // Start orb 1 animation if not already running
+        if orb1Task == nil {
+            orb1Task = Task { @MainActor in
+                while !Task.isCancelled {
+                    let target = randomPosition()
+                    let duration = Double.random(in: 3.0...6.0)
+                    withAnimation(.easeInOut(duration: duration)) {
+                        orb1Position = target
+                    }
+                    try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+                }
+            }
+        }
+
+        // Start orb 2 animation if not already running (with slight delay)
+        if orb2Task == nil {
+            orb2Task = Task { @MainActor in
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                while !Task.isCancelled {
+                    let target = randomPosition()
+                    let duration = Double.random(in: 4.0...7.0)
+                    withAnimation(.easeInOut(duration: duration)) {
+                        orb2Position = target
+                    }
+                    try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+                }
+            }
+        }
+
+        // Start orb 3 animation if not already running (with slight delay)
+        if orb3Task == nil {
+            orb3Task = Task { @MainActor in
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                while !Task.isCancelled {
+                    let target = randomPosition()
+                    let duration = Double.random(in: 2.5...5.5)
+                    withAnimation(.easeInOut(duration: duration)) {
+                        orb3Position = target
+                    }
+                    try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+                }
+            }
+        }
+    }
+
+    private func randomPosition() -> CGPoint {
+        // Generate random positions within bounds (0.1 to 0.9 to keep orbs mostly visible)
+        CGPoint(
+            x: Double.random(in: 0.1...0.9),
+            y: Double.random(in: 0.1...0.9)
+        )
     }
 }
 

@@ -95,13 +95,13 @@ struct SoundView: View {
                 viewModel.maxWidth = newWidth
             }
             .onTapGesture { location in
-                guard viewModel.isVolumeInteractive else { return }
+                guard viewModel.isVolumeInteractive, viewModel.maxWidth > 0 else { return }
                 hapticService.impact(style: .light)
                 viewModel.sliderWidth = max(0, min(location.x, viewModel.maxWidth))
                 viewModel.lastDragValue = viewModel.sliderWidth
 
                 let progress = viewModel.sliderWidth / viewModel.maxWidth
-                viewModel.volume = progress <= 1.0 ? Float(progress) : 1.0
+                viewModel.volume = Float(progress)
             }
             .gesture(
                 DragGesture(minimumDistance: 0)

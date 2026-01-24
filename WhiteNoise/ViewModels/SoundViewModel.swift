@@ -86,15 +86,14 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
         didSet {
             guard maxWidth > 0 else { return }
             if shouldRunInitialVolumeAnimation {
-                sliderWidth = 0
-                lastDragValue = 0
-            } else if !isRunningInitialVolumeAnimation {
+                runInitialVolumeAnimationIfNeeded()
+            } else {
+                // Handle size changes (e.g., rotation) after initial load
                 withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
                     sliderWidth = CGFloat(volume) * maxWidth
                 }
                 lastDragValue = sliderWidth
             }
-            runInitialVolumeAnimationIfNeeded()
         }
     }
     
@@ -102,14 +101,14 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
         didSet {
             guard maxHeight > 0 else { return }
             if shouldRunInitialVolumeAnimation {
-                sliderHeight = 0
-            } else if !isRunningInitialVolumeAnimation {
+                runInitialVolumeAnimationIfNeeded()
+            } else {
+                // Handle size changes (e.g., rotation) after initial load
                 withAnimation(.spring(duration: AppConstants.Animation.springDuration)) {
                     sliderHeight = CGFloat(volume) * maxHeight
                 }
                 lastDragValue = sliderHeight
             }
-            runInitialVolumeAnimationIfNeeded()
         }
     }
     
@@ -124,10 +123,9 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
     private var fadeTask: Task<Void, Never>?
     private var isAudioLoaded = false
     private var audioLoadingTask: Task<Void, Never>?
-    private var initialVolumeAnimationTask: Task<Void, Never>?
     private var volumePersistenceTask: Task<Void, Never>? // CONCURRENCY: Track volume save tasks
+    private var initialVolumeAnimationTask: Task<Void, Never>?
     private var shouldRunInitialVolumeAnimation = true
-    private var isRunningInitialVolumeAnimation = false
     
     // MARK: - Initialization
     init(
@@ -154,8 +152,8 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
     deinit {
         fadeTask?.cancel()
         audioLoadingTask?.cancel()
-        initialVolumeAnimationTask?.cancel()
         volumePersistenceTask?.cancel() // CONCURRENCY: Cancel pending volume saves
+        initialVolumeAnimationTask?.cancel()
     }
     
     // MARK: - Public Methods
@@ -213,31 +211,32 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
             return
         }
 
-        isRunningInitialVolumeAnimation = true
-        isVolumeInteractive = false
+        // Start from 0
         sliderWidth = 0
         sliderHeight = 0
-        lastDragValue = 0
+        isVolumeInteractive = false
+
+        // Stagger animations with small random delay to avoid all cards animating at once
+        let randomDelay = UInt64.random(in: 0...150_000_000) // 0-150ms
 
         initialVolumeAnimationTask?.cancel()
         initialVolumeAnimationTask = Task { [weak self] in
             guard let self = self else { return }
 
-            // Small delay to let the view render at 0 first
-            try? await Task.sleep(nanoseconds: 50_000_000) // 50ms
-
+            try? await Task.sleep(nanoseconds: randomDelay)
             guard !Task.isCancelled else { return }
 
-            // Just set the target values - let the view's animation handle the transition
-            self.sliderWidth = targetWidth
-            self.sliderHeight = targetHeight
+            // Animate to target values
+            withAnimation(.easeOut(duration: 0.5)) {
+                self.sliderWidth = targetWidth
+                self.sliderHeight = targetHeight
+            }
 
             if self.maxWidth > 0 {
                 self.lastDragValue = self.sliderWidth
             } else {
                 self.lastDragValue = self.sliderHeight
             }
-            self.isRunningInitialVolumeAnimation = false
             self.isVolumeInteractive = true
             self.initialVolumeAnimationTask = nil
         }
@@ -307,12 +306,26 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
                 print("🎵 SoundVM.\(sound.name) - PLAY: Starting immediate playback at volume \(sound.volume)")
                 let success = player.play()
                 print("\(success ? "✅" : "❌") SoundVM.\(sound.name) - PLAY \(success ? "SUCCESS" : "FAILED")")
+
+                // BACKGROUND FIX: If play() fails, the player may have been invalidated after long background
+                // Reload the audio and try again
+                if !success {
+                    print("⚠️ SoundVM.\(sound.name) - PLAY FAILED: Reloading audio and retrying...")
+                    self.player = nil
+                    isAudioLoaded = false
+                    await ensureAudioLoaded()
+                    if let newPlayer = self.player {
+                        newPlayer.volume = sound.volume
+                        let retrySuccess = newPlayer.play()
+                        print("\(retrySuccess ? "✅" : "❌") SoundVM.\(sound.name) - RETRY PLAY \(retrySuccess ? "SUCCESS" : "FAILED")")
+                    }
+                }
             } else {
                 print("🎵 SoundVM.\(sound.name) - ALREADY PLAYING: Skipping play call")
             }
         }
-        
-        print("✅ SoundVM.\(sound.name).playSound - COMPLETED: isPlaying=\(player.isPlaying)")
+
+        print("✅ SoundVM.\(sound.name).playSound - COMPLETED: isPlaying=\(self.player?.isPlaying ?? false)")
     }
     
     /// Pauses playback of the sound with an optional fade-out effect.
@@ -361,7 +374,14 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
         print("✅ SoundVM.\(sound.name).pauseSound - COMPLETED: isPlaying=\(player.isPlaying)")
     }
     
-    // MARK: - Private Methods
+    // MARK: - Audio Loading Methods
+
+    /// Preloads audio for this sound and waits for completion.
+    /// Use this for sequential preloading to avoid I/O contention.
+    func preloadAudio() async {
+        await ensureAudioLoaded()
+    }
+
     func loadAudioAsync() {
         guard !isAudioLoaded && audioLoadingTask == nil else { return }
 
@@ -371,6 +391,10 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
 
         audioLoadingTask = Task { [weak self] in
             await self?.prepareSound(fileName: filename)
+
+            // Check cancellation after async work to avoid stale state modifications
+            guard !Task.isCancelled else { return }
+
             // Only mark as loaded if we actually have a player
             if self?.player != nil {
                 self?.isAudioLoaded = true
@@ -393,10 +417,19 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
     
     private func ensureAudioLoaded() async {
         // Check if we already have a working player
-        if player != nil && isAudioLoaded {
+        // Also verify the player's duration is valid (> 0) as a health check
+        // after long background periods the player might be invalidated
+        if let existingPlayer = player, isAudioLoaded, existingPlayer.duration > 0 {
             return
         }
-        
+
+        // Player is missing or invalid - reload
+        if player != nil && (player?.duration ?? 0) <= 0 {
+            print("⚠️ SoundVM.\(sound.name) - PLAYER INVALIDATED: Reloading audio...")
+            player = nil
+            isAudioLoaded = false
+        }
+
         if !isAudioLoaded {
             loadAudioAsync()
             // Wait for audio to load

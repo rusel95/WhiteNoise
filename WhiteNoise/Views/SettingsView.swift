@@ -202,6 +202,7 @@ struct SettingsView: View {
 struct MailView: UIViewControllerRepresentable {
     @Binding var result: Result<MFMailComposeResult, Error>?
 
+    @MainActor
     class Coordinator: NSObject, @preconcurrency MFMailComposeViewControllerDelegate {
         @Binding var result: Result<MFMailComposeResult, Error>?
 
@@ -209,7 +210,8 @@ struct MailView: UIViewControllerRepresentable {
             _result = result
         }
 
-        @MainActor
+        deinit {}
+
         func mailComposeController(
             _ controller: MFMailComposeViewController,
             didFinishWith result: MFMailComposeResult,
