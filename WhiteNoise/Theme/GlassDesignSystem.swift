@@ -298,10 +298,10 @@ struct AnimatedGlassBackground: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
 
-    // Independent random positions for each orb (normalized 0-1 range)
-    @State private var orb1Position: CGPoint = CGPoint(x: 0.2, y: 0.2)
-    @State private var orb2Position: CGPoint = CGPoint(x: 0.7, y: 0.6)
-    @State private var orb3Position: CGPoint = CGPoint(x: 0.5, y: 0.4)
+    // Independent random positions for each orb (normalized 0-1 range, spread across full screen)
+    @State private var orb1Position: CGPoint = CGPoint(x: 0.2, y: 0.3)
+    @State private var orb2Position: CGPoint = CGPoint(x: 0.8, y: 0.85)
+    @State private var orb3Position: CGPoint = CGPoint(x: 0.5, y: 0.6)
 
     // Separate tasks for each orb to avoid TaskGroup isolation warnings
     @State private var orb1Task: Task<Void, Never>?
@@ -473,10 +473,11 @@ struct AnimatedGlassBackground: View {
     }
 
     private func randomPosition() -> CGPoint {
-        // Generate random positions within bounds (0.1 to 0.9 to keep orbs mostly visible)
+        // Generate random positions across the full screen (0 to 1 range)
+        // Orbs can extend beyond visible bounds due to their large size and blur
         CGPoint(
-            x: Double.random(in: 0.1...0.9),
-            y: Double.random(in: 0.1...0.9)
+            x: Double.random(in: 0.0...1.0),
+            y: Double.random(in: 0.0...1.0)
         )
     }
 }
