@@ -410,6 +410,9 @@ struct AnimatedGlassBackground: View {
                 startAnimationIfNeeded()
             }
         }
+        .onDisappear {
+            stopAnimation()
+        }
     }
 
     private func stopAnimation() {

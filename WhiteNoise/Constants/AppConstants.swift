@@ -56,9 +56,13 @@ enum AppConstants {
             static let controlContainerHorizontalPadding: CGFloat = 80
             static let controlContainerVerticalPadding: CGFloat = 12
             static let controlStackSpacing: CGFloat = 20
-            static let controlTrayCornerRadius: CGFloat = 25
+            static let controlTrayCornerRadius: CGFloat = 30
             static let controlTrayHorizontalInsets: CGFloat = 12
             static let controlTrayBottomPadding: CGFloat = 20
+            static let controlTraySpacing: CGFloat = 16
+            static let controlTrayHorizontalPadding: CGFloat = 20
+            static let controlTrayVerticalPadding: CGFloat = 16
+            static let controlTrayOpacity: Double = 0.65
             static let controlButtonCornerRadius: CGFloat = 16
             static let soundCardVerticalPadding: CGFloat = 12
             static let soundGridSpacing: CGFloat = 12
@@ -89,6 +93,10 @@ enum AppConstants {
             static let controlTrayCornerRadius: CGFloat = 36
             static let controlTrayHorizontalInsets: CGFloat = 180
             static let controlTrayBottomPadding: CGFloat = 40
+            static let controlTraySpacing: CGFloat = 20
+            static let controlTrayHorizontalPadding: CGFloat = 24
+            static let controlTrayVerticalPadding: CGFloat = 20
+            static let controlTrayOpacity: Double = 0.65
             static let controlButtonCornerRadius: CGFloat = 32
             static let soundCardVerticalPadding: CGFloat = 28
             static let soundGridSpacing: CGFloat = 18
@@ -116,7 +124,12 @@ struct AdaptiveLayout {
     let isRegular: Bool
 
     init(horizontalSizeClass: UserInterfaceSizeClass?) {
+        #if os(macOS)
+        // macOS doesn't provide horizontalSizeClass, use regular for larger screen
+        self.isRegular = horizontalSizeClass == .regular || horizontalSizeClass == nil
+        #else
         self.isRegular = horizontalSizeClass == .regular
+        #endif
     }
 
     // MARK: - Adaptive Properties
@@ -195,6 +208,22 @@ struct AdaptiveLayout {
 
     var controlTrayBottomPadding: CGFloat {
         isRegular ? AppConstants.UI.Regular.controlTrayBottomPadding : AppConstants.UI.Compact.controlTrayBottomPadding
+    }
+
+    var controlTraySpacing: CGFloat {
+        isRegular ? AppConstants.UI.Regular.controlTraySpacing : AppConstants.UI.Compact.controlTraySpacing
+    }
+
+    var controlTrayHorizontalPadding: CGFloat {
+        isRegular ? AppConstants.UI.Regular.controlTrayHorizontalPadding : AppConstants.UI.Compact.controlTrayHorizontalPadding
+    }
+
+    var controlTrayVerticalPadding: CGFloat {
+        isRegular ? AppConstants.UI.Regular.controlTrayVerticalPadding : AppConstants.UI.Compact.controlTrayVerticalPadding
+    }
+
+    var controlTrayOpacity: Double {
+        isRegular ? AppConstants.UI.Regular.controlTrayOpacity : AppConstants.UI.Compact.controlTrayOpacity
     }
 
     var controlButtonCornerRadius: CGFloat {

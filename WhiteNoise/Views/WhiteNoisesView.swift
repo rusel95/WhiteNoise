@@ -90,7 +90,7 @@ struct WhiteNoisesView: View {
     // MARK: - Glass Control Tray
 
     private var glassControlTray: some View {
-        HStack(spacing: layout.isRegular ? 20 : 16) {
+        HStack(spacing: layout.controlTraySpacing) {
             // Timer button (left)
             timerButton
 
@@ -100,9 +100,9 @@ struct WhiteNoisesView: View {
             // Settings button (right)
             settingsButton
         }
-        .padding(.horizontal, layout.isRegular ? 24 : 20)
-        .padding(.vertical, layout.isRegular ? 20 : 16)
-        .glassCard(cornerRadius: layout.isRegular ? 36 : 30, opacity: 0.65)
+        .padding(.horizontal, layout.controlTrayHorizontalPadding)
+        .padding(.vertical, layout.controlTrayVerticalPadding)
+        .glassCard(cornerRadius: layout.controlTrayCornerRadius, opacity: layout.controlTrayOpacity)
         .padding(.horizontal, layout.gridHorizontalPadding)
         .padding(.bottom, layout.controlTrayBottomPadding)
     }

@@ -221,6 +221,7 @@ struct SoundView: View {
                     )
             }
         }
+        // Allow volume slider drag gestures to continue even when starting on the variant selector
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { value in
