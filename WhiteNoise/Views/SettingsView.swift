@@ -82,6 +82,8 @@ struct SettingsView: View {
                 }
             }
         }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
         .sheet(isPresented: $showMailView) {
             MailView(result: $result)
         }

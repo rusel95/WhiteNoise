@@ -38,13 +38,15 @@ This app now supports **20 languages** using native Xcode String Catalogs (`.xcs
 All timer mode display texts now use localization:
 ```swift
 case .off: return String(localized: "Off")
-case .oneMinute: return String(localized: "1 minute")
+case .fiveMinutes: return String(localized: "5 minutes")
+case .custom(let seconds): // Dynamic formatting for custom durations
 // ... etc
 ```
 
 #### UI Labels (`TimerPickerView.swift`)
 - "Sleep Timer" title
-- "Done" button
+- "Custom Duration" option
+- Duration section headers
 
 #### Sound Names (`SoundConfigurationLoader.swift`)
 All sound names and variant names are localized:

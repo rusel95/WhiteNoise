@@ -84,7 +84,9 @@ struct WhiteNoisesView: View {
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }
-        .overlay(timerPickerOverlay)
+        .sheet(isPresented: $showTimerPicker) {
+            TimerPickerView(timerMode: $viewModel.timerMode)
+        }
     }
 
     // MARK: - Glass Control Tray
@@ -143,16 +145,14 @@ struct WhiteNoisesView: View {
     private var timerButton: some View {
         Button {
             hapticService.impact(style: .light)
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                showTimerPicker = true
-            }
+            showTimerPicker = true
         } label: {
             VStack(spacing: 2) {
                 Image(systemName: "timer")
                     .font(.system(size: layout.isRegular ? 24 : 20, weight: .semibold))
                     .foregroundStyle(theme.textPrimary)
 
-                if viewModel.timerMode != .off {
+                if !viewModel.timerMode.isOff {
                     Text(viewModel.remainingTimerTime)
                         .font(.system(size: layout.isRegular ? 12 : 10, weight: .medium))
                         .foregroundStyle(theme.textSecondary)
@@ -164,23 +164,9 @@ struct WhiteNoisesView: View {
                 height: layout.isRegular ? 64 : 54
             )
         }
-        .buttonStyle(GlassIconButtonStyle(tint: theme.secondary, isActive: viewModel.timerMode != .off))
+        .buttonStyle(GlassIconButtonStyle(tint: theme.secondary, isActive: !viewModel.timerMode.isOff))
     }
 
-    // MARK: - Timer Picker Overlay
-
-    @ViewBuilder
-    private var timerPickerOverlay: some View {
-        if showTimerPicker {
-            TimerPickerView(
-                timerMode: $viewModel.timerMode,
-                isPresented: $showTimerPicker
-            )
-            .transition(.opacity.combined(with: .scale(scale: 0.95)))
-            .zIndex(999)
-            .animation(.spring(response: 0.35, dampingFraction: 0.8), value: showTimerPicker)
-        }
-    }
 }
 
 // MARK: - Button Styles

@@ -37,7 +37,7 @@ class TimerService: ObservableObject, TimerServiceProtocol {
     private var isPaused = false
     
     var hasRemainingTime: Bool {
-        return remainingSeconds > 0 && mode != .off
+        return remainingSeconds > 0 && !mode.isOff
     }
 
     /// Exposes remaining seconds for testing purposes
@@ -239,34 +239,44 @@ class TimerService: ObservableObject, TimerServiceProtocol {
 
 // MARK: - TimerMode
 extension TimerService {
-    enum TimerMode: Int, CaseIterable, Identifiable {
-        case off = 0
-        case oneMinute = 60
-        case twoMinutes = 120
-        case threeMinutes = 180
-        case fiveMinutes = 300
-        case tenMinutes = 600
-        case fifteenMinutes = 900
-        case thirtyMinutes = 1800
-        case sixtyMinutes = 3600
-        case twoHours = 7200
-        case threeHours = 10800
-        case fourHours = 14400
-        case fiveHours = 18000
-        case sixHours = 21600
-        case sevenHours = 25200
-        case eightHours = 28800
-        
-        var id: Int { rawValue }
-        var totalSeconds: Int { rawValue }
-        var minutes: Int { rawValue / 60 }
-        
+    enum TimerMode: Hashable, Identifiable {
+        case off
+        case fiveMinutes
+        case tenMinutes
+        case fifteenMinutes
+        case thirtyMinutes
+        case sixtyMinutes
+        case twoHours
+        case threeHours
+        case fourHours
+        case sixHours
+        case eightHours
+        case custom(seconds: Int)
+
+        var id: Int { totalSeconds }
+
+        var totalSeconds: Int {
+            switch self {
+            case .off: return 0
+            case .fiveMinutes: return 300
+            case .tenMinutes: return 600
+            case .fifteenMinutes: return 900
+            case .thirtyMinutes: return 1800
+            case .sixtyMinutes: return 3600
+            case .twoHours: return 7200
+            case .threeHours: return 10800
+            case .fourHours: return 14400
+            case .sixHours: return 21600
+            case .eightHours: return 28800
+            case .custom(let seconds): return seconds
+            }
+        }
+
+        var minutes: Int { totalSeconds / 60 }
+
         var displayText: String {
             switch self {
             case .off: return String(localized: "Off")
-            case .oneMinute: return String(localized: "1 minute")
-            case .twoMinutes: return String(localized: "2 minutes")
-            case .threeMinutes: return String(localized: "3 minutes")
             case .fiveMinutes: return String(localized: "5 minutes")
             case .tenMinutes: return String(localized: "10 minutes")
             case .fifteenMinutes: return String(localized: "15 minutes")
@@ -275,11 +285,38 @@ extension TimerService {
             case .twoHours: return String(localized: "2 hours")
             case .threeHours: return String(localized: "3 hours")
             case .fourHours: return String(localized: "4 hours")
-            case .fiveHours: return String(localized: "5 hours")
             case .sixHours: return String(localized: "6 hours")
-            case .sevenHours: return String(localized: "7 hours")
             case .eightHours: return String(localized: "8 hours")
+            case .custom(let seconds):
+                let hours = seconds / 3600
+                let mins = (seconds % 3600) / 60
+                if hours == 0 {
+                    return String(localized: "\(mins) min")
+                } else if mins == 0 {
+                    return hours == 1
+                        ? String(localized: "1 hour")
+                        : String(localized: "\(hours) hours")
+                } else {
+                    return String(localized: "\(hours)h \(mins)m")
+                }
             }
+        }
+
+        /// All preset cases (excludes custom)
+        static var presets: [TimerMode] {
+            [.fiveMinutes, .tenMinutes, .fifteenMinutes, .thirtyMinutes,
+             .sixtyMinutes, .twoHours, .threeHours, .fourHours, .sixHours, .eightHours]
+        }
+
+        /// All cases including off (excludes custom)
+        static var allCases: [TimerMode] {
+            [.off] + presets
+        }
+
+        /// Check if this is the off mode
+        var isOff: Bool {
+            if case .off = self { return true }
+            return false
         }
     }
 }

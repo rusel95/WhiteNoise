@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="WhiteNoise/en.lproj/InfoPlist.strings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.2" build-num="17C52"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName" xml:space="preserve">
+        <source>White Sound</source>
+        <target>White Sound</target>
+        <note>Bundle display name</note>
+      </trans-unit>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>WhiteSoundRuslan1234</source>
+        <target>WhiteSoundRuslan1234</target>
+        <note>Bundle name</note>
+      </trans-unit>
+      <trans-unit id="NSHumanReadableCopyright" xml:space="preserve">
+        <source>© 2025 Ruslan Popesku. All rights reserved.</source>
+        <target>© 2025 Ruslan Popesku. All rights reserved.</target>
+        <note>Copyright (human-readable)</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="WhiteNoise/Localizable.xcstrings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.2" build-num="17C52"/>
+    </header>
+    <body>
+      <trans-unit id="" xml:space="preserve">
+        <source/>
+        <target state="new"/>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld" xml:space="preserve">
+        <source>%lld</source>
+        <target state="new">%lld</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld hours" xml:space="preserve">
+        <source>%lld hours</source>
+        <target state="new">%lld hours</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld min" xml:space="preserve">
+        <source>%lld min</source>
+        <target state="new">%lld min</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lldh %lldm" xml:space="preserve">
+        <source>%1$lldh %2$lldm</source>
+        <target state="new">%1$lldh %2$lldm</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="/month" xml:space="preserve">
+        <source>/month</source>
+        <target state="translated">/month</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="1 hour" xml:space="preserve">
+        <source>1 hour</source>
+        <target state="translated">1 hour</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="2 hours" xml:space="preserve">
+        <source>2 hours</source>
+        <target state="translated">2 hours</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="3 hours" xml:space="preserve">
+        <source>3 hours</source>
+        <target state="translated">3 hours</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="4 hours" xml:space="preserve">
+        <source>4 hours</source>
+        <target state="translated">4 hours</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="5 minutes" xml:space="preserve">
+        <source>5 minutes</source>
+        <target state="translated">5 minutes</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="6 hours" xml:space="preserve">
+        <source>6 hours</source>
+        <target state="translated">6 hours</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="8 hours" xml:space="preserve">
+        <source>8 hours</source>
+        <target state="translated">8 hours</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="10 minutes" xml:space="preserve">
+        <source>10 minutes</source>
+        <target state="translated">10 minutes</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="15 minutes" xml:space="preserve">
+        <source>15 minutes</source>
+        <target state="translated">15 minutes</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="30 minutes" xml:space="preserve">
+        <source>30 minutes</source>
+        <target state="translated">30 minutes</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id=":" xml:space="preserve">
+        <source>:</source>
+        <target state="new">:</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Active" xml:space="preserve">
+        <source>Active</source>
+        <target state="translated">Active</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="All Durations" xml:space="preserve">
+        <source>All Durations</source>
+        <target state="new">All Durations</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="App Language" xml:space="preserve">
+        <source>App Language</source>
+        <target state="translated">App Language</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Appearance" xml:space="preserve">
+        <source>Appearance</source>
+        <target state="translated">Appearance</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Back" xml:space="preserve">
+        <source>Back</source>
+        <target state="new">Back</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Custom" xml:space="preserve">
+        <source>Custom</source>
+        <target state="new">Custom</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Custom Duration" xml:space="preserve">
+        <source>Custom Duration</source>
+        <target state="new">Custom Duration</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Dark Mode" xml:space="preserve">
+        <source>Dark Mode</source>
+        <target state="translated">Dark Mode</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Hours" xml:space="preserve">
+        <source>Hours</source>
+        <target state="new">Hours</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Language" xml:space="preserve">
+        <source>Language</source>
+        <target state="translated">Language</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Loading..." xml:space="preserve">
+        <source>Loading...</source>
+        <target state="translated">Loading...</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Minutes" xml:space="preserve">
+        <source>Minutes</source>
+        <target state="new">Minutes</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Off" xml:space="preserve">
+        <source>Off</source>
+        <target state="translated">Off</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Premium Plan" xml:space="preserve">
+        <source>Premium Plan</source>
+        <target state="translated">Premium Plan</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Select Duration" xml:space="preserve">
+        <source>Select Duration</source>
+        <target state="new">Select Duration</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Send Feedback" xml:space="preserve">
+        <source>Send Feedback</source>
+        <target state="translated">Send Feedback</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Set %lld hours" xml:space="preserve">
+        <source>Set %lld hours</source>
+        <target state="new">Set %lld hours</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Set %lld min" xml:space="preserve">
+        <source>Set %lld min</source>
+        <target state="new">Set %lld min</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Set %lldh %lldm" xml:space="preserve">
+        <source>Set %1$lldh %2$lldm</source>
+        <target state="new">Set %1$lldh %2$lldm</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Set 1 hour" xml:space="preserve">
+        <source>Set 1 hour</source>
+        <target state="new">Set 1 hour</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Settings" xml:space="preserve">
+        <source>Settings</source>
+        <target state="translated">Settings</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Sleep Timer" xml:space="preserve">
+        <source>Sleep Timer</source>
+        <target state="translated">Sleep Timer</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Subscription" xml:space="preserve">
+        <source>Subscription</source>
+        <target state="translated">Subscription</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Support" xml:space="preserve">
+        <source>Support</source>
+        <target state="translated">Support</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Turn Off Timer" xml:space="preserve">
+        <source>Turn Off Timer</source>
+        <target state="new">Turn Off Timer</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="bass" xml:space="preserve">
+        <source>bass</source>
+        <target state="translated">bass</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="bonfire" xml:space="preserve">
+        <source>bonfire</source>
+        <target state="translated">bonfire</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="brown noise" xml:space="preserve">
+        <source>brown noise</source>
+        <target state="translated">brown noise</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="calm" xml:space="preserve">
+        <source>calm</source>
+        <target state="translated">calm</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="campfire" xml:space="preserve">
+        <source>campfire</source>
+        <target state="translated">campfire</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="car roof drips" xml:space="preserve">
+        <source>car roof drips</source>
+        <target state="translated">car roof drips</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="cicada" xml:space="preserve">
+        <source>cicada</source>
+        <target state="translated">cicada</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="crackle" xml:space="preserve">
+        <source>crackle</source>
+        <target state="translated">crackle</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="deep" xml:space="preserve">
+        <source>deep</source>
+        <target state="translated">deep</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="distant" xml:space="preserve">
+        <source>distant</source>
+        <target state="translated">distant</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="fireplace" xml:space="preserve">
+        <source>fireplace</source>
+        <target state="translated">fireplace</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="forest" xml:space="preserve">
+        <source>forest</source>
+        <target state="translated">forest</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="hawaii" xml:space="preserve">
+        <source>hawaii</source>
+        <target state="translated">hawaii</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="intense" xml:space="preserve">
+        <source>intense</source>
+        <target state="translated">intense</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="medium" xml:space="preserve">
+        <source>medium</source>
+        <target state="translated">medium</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="ocean" xml:space="preserve">
+        <source>ocean</source>
+        <target state="translated">ocean</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="quiet" xml:space="preserve">
+        <source>quiet</source>
+        <target state="translated">quiet</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="rain" xml:space="preserve">
+        <source>rain</source>
+        <target state="translated">rain</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="rapid" xml:space="preserve">
+        <source>rapid</source>
+        <target state="translated">rapid</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="regular" xml:space="preserve">
+        <source>regular</source>
+        <target state="translated">regular</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="river" xml:space="preserve">
+        <source>river</source>
+        <target state="translated">river</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="slow soft" xml:space="preserve">
+        <source>slow soft</source>
+        <target state="translated">slow soft</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="small" xml:space="preserve">
+        <source>small</source>
+        <target state="translated">small</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="soft" xml:space="preserve">
+        <source>soft</source>
+        <target state="translated">soft</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="soft drops" xml:space="preserve">
+        <source>soft drops</source>
+        <target state="translated">soft drops</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="spring" xml:space="preserve">
+        <source>spring</source>
+        <target state="translated">spring</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="stream" xml:space="preserve">
+        <source>stream</source>
+        <target state="translated">stream</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="strong" xml:space="preserve">
+        <source>strong</source>
+        <target state="translated">strong</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="thunderstorm" xml:space="preserve">
+        <source>thunderstorm</source>
+        <target state="translated">thunderstorm</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="tiny" xml:space="preserve">
+        <source>tiny</source>
+        <target state="translated">tiny</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="venice" xml:space="preserve">
+        <source>venice</source>
+        <target state="translated">venice</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="waterfall" xml:space="preserve">
+        <source>waterfall</source>
+        <target state="translated">waterfall</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="waves" xml:space="preserve">
+        <source>waves</source>
+        <target state="translated">waves</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="white noise" xml:space="preserve">
+        <source>white noise</source>
+        <target state="translated">white noise</target>
+        <note/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -314,80 +314,79 @@ struct AnimatedGlassBackground: View {
     var body: some View {
         let theme = ThemeColors(colorScheme: colorScheme)
 
-        ZStack {
-            // Base gradient
-            LinearGradient(
-                colors: [theme.background, theme.background.opacity(0.95)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+        return GeometryReader { geometry in
+            let screenSize = geometry.size
 
-            // Animated orbs
-            GeometryReader { geometry in
-                ZStack {
-                    // Primary orb - large, moves chaotically
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    primaryColor.opacity(colorScheme == .dark ? 0.45 : 0.35),
-                                    primaryColor.opacity(colorScheme == .dark ? 0.20 : 0.15),
-                                    Color.clear
-                                ],
-                                center: .center,
-                                startRadius: 0,
-                                endRadius: geometry.size.width * 0.5
-                            )
-                        )
-                        .frame(width: geometry.size.width * 1.0)
-                        .offset(
-                            x: (orb1Position.x - 0.5) * geometry.size.width,
-                            y: (orb1Position.y - 0.5) * geometry.size.height
-                        )
-                        .blur(radius: colorScheme == .dark ? 40 : 50)
+            ZStack {
+                // Base gradient
+                LinearGradient(
+                    colors: [theme.background, theme.background.opacity(0.95)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
 
-                    // Secondary orb - medium, moves chaotically
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    secondaryColor.opacity(colorScheme == .dark ? 0.40 : 0.30),
-                                    secondaryColor.opacity(colorScheme == .dark ? 0.18 : 0.12),
-                                    Color.clear
-                                ],
-                                center: .center,
-                                startRadius: 0,
-                                endRadius: geometry.size.width * 0.45
-                            )
+                // Primary orb - large, moves chaotically
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                primaryColor.opacity(colorScheme == .dark ? 0.45 : 0.35),
+                                primaryColor.opacity(colorScheme == .dark ? 0.20 : 0.15),
+                                Color.clear
+                            ],
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: screenSize.width * 0.5
                         )
-                        .frame(width: geometry.size.width * 0.9)
-                        .offset(
-                            x: (orb2Position.x - 0.5) * geometry.size.width,
-                            y: (orb2Position.y - 0.5) * geometry.size.height
-                        )
-                        .blur(radius: colorScheme == .dark ? 50 : 60)
+                    )
+                    .frame(width: screenSize.width * 1.0)
+                    .offset(
+                        x: (orb1Position.x - 0.5) * screenSize.width,
+                        y: (orb1Position.y - 0.5) * screenSize.height
+                    )
+                    .blur(radius: colorScheme == .dark ? 40 : 50)
 
-                    // Tertiary orb - smaller, moves chaotically
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    primaryColor.opacity(colorScheme == .dark ? 0.30 : 0.22),
-                                    secondaryColor.opacity(colorScheme == .dark ? 0.12 : 0.08),
-                                    Color.clear
-                                ],
-                                center: .center,
-                                startRadius: 0,
-                                endRadius: geometry.size.width * 0.35
-                            )
+                // Secondary orb - medium, moves chaotically
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                secondaryColor.opacity(colorScheme == .dark ? 0.40 : 0.30),
+                                secondaryColor.opacity(colorScheme == .dark ? 0.18 : 0.12),
+                                Color.clear
+                            ],
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: screenSize.width * 0.45
                         )
-                        .frame(width: geometry.size.width * 0.6)
-                        .offset(
-                            x: (orb3Position.x - 0.5) * geometry.size.width,
-                            y: (orb3Position.y - 0.5) * geometry.size.height
+                    )
+                    .frame(width: screenSize.width * 0.9)
+                    .offset(
+                        x: (orb2Position.x - 0.5) * screenSize.width,
+                        y: (orb2Position.y - 0.5) * screenSize.height
+                    )
+                    .blur(radius: colorScheme == .dark ? 50 : 60)
+
+                // Tertiary orb - smaller, moves chaotically
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                primaryColor.opacity(colorScheme == .dark ? 0.30 : 0.22),
+                                secondaryColor.opacity(colorScheme == .dark ? 0.12 : 0.08),
+                                Color.clear
+                            ],
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: screenSize.width * 0.35
                         )
-                        .blur(radius: colorScheme == .dark ? 30 : 40)
-                }
+                    )
+                    .frame(width: screenSize.width * 0.6)
+                    .offset(
+                        x: (orb3Position.x - 0.5) * screenSize.width,
+                        y: (orb3Position.y - 0.5) * screenSize.height
+                    )
+                    .blur(radius: colorScheme == .dark ? 30 : 40)
             }
         }
         .ignoresSafeArea()
