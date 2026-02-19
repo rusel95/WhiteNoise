@@ -11,14 +11,14 @@ import Foundation
 import RevenueCat
 #endif
 
+@MainActor
 enum RevenueCatService {
     /// Whether RevenueCat was successfully configured
-    nonisolated(unsafe) static private(set) var isConfigured = false
+    static private(set) var isConfigured = false
 
     static func configure() {
         #if os(iOS)
-        guard let key = Bundle.main.object(forInfoDictionaryKey: "REVENUECAT_API_KEY") as? String,
-              !key.isEmpty else {
+        guard let rawKey = Bundle.main.object(forInfoDictionaryKey: "REVENUECAT_API_KEY") as? String else {
             print("⚠️ RevenueCatService.configure - Missing REVENUECAT_API_KEY (Info.plist)")
             TelemetryService.captureNonFatal(
                 message: "RevenueCatService.configure - Missing API key",
@@ -27,9 +27,20 @@ enum RevenueCatService {
             return
         }
 
+        let key = rawKey.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !key.isEmpty else {
+            print("⚠️ RevenueCatService.configure - Empty REVENUECAT_API_KEY (Info.plist)")
+            TelemetryService.captureNonFatal(
+                message: "RevenueCatService.configure - Empty API key",
+                level: .error
+            )
+            return
+        }
+
         // Validate key format (should be appl_xxxxxxxxxxxxxxxxxxxxxxx)
-        if key.contains("your_") || key.contains("placeholder") || !key.hasPrefix("appl_") {
-            print("⚠️ RevenueCatService.configure - Invalid API key format: \(key)")
+        guard key.hasPrefix("appl_"), !key.contains("your_"), !key.contains("placeholder") else {
+            print("⚠️ RevenueCatService.configure - Invalid API key format")
             TelemetryService.captureNonFatal(
                 message: "RevenueCatService.configure - Invalid API key format",
                 level: .error,
