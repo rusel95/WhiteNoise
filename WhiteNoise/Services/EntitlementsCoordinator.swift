@@ -29,7 +29,7 @@ final class EntitlementsCoordinator: ObservableObject {
         self.entitlementIdentifier = Self.resolveValue(
             provided: entitlementIdentifier,
             plistKey: "REVENUECAT_ENTITLEMENT_ID",
-            defaultValue: "premium"
+            defaultValue: "Unlimited Access"
         )
         self.offeringIdentifier = Self.resolveOptionalValue(
             provided: offeringIdentifier,
