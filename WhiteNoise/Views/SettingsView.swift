@@ -32,6 +32,11 @@ struct SettingsView: View {
         }
 
         if let package = entitlements.currentOffering?.availablePackages.first {
+            let product = package.storeProduct
+            if let pricePerMonth = product.pricePerMonth,
+               let formatted = product.priceFormatter?.string(from: pricePerMonth) {
+                return formatted + String(localized: "/month")
+            }
             return package.localizedPriceString + String(localized: "/month")
         }
 
@@ -181,7 +186,7 @@ struct SettingsView: View {
             if MFMailComposeViewController.canSendMail() {
                 showMailView = true
             } else {
-                if let url = URL(string: "mailto:support@whitenoise.app") {
+                if let url = URL(string: "mailto:ruslanpopesku95@gmail.com") {
                     UIApplication.shared.open(url)
                 }
             }
@@ -238,7 +243,7 @@ struct MailView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> MFMailComposeViewController {
         let vc = MFMailComposeViewController()
         vc.mailComposeDelegate = context.coordinator
-        vc.setToRecipients(["support@whitenoise.app"])
+        vc.setToRecipients(["ruslanpopesku95@gmail.com"])
         vc.setSubject(String(localized: "WhiteNoise App Feedback"))
         return vc
     }

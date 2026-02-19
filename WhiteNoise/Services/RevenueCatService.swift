@@ -13,7 +13,7 @@ import RevenueCat
 
 enum RevenueCatService {
     /// Whether RevenueCat was successfully configured
-    static private(set) var isConfigured = false
+    nonisolated(unsafe) static private(set) var isConfigured = false
 
     static func configure() {
         #if os(iOS)
