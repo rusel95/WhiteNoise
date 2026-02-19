@@ -4,19 +4,21 @@
 //
 //  Basic unit tests for TimerService lifecycle and tick behavior.
 //  Note: Add a Unit Test target in Xcode and include this file.
+//  FIXME: Test target needs WhiteNoise as a dependency to run these tests
 //
 
 import XCTest
+// @testable import WhiteNoise  // Uncomment when test target is properly configured
 
 final class TimerServiceTests: XCTestCase {
     func testStartPauseResumeStop() async throws {
         let svc = await MainActor.run { TimerService() }
 
-        // Start a short timer (use oneMinute but only wait a couple of seconds)
-        await MainActor.run { svc.start(mode: .oneMinute) }
+        // Start a short timer (use fiveMinutes but only wait a couple of seconds)
+        await MainActor.run { svc.start(mode: .fiveMinutes) }
         XCTAssertTrue(await MainActor.run { svc.isActive })
         let startRemaining = await MainActor.run { svc.remainingSecondsValue }
-        XCTAssertEqual(startRemaining, TimerService.TimerMode.oneMinute.totalSeconds)
+        XCTAssertEqual(startRemaining, TimerService.TimerMode.fiveMinutes.totalSeconds)
 
         // Wait ~2 seconds and verify time decreased
         try await Task.sleep(nanoseconds: 2_200_000_000)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BD1267615B97628E7E51259 /* GlassDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */; };
 		74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */; };
 		74349A582A26413F00AB0EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A572A26413F00AB0EF5 /* Assets.xcassets */; };
 		74349A5B2A26413F00AB0EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74349A5A2A26413F00AB0EF5 /* Preview Assets.xcassets */; };
@@ -35,14 +36,7 @@
 		851396952E79A2F300552A9D /* 637789__kyles__river-or-stream-close-soft-babbly-current2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396922E79A2F300552A9D /* 637789__kyles__river-or-stream-close-soft-babbly-current2.m4a */; };
 		851396962E79A2F300552A9D /* 779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396932E79A2F300552A9D /* 779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away.m4a */; };
 		851396972E79A2F300552A9D /* 457960__fabrizio84__river-stream.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 851396912E79A2F300552A9D /* 457960__fabrizio84__river-stream.m4a */; };
-		851396A12E79B01900552A9D /* SOUND_CONFIGURATION.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */; };
-		851396A22E79B01900552A9D /* TESTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396A02E79B01900552A9D /* TESTING.md */; };
-		851396A42E79B01900552A9D /* LOGGING_STANDARD.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */; };
-		851396A52E79B01900552A9D /* ARCHITECTURE.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396992E79B01900552A9D /* ARCHITECTURE.md */; };
-		851396A62E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */; };
-		851396A72E79B01900552A9D /* PLAY_PAUSE_FLOW.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */; };
 		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
-		851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */ = {isa = PBXBuildFile; fileRef = 8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */; };
 		85709F372ED6612000740A9B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85709F362ED6612000740A9B /* SettingsView.swift */; };
 		858B370B2EA6544B003818E5 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		859C90952E8940E9008D9088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
@@ -136,13 +130,6 @@
 		851396922E79A2F300552A9D /* 637789__kyles__river-or-stream-close-soft-babbly-current2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "637789__kyles__river-or-stream-close-soft-babbly-current2.m4a"; sourceTree = "<group>"; };
 		851396932E79A2F300552A9D /* 779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "779942__felixblume__slight-river-stream-close-slight-wind-and-sheep-far-away.m4a"; sourceTree = "<group>"; };
 		851396982E79B01900552A9D /* AGENT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENT.md; sourceTree = "<group>"; };
-		851396992E79B01900552A9D /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
-		8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DEVELOPMENT_PRINCIPLES.md; sourceTree = "<group>"; };
-		8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LOGGING_STANDARD.md; sourceTree = "<group>"; };
-		8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PAYWALL_STRATEGY.md; sourceTree = "<group>"; };
-		8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PLAY_PAUSE_FLOW.md; sourceTree = "<group>"; };
-		8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SOUND_CONFIGURATION.md; sourceTree = "<group>"; };
-		851396A02E79B01900552A9D /* TESTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TESTING.md; sourceTree = "<group>"; };
 		854592702E3B9BF400095568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		85709F362ED6612000740A9B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		85A181372E785F9300E26988 /* WhiteNoiseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +173,7 @@
 		85F61C8E2E435410002AB6F9 /* FadeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOperation.swift; sourceTree = "<group>"; };
 		85LOCALE2F0EB54100123456 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
+		BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GlassDesignSystem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,18 +199,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6CED74548EFAA3036F01E0E6 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		74349A472A26413C00AB0EF5 = {
 			isa = PBXGroup;
 			children = (
 				854592702E3B9BF400095568 /* README.md */,
 				851396982E79B01900552A9D /* AGENT.md */,
-				851396992E79B01900552A9D /* ARCHITECTURE.md */,
-				8513969A2E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md */,
-				8513969B2E79B01900552A9D /* LOGGING_STANDARD.md */,
-				8513969D2E79B01900552A9D /* PAYWALL_STRATEGY.md */,
-				8513969E2E79B01900552A9D /* PLAY_PAUSE_FLOW.md */,
-				8513969F2E79B01900552A9D /* SOUND_CONFIGURATION.md */,
-				851396A02E79B01900552A9D /* TESTING.md */,
+				D0C5F00012345678DOCS0001 /* docs */,
 				74349A522A26413C00AB0EF5 /* WhiteNoise */,
 				74349A6D2A26413F00AB0EF5 /* WhiteNoiseUITests */,
 				95E0C1FB2F00000100000001 /* WhiteNoiseUnitTests */,
@@ -259,6 +249,7 @@
 				74349A572A26413F00AB0EF5 /* Assets.xcassets */,
 				74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */,
 				74349A592A26413F00AB0EF5 /* Preview Content */,
+				6CED74548EFAA3036F01E0E6 /* Theme */,
 			);
 			path = WhiteNoise;
 			sourceTree = "<group>";
@@ -493,6 +484,13 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		D0C5F00012345678DOCS0001 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -662,14 +660,7 @@
 				851396812E798E5D00552A9D /* 156354__rmutt__oceanwaves-9.m4a in Resources */,
 				8513968D2E799F1400552A9D /* 17374__homejrande__fire-wood-bonfire-high-eq.m4a in Resources */,
 				8513968E2E799F1400552A9D /* 170247__matucha__campfire_01.m4a in Resources */,
-				851396A12E79B01900552A9D /* SOUND_CONFIGURATION.md in Resources */,
-				851396A22E79B01900552A9D /* TESTING.md in Resources */,
-				851396A42E79B01900552A9D /* LOGGING_STANDARD.md in Resources */,
-				851396A52E79B01900552A9D /* ARCHITECTURE.md in Resources */,
-				851396A62E79B01900552A9D /* DEVELOPMENT_PRINCIPLES.md in Resources */,
-				851396A72E79B01900552A9D /* PLAY_PAUSE_FLOW.md in Resources */,
 				851396A82E79B01900552A9D /* AGENT.md in Resources */,
-				851396A92E79B01900552A9D /* PAYWALL_STRATEGY.md in Resources */,
 				851396762E79876500552A9D /* 365932__oldslowvideogamer__brown-noise-medium-oldslowvideogamer.m4a in Resources */,
 				85A986392E5B7B3900EF08DB /* 495660__aunrea__fireplace.m4a in Resources */,
 			);
@@ -730,6 +721,7 @@
 				85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */,
 				85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */,
 				85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */,
+				3BD1267615B97628E7E51259 /* GlassDesignSystem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -883,7 +875,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 80;
+				CURRENT_PROJECT_VERSION = 83;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -907,7 +899,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -930,7 +922,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 80;
+				CURRENT_PROJECT_VERSION = 83;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -954,7 +946,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -5,7 +5,7 @@
 //  Created by Ruslan Popesku on 2025-08-03.
 //
 
-import MediaPlayer
+@preconcurrency import MediaPlayer
 
 // MARK: - Constants
 
@@ -26,33 +26,34 @@ enum RemoteCommandResult {
 }
 
 /// Protocol for remote command center operations
-protocol RemoteCommandCenterProtocol {
-    func setupPlayCommand(handler: @escaping () async -> RemoteCommandResult)
-    func setupPauseCommand(handler: @escaping () async -> RemoteCommandResult)
-    func setupToggleCommand(handler: @escaping () async -> RemoteCommandResult)
+protocol RemoteCommandCenterProtocol: Sendable {
+    func setupPlayCommand(handler: @escaping @Sendable () async -> RemoteCommandResult)
+    func setupPauseCommand(handler: @escaping @Sendable () async -> RemoteCommandResult)
+    func setupToggleCommand(handler: @escaping @Sendable () async -> RemoteCommandResult)
     func disableUnsupportedCommands()
 }
 
 /// Protocol for now playing info center operations
-protocol NowPlayingInfoCenterProtocol {
+protocol NowPlayingInfoCenterProtocol: Sendable {
     func updateNowPlayingInfo(_ info: NowPlayingInfo)
 }
 
 /// Data model for now playing information
-struct NowPlayingInfo {
+struct NowPlayingInfo: Sendable {
     let title: String
     let isPlaying: Bool
     let duration: TimeInterval?
     let elapsedTime: TimeInterval?
-    let artwork: Any?
+    let artwork: (any Sendable)?
 }
 
 /// Protocol for handling remote media commands
+@MainActor
 protocol RemoteCommandHandling: AnyObject {
-    var onPlayCommand: (() async -> Void)? { get set }
-    var onPauseCommand: (() async -> Void)? { get set }
-    var onToggleCommand: (() -> Void)? { get set }
-    
+    var onPlayCommand: (@Sendable () async -> Void)? { get set }
+    var onPauseCommand: (@Sendable () async -> Void)? { get set }
+    var onToggleCommand: (@Sendable () -> Void)? { get set }
+
     func updateNowPlayingInfo(title: String, isPlaying: Bool, timerInfo: (duration: Int, elapsed: Int)?)
 }
 
@@ -60,42 +61,42 @@ protocol RemoteCommandHandling: AnyObject {
 
 #if os(iOS)
 /// Adapter for MPRemoteCommandCenter
-final class MPRemoteCommandCenterAdapter: RemoteCommandCenterProtocol {
+/// - Note: Marked @unchecked Sendable because MPRemoteCommandCenter.shared() is a thread-safe singleton
+/// - Safety invariant: All access goes through the shared() singleton which is internally synchronized
+/// - TODO: [Swift 6 Migration] Review when Apple frameworks add Sendable conformance
+final class MPRemoteCommandCenterAdapter: RemoteCommandCenterProtocol, @unchecked Sendable {
     private let commandCenter = MPRemoteCommandCenter.shared()
-    
-    func setupPlayCommand(handler: @escaping () async -> RemoteCommandResult) {
+
+    func setupPlayCommand(handler: @escaping @Sendable () async -> RemoteCommandResult) {
         commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget { _ in
             Task {
-                let result = await handler()
-                return result == .success ? MPRemoteCommandHandlerStatus.success : MPRemoteCommandHandlerStatus.commandFailed
+                _ = await handler()
             }
             return MPRemoteCommandHandlerStatus.success
         }
     }
-    
-    func setupPauseCommand(handler: @escaping () async -> RemoteCommandResult) {
+
+    func setupPauseCommand(handler: @escaping @Sendable () async -> RemoteCommandResult) {
         commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget { _ in
             Task {
-                let result = await handler()
-                return result == .success ? MPRemoteCommandHandlerStatus.success : MPRemoteCommandHandlerStatus.commandFailed
+                _ = await handler()
             }
             return MPRemoteCommandHandlerStatus.success
         }
     }
-    
-    func setupToggleCommand(handler: @escaping () async -> RemoteCommandResult) {
+
+    func setupToggleCommand(handler: @escaping @Sendable () async -> RemoteCommandResult) {
         commandCenter.togglePlayPauseCommand.isEnabled = true
         commandCenter.togglePlayPauseCommand.addTarget { _ in
             Task {
-                let result = await handler()
-                return result == .success ? MPRemoteCommandHandlerStatus.success : MPRemoteCommandHandlerStatus.commandFailed
+                _ = await handler()
             }
             return MPRemoteCommandHandlerStatus.success
         }
     }
-    
+
     func disableUnsupportedCommands() {
         commandCenter.nextTrackCommand.isEnabled = false
         commandCenter.previousTrackCommand.isEnabled = false
@@ -109,7 +110,10 @@ final class MPRemoteCommandCenterAdapter: RemoteCommandCenterProtocol {
 }
 
 /// Adapter for MPNowPlayingInfoCenter
-final class MPNowPlayingInfoCenterAdapter: NowPlayingInfoCenterProtocol {
+/// - Note: Marked @unchecked Sendable because MPNowPlayingInfoCenter.default() is a thread-safe singleton
+/// - Safety invariant: All access goes through the default() singleton which is internally synchronized
+/// - TODO: [Swift 6 Migration] Review when Apple frameworks add Sendable conformance
+final class MPNowPlayingInfoCenterAdapter: NowPlayingInfoCenterProtocol, @unchecked Sendable {
     func updateNowPlayingInfo(_ info: NowPlayingInfo) {
         var nowPlayingInfo = [String: Any]()
         
@@ -141,12 +145,12 @@ final class MPNowPlayingInfoCenterAdapter: NowPlayingInfoCenterProtocol {
 // MARK: - Main Service
 
 @MainActor
-final class RemoteCommandService: @preconcurrency RemoteCommandHandling {
+final class RemoteCommandService: RemoteCommandHandling {
     // MARK: - Properties
-    
-    var onPlayCommand: (() async -> Void)?
-    var onPauseCommand: (() async -> Void)?
-    var onToggleCommand: (() -> Void)?
+
+    var onPlayCommand: (@Sendable () async -> Void)?
+    var onPauseCommand: (@Sendable () async -> Void)?
+    var onToggleCommand: (@Sendable () -> Void)?
     
     private let commandCenter: RemoteCommandCenterProtocol
     private let nowPlayingCenter: NowPlayingInfoCenterProtocol
@@ -199,13 +203,15 @@ final class RemoteCommandService: @preconcurrency RemoteCommandHandling {
         }
 
         commandCenter.setupToggleCommand { [weak self] in
-            guard let self = self else {
+            guard let strongSelf = self else {
                 TelemetryService.captureNonFatal(
                     message: "RemoteCommandService.toggleCommand lost self"
                 )
                 return .failed
             }
-            self.onToggleCommand?()
+            await MainActor.run {
+                strongSelf.onToggleCommand?()
+            }
             return .success
         }
         

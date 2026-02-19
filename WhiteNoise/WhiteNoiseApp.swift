@@ -50,21 +50,6 @@ struct WhiteNoiseApp: App {
     }
 }
 
-private extension WhiteNoiseApp {
-    static func resolveSentryDSN() -> String? {
-        if let envValue = ProcessInfo.processInfo.environment["SENTRY_DSN"],
-           envValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
-            return envValue
-        }
-
-        if let infoValue = Bundle.main.object(forInfoDictionaryKey: "SENTRY_DSN") as? String,
-           infoValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
-            return infoValue
-        }
-
-        return nil
-    }
-}
 
 struct RootView: View {
     @StateObject private var entitlements = EntitlementsCoordinator()
@@ -76,7 +61,7 @@ struct RootView: View {
             .environmentObject(entitlements)
             .preferredColorScheme(isDarkMode ? .dark : .light)
             .onAppear { entitlements.onAppLaunch() }
-            .onChange(of: scenePhase) { newPhase in
+            .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     entitlements.onForeground()
                 }

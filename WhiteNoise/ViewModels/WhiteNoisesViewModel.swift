@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import AVFAudio
+@preconcurrency import AVFAudio
 import Combine
 import MediaPlayer
 
@@ -64,14 +64,17 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     private let soundFactory: SoundFactoryProtocol
     
     // MARK: - Private Properties
-    // CONCURRENCY FIX: Thread-safe singleton access using nonisolated(unsafe)
-    // This is safe because access only happens on MainActor-isolated contexts
+    // CONCURRENCY: Thread-safe singleton access using nonisolated(unsafe)
+    // Safety invariant: Access only occurs within MainActor-isolated contexts
+    // TODO: [Swift 6 Migration] Replace with actor-based singleton or proper synchronization
     private nonisolated(unsafe) static var activeInstance: WhiteNoisesViewModel?
     private var cancellables = Set<AnyCancellable>()
     private var wasPlayingBeforeInterruption = false
-    private var appLifecycleObservers: [NSObjectProtocol] = []
+    // CONCURRENCY: Marked nonisolated(unsafe) to allow cleanup in deinit
+    // Safety invariant: Only modified on MainActor, read in deinit after all async work completes
+    // TODO: [Swift 6 Migration] Consider moving cleanup to a separate non-isolated method
+    private nonisolated(unsafe) var appLifecycleObservers: [any NSObjectProtocol] = []
     private var playPauseTask: Task<Void, Never>?
-    private var isProcessingPlayPause = false
 
     // MARK: - Initialization
     init(
@@ -154,56 +157,44 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
     /// UI feedback by updating the `isPlaying` state synchronously, then performs the actual
     /// audio operations asynchronously.
     ///
-    /// The method includes debouncing logic to prevent rapid successive calls and ensures
-    /// that only one play/pause operation is processed at a time.
+    /// The method cancels any ongoing fade operations to allow immediate response to user input.
     ///
     /// - Important: This method updates the UI state immediately for responsiveness,
     ///   but the actual audio state change happens asynchronously.
-    ///
-    /// - Note: The method will ignore calls if a play/pause operation is already in progress.
     func playingButtonSelected() {
-        print("🎯 WhiteNoisesVM.playingButtonSelected - START: isPlaying=\(isPlaying), processing=\(isProcessingPlayPause)")
-        
-        // Prevent rapid button presses
-        guard !isProcessingPlayPause else {
-            print("⚠️ WhiteNoisesVM.playingButtonSelected - SKIPPED: Already processing play/pause")
-            return
-        }
-        
-        // Cancel any existing play/pause task
+        print("🎯 WhiteNoisesVM.playingButtonSelected - START: isPlaying=\(isPlaying)")
+
+        // Cancel any existing play/pause task and its fade operations
         if playPauseTask != nil {
             print("🔄 WhiteNoisesVM.playingButtonSelected - CANCELLING: Previous play/pause task")
             playPauseTask?.cancel()
+            playPauseTask = nil
+
+            // Cancel all ongoing fade operations on sounds
+            for soundViewModel in soundsViewModels {
+                soundViewModel.cancelFade()
+            }
         }
-        
+
         // Update state immediately for instant UI feedback
         let wasPlaying = isPlaying
         isPlaying = !wasPlaying
-        isProcessingPlayPause = true
-        
+
         print("🔄 WhiteNoisesVM.playingButtonSelected - STATE CHANGE: isPlaying \(wasPlaying)→\(!wasPlaying)")
         print("📊 WhiteNoisesVM.playingButtonSelected - STATE SNAPSHOT:")
         print("  - isPlaying: \(isPlaying)")
-        print("  - isProcessing: \(isProcessingPlayPause)")
         print("  - activeSounds: \(soundsViewModels.filter { $0.volume > 0 }.count)")
         print("  - timerMode: \(timerService.mode)")
         print("  - timerActive: \(timerService.isActive)")
-        
+
         playPauseTask = Task { [weak self] in
             guard let self = self else {
                 print("❌ WhiteNoisesVM.playingButtonSelected - FAILED: Self deallocated")
                 return
             }
-            
+
             print("🔄 WhiteNoisesVM.playingButtonSelected - ASYNC START: wasPlaying=\(wasPlaying)")
-            
-            defer {
-                Task { @MainActor in
-                    self.isProcessingPlayPause = false
-                    print("🏁 WhiteNoisesVM.playingButtonSelected - ASYNC END: processing=false")
-                }
-            }
-            
+
             if wasPlaying {
                 print("🔘 WhiteNoisesVM.playingButtonSelected - ACTION: Pausing sounds")
                 await self.pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
@@ -212,7 +203,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
                 await self.audioSessionService.ensureActive()
                 await self.playSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
             }
-            
+
             print("✅ WhiteNoisesVM.playingButtonSelected - COMPLETED: Action finished")
         }
     }
@@ -245,67 +236,84 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
             }
         }
         
-        // Remote command callbacks
+        // Remote command callbacks - using @MainActor closures for proper isolation
         remoteCommandService.onPlayCommand = { [weak self] in
-            guard let self = self else { return }
-            print("📡 WhiteNoisesVM - REMOTE COMMAND: Play received")
-            print("  - Current UI state: \(self.isPlaying)")
-            print("  - Actual audio state: \(self.actuallyPlayingAudio)")
-            
-            // Check actual state first
-            if !self.actuallyPlayingAudio {
-                print("📡 WhiteNoisesVM - REMOTE: Starting playback")
-                self.isPlaying = true
-                await self.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
-                
-                // Resume timer if needed
-                if self.timerService.hasRemainingTime && !self.timerService.isActive {
-                    print("📡 WhiteNoisesVM - REMOTE: Resuming timer")
-                    self.timerService.resume()
-                    self.remainingTimerTime = self.timerService.remainingTime
+            guard let strongSelf = self else { return }
+            await MainActor.run {
+                print("📡 WhiteNoisesVM - REMOTE COMMAND: Play received")
+                print("  - Current UI state: \(strongSelf.isPlaying)")
+                print("  - Actual audio state: \(strongSelf.actuallyPlayingAudio)")
+
+                // Check actual state first
+                if !strongSelf.actuallyPlayingAudio {
+                    print("📡 WhiteNoisesVM - REMOTE: Starting playback")
+                    strongSelf.isPlaying = true
+
+                    // Cancel existing task and track new one
+                    strongSelf.playPauseTask?.cancel()
+                    strongSelf.playPauseTask = Task {
+                        await strongSelf.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
+                    }
+
+                    // Resume timer if needed
+                    if strongSelf.timerService.hasRemainingTime && !strongSelf.timerService.isActive {
+                        print("📡 WhiteNoisesVM - REMOTE: Resuming timer")
+                        strongSelf.timerService.resume()
+                        strongSelf.remainingTimerTime = strongSelf.timerService.remainingTime
+                    }
+                } else {
+                    print("📡 WhiteNoisesVM - REMOTE: Already playing, syncing UI state")
+                    strongSelf.isPlaying = true
                 }
-            } else {
-                print("📡 WhiteNoisesVM - REMOTE: Already playing, syncing UI state")
-                self.isPlaying = true
             }
         }
-        
+
         remoteCommandService.onPauseCommand = { [weak self] in
-            guard let self = self else { return }
-            print("📡 WhiteNoisesVM - REMOTE COMMAND: Pause received")
-            print("  - Current UI state: \(self.isPlaying)")
-            print("  - Actual audio state: \(self.actuallyPlayingAudio)")
-            
-            // Check actual state first
-            if self.actuallyPlayingAudio {
-                print("📡 WhiteNoisesVM - REMOTE: Pausing playback")
-                self.isPlaying = false
-                await self.pauseSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
-                
-                // Pause timer if active
-                if self.timerService.isActive {
-                    print("📡 WhiteNoisesVM - REMOTE: Pausing timer")
-                    self.timerService.pause()
+            guard let strongSelf = self else { return }
+            await MainActor.run {
+                print("📡 WhiteNoisesVM - REMOTE COMMAND: Pause received")
+                print("  - Current UI state: \(strongSelf.isPlaying)")
+                print("  - Actual audio state: \(strongSelf.actuallyPlayingAudio)")
+
+                // Check actual state first
+                if strongSelf.actuallyPlayingAudio {
+                    print("📡 WhiteNoisesVM - REMOTE: Pausing playback")
+                    strongSelf.isPlaying = false
+
+                    // Cancel existing task and track new one
+                    strongSelf.playPauseTask?.cancel()
+                    strongSelf.playPauseTask = Task {
+                        await strongSelf.pauseSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
+                    }
+
+                    // Pause timer if active
+                    if strongSelf.timerService.isActive {
+                        print("📡 WhiteNoisesVM - REMOTE: Pausing timer")
+                        strongSelf.timerService.pause()
+                    }
+                } else {
+                    print("📡 WhiteNoisesVM - REMOTE: Already paused, syncing UI state")
+                    strongSelf.isPlaying = false
                 }
-            } else {
-                print("📡 WhiteNoisesVM - REMOTE: Already paused, syncing UI state")
-                self.isPlaying = false
             }
         }
-        
+
         remoteCommandService.onToggleCommand = { [weak self] in
-            guard let self = self else { return }
-            print("📡 WhiteNoisesVM - REMOTE COMMAND: Toggle received")
-            print("  - Current UI state: \(self.isPlaying)")
-            print("  - Actual audio state: \(self.actuallyPlayingAudio)")
-            
-            // Sync state first, then toggle based on actual audio state
-            if self.actuallyPlayingAudio != self.isPlaying {
-                print("📡 WhiteNoisesVM - REMOTE: State mismatch detected, syncing first")
-                self.syncStateWithActualAudio()
+            guard let strongSelf = self else { return }
+            Task { @MainActor in
+                print("📡 WhiteNoisesVM - REMOTE COMMAND: Toggle received")
+                print("  - Current UI state: \(strongSelf.isPlaying)")
+                print("  - Actual audio state: \(strongSelf.actuallyPlayingAudio)")
+
+                // Sync state first, then toggle based on actual audio state
+                if strongSelf.actuallyPlayingAudio != strongSelf.isPlaying {
+                    print("📡 WhiteNoisesVM - REMOTE: State mismatch detected, syncing first")
+                    strongSelf.syncStateWithActualAudio()
+                }
+
+                // playingButtonSelected already tracks its task via playPauseTask
+                strongSelf.playingButtonSelected()
             }
-            
-            self.playingButtonSelected()
         }
     }
     
@@ -346,17 +354,22 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
         }
         
         // Preload audio for favorite sounds after UI is shown
+        // Load sequentially to avoid disk I/O contention - faster than parallel on flash storage
         Task.detached(priority: .background) { [weak self] in
-            // Wait a bit for UI to settle
+            // Wait for UI to settle
             try? await Task.sleep(nanoseconds: 100_000_000) // 100ms
-            
+
             guard let self = self else { return }
-            
-            // Preload sounds with volume > 0 in background
-            await MainActor.run {
-                for soundViewModel in self.soundsViewModels where soundViewModel.sound.volume > 0 {
-                    soundViewModel.loadAudioAsync()
-                }
+
+            // Get sounds to preload
+            let soundsToPreload = await MainActor.run {
+                self.soundsViewModels.filter { $0.sound.volume > 0 }
+            }
+
+            // Load sounds one at a time - each completes before next starts
+            // This avoids I/O contention and is faster than parallel loading
+            for soundViewModel in soundsToPreload {
+                await soundViewModel.preloadAudio()
             }
         }
     }
@@ -407,7 +420,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
             queue: .main
         ) { [weak self] _ in
             print("🎵 App will enter foreground")
-            Task { [weak self] in
+            Task { @MainActor [weak self] in
                 await self?.audioSessionService.reconfigure()
             }
         }
@@ -630,9 +643,12 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
             // Only start playing if not already playing
             if !isPlaying {
                 print("🎵 WhiteNoisesVM.handleTimerModeChange - TRIGGERING PLAY: Not currently playing")
+                // Update state immediately for instant UI feedback
+                isPlaying = true
                 // STABILITY FIX: Use weak self to prevent retain cycle
-                Task { [weak self] in
-                    await self?.playSounds(fadeDuration: AppConstants.Animation.fadeLong)
+                playPauseTask?.cancel()
+                playPauseTask = Task { [weak self] in
+                    await self?.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
                 }
             } else {
                 print("🎵 WhiteNoisesVM.handleTimerModeChange - ALREADY PLAYING: No need to start")

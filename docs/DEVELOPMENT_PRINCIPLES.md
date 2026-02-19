@@ -27,7 +27,7 @@ This guide replaces the missing reference that other docs point to. Use it as a 
 - Remote command callbacks should funnel through `WhiteNoisesViewModel` helpers so lock screen interactions stay in parity with UI controls.
 
 ## Logging & Telemetry Discipline
-- Follow `LOGGING_STANDARD.md` prefixes and message patterns. Log method entry (`🎯`), state changes (`🔄`), warnings (`⚠️`), and errors (`❌`).
+- Follow `docs/LOGGING_STANDARD.md` prefixes and message patterns. Log method entry (`🎯`), state changes (`🔄`), warnings (`⚠️`), and errors (`❌`).
 - Avoid logging sensitive info such as access tokens or personal data. Keep Sentry DSN values in `Configuration/Local.xcconfig`, not in code.
 
 ## UI & Haptics

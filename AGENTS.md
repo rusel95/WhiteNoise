@@ -15,12 +15,12 @@
 - Follow Swift API Design Guidelines: types in UpperCamelCase, methods/properties in lowerCamelCase, and prefer clarity over brevity.
 - Use four-space indentation, trailing comma-friendly formatting, and keep braces on the same line as declarations.
 - Annotate UI-bound types with `@MainActor`, route side effects through services, and lean on protocol abstractions for testability.
-- Logging should follow `LOGGING_STANDARD.md` (emoji prefixes such as `🎯`, `🔄`, `⚠️`, `❌`). Record notable decisions in `MEMORY_BANK.md`.
+- Logging should follow `docs/LOGGING_STANDARD.md` (emoji prefixes such as `🎯`, `🔄`, `⚠️`, `❌`). Record notable decisions in `MEMORY_BANK.md`.
 
 ## Testing Guidelines
 - Name tests `<Subject>Tests.swift` and focus on single responsibilities (e.g. `TimerServiceTests` exercises lifecycle logic).
 - Prefer protocol-backed stubs for audio, persistence, and command services; keep async assertions on the main actor.
-- Update or extend coverage whenever you touch timer, fade, or subscription flows. Document any temporary gaps in `TESTING.md`.
+- Update or extend coverage whenever you touch timer, fade, or subscription flows. Document any temporary gaps in `docs/TESTING.md`.
 
 ## Commit & Pull Request Guidelines
 - Write imperative, present-tense commit titles (e.g. `Add adaptive iPad UI layout`). Optional square-bracket tags like `[fix]` are acceptable when scoped.

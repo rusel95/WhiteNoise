@@ -25,7 +25,7 @@ This document helps the Codex CLI agent (and humans using it) work effectively i
 - Config: `WhiteNoise/Resources/SoundConfiguration.json`
 - Assets: `WhiteNoise/Assets.xcassets/*`, audio files in `WhiteNoise/Sounds/*`
 - Tests: `WhiteNoiseUITests/*`
-- Docs: `README.md`, `PLAY_PAUSE_FLOW.md`, `LOGGING_STANDARD.md`, `CLAUDE.md`
+- Docs: `README.md`, `CLAUDE.md`, `docs/PLAY_PAUSE_FLOW.md`, `docs/LOGGING_STANDARD.md`
 
 ## Agent Operating Mode
 
@@ -54,13 +54,13 @@ This document helps the Codex CLI agent (and humans using it) work effectively i
 - Don’t fix unrelated issues; call them out separately if discovered.
 - Prefer protocol-driven design and DI (see `CLAUDE.md` SOLID notes).
 - Use `@MainActor` for UI/state where appropriate.
-- Follow logging conventions in `LOGGING_STANDARD.md` when adding logs.
+- Follow logging conventions in `docs/LOGGING_STANDARD.md` when adding logs.
 
 ## Validation
 
 - Build before/after significant changes with `xcodebuild`.
 - Run UI tests when touching UI logic (`WhiteNoiseUITests/*`).
-- For audio/timer changes, consult `PLAY_PAUSE_FLOW.md` to avoid race conditions.
+- For audio/timer changes, consult `docs/PLAY_PAUSE_FLOW.md` to avoid race conditions.
 
 ## Common Workflows
 
@@ -93,11 +93,10 @@ This document helps the Codex CLI agent (and humans using it) work effectively i
 ## Cross-References
 
 - Architecture & principles: `CLAUDE.md`
-- Play/pause flow & races: `PLAY_PAUSE_FLOW.md`
-- Logging format: `LOGGING_STANDARD.md`
+- Play/pause flow & races: `docs/PLAY_PAUSE_FLOW.md`
+- Logging format: `docs/LOGGING_STANDARD.md`
 - App usage & install: `README.md`
 
 ## Memory Bank
 
 Use `MEMORY_BANK.md` to persist key decisions, conventions, and recurring facts that help future iterations. Update it when you add features, change flows, or establish new conventions.
-

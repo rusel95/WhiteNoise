@@ -11,6 +11,7 @@ import Combine
 // MARK: - Protocol
 
 /// Protocol for timer functionality
+@MainActor
 protocol TimerServiceProtocol: AnyObject {
     var mode: TimerService.TimerMode { get set }
     var remainingTime: String { get }
@@ -18,7 +19,7 @@ protocol TimerServiceProtocol: AnyObject {
     var hasRemainingTime: Bool { get }
     var onTimerExpired: (() async -> Void)? { get set }
     var onTimerTick: ((Int) -> Void)? { get set }
-    
+
     func start(mode: TimerService.TimerMode)
     func pause()
     func resume()
@@ -26,7 +27,7 @@ protocol TimerServiceProtocol: AnyObject {
 }
 
 @MainActor
-class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
+class TimerService: ObservableObject, TimerServiceProtocol {
     @Published var mode: TimerMode = .off
     @Published var remainingTime: String = ""
     @Published private(set) var isActive = false
@@ -36,7 +37,12 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
     private var isPaused = false
     
     var hasRemainingTime: Bool {
-        return remainingSeconds > 0 && mode != .off
+        return remainingSeconds > 0 && !mode.isOff
+    }
+
+    /// Exposes remaining seconds for testing purposes
+    var remainingSecondsValue: Int {
+        return remainingSeconds
     }
     
     var onTimerExpired: (() async -> Void)?
@@ -76,42 +82,9 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
         }
         
         print("⏱️ TimerSvc.start - CREATING: New timer task for \(mode.totalSeconds) seconds")
-        
-        timerTask = Task { [weak self] in
-            print("⏱️ TimerSvc.start - TASK STARTED: Beginning countdown")
-            
-            while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: AppConstants.Timer.updateInterval)
-                
-                guard let self = self else {
-                    print("❌ TimerSvc.start - TASK CANCELLED: Self deallocated")
-                    TelemetryService.captureNonFatal(
-                        message: "TimerService.start countdown lost self",
-                        extra: ["mode": mode.displayText]
-                    )
-                    break
-                }
-                
-                if self.remainingSeconds > 0 {
-                    self.remainingSeconds -= 1
-                    self.updateDisplay()
-                    
-                    // Log every 10 seconds or when less than 10 seconds remain
-                    if self.remainingSeconds % 10 == 0 || self.remainingSeconds < 10 {
-                        print("⏱️ TimerSvc - TICK: \(self.remainingTime) remaining")
-                    }
-                    
-                    self.onTimerTick?(self.remainingSeconds)
-                } else {
-                    print("⏱️ TimerSvc - EXPIRED: Timer reached zero")
-                    await self.handleTimerExpired()
-                    break
-                }
-            }
-            
-            print("⏱️ TimerSvc.start - TASK ENDED")
-        }
-        
+
+        startCountdownTask(logPrefix: "start")
+
         print("✅ TimerSvc.start - COMPLETED: Timer started with \(remainingTime)")
     }
     
@@ -167,42 +140,9 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
         }
         
         print("⏱️ TimerSvc.resume - CREATING: Resume task for \(remainingSeconds) seconds")
-        
-        timerTask = Task { [weak self] in
-            print("⏱️ TimerSvc.resume - TASK STARTED: Resuming countdown from \(self?.remainingTime ?? "unknown")")
-            
-            while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: AppConstants.Timer.updateInterval)
-                
-                guard let self = self else {
-                    print("❌ TimerSvc.resume - TASK CANCELLED: Self deallocated")
-                    TelemetryService.captureNonFatal(
-                        message: "TimerService.resume countdown lost self",
-                        extra: ["mode": self?.mode.displayText ?? "unknown"]
-                    )
-                    break
-                }
-                
-                if self.remainingSeconds > 0 {
-                    self.remainingSeconds -= 1
-                    self.updateDisplay()
-                    
-                    // Log every 10 seconds or when less than 10 seconds remain
-                    if self.remainingSeconds % 10 == 0 || self.remainingSeconds < 10 {
-                        print("⏱️ TimerSvc - TICK: \(self.remainingTime) remaining")
-                    }
-                    
-                    self.onTimerTick?(self.remainingSeconds)
-                } else {
-                    print("⏱️ TimerSvc - EXPIRED: Timer reached zero")
-                    await self.handleTimerExpired()
-                    break
-                }
-            }
-            
-            print("⏱️ TimerSvc.resume - TASK ENDED")
-        }
-        
+
+        startCountdownTask(logPrefix: "resume")
+
         print("✅ TimerSvc.resume - COMPLETED: Timer resumed at \(remainingTime)")
     }
     
@@ -241,50 +181,108 @@ class TimerService: ObservableObject, @preconcurrency TimerServiceProtocol {
         let hours = remainingSeconds / 3600
         let minutes = (remainingSeconds % 3600) / 60
         let seconds = remainingSeconds % 60
-        
+
         if hours > 0 {
             remainingTime = String(format: "%d:%02d:%02d", hours, minutes, seconds)
         } else {
             remainingTime = String(format: "%02d:%02d", minutes, seconds)
         }
     }
-    
+
     private func handleTimerExpired() async {
         stop()
         await onTimerExpired?()
+    }
+
+    /// Shared countdown logic for both start() and resume()
+    /// - Parameter logPrefix: Prefix for log messages (e.g., "start" or "resume")
+    private func startCountdownTask(logPrefix: String) {
+        let currentMode = mode
+        timerTask = Task { [weak self] in
+            print("⏱️ TimerSvc.\(logPrefix) - TASK STARTED: Beginning countdown")
+
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: AppConstants.Timer.updateInterval)
+
+                guard !Task.isCancelled else { break }
+
+                guard let self = self else {
+                    print("❌ TimerSvc.\(logPrefix) - TASK CANCELLED: Self deallocated")
+                    TelemetryService.captureNonFatal(
+                        message: "TimerService.\(logPrefix) countdown lost self",
+                        extra: ["mode": currentMode.displayText]
+                    )
+                    break
+                }
+
+                if self.remainingSeconds > 0 {
+                    self.remainingSeconds -= 1
+                    self.updateDisplay()
+
+                    // Log every 10 seconds or when less than 10 seconds remain
+                    if self.remainingSeconds % 10 == 0 || self.remainingSeconds < 10 {
+                        print("⏱️ TimerSvc - TICK: \(self.remainingTime) remaining")
+                    }
+
+                    self.onTimerTick?(self.remainingSeconds)
+                } else {
+                    print("⏱️ TimerSvc - EXPIRED: Timer reached zero")
+                    await self.handleTimerExpired()
+                    break
+                }
+            }
+
+            print("⏱️ TimerSvc.\(logPrefix) - TASK ENDED")
+        }
     }
 }
 
 // MARK: - TimerMode
 extension TimerService {
-    enum TimerMode: Int, CaseIterable, Identifiable {
-        case off = 0
-        case oneMinute = 60
-        case twoMinutes = 120
-        case threeMinutes = 180
-        case fiveMinutes = 300
-        case tenMinutes = 600
-        case fifteenMinutes = 900
-        case thirtyMinutes = 1800
-        case sixtyMinutes = 3600
-        case twoHours = 7200
-        case threeHours = 10800
-        case fourHours = 14400
-        case fiveHours = 18000
-        case sixHours = 21600
-        case sevenHours = 25200
-        case eightHours = 28800
-        
-        var id: Int { rawValue }
-        var totalSeconds: Int { rawValue }
-        var minutes: Int { rawValue / 60 }
-        
+    enum TimerMode: Hashable, Identifiable {
+        case off
+        case fiveMinutes
+        case tenMinutes
+        case fifteenMinutes
+        case thirtyMinutes
+        case sixtyMinutes
+        case twoHours
+        case threeHours
+        case fourHours
+        case sixHours
+        case eightHours
+        case custom(seconds: Int)
+
+        var id: Int {
+            switch self {
+            case .off: return -1
+            case .custom(let seconds): return seconds + 1_000_000
+            default: return totalSeconds
+            }
+        }
+
+        var totalSeconds: Int {
+            switch self {
+            case .off: return 0
+            case .fiveMinutes: return 300
+            case .tenMinutes: return 600
+            case .fifteenMinutes: return 900
+            case .thirtyMinutes: return 1800
+            case .sixtyMinutes: return 3600
+            case .twoHours: return 7200
+            case .threeHours: return 10800
+            case .fourHours: return 14400
+            case .sixHours: return 21600
+            case .eightHours: return 28800
+            case .custom(let seconds): return seconds
+            }
+        }
+
+        var minutes: Int { totalSeconds / 60 }
+
         var displayText: String {
             switch self {
             case .off: return String(localized: "Off")
-            case .oneMinute: return String(localized: "1 minute")
-            case .twoMinutes: return String(localized: "2 minutes")
-            case .threeMinutes: return String(localized: "3 minutes")
             case .fiveMinutes: return String(localized: "5 minutes")
             case .tenMinutes: return String(localized: "10 minutes")
             case .fifteenMinutes: return String(localized: "15 minutes")
@@ -293,11 +291,38 @@ extension TimerService {
             case .twoHours: return String(localized: "2 hours")
             case .threeHours: return String(localized: "3 hours")
             case .fourHours: return String(localized: "4 hours")
-            case .fiveHours: return String(localized: "5 hours")
             case .sixHours: return String(localized: "6 hours")
-            case .sevenHours: return String(localized: "7 hours")
             case .eightHours: return String(localized: "8 hours")
+            case .custom(let seconds):
+                let hours = seconds / 3600
+                let mins = (seconds % 3600) / 60
+                if hours == 0 {
+                    return String(localized: "\(mins) min")
+                } else if mins == 0 {
+                    return hours == 1
+                        ? String(localized: "1 hour")
+                        : String(localized: "\(hours) hours")
+                } else {
+                    return String(localized: "\(hours)h \(mins)m")
+                }
             }
+        }
+
+        /// All preset cases (excludes custom)
+        static var presets: [TimerMode] {
+            [.fiveMinutes, .tenMinutes, .fifteenMinutes, .thirtyMinutes,
+             .sixtyMinutes, .twoHours, .threeHours, .fourHours, .sixHours, .eightHours]
+        }
+
+        /// All cases including off (excludes custom)
+        static var allCases: [TimerMode] {
+            [.off] + presets
+        }
+
+        /// Check if this is the off mode
+        var isOff: Bool {
+            if case .off = self { return true }
+            return false
         }
     }
 }

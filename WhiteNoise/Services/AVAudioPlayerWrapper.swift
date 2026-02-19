@@ -5,17 +5,21 @@
 //  Created by Ruslan Popesku on 2025-08-03.
 //
 
-import AVFoundation
+@preconcurrency import AVFoundation
 
 /// Wrapper for AVAudioPlayer that conforms to AudioPlayerProtocol
-class AVAudioPlayerWrapper: AudioPlayerProtocol {
+/// Note: AVAudioPlayer is not Sendable but we ensure thread-safe access by using @MainActor
+@MainActor
+final class AVAudioPlayerWrapper: AudioPlayerProtocol {
     private let player: AVAudioPlayer
-    
+
     init(player: AVAudioPlayer) {
         self.player = player
         self.player.numberOfLoops = AppConstants.Audio.loopForever
     }
-    
+
+    deinit {}
+
     var isPlaying: Bool {
         player.isPlaying
     }
@@ -47,13 +51,16 @@ class AVAudioPlayerWrapper: AudioPlayerProtocol {
 }
 
 /// Factory for creating AVAudioPlayer instances
-class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
+@MainActor
+final class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
+    deinit {}
+
     func createPlayer(for filename: String) async throws -> AudioPlayerProtocol {
         // Try multiple audio formats in order of preference
         // Note: FLAC is not supported by AVAudioPlayer on iOS
         let supportedFormats = ["m4a", "wav", "aac", "mp3", "aiff", "caf"]
         var url: URL?
-        
+
         for format in supportedFormats {
             url = Bundle.main.url(forResource: filename, withExtension: format)
             if url != nil {
@@ -63,7 +70,7 @@ class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
                 print("⚠️ Not found: \(filename).\(format)")
             }
         }
-        
+
         guard let audioURL = url else {
             print("❌ No audio file found for: \(filename) in formats: \(supportedFormats)")
             TelemetryService.captureNonFatal(
@@ -76,13 +83,21 @@ class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
             )
             throw AudioError.fileNotFound(filename)
         }
-        
-        let player = try await Task.detached(priority: .userInitiated) {
-            let avPlayer = try AVAudioPlayer(contentsOf: audioURL)
-            avPlayer.prepareToPlay()
-            return avPlayer
-        }.value
-        
+
+        // Load audio on background thread, then create wrapper on MainActor
+        // Note: We skip prepareToPlay() here for faster loading.
+        // Audio will buffer on first play() call instead.
+        let player = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<AVAudioPlayer, Error>) in
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    let avPlayer = try AVAudioPlayer(contentsOf: audioURL)
+                    continuation.resume(returning: avPlayer)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+
         return AVAudioPlayerWrapper(player: player)
     }
 }

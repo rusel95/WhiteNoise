@@ -10,13 +10,14 @@ import Foundation
 import UIKit
 #endif
 
-protocol HapticFeedbackServiceProtocol {
+@MainActor
+protocol HapticFeedbackServiceProtocol: Sendable {
     func impact(style: HapticFeedbackStyle)
     func notification(type: HapticNotificationType)
     func selection()
 }
 
-enum HapticFeedbackStyle {
+enum HapticFeedbackStyle: Sendable {
     case light
     case medium
     case heavy
@@ -24,14 +25,15 @@ enum HapticFeedbackStyle {
     case rigid
 }
 
-enum HapticNotificationType {
+enum HapticNotificationType: Sendable {
     case success
     case warning
     case error
 }
 
+@MainActor
 final class HapticFeedbackService: HapticFeedbackServiceProtocol {
-    
+
     static let shared = HapticFeedbackService()
     
     private init() {}

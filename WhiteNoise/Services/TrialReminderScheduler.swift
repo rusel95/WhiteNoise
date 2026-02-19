@@ -11,6 +11,7 @@ import UserNotifications
 
 import RevenueCat
 
+@MainActor
 final class TrialReminderScheduler {
     private let notificationCenter = UNUserNotificationCenter.current()
     private let defaults = UserDefaults.standard
@@ -25,7 +26,8 @@ final class TrialReminderScheduler {
 
         guard !isReminderScheduled(for: reminderDate) else { return }
 
-        notificationCenter.getNotificationSettings { [weak self] settings in
+        let identifier = reminderIdentifier
+        Task { [weak self] in
             guard let self = self else {
                 TelemetryService.captureNonFatal(
                     message: "TrialReminderScheduler.getNotificationSettings lost self"
@@ -33,17 +35,27 @@ final class TrialReminderScheduler {
                 return
             }
 
-            switch settings.authorizationStatus {
+            let settings = await self.notificationCenter.notificationSettings()
+            let authStatus = settings.authorizationStatus
+
+            switch authStatus {
             case .notDetermined:
-                self.notificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, _ in
+                do {
+                    let granted = try await self.notificationCenter.requestAuthorization(options: [.alert, .sound])
                     if granted {
                         self.createReminder(at: reminderDate)
                     } else {
                         TelemetryService.captureNonFatal(
                             message: "TrialReminderScheduler authorization not granted",
-                            extra: ["identifier": self.reminderIdentifier]
+                            extra: ["identifier": identifier]
                         )
                     }
+                } catch {
+                    TelemetryService.captureNonFatal(
+                        error: error,
+                        message: "TrialReminderScheduler authorization request failed",
+                        extra: ["identifier": identifier]
+                    )
                 }
             case .authorized, .provisional:
                 self.createReminder(at: reminderDate)
@@ -81,30 +93,24 @@ final class TrialReminderScheduler {
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         let request = UNNotificationRequest(identifier: reminderIdentifier, content: content, trigger: trigger)
 
-        notificationCenter.add(request) { [weak self] error in
-            if let error {
+        let identifier = reminderIdentifier
+        let dateKey = scheduledDateKey
+        let notificationCenter = self.notificationCenter
+        let defaults = self.defaults
+        Task {
+            do {
+                try await notificationCenter.add(request)
+                defaults.set(date, forKey: dateKey)
+            } catch {
                 TelemetryService.captureNonFatal(
                     error: error,
                     message: "TrialReminderScheduler failed to schedule reminder",
                     extra: [
-                        "identifier": self?.reminderIdentifier ?? "unknown",
+                        "identifier": identifier,
                         "fireDate": date.description
                     ]
                 )
-                return
             }
-
-            guard let self = self else {
-                TelemetryService.captureNonFatal(
-                    message: "TrialReminderScheduler scheduling completion lost self",
-                    extra: [
-                        "identifier": self?.reminderIdentifier ?? "unknown"
-                    ]
-                )
-                return
-            }
-
-            self.defaults.set(date, forKey: self.scheduledDateKey)
         }
     }
 
