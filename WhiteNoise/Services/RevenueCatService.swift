@@ -12,6 +12,9 @@ import RevenueCat
 #endif
 
 enum RevenueCatService {
+    /// Whether RevenueCat was successfully configured
+    static private(set) var isConfigured = false
+
     static func configure() {
         #if os(iOS)
         guard let key = Bundle.main.object(forInfoDictionaryKey: "REVENUECAT_API_KEY") as? String,
@@ -63,6 +66,7 @@ enum RevenueCatService {
             .build()
 
         Purchases.configure(with: configuration)
+        isConfigured = true
         print("✅ RevenueCatService.configure - RevenueCat configured")
         #endif
     }

@@ -311,6 +311,7 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
                     strongSelf.syncStateWithActualAudio()
                 }
 
+                // playingButtonSelected already tracks its task via playPauseTask
                 strongSelf.playingButtonSelected()
             }
         }
@@ -645,7 +646,8 @@ class WhiteNoisesViewModel: ObservableObject, SoundCollectionManager, TimerInteg
                 // Update state immediately for instant UI feedback
                 isPlaying = true
                 // STABILITY FIX: Use weak self to prevent retain cycle
-                Task { [weak self] in
+                playPauseTask?.cancel()
+                playPauseTask = Task { [weak self] in
                     await self?.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
                 }
             } else {

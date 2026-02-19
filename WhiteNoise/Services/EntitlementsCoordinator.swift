@@ -92,6 +92,19 @@ final class EntitlementsCoordinator: ObservableObject {
         isRefreshing = true
         defer { isRefreshing = false }
 
+        // When RevenueCat is not configured (missing/invalid API key), grant access
+        // to avoid crashes and let users use the app without subscription enforcement
+        guard RevenueCatService.isConfigured else {
+            print("⚠️ EntitlementsCoordinator.refreshEntitlement - RevenueCat not configured, granting access")
+            TelemetryService.captureNonFatal(
+                message: "EntitlementsCoordinator.refreshEntitlement - RevenueCat not configured, bypassing paywall",
+                level: .warning
+            )
+            hasActiveEntitlement = true
+            isPaywallPresented = false
+            return nil
+        }
+
         do {
             let customerInfo = try await Purchases.shared.customerInfo(fetchPolicy: forceFetch ? .fetchCurrent : .cachedOrFetched)
 

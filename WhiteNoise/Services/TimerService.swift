@@ -253,7 +253,13 @@ extension TimerService {
         case eightHours
         case custom(seconds: Int)
 
-        var id: Int { totalSeconds }
+        var id: Int {
+            switch self {
+            case .off: return -1
+            case .custom(let seconds): return seconds + 1_000_000
+            default: return totalSeconds
+            }
+        }
 
         var totalSeconds: Int {
             switch self {

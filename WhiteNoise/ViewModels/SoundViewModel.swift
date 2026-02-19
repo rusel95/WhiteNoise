@@ -424,7 +424,7 @@ class SoundViewModel: ObservableObject, Identifiable, VolumeControlWithGestures,
         }
 
         // Player is missing or invalid - reload
-        if player != nil && (player?.duration ?? 0) <= 0 {
+        if let existingPlayer = player, existingPlayer.duration <= 0 {
             print("⚠️ SoundVM.\(sound.name) - PLAYER INVALIDATED: Reloading audio...")
             player = nil
             isAudioLoaded = false

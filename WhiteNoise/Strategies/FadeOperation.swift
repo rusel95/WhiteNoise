@@ -113,6 +113,12 @@ final class FadeOperation {
         duration: Double
     ) async {
         let steps = Int(duration * Double(AppConstants.Animation.fadeSteps))
+
+        guard steps > 0 else {
+            player.volume = endVolume
+            return
+        }
+
         let stepDuration = duration / Double(steps)
         
         for step in 0...steps {

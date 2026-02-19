@@ -40,8 +40,9 @@ struct SettingsView: View {
 
     private var currentLanguageName: String {
         let preferredLanguage = Bundle.main.preferredLocalizations.first ?? "en"
+        let languageCode = preferredLanguage.components(separatedBy: "-").first ?? "en"
         let locale = Locale(identifier: preferredLanguage)
-        return locale.localizedString(forLanguageCode: preferredLanguage)?.capitalized ?? preferredLanguage
+        return locale.localizedString(forLanguageCode: languageCode)?.capitalized ?? preferredLanguage
     }
 
     private func openAppLanguageSettings() {
@@ -238,7 +239,7 @@ struct MailView: UIViewControllerRepresentable {
         let vc = MFMailComposeViewController()
         vc.mailComposeDelegate = context.coordinator
         vc.setToRecipients(["support@whitenoise.app"])
-        vc.setSubject("WhiteNoise App Feedback")
+        vc.setSubject(String(localized: "WhiteNoise App Feedback"))
         return vc
     }
 
