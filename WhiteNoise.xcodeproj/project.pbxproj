@@ -71,6 +71,11 @@
 		85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C6C2E4353F6002AB6F9 /* SoundConfigurationLoader.swift */; };
 		85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C702E4353F6002AB6F9 /* TimerService.swift */; };
 		85F61C802E4353FE002AB6F9 /* WhiteNoisesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */; };
+		85B1A0022EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0012EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift */; };
+		85B1A0042EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0032EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift */; };
+		85B1A0062EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0052EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift */; };
+		85B1A0082EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0072EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift */; };
+		85B1A00A2EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0092EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift */; };
 		85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */; };
 		85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */; };
 		85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C852E435402002AB6F9 /* TimerPickerView.swift */; };
@@ -165,6 +170,11 @@
 		85F61C702E4353F6002AB6F9 /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
 		85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
 		85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesViewModel.swift; sourceTree = "<group>"; };
+		85B1A0012EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+Playback.swift"; sourceTree = "<group>"; };
+		85B1A0032EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+Timer.swift"; sourceTree = "<group>"; };
+		85B1A0052EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+RemoteCommands.swift"; sourceTree = "<group>"; };
+		85B1A0072EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+Lifecycle.swift"; sourceTree = "<group>"; };
+		85B1A0092EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+NowPlaying.swift"; sourceTree = "<group>"; };
 		85F61C822E435402002AB6F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		85F61C842E435402002AB6F9 /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
 		85F61C852E435402002AB6F9 /* TimerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerView.swift; sourceTree = "<group>"; };
@@ -442,6 +452,11 @@
 			children = (
 				85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */,
 				85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */,
+				85B1A0012EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift */,
+				85B1A0032EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift */,
+				85B1A0052EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift */,
+				85B1A0072EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift */,
+				85B1A0092EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -699,6 +714,11 @@
 				85F61C772E4353F6002AB6F9 /* AudioSessionService.swift in Sources */,
 				85F61C782E4353F6002AB6F9 /* RemoteCommandService.swift in Sources */,
 				85F61C802E4353FE002AB6F9 /* WhiteNoisesViewModel.swift in Sources */,
+				85B1A0022EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift in Sources */,
+				85B1A0042EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift in Sources */,
+				85B1A0062EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift in Sources */,
+				85B1A0082EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift in Sources */,
+				85B1A00A2EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift in Sources */,
 				85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */,
 				85F61C792E4353F6002AB6F9 /* SoundFactory.swift in Sources */,
 				85F61C7A2E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift in Sources */,

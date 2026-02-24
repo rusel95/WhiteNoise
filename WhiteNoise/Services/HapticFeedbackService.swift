@@ -6,9 +6,16 @@
 //
 
 import Foundation
+import SwiftUI
 #if os(iOS)
 import UIKit
 #endif
+
+// MARK: - Environment Key
+
+extension EnvironmentValues {
+    @Entry var hapticService: HapticFeedbackServiceProtocol = HapticFeedbackService.shared
+}
 
 @MainActor
 protocol HapticFeedbackServiceProtocol: Sendable {

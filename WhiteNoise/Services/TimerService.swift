@@ -15,6 +15,7 @@ import Combine
 protocol TimerServiceProtocol: AnyObject {
     var mode: TimerService.TimerMode { get set }
     var remainingTime: String { get }
+    var remainingSeconds: Int { get }
     var isActive: Bool { get }
     var hasRemainingTime: Bool { get }
     var onTimerExpired: (() async -> Void)? { get set }
@@ -32,7 +33,7 @@ class TimerService: ObservableObject, TimerServiceProtocol {
     @Published var remainingTime: String = ""
     @Published private(set) var isActive = false
     
-    private var remainingSeconds: Int = 0
+    private(set) var remainingSeconds: Int = 0
     private var timerTask: Task<Void, Never>?
     private var isPaused = false
     
@@ -40,11 +41,6 @@ class TimerService: ObservableObject, TimerServiceProtocol {
         return remainingSeconds > 0 && !mode.isOff
     }
 
-    /// Exposes remaining seconds for testing purposes
-    var remainingSecondsValue: Int {
-        return remainingSeconds
-    }
-    
     var onTimerExpired: (() async -> Void)?
     var onTimerTick: ((Int) -> Void)?
     
@@ -62,30 +58,16 @@ class TimerService: ObservableObject, TimerServiceProtocol {
     /// - Important: This method resets any existing timer state and starts fresh.
     ///   Use `resume()` to continue a paused timer.
     func start(mode: TimerMode) {
-        guard mode != .off else {
-            print("⚠️ TimerSvc.start - SKIPPED: Mode is off")
-            return
-        }
-        
-        print("🎯 TimerSvc.start - START: mode=\(mode.displayText) (\(mode.totalSeconds)s)")
-        print("📊 TimerSvc.start - PRE-STATE: active=\(isActive), paused=\(isPaused), remaining=\(remainingSeconds)s")
-        
+        guard mode != .off else { return }
+
         self.mode = mode
         self.remainingSeconds = mode.totalSeconds
         self.isActive = true
         self.isPaused = false
         updateDisplay()
-        
-        if timerTask != nil {
-            print("🔄 TimerSvc.start - CANCELLING: Previous timer task")
-            timerTask?.cancel()
-        }
-        
-        print("⏱️ TimerSvc.start - CREATING: New timer task for \(mode.totalSeconds) seconds")
 
-        startCountdownTask(logPrefix: "start")
-
-        print("✅ TimerSvc.start - COMPLETED: Timer started with \(remainingTime)")
+        timerTask?.cancel()
+        startCountdownTask()
     }
     
     /// Pauses the currently running timer.
@@ -97,20 +79,10 @@ class TimerService: ObservableObject, TimerServiceProtocol {
     ///
     /// - Important: This method differs from `stop()` which completely resets the timer.
     func pause() {
-        print("🎯 TimerSvc.pause - START")
-        print("📊 TimerSvc.pause - PRE-STATE: active=\(isActive), paused=\(isPaused), remaining=\(remainingSeconds)s (\(remainingTime))")
-        
-        if timerTask != nil {
-            print("🔄 TimerSvc.pause - CANCELLING: Timer task")
-            timerTask?.cancel()
-            timerTask = nil
-        }
-        
+        timerTask?.cancel()
+        timerTask = nil
         isActive = false
         isPaused = true
-        
-        print("📊 TimerSvc.pause - POST-STATE: active=\(isActive), paused=\(isPaused), remaining=\(remainingSeconds)s")
-        print("✅ TimerSvc.pause - COMPLETED: Timer paused at \(remainingTime)")
     }
     
     /// Resumes a paused timer from where it left off.
@@ -122,28 +94,14 @@ class TimerService: ObservableObject, TimerServiceProtocol {
     ///
     /// - Note: If the timer was not paused or has no remaining time, this method does nothing.
     func resume() {
-        print("🎯 TimerSvc.resume - START")
-        print("📊 TimerSvc.resume - PRE-STATE: mode=\(mode), paused=\(isPaused), remaining=\(remainingSeconds)s")
-        
-        guard mode != .off && remainingSeconds > 0 && isPaused else {
-            print("⚠️ TimerSvc.resume - SKIPPED: Invalid state (mode=\(mode), remaining=\(remainingSeconds), paused=\(isPaused))")
-            return
-        }
-        
+        guard mode != .off && remainingSeconds > 0 && isPaused else { return }
+
         isPaused = false
         isActive = true
         updateDisplay()
-        
-        if timerTask != nil {
-            print("🔄 TimerSvc.resume - CANCELLING: Previous timer task")
-            timerTask?.cancel()
-        }
-        
-        print("⏱️ TimerSvc.resume - CREATING: Resume task for \(remainingSeconds) seconds")
 
-        startCountdownTask(logPrefix: "resume")
-
-        print("✅ TimerSvc.resume - COMPLETED: Timer resumed at \(remainingTime)")
+        timerTask?.cancel()
+        startCountdownTask()
     }
     
     /// Completely stops and resets the timer.
@@ -158,23 +116,13 @@ class TimerService: ObservableObject, TimerServiceProtocol {
     ///
     /// - Important: Use `pause()` if you want to preserve the timer state for later resumption.
     func stop() {
-        print("🎯 TimerSvc.stop - START")
-        print("📊 TimerSvc.stop - PRE-STATE: mode=\(mode), active=\(isActive), paused=\(isPaused), remaining=\(remainingSeconds)s")
-        
-        if timerTask != nil {
-            print("🔄 TimerSvc.stop - CANCELLING: Timer task")
-            timerTask?.cancel()
-            timerTask = nil
-        }
-        
+        timerTask?.cancel()
+        timerTask = nil
         mode = .off
         remainingSeconds = 0
         remainingTime = ""
         isActive = false
         isPaused = false
-        
-        print("📊 TimerSvc.stop - POST-STATE: All timer state reset")
-        print("✅ TimerSvc.stop - COMPLETED: Timer fully stopped and reset")
     }
     
     private func updateDisplay() {
@@ -194,22 +142,16 @@ class TimerService: ObservableObject, TimerServiceProtocol {
         await onTimerExpired?()
     }
 
-    /// Shared countdown logic for both start() and resume()
-    /// - Parameter logPrefix: Prefix for log messages (e.g., "start" or "resume")
-    private func startCountdownTask(logPrefix: String) {
+    private func startCountdownTask() {
         let currentMode = mode
         timerTask = Task { [weak self] in
-            print("⏱️ TimerSvc.\(logPrefix) - TASK STARTED: Beginning countdown")
-
             while !Task.isCancelled {
                 try? await Task.sleep(nanoseconds: AppConstants.Timer.updateInterval)
-
                 guard !Task.isCancelled else { break }
 
                 guard let self = self else {
-                    print("❌ TimerSvc.\(logPrefix) - TASK CANCELLED: Self deallocated")
                     TelemetryService.captureNonFatal(
-                        message: "TimerService.\(logPrefix) countdown lost self",
+                        message: "TimerService countdown lost self",
                         extra: ["mode": currentMode.displayText]
                     )
                     break
@@ -218,21 +160,12 @@ class TimerService: ObservableObject, TimerServiceProtocol {
                 if self.remainingSeconds > 0 {
                     self.remainingSeconds -= 1
                     self.updateDisplay()
-
-                    // Log every 10 seconds or when less than 10 seconds remain
-                    if self.remainingSeconds % 10 == 0 || self.remainingSeconds < 10 {
-                        print("⏱️ TimerSvc - TICK: \(self.remainingTime) remaining")
-                    }
-
                     self.onTimerTick?(self.remainingSeconds)
                 } else {
-                    print("⏱️ TimerSvc - EXPIRED: Timer reached zero")
                     await self.handleTimerExpired()
                     break
                 }
             }
-
-            print("⏱️ TimerSvc.\(logPrefix) - TASK ENDED")
         }
     }
 }

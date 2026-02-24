@@ -14,6 +14,7 @@ import Combine
 @MainActor
 protocol AudioSessionManaging: AnyObject {
     var isInterrupted: Bool { get }
+    var onInterruptionChanged: ((Bool) -> Void)? { get set }
     func setupAudioSession()
     func ensureActive() async
     func reconfigure() async
@@ -21,8 +22,11 @@ protocol AudioSessionManaging: AnyObject {
 
 @MainActor
 class AudioSessionService: ObservableObject, AudioSessionManaging {
-    @Published private(set) var isInterrupted = false
-    
+    @Published private(set) var isInterrupted = false {
+        didSet { onInterruptionChanged?(isInterrupted) }
+    }
+    var onInterruptionChanged: ((Bool) -> Void)?
+
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -33,12 +37,10 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
     func setupAudioSession() {
         #if os(iOS)
         do {
-            print("🎵 Setting up audio session")
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
-            print("✅ Audio session activated successfully")
         } catch {
-            print("❌ Failed to set audio session: \(error)")
+            LoggingService.logError("Failed to set audio session: \(error.localizedDescription)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "AudioSessionService.setupAudioSession failed"
@@ -53,10 +55,9 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
             let session = AVAudioSession.sharedInstance()
             if !session.isOtherAudioPlaying {
                 try session.setActive(true)
-                print("✅ Audio session activated")
             }
         } catch {
-            print("❌ Failed to activate audio session: \(error)")
+            LoggingService.logError("Failed to activate audio session: \(error.localizedDescription)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "AudioSessionService.ensureActive failed"
@@ -71,9 +72,8 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.playback, mode: .default)
             try session.setActive(true)
-            print("✅ Audio session reconfigured")
         } catch {
-            print("❌ Failed to reconfigure audio session: \(error)")
+            LoggingService.logError("Failed to reconfigure audio session: \(error.localizedDescription)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "AudioSessionService.reconfigure failed"
