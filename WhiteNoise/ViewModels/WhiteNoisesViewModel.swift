@@ -27,9 +27,11 @@ final class WhiteNoisesViewModel {
     private(set) var isPlaying: Bool = false
     private(set) var remainingTimerTime: String = ""
 
-    var timerMode: TimerService.TimerMode {
-        get { timerService.mode }
-        set { handleTimerModeChange(newValue) }
+    var timerMode: TimerService.TimerMode = .off {
+        didSet {
+            guard timerMode != oldValue else { return }
+            handleTimerModeChange(timerMode)
+        }
     }
 
     // MARK: - Services

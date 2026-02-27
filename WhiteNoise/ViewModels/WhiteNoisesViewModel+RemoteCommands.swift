@@ -11,6 +11,8 @@ extension WhiteNoisesViewModel {
         // Timer service callbacks
         timerService.onTimerExpired = { [weak self] in
             await self?.pauseSounds(fadeDuration: AppConstants.Animation.fadeOut)
+            self?.timerMode = .off
+            self?.setRemainingTimerTime("")
         }
 
         timerService.onTimerTick = { [weak self] remainingSeconds in
