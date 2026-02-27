@@ -7,14 +7,13 @@
 
 import Foundation
 
-class Sound: Codable, Identifiable {
-    
-    class SoundVariant: Codable, Identifiable, Hashable {
-        
+struct Sound: Codable, Identifiable {
+
+    struct SoundVariant: Codable, Identifiable, Hashable {
         let id: UUID
         let name: String
         let filename: String
-        
+
         init(
             id: UUID = UUID(),
             name: String,
@@ -24,22 +23,13 @@ class Sound: Codable, Identifiable {
             self.name = name
             self.filename = filename
         }
-        
-        static func == (lhs: SoundVariant, rhs: SoundVariant) -> Bool {
-            return lhs.id == rhs.id
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
     }
-    
+
     enum Icon: Codable {
         case system(String)
         case custom(String)
     }
 
-    // STABILITY FIX: Use throwing init instead of fatalError for runtime errors
     enum SoundError: Error, LocalizedError {
         case noVariantsProvided
         case invalidVariantSelection
@@ -54,9 +44,7 @@ class Sound: Codable, Identifiable {
         }
     }
 
-    var id: String {
-        name
-    }
+    var id: String { name }
 
     let name: String
     let icon: Icon
@@ -86,7 +74,6 @@ class Sound: Codable, Identifiable {
         self.soundVariants = soundVariants
 
         if let selected = selectedSoundVariant {
-            // Validate that selected variant exists in the list
             guard soundVariants.contains(where: { $0.id == selected.id }) else {
                 TelemetryService.captureNonFatal(
                     message: "Sound.init failed: invalid variant selection",
@@ -97,9 +84,7 @@ class Sound: Codable, Identifiable {
             }
             self.selectedSoundVariant = selected
         } else {
-            // Safe to force unwrap here due to guard above
             self.selectedSoundVariant = soundVariants.first!
         }
     }
-    
 }

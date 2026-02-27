@@ -9,15 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @StateObject var viewModel = WhiteNoisesViewModel()
+    @State private var viewModel = WhiteNoisesViewModel.makeDefault()
     
     var body: some View {
         WhiteNoisesView(viewModel: viewModel)
+            .task { await viewModel.bootstrap() }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+#Preview {
+    ContentView()
 }

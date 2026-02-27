@@ -9,10 +9,16 @@ import SwiftUI
 
 struct SoundView: View {
 
-    @ObservedObject var viewModel: SoundViewModel
+    let viewModel: SoundViewModel
     let layout: AdaptiveLayout
     @Environment(\.colorScheme) private var colorScheme
-    private let hapticService: HapticFeedbackServiceProtocol = HapticFeedbackService.shared
+    @Environment(\.hapticService) private var hapticService
+
+    // MARK: - Slider Geometry (View-layer concern)
+    @State private var sliderWidth: CGFloat = 0
+    @State private var lastDragValue: CGFloat = 0
+    @State private var maxWidth: CGFloat = 0
+    @State private var isInteractive: Bool = false
 
     private var theme: ThemeColors {
         ThemeColors(colorScheme: colorScheme)
@@ -73,7 +79,7 @@ struct SoundView: View {
                 Rectangle()
                     .fill(Color.primary.opacity(0.02))
 
-                // Filled track with gradient - semi-transparent to show background
+                // Filled track with gradient
                 Rectangle()
                     .fill(
                         LinearGradient(
@@ -85,35 +91,54 @@ struct SoundView: View {
                             endPoint: .trailing
                         )
                     )
-                    .frame(width: max(0, min(viewModel.sliderWidth, geometry.size.width)))
-                    .animation(.easeOut(duration: 0.5), value: viewModel.sliderWidth)
+                    .frame(width: max(0, min(sliderWidth, geometry.size.width)))
             }
             .onAppear {
-                viewModel.maxWidth = geometry.size.width
+                maxWidth = geometry.size.width
+                guard maxWidth > 0 else {
+                    isInteractive = false
+                    return
+                }
+                let target = CGFloat(viewModel.volume) * maxWidth
+                if target > 0 {
+                    // Animate fill-up from 0 on launch
+                    sliderWidth = 0
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double.random(in: 0...0.15)) {
+                        withAnimation(.easeOut(duration: 0.5)) {
+                            sliderWidth = target
+                        }
+                        lastDragValue = target
+                        isInteractive = true
+                    }
+                } else {
+                    isInteractive = true
+                }
             }
             .onChange(of: geometry.size.width) { _, newWidth in
-                viewModel.maxWidth = newWidth
+                maxWidth = newWidth
+                sliderWidth = CGFloat(viewModel.volume) * newWidth
+                lastDragValue = sliderWidth
+                if newWidth > 0 { isInteractive = true }
+            }
+            .onChange(of: viewModel.volume) { _, newVolume in
+                guard maxWidth > 0 else { return }
+                let expected = CGFloat(newVolume) * maxWidth
+                // Only sync if not being dragged (avoid feedback loop)
+                if abs(sliderWidth - expected) > 1 {
+                    sliderWidth = expected
+                    lastDragValue = sliderWidth
+                }
             }
             .onTapGesture { location in
-                guard viewModel.isVolumeInteractive, viewModel.maxWidth > 0 else { return }
+                guard isInteractive, maxWidth > 0 else { return }
                 hapticService.impact(style: .light)
-                viewModel.sliderWidth = max(0, min(location.x, viewModel.maxWidth))
-                viewModel.lastDragValue = viewModel.sliderWidth
-
-                let progress = viewModel.sliderWidth / viewModel.maxWidth
-                viewModel.volume = Float(progress)
+                sliderWidth = max(0, min(location.x, maxWidth))
+                lastDragValue = sliderWidth
+                viewModel.volume = Float(sliderWidth / maxWidth)
             }
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        viewModel.dragDidChange(newTranslationWidth: value.translation.width)
-                    }
-                    .onEnded { _ in
-                        viewModel.dragDidEnded()
-                    }
-            )
+            .simultaneousGesture(volumeDragGesture)
         }
-        .allowsHitTesting(viewModel.isVolumeInteractive)
+        .allowsHitTesting(isInteractive)
     }
 
     // MARK: - Card Content
@@ -222,15 +247,7 @@ struct SoundView: View {
             }
         }
         // Allow volume slider drag gestures to continue even when starting on the variant selector
-        .gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { value in
-                    viewModel.dragDidChange(newTranslationWidth: value.translation.width)
-                }
-                .onEnded { _ in
-                    viewModel.dragDidEnded()
-                }
-        )
+        .gesture(volumeDragGesture)
     }
 }
 
@@ -243,5 +260,21 @@ private extension SoundView {
 
     var textStackSpacing: CGFloat {
         layout.isRegular ? 10 : 6
+    }
+
+    var volumeDragGesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                guard isInteractive, maxWidth > 0 else { return }
+                let newWidth = value.translation.width + lastDragValue
+                sliderWidth = min(max(0, newWidth), maxWidth)
+                let progress = maxWidth > 0 ? sliderWidth / maxWidth : 0
+                viewModel.volume = Float(min(max(0, progress), 1.0))
+            }
+            .onEnded { _ in
+                guard isInteractive else { return }
+                sliderWidth = min(max(0, sliderWidth), maxWidth)
+                lastDragValue = sliderWidth
+            }
     }
 }

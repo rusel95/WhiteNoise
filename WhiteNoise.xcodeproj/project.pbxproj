@@ -55,6 +55,11 @@
 		85AB61DD2E79809500549201 /* 255890__andreasmustola__white-noise.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */; };
 		85AB61DE2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */; };
 		85AD4DBB2ED6423100C48EDB /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AD4DBA2ED6423100C48EDB /* LoggingService.swift */; };
+		85B1A0022EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0012EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift */; };
+		85B1A0042EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0032EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift */; };
+		85B1A0062EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0052EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift */; };
+		85B1A0082EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0072EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift */; };
+		85B1A00A2EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B1A0092EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift */; };
 		85E4A0B12E9C8B1F0046A9D3 /* TrialReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */; };
 		85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */; };
 		85F61C5F2E4353E0002AB6F9 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */; };
@@ -148,6 +153,11 @@
 		85AB61D92E79809500549201 /* 255890__andreasmustola__white-noise.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "255890__andreasmustola__white-noise.m4a"; sourceTree = "<group>"; };
 		85AB61DA2E79809500549201 /* 349315__newagesoup__white_noise-10s.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "349315__newagesoup__white_noise-10s.m4a"; sourceTree = "<group>"; };
 		85AD4DBA2ED6423100C48EDB /* LoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
+		85B1A0012EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+Playback.swift"; sourceTree = "<group>"; };
+		85B1A0032EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+Timer.swift"; sourceTree = "<group>"; };
+		85B1A0052EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+RemoteCommands.swift"; sourceTree = "<group>"; };
+		85B1A0072EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+Lifecycle.swift"; sourceTree = "<group>"; };
+		85B1A0092EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WhiteNoisesViewModel+NowPlaying.swift"; sourceTree = "<group>"; };
 		85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialReminderScheduler.swift; sourceTree = "<group>"; };
 		85F61C5A2E4353D9002AB6F9 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		85F61C5D2E4353E0002AB6F9 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
@@ -442,6 +452,11 @@
 			children = (
 				85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */,
 				85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */,
+				85B1A0012EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift */,
+				85B1A0032EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift */,
+				85B1A0052EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift */,
+				85B1A0072EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift */,
+				85B1A0092EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -476,19 +491,19 @@
 			path = WhiteNoiseUnitTests;
 			sourceTree = "<group>";
 		};
+		D0C5F00012345678DOCS0001 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
 		EE37D754B833475BB2129E7D /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
 				0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */,
 			);
 			path = Configuration;
-			sourceTree = "<group>";
-		};
-		D0C5F00012345678DOCS0001 /* docs */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = docs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -699,6 +714,11 @@
 				85F61C772E4353F6002AB6F9 /* AudioSessionService.swift in Sources */,
 				85F61C782E4353F6002AB6F9 /* RemoteCommandService.swift in Sources */,
 				85F61C802E4353FE002AB6F9 /* WhiteNoisesViewModel.swift in Sources */,
+				85B1A0022EDD000100A1B1C1 /* WhiteNoisesViewModel+Playback.swift in Sources */,
+				85B1A0042EDD000100A1B1C1 /* WhiteNoisesViewModel+Timer.swift in Sources */,
+				85B1A0062EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift in Sources */,
+				85B1A0082EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift in Sources */,
+				85B1A00A2EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift in Sources */,
 				85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */,
 				85F61C792E4353F6002AB6F9 /* SoundFactory.swift in Sources */,
 				85F61C7A2E4353F6002AB6F9 /* AVAudioPlayerWrapper.swift in Sources */,
@@ -791,7 +811,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -853,7 +873,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -875,7 +895,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 83;
+				CURRENT_PROJECT_VERSION = 142;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -899,7 +919,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -922,7 +942,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 83;
+				CURRENT_PROJECT_VERSION = 142;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -946,7 +966,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ruslan.whiteNoise.WhiteNoise;
 				PRODUCT_NAME = WhiteSoundRuslan1234;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

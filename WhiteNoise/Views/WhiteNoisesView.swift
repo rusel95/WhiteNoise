@@ -9,9 +9,9 @@ import SwiftUI
 
 struct WhiteNoisesView: View {
 
-    @ObservedObject var viewModel: WhiteNoisesViewModel
+    @Bindable var viewModel: WhiteNoisesViewModel
     @Environment(\.colorScheme) private var colorScheme
-    private let hapticService: HapticFeedbackServiceProtocol = HapticFeedbackService.shared
+    @Environment(\.hapticService) private var hapticService
 
     @State private var showTimerPicker = false
     @State private var showSettings = false
@@ -179,10 +179,6 @@ struct ScaleButtonStyle: ButtonStyle {
     }
 }
 
-// MARK: - Preview
-
-struct WhiteNoiseView_Previews: PreviewProvider {
-    static var previews: some View {
-        WhiteNoisesView(viewModel: .init())
-    }
+#Preview {
+    WhiteNoisesView(viewModel: .makeDefault())
 }

@@ -17,31 +17,31 @@ final class TimerServiceTests: XCTestCase {
         // Start a short timer (use fiveMinutes but only wait a couple of seconds)
         await MainActor.run { svc.start(mode: .fiveMinutes) }
         XCTAssertTrue(await MainActor.run { svc.isActive })
-        let startRemaining = await MainActor.run { svc.remainingSecondsValue }
+        let startRemaining = await MainActor.run { svc.remainingSeconds }
         XCTAssertEqual(startRemaining, TimerService.TimerMode.fiveMinutes.totalSeconds)
 
         // Wait ~2 seconds and verify time decreased
         try await Task.sleep(nanoseconds: 2_200_000_000)
-        let after2s = await MainActor.run { svc.remainingSecondsValue }
+        let after2s = await MainActor.run { svc.remainingSeconds }
         XCTAssertLessThan(after2s, startRemaining, "Timer should count down")
 
         // Pause and verify it holds steady after 1s
         await MainActor.run { svc.pause() }
-        let paused = await MainActor.run { svc.remainingSecondsValue }
+        let paused = await MainActor.run { svc.remainingSeconds }
         try await Task.sleep(nanoseconds: 1_200_000_000)
-        let pausedAfter = await MainActor.run { svc.remainingSecondsValue }
+        let pausedAfter = await MainActor.run { svc.remainingSeconds }
         XCTAssertEqual(paused, pausedAfter, "Paused timer should not change remaining seconds")
 
         // Resume and verify it moves again
         await MainActor.run { svc.resume() }
         try await Task.sleep(nanoseconds: 1_200_000_000)
-        let resumedAfter = await MainActor.run { svc.remainingSecondsValue }
+        let resumedAfter = await MainActor.run { svc.remainingSeconds }
         XCTAssertLessThan(resumedAfter, pausedAfter, "Resumed timer should continue counting down")
 
         // Stop and verify state cleared
         await MainActor.run { svc.stop() }
         XCTAssertFalse(await MainActor.run { svc.isActive })
-        XCTAssertEqual(await MainActor.run { svc.remainingSecondsValue }, 0)
+        XCTAssertEqual(await MainActor.run { svc.remainingSeconds }, 0)
         XCTAssertEqual(await MainActor.run { svc.remainingTime }, "")
     }
 }

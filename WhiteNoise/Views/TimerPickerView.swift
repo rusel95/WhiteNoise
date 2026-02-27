@@ -11,6 +11,7 @@ struct TimerPickerView: View {
     @Binding var timerMode: TimerService.TimerMode
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hapticService) private var hapticService
 
     @State private var selectedMode: TimerService.TimerMode
     @State private var showCustomPicker: Bool = false
@@ -220,7 +221,7 @@ struct TimerPickerView: View {
 
     private var customTimeButton: some View {
         Button {
-            HapticFeedbackService.shared.selection()
+            hapticService.selection()
             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                 showCustomPicker = true
             }
@@ -316,10 +317,10 @@ struct TimerPickerView: View {
                 }
             }
             .onChange(of: customHours) { _, _ in
-                HapticFeedbackService.shared.selection()
+                hapticService.selection()
             }
             .onChange(of: customMinutes) { _, _ in
-                HapticFeedbackService.shared.selection()
+                hapticService.selection()
             }
 
             // Set button
@@ -379,7 +380,7 @@ struct TimerPickerView: View {
     // MARK: - Helpers
 
     private func selectAndDismiss(_ mode: TimerService.TimerMode) {
-        HapticFeedbackService.shared.impact(style: .medium)
+        hapticService.impact(style: .medium)
         timerMode = mode
         dismiss()
     }

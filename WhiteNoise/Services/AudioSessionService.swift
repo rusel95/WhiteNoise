@@ -14,17 +14,25 @@ import Combine
 @MainActor
 protocol AudioSessionManaging: AnyObject {
     var isInterrupted: Bool { get }
+    var onInterruptionChanged: ((Bool) -> Void)? { get set }
     func setupAudioSession()
-    func ensureActive() async
+    @discardableResult func ensureActive() async -> Bool
     func reconfigure() async
 }
 
 @MainActor
 class AudioSessionService: ObservableObject, AudioSessionManaging {
-    @Published private(set) var isInterrupted = false
-    
+    @Published private(set) var isInterrupted = false {
+        didSet { onInterruptionChanged?(isInterrupted) }
+    }
+    var onInterruptionChanged: ((Bool) -> Void)?
+
     private var cancellables = Set<AnyCancellable>()
-    
+
+    deinit {
+        cancellables.removeAll()
+    }
+
     init() {
         setupAudioSession()
         setupInterruptionHandling()
@@ -33,12 +41,10 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
     func setupAudioSession() {
         #if os(iOS)
         do {
-            print("🎵 Setting up audio session")
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
-            print("✅ Audio session activated successfully")
         } catch {
-            print("❌ Failed to set audio session: \(error)")
+            LoggingService.logError("Failed to set audio session: \(error.localizedDescription)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "AudioSessionService.setupAudioSession failed"
@@ -47,22 +53,42 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
         #endif
     }
     
-    func ensureActive() async {
+    /// Ensures the audio session is ready for playback.
+    ///
+    /// - Returns: `true` if the session is ready (either already active via another app's
+    ///   audio or successfully activated), `false` if activation failed after retries.
+    @discardableResult
+    func ensureActive() async -> Bool {
         #if os(iOS)
-        do {
-            let session = AVAudioSession.sharedInstance()
-            if !session.isOtherAudioPlaying {
+        let session = AVAudioSession.sharedInstance()
+        // Session is already active when other audio is playing (e.g. mix mode).
+        // Our .playback category was configured in init, so we're ready.
+        if session.isOtherAudioPlaying {
+            return true
+        }
+
+        let maxRetries = 3
+        for attempt in 1...maxRetries {
+            do {
                 try session.setActive(true)
-                print("✅ Audio session activated")
+                return true
+            } catch {
+                LoggingService.logWarning("Audio session activation attempt \(attempt)/\(maxRetries) failed: \(error.localizedDescription)")
+
+                if attempt < maxRetries {
+                    try? await Task.sleep(for: .milliseconds(100 * attempt))
+                } else {
+                    LoggingService.logError("Audio session activation failed after \(maxRetries) attempts")
+                    TelemetryService.captureNonFatal(
+                        error: error,
+                        message: "AudioSessionService.ensureActive failed after \(maxRetries) retries"
+                    )
+                    return false
+                }
             }
-        } catch {
-            print("❌ Failed to activate audio session: \(error)")
-            TelemetryService.captureNonFatal(
-                error: error,
-                message: "AudioSessionService.ensureActive failed"
-            )
         }
         #endif
+        return true
     }
     
     func reconfigure() async {
@@ -71,9 +97,8 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.playback, mode: .default)
             try session.setActive(true)
-            print("✅ Audio session reconfigured")
         } catch {
-            print("❌ Failed to reconfigure audio session: \(error)")
+            LoggingService.logError("Failed to reconfigure audio session: \(error.localizedDescription)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "AudioSessionService.reconfigure failed"

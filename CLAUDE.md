@@ -76,7 +76,7 @@ The timer system has been refactored to use modern Swift concurrency:
 
 When modifying this codebase:
 
-1. **SwiftUI Best Practices**: Use `@StateObject` for view models, `@Published` for observable properties
+1. **SwiftUI Best Practices**: Use `@Observable` with `@MainActor` for view models, `@State` for ownership in views (iOS 17+). Do not use legacy `@StateObject`/`@Published`/`ObservableObject`
 2. **Audio Management**: Always handle audio session configuration and interruptions properly
 3. **State Persistence**: Save user preferences immediately when changed
 4. **Resource Management**: Audio files should be properly loaded and released
@@ -135,7 +135,7 @@ The codebase must adhere to SOLID principles:
 
 ## Important Configuration
 
-- **Minimum iOS Version**: Check `project.pbxproj` for deployment target
+- **Minimum iOS Version**: iOS 17.0 (required for `@Observable`)
 - **Background Modes**: Audio background mode is enabled in Info.plist
 - **Device Support**: Universal app supporting iPhone and iPad
 

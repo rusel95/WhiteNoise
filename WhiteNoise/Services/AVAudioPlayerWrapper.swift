@@ -84,13 +84,13 @@ final class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
             throw AudioError.fileNotFound(filename)
         }
 
-        // Load audio on background thread, then create wrapper on MainActor
-        // Note: We skip prepareToPlay() here for faster loading.
-        // Audio will buffer on first play() call instead.
+        // Load audio on background thread with prepareToPlay() to pre-buffer,
+        // so play() is near-instant when called on MainActor later.
         let player = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<AVAudioPlayer, Error>) in
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
                     let avPlayer = try AVAudioPlayer(contentsOf: audioURL)
+                    avPlayer.prepareToPlay()
                     continuation.resume(returning: avPlayer)
                 } catch {
                     continuation.resume(throwing: error)

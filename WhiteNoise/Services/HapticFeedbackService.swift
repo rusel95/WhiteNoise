@@ -6,15 +6,30 @@
 //
 
 import Foundation
+import SwiftUI
 #if os(iOS)
 import UIKit
 #endif
 
-@MainActor
+// MARK: - Protocol
+
 protocol HapticFeedbackServiceProtocol: Sendable {
-    func impact(style: HapticFeedbackStyle)
-    func notification(type: HapticNotificationType)
-    func selection()
+    @MainActor func impact(style: HapticFeedbackStyle)
+    @MainActor func notification(type: HapticNotificationType)
+    @MainActor func selection()
+}
+
+// MARK: - Environment Key
+
+private struct HapticServiceKey: EnvironmentKey {
+    static let defaultValue: HapticFeedbackServiceProtocol = HapticFeedbackService.shared
+}
+
+extension EnvironmentValues {
+    var hapticService: HapticFeedbackServiceProtocol {
+        get { self[HapticServiceKey.self] }
+        set { self[HapticServiceKey.self] = newValue }
+    }
 }
 
 enum HapticFeedbackStyle: Sendable {
@@ -31,11 +46,10 @@ enum HapticNotificationType: Sendable {
     case error
 }
 
-@MainActor
 final class HapticFeedbackService: HapticFeedbackServiceProtocol {
 
     static let shared = HapticFeedbackService()
-    
+
     private init() {}
     
     func impact(style: HapticFeedbackStyle) {
