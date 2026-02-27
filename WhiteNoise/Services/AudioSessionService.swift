@@ -16,7 +16,7 @@ protocol AudioSessionManaging: AnyObject {
     var isInterrupted: Bool { get }
     var onInterruptionChanged: ((Bool) -> Void)? { get set }
     func setupAudioSession()
-    func ensureActive() async
+    @discardableResult func ensureActive() async -> Bool
     func reconfigure() async
 }
 
@@ -49,21 +49,36 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
         #endif
     }
     
-    func ensureActive() async {
+    @discardableResult
+    func ensureActive() async -> Bool {
         #if os(iOS)
-        do {
-            let session = AVAudioSession.sharedInstance()
-            if !session.isOtherAudioPlaying {
+        let session = AVAudioSession.sharedInstance()
+        if session.isOtherAudioPlaying {
+            return true
+        }
+
+        let maxRetries = 3
+        for attempt in 1...maxRetries {
+            do {
                 try session.setActive(true)
+                return true
+            } catch {
+                LoggingService.logWarning("Audio session activation attempt \(attempt)/\(maxRetries) failed: \(error.localizedDescription)")
+
+                if attempt < maxRetries {
+                    try? await Task.sleep(for: .milliseconds(100 * attempt))
+                } else {
+                    LoggingService.logError("Audio session activation failed after \(maxRetries) attempts")
+                    TelemetryService.captureNonFatal(
+                        error: error,
+                        message: "AudioSessionService.ensureActive failed after \(maxRetries) retries"
+                    )
+                    return false
+                }
             }
-        } catch {
-            LoggingService.logError("Failed to activate audio session: \(error.localizedDescription)")
-            TelemetryService.captureNonFatal(
-                error: error,
-                message: "AudioSessionService.ensureActive failed"
-            )
         }
         #endif
+        return true
     }
     
     func reconfigure() async {

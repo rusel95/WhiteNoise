@@ -25,6 +25,7 @@ final class SoundViewModel: Identifiable {
 
             volumePersistenceTask = Task { [weak self] in
                 guard let self = self else { return }
+                guard !Task.isCancelled else { return }
                 await self.updatePlayerVolume(volume)
                 self.sound.volume = volume
                 self.persistenceService.save(self.sound)
@@ -55,13 +56,13 @@ final class SoundViewModel: Identifiable {
     @ObservationIgnored
     private let persistenceService: SoundPersistenceServiceProtocol
     @ObservationIgnored
-    private nonisolated(unsafe) var fadeTask: Task<Void, Never>?
-    @ObservationIgnored
     private var isAudioLoaded = false
     @ObservationIgnored
     private nonisolated(unsafe) var audioLoadingTask: Task<Void, Never>?
     @ObservationIgnored
     private nonisolated(unsafe) var volumePersistenceTask: Task<Void, Never>?
+    @ObservationIgnored
+    nonisolated(unsafe) var volumeChangeTask: Task<Void, Never>?
     
     // MARK: - Initialization
     init(
@@ -88,9 +89,9 @@ final class SoundViewModel: Identifiable {
     }
     
     deinit {
-        fadeTask?.cancel()
         audioLoadingTask?.cancel()
         volumePersistenceTask?.cancel()
+        volumeChangeTask?.cancel()
     }
     
     // MARK: - Public Methods

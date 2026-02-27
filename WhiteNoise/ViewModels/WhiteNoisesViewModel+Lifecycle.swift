@@ -4,7 +4,9 @@
 //
 
 import Foundation
+#if os(iOS)
 import UIKit
+#endif
 
 extension WhiteNoisesViewModel {
 
@@ -41,17 +43,13 @@ extension WhiteNoisesViewModel {
     private func setupAppLifecycleObservers() {
         #if os(iOS)
         lifecycleTask = Task { [weak self] in
-            await withTaskGroup(of: Void.self) { group in
-                group.addTask { [weak self] in
-                    for await _ in NotificationCenter.default.notifications(named: UIApplication.didBecomeActiveNotification) {
-                        await self?.handleAppDidBecomeActive()
-                    }
-                }
-                group.addTask { [weak self] in
-                    for await _ in NotificationCenter.default.notifications(named: UIApplication.willEnterForegroundNotification) {
-                        await self?.audioSessionService.reconfigure()
-                    }
-                }
+            for await _ in NotificationCenter.default.notifications(named: UIApplication.didBecomeActiveNotification) {
+                await self?.handleAppDidBecomeActive()
+            }
+        }
+        foregroundTask = Task { [weak self] in
+            for await _ in NotificationCenter.default.notifications(named: UIApplication.willEnterForegroundNotification) {
+                await self?.audioSessionService.reconfigure()
             }
         }
         #endif
@@ -64,21 +62,24 @@ extension WhiteNoisesViewModel {
                 await pauseSounds(fadeDuration: AppConstants.Animation.fadeLong)
             }
         } else if wasPlayingBeforeInterruption {
+            await audioSessionService.ensureActive()
             await playSounds(fadeDuration: AppConstants.Animation.fadeLong)
             wasPlayingBeforeInterruption = false
         }
     }
 
     private func handleAppDidBecomeActive() async {
+        let desiredPlaying = isPlaying
         await audioSessionService.reconfigure()
-        syncStateWithActualAudio()
 
-        if isPlaying && actuallyPlayingAudio {
+        if desiredPlaying && !actuallyPlayingAudio {
+            await playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
+        } else if desiredPlaying && actuallyPlayingAudio {
             for soundViewModel in soundsViewModels where soundViewModel.volume > 0 {
                 await soundViewModel.playSound()
             }
-        } else if isPlaying && !actuallyPlayingAudio {
-            await playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
         }
+
+        syncStateWithActualAudio()
     }
 }

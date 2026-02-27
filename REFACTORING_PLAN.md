@@ -18,6 +18,7 @@ Status: All Complete
 ---
 
 ## Phase 1: Critical Safety Issues
+
 > Goal: Eliminate thread-safety risks, Combine/Observation framework mixing, and unmanaged tasks
 > PR size target: ≤200 lines changed per PR
 
@@ -43,6 +44,7 @@ Status: All Complete
 ---
 
 ## Phase 2: @Observable Migration
+
 > Goal: Migrate both ViewModels from `ObservableObject` to `@Observable` (iOS 17+)
 > PR size target: 1 ViewModel + its View(s) per PR
 
@@ -82,6 +84,7 @@ Status: All Complete
 ---
 
 ## Phase 3: ViewState & State Hygiene
+
 > Goal: Enforce unidirectional data flow, eliminate impossible states
 > PR size target: 1 ViewModel per PR
 
@@ -106,6 +109,7 @@ Status: All Complete
 ---
 
 ## Phase 4: Architecture & DI
+
 > Goal: Clean dependency injection, remove singletons, improve testability
 > PR size target: ≤300 lines per PR
 
@@ -142,6 +146,7 @@ Status: All Complete
 ---
 
 ## Discovered Issues
+
 > Issues found during analysis that don't fit neatly into the phases above
 
 - [x] **D1: Excessive logging clutters codebase**
@@ -208,7 +213,7 @@ Status: All Complete
 
 ## Recommended Execution Order
 
-```
+```text
 Phase 1 (3 PRs, sequential):
   PR 1: C2 — Remove SwiftUI import from SoundViewModel
   PR 2: C3 — Lightweight init + .task bootstrap for WhiteNoisesViewModel

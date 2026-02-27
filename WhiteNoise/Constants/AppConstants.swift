@@ -23,6 +23,7 @@ enum AppConstants {
         static let loopForever: Int = -1
         static let slowLoadThreshold: Double = 0.5 // seconds
         static let volumeThreshold: Float = 0.5 // threshold for volume check
+        static let preloadDelayNanoseconds: UInt64 = 100_000_000 // 100ms
     }
 
     enum UI {

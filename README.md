@@ -1,7 +1,7 @@
 # 🎵 White Sound
 
 <div align="center">
-  <img src="https://img.shields.io/badge/iOS-15.0+-000000?style=flat-square&logo=apple&logoColor=white" alt="iOS 15.0+">
+  <img src="https://img.shields.io/badge/iOS-17.0+-000000?style=flat-square&logo=apple&logoColor=white" alt="iOS 17.0+">
   <img src="https://img.shields.io/badge/Swift-5.0+-FA7343?style=flat-square&logo=swift&logoColor=white" alt="Swift 5.0+">
   <img src="https://img.shields.io/badge/SwiftUI-blue?style=flat-square&logo=swift&logoColor=white" alt="SwiftUI">
   <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="MIT License">

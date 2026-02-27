@@ -23,34 +23,25 @@ extension WhiteNoisesViewModel {
 
         // Remote command callbacks
         remoteCommandService.onPlayCommand = { [weak self] in
-            await MainActor.run { [weak self] in
+            Task { @MainActor [weak self] in
                 guard let self else { return }
+                guard !self.actuallyPlayingAudio else { return }
                 self.setPlayingState(true)
-                if !self.actuallyPlayingAudio {
-                    self.playPauseTask?.cancel()
-                    self.playPauseTask = Task {
-                        await self.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
-                    }
-                    if self.timerService.hasRemainingTime && !self.timerService.isActive {
-                        self.timerService.resume()
-                        self.setRemainingTimerTime(self.timerService.remainingTime)
-                    }
+                self.playPauseTask?.cancel()
+                self.playPauseTask = Task { [weak self] in
+                    await self?.playSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
                 }
             }
         }
 
         remoteCommandService.onPauseCommand = { [weak self] in
-            await MainActor.run { [weak self] in
+            Task { @MainActor [weak self] in
                 guard let self else { return }
+                guard self.actuallyPlayingAudio else { return }
                 self.setPlayingState(false)
-                if self.actuallyPlayingAudio {
-                    self.playPauseTask?.cancel()
-                    self.playPauseTask = Task {
-                        await self.pauseSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
-                    }
-                    if self.timerService.isActive {
-                        self.timerService.pause()
-                    }
+                self.playPauseTask?.cancel()
+                self.playPauseTask = Task { [weak self] in
+                    await self?.pauseSounds(fadeDuration: AppConstants.Animation.fadeLong, updateState: false)
                 }
             }
         }

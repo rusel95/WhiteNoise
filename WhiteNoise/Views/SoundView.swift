@@ -96,7 +96,7 @@ struct SoundView: View {
             .onAppear {
                 maxWidth = geometry.size.width
                 guard maxWidth > 0 else {
-                    isInteractive = true
+                    isInteractive = false
                     return
                 }
                 let target = CGFloat(viewModel.volume) * maxWidth
@@ -118,6 +118,16 @@ struct SoundView: View {
                 maxWidth = newWidth
                 sliderWidth = CGFloat(viewModel.volume) * newWidth
                 lastDragValue = sliderWidth
+                if newWidth > 0 { isInteractive = true }
+            }
+            .onChange(of: viewModel.volume) { _, newVolume in
+                guard maxWidth > 0 else { return }
+                let expected = CGFloat(newVolume) * maxWidth
+                // Only sync if not being dragged (avoid feedback loop)
+                if abs(sliderWidth - expected) > 1 {
+                    sliderWidth = expected
+                    lastDragValue = sliderWidth
+                }
             }
             .onTapGesture { location in
                 guard isInteractive, maxWidth > 0 else { return }
@@ -126,7 +136,7 @@ struct SoundView: View {
                 lastDragValue = sliderWidth
                 viewModel.volume = Float(sliderWidth / maxWidth)
             }
-            .gesture(volumeDragGesture)
+            .simultaneousGesture(volumeDragGesture)
         }
         .allowsHitTesting(isInteractive)
     }
@@ -255,7 +265,7 @@ private extension SoundView {
     var volumeDragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
-                guard isInteractive else { return }
+                guard isInteractive, maxWidth > 0 else { return }
                 let newWidth = value.translation.width + lastDragValue
                 sliderWidth = min(max(0, newWidth), maxWidth)
                 let progress = maxWidth > 0 ? sliderWidth / maxWidth : 0

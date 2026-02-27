@@ -50,6 +50,8 @@ final class WhiteNoisesViewModel {
     @ObservationIgnored
     nonisolated(unsafe) var lifecycleTask: Task<Void, Never>?
     @ObservationIgnored
+    nonisolated(unsafe) var foregroundTask: Task<Void, Never>?
+    @ObservationIgnored
     nonisolated(unsafe) var playPauseTask: Task<Void, Never>?
 
     // MARK: - Initialization
@@ -89,6 +91,7 @@ final class WhiteNoisesViewModel {
     deinit {
         playPauseTask?.cancel()
         lifecycleTask?.cancel()
+        foregroundTask?.cancel()
     }
 
     // MARK: - Internal State Mutators (for cross-file extensions)
@@ -121,7 +124,11 @@ final class WhiteNoisesViewModel {
             if wasPlaying {
                 await self.pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
             } else {
-                await self.audioSessionService.ensureActive()
+                let activated = await self.audioSessionService.ensureActive()
+                guard activated else {
+                    self.setPlayingState(false)
+                    return
+                }
                 await self.playSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
             }
         }
@@ -136,7 +143,8 @@ final class WhiteNoisesViewModel {
         for sound in sounds {
             let soundViewModel = SoundViewModel.make(sound: sound)
             soundViewModel.onVolumeChanged = { [weak self] vm, volume in
-                Task { [weak self] in
+                vm.volumeChangeTask?.cancel()
+                vm.volumeChangeTask = Task { [weak self] in
                     await self?.handleVolumeChange(for: vm, volume: volume)
                 }
             }
@@ -144,7 +152,7 @@ final class WhiteNoisesViewModel {
         }
 
         Task.detached(priority: .background) { [weak self] in
-            try? await Task.sleep(nanoseconds: 100_000_000) // 100ms
+            try? await Task.sleep(nanoseconds: AppConstants.Audio.preloadDelayNanoseconds)
             guard let self = self else { return }
             let soundsToPreload = await MainActor.run {
                 self.soundsViewModels.filter { $0.sound.volume > 0 }
