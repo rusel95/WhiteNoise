@@ -9,6 +9,19 @@ import Foundation
 import AVFoundation
 import Observation
 
+// MARK: - Factory Protocol
+
+@MainActor
+protocol SoundViewModelFactoryProtocol {
+    func make(sound: Sound) -> SoundViewModel
+}
+
+struct SoundViewModelFactory: SoundViewModelFactoryProtocol {
+    func make(sound: Sound) -> SoundViewModel {
+        SoundViewModel.make(sound: sound)
+    }
+}
+
 @Observable @MainActor
 final class SoundViewModel: Identifiable {
 
@@ -37,7 +50,12 @@ final class SoundViewModel: Identifiable {
     var selectedSoundVariant: Sound.SoundVariant {
         didSet {
             guard selectedSoundVariant != oldValue else { return }
-            Task { await handleSoundVariantChange(selectedSoundVariant) }
+            variantChangeTask?.cancel()
+            let newVariant = selectedSoundVariant
+            variantChangeTask = Task { [weak self] in
+                guard let self, !Task.isCancelled else { return }
+                await self.handleSoundVariantChange(newVariant)
+            }
         }
     }
     /// Called by WhiteNoisesViewModel to observe volume changes
@@ -63,6 +81,8 @@ final class SoundViewModel: Identifiable {
     private nonisolated(unsafe) var volumePersistenceTask: Task<Void, Never>?
     @ObservationIgnored
     nonisolated(unsafe) var volumeChangeTask: Task<Void, Never>?
+    @ObservationIgnored
+    private nonisolated(unsafe) var variantChangeTask: Task<Void, Never>?
     
     // MARK: - Initialization
     init(
@@ -92,6 +112,7 @@ final class SoundViewModel: Identifiable {
         audioLoadingTask?.cancel()
         volumePersistenceTask?.cancel()
         volumeChangeTask?.cancel()
+        variantChangeTask?.cancel()
     }
     
     // MARK: - Public Methods

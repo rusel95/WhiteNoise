@@ -28,7 +28,11 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
     var onInterruptionChanged: ((Bool) -> Void)?
 
     private var cancellables = Set<AnyCancellable>()
-    
+
+    deinit {
+        cancellables.removeAll()
+    }
+
     init() {
         setupAudioSession()
         setupInterruptionHandling()
@@ -49,10 +53,16 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
         #endif
     }
     
+    /// Ensures the audio session is ready for playback.
+    ///
+    /// - Returns: `true` if the session is ready (either already active via another app's
+    ///   audio or successfully activated), `false` if activation failed after retries.
     @discardableResult
     func ensureActive() async -> Bool {
         #if os(iOS)
         let session = AVAudioSession.sharedInstance()
+        // Session is already active when other audio is playing (e.g. mix mode).
+        // Our .playback category was configured in init, so we're ready.
         if session.isOtherAudioPlaying {
             return true
         }

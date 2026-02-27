@@ -43,6 +43,8 @@ final class WhiteNoisesViewModel {
     let remoteCommandService: RemoteCommandHandling
     @ObservationIgnored
     private let soundFactory: SoundFactoryProtocol
+    @ObservationIgnored
+    private let soundViewModelFactory: SoundViewModelFactoryProtocol
 
     // MARK: - Internal State
     @ObservationIgnored
@@ -59,11 +61,13 @@ final class WhiteNoisesViewModel {
     // MARK: - Initialization
     init(
         soundFactory: SoundFactoryProtocol,
+        soundViewModelFactory: SoundViewModelFactoryProtocol = SoundViewModelFactory(),
         audioSessionService: AudioSessionManaging,
         timerService: TimerServiceProtocol,
         remoteCommandService: RemoteCommandHandling
     ) {
         self.soundFactory = soundFactory
+        self.soundViewModelFactory = soundViewModelFactory
         self.audioSessionService = audioSessionService
         self.timerService = timerService
         self.remoteCommandService = remoteCommandService
@@ -122,12 +126,12 @@ final class WhiteNoisesViewModel {
         isPlaying = !wasPlaying
 
         playPauseTask = Task { [weak self] in
-            guard let self = self else { return }
+            guard let self, !Task.isCancelled else { return }
             if wasPlaying {
                 await self.pauseSounds(fadeDuration: AppConstants.Animation.fadeStandard, updateState: false)
             } else {
                 let activated = await self.audioSessionService.ensureActive()
-                guard activated else {
+                guard activated, !Task.isCancelled else {
                     self.setPlayingState(false)
                     return
                 }
@@ -143,7 +147,7 @@ final class WhiteNoisesViewModel {
         soundsViewModels = []
 
         for sound in sounds {
-            let soundViewModel = SoundViewModel.make(sound: sound)
+            let soundViewModel = soundViewModelFactory.make(sound: sound)
             soundViewModel.onVolumeChanged = { [weak self] vm, volume in
                 vm.volumeChangeTask?.cancel()
                 vm.volumeChangeTask = Task { [weak self] in

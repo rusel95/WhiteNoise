@@ -26,9 +26,4 @@ extension WhiteNoisesViewModel {
             updateNowPlayingInfo()
         }
     }
-
-    func handleTimerExpired() async {
-        await pauseSounds(fadeDuration: AppConstants.Animation.fadeOut)
-        setRemainingTimerTime("")
-    }
 }
