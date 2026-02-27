@@ -1,6 +1,6 @@
 # Testing @Observable ViewModels
 
-## Test Structure: Arrange → Act → Assert + Memory Leak Check
+<test_generation_rules>## Test Structure: Arrange → Act → Assert + Memory Leak Check
 
 Every ViewModel test follows this template:
 
@@ -176,3 +176,4 @@ extension Item {
     static func sample(id: String = ..., name: String = ..., price: Double = ...) -> Item { ... }
 }
 ```
+</test_generation_rules>

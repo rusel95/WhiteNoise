@@ -12,12 +12,24 @@ Enterprise-grade SwiftUI MVVM architecture with @Observable (iOS 17+). Takes a *
 | `URLSession.shared` in ViewModel | Protocol-based Repository + HTTPClient injection |
 | `NavigationLink("Details") { DetailView() }` | Typed `enum Route` + `AppRouter` |
 | No tests | Mock pattern + async testing + memory leak detection |
-| "Fix everything at once" PRs | Phased `REFACTORING_PLAN.md` with ≤200-line PRs |
+| "Fix everything at once" PRs | Phased `refactoring/` directory with ≤200-line PRs |
+
+## Install
+
+```bash
+# Install the skills repository
+npx openskills install git@git.epam.com:epm-ease/research/agent-skills.git
+
+# Install this specific skill
+npx openskills add swiftui-mvvm-architecture
+```
+
+Verify installation by asking your AI agent to refactor a SwiftUI view — it should follow @Observable ViewModel + Router patterns and reference the `refactoring/` directory.
 
 ## When to Use
 
 - Creating new SwiftUI screens or features to enterprise MVVM standards
-- **Refactoring legacy SwiftUI code** — iterative, phased PRs tracked in REFACTORING_PLAN.md
+- **Refactoring legacy SwiftUI code** — iterative, phased PRs tracked in a `refactoring/` directory
 - Migrating from ObservableObject to @Observable
 - Setting up Router-based navigation or dependency injection
 - Building async/await networking layers
