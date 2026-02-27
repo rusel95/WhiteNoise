@@ -193,11 +193,8 @@ final class SoundViewModel: Identifiable {
         fadeOperation.cancel()
 
         guard let player = player else {
-            TelemetryService.captureNonFatal(
-                message: "SoundViewModel.pauseSound missing player",
-                level: .warning,
-                extra: ["soundName": sound.name]
-            )
+            // Player is nil when sound was never loaded (volume=0).
+            // This is expected during bulk pause operations — not an error.
             return
         }
 
