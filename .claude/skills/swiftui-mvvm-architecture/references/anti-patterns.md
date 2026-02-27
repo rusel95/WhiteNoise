@@ -2,7 +2,7 @@
 
 ## How to Use This Reference
 
-When reviewing existing code, check each section below. For every violation found, add it to `REFACTORING_PLAN.md` with severity and recommended fix.
+When reviewing existing code, check each section below. For every violation found, add it to the feature's `refactoring/` plan with severity and recommended fix.
 
 ## Severity Levels
 
@@ -12,6 +12,7 @@ When reviewing existing code, check each section below. For every violation foun
 
 ---
 
+<critical_anti_patterns>
 ## 🔴 Critical Anti-Patterns
 
 ### C1: View body contains Task { }
@@ -106,6 +107,7 @@ final class ViewModel {
     }
 }
 ```
+</critical_anti_patterns>
 
 ---
 
@@ -116,7 +118,7 @@ final class ViewModel {
 **Problem**: Files exceeding 1000 lines are very hard to read, review, and maintain. A ViewModel handling multiple features (user data, cart, analytics, navigation) is a "God ViewModel" — untestable and unmaintainable. An oversized View buries logic and prevents reuse.
 
 **Detection**:
-- **> 1000 lines** — high priority, add a dedicated split task to `REFACTORING_PLAN.md`.
+- **> 1000 lines** — high priority, add a dedicated split task to the feature's `refactoring/` plan.
 - **400–1000 lines** — review for multiple concerns; plan a split if the file is still growing.
 - **≤ 400 lines** — fine as-is.
 
@@ -220,6 +222,7 @@ enum Endpoint {
 
 ---
 
+<detection_checklist>
 ## Detection Checklist for Code Review
 
 When reviewing a PR or analyzing existing code, check in this order:
@@ -231,6 +234,7 @@ When reviewing a PR or analyzing existing code, check in this order:
 5. [ ] **DI via constructor**: Dependencies injected, not accessed globally?
 6. [ ] **Protocol abstractions**: Can repositories be mocked?
 7. [ ] **Navigation via Router**: No direct NavigationLink destinations?
-8. [ ] **File size**: New files ≤ 400 lines? Existing files > 1000 lines flagged for splitting? Oversized files have a task in REFACTORING_PLAN.md?
+8. [ ] **File size**: New files ≤ 400 lines? Existing files > 1000 lines flagged for splitting? Oversized files have a task in the `refactoring/` directory?
 9. [ ] **No SwiftUI import in ViewModel**: Only Foundation + Observation?
 10. [ ] **Tests exist**: ViewModel has corresponding test file?
+</detection_checklist>

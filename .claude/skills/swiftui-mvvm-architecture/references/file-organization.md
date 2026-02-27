@@ -19,7 +19,7 @@ Smaller files are easier to read, review, and maintain. The thresholds below are
 
 **New features** — aim for ≤ 400 lines per file from the start. Splitting at creation time is cheap.
 
-**Refactoring / tech-debt** — do NOT force a file split inside a refactoring PR just to hit a line count. Splitting a 900-line legacy ViewModel is itself a large refactoring; it deserves its own dedicated task in `REFACTORING_PLAN.md`. Forcing it into an unrelated migration PR creates cascading changes, bloats the diff, and defeats the purpose of small focused PRs.
+**Refactoring / tech-debt** — do NOT force a file split inside a refactoring PR just to hit a line count. Splitting a 900-line legacy ViewModel is itself a large refactoring; it deserves its own dedicated task in the feature's `refactoring/` plan. Forcing it into an unrelated migration PR creates cascading changes, bloats the diff, and defeats the purpose of small focused PRs.
 
 ## Decision Tree: How to Split
 

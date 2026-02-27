@@ -141,10 +141,13 @@ The codebase must adhere to SOLID principles:
 
 ## Development Principles Reference
 
-**IMPORTANT**: Before implementing any new feature or modification, consult `/docs/DEVELOPMENT_PRINCIPLES.md` for the comprehensive checklist of patterns and principles to follow. This includes:
-- SOLID principles verification
-- Design pattern selection
-- Code quality checks
-- Pre and post-implementation reviews
+**IMPORTANT**: Before implementing any new feature or modification, consult `.specify/memory/constitution.md` for the authoritative engineering principles. This includes:
+- MVVM with protocol services
+- SOLID, DRY, KISS, YAGNI
+- Modern Swift Concurrency rules
+- Protocol-first dependency injection
+- Audio & resource safety
+- Testing discipline
+- Observability & diagnostics
 
-All code changes must be validated against the principles defined in `docs/DEVELOPMENT_PRINCIPLES.md`.
+All code changes must be validated against the principles defined in `.specify/memory/constitution.md`.
