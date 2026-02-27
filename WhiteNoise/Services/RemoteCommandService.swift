@@ -181,36 +181,21 @@ final class RemoteCommandService: RemoteCommandHandling {
     
     private func setupRemoteCommands() {
         commandCenter.setupPlayCommand { [weak self] in
-            guard let self = self else {
-                TelemetryService.captureNonFatal(
-                    message: "RemoteCommandService.playCommand lost self"
-                )
-                return .failed
-            }
+            guard let self = self else { return .success }
             await self.onPlayCommand?()
             return .success
         }
 
         commandCenter.setupPauseCommand { [weak self] in
-            guard let self = self else {
-                TelemetryService.captureNonFatal(
-                    message: "RemoteCommandService.pauseCommand lost self"
-                )
-                return .failed
-            }
+            guard let self = self else { return .success }
             await self.onPauseCommand?()
             return .success
         }
 
         commandCenter.setupToggleCommand { [weak self] in
-            guard let strongSelf = self else {
-                TelemetryService.captureNonFatal(
-                    message: "RemoteCommandService.toggleCommand lost self"
-                )
-                return .failed
-            }
+            guard let self = self else { return .success }
             await MainActor.run {
-                strongSelf.onToggleCommand?()
+                self.onToggleCommand?()
             }
             return .success
         }
