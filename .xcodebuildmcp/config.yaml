@@ -1,13 +1,14 @@
 schemaVersion: 1
-
-enabledWorkflows: ["simulator", "ui-automation", "debugging"]
-
+enabledWorkflows:
+  - simulator
+  - ui-automation
+  - debugging
+uiDebuggerGuardMode: error
 sessionDefaults:
-  projectPath: "./WhiteNoise.xcodeproj"
-  scheme: "WhiteNoise"
-  simulatorName: "iPhone 16 Pro Max"
-  simulatorId: "E07C37DD-8D4D-492A-9155-26565D58A8AE"
-  bundleId: "ruslan.whiteNoise.WhiteNoise"
-  configuration: "Release"
-
-uiDebuggerGuardMode: "error"
+  projectPath: ./WhiteNoise.xcodeproj
+  scheme: WhiteNoise
+  configuration: Release
+  simulatorName: iPhone 16 Pro Max
+  simulatorId: E07C37DD-8D4D-492A-9155-26565D58A8AE
+  bundleId: ruslan.whiteNoise.WhiteNoise
+  simulatorPlatform: iOS Simulator

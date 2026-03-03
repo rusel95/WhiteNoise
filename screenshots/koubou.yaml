@@ -1,0 +1,79 @@
+defaults:
+  background:
+    type: linear
+    colors:
+      - "#090c14"
+      - "#0c1020"
+      - "#0a0e1a"
+      - "#080b15"
+    direction: 180
+
+project:
+  name: WhiteNoise
+  device: "iPhone 16 Pro Max - Natural Titanium - Portrait"
+  output_dir: output/framed/en-US
+  output_size: iPhone6_9
+
+screenshots:
+  mix-sounds:
+    content:
+      - type: text
+        content: "Mix Sounds"
+        position: [50%, 8%]
+        size: 84
+        weight: bold
+        color: "#FFFFFF"
+        font_family: "Arial Unicode"
+      - type: text
+        content: "Layer 9 ambient sounds together"
+        position: [50%, 13%]
+        size: 36
+        color: "#FFFFFF8C"
+        font_family: "Arial Unicode"
+      - type: image
+        asset: public/screenshots/01_main_grid_playing.png
+        frame: true
+        position: [50%, 68%]
+        scale: 0.85
+
+  sleep-timer:
+    content:
+      - type: text
+        content: "Sleep Timer"
+        position: [50%, 8%]
+        size: 84
+        weight: bold
+        color: "#FFFFFF"
+        font_family: "Arial Unicode"
+      - type: text
+        content: "Gentle fade-out as you drift off"
+        position: [50%, 13%]
+        size: 36
+        color: "#FFFFFF8C"
+        font_family: "Arial Unicode"
+      - type: image
+        asset: public/screenshots/02_timer_modal.png
+        frame: true
+        position: [50%, 68%]
+        scale: 0.85
+
+  rain-variants:
+    content:
+      - type: text
+        content: "Rain Variants"
+        position: [50%, 8%]
+        size: 84
+        weight: bold
+        color: "#FFFFFF"
+        font_family: "Arial Unicode"
+      - type: text
+        content: "From soft drops to car roof drips"
+        position: [50%, 13%]
+        size: 36
+        color: "#FFFFFF8C"
+        font_family: "Arial Unicode"
+      - type: image
+        asset: public/screenshots/03_variant_picker_rain.png
+        frame: true
+        position: [50%, 68%]
+        scale: 0.85

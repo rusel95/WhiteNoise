@@ -1,31 +1,38 @@
 import { Composition } from "remotion";
 import { AppStoreScreenshot } from "./AppStoreScreenshot";
+import { PromoVideo } from "./PromoVideo";
 
 // iPhone 6.7" (iPhone 16 Pro Max) App Store screenshot dimensions
 const SCREENSHOT_WIDTH = 1320;
 const SCREENSHOT_HEIGHT = 2868;
 
+// Video dimensions (App Preview for iPhone 6.7")
+const VIDEO_WIDTH = 1290;
+const VIDEO_HEIGHT = 2796;
+const VIDEO_FPS = 30;
+const VIDEO_DURATION_FRAMES = 25 * VIDEO_FPS; // 25 seconds
+
 export const screenshotData = [
   {
     id: "mix-sounds",
     headline: "Mix Sounds",
-    subtitle: "Layer multiple ambient sounds",
-    screenshotFile: "01_main_grid.png",
+    subtitle: "Layer 9 ambient sounds together",
+    screenshotFile: "01_main_grid_playing.png",
     accentColor: "#00BCD4",
   },
   {
-    id: "fading-timer",
-    headline: "Fading Timer",
-    subtitle: "Fall asleep with gentle fade-out",
-    screenshotFile: "screenshot_2.png",
-    accentColor: "#00BCD4",
+    id: "sleep-timer",
+    headline: "Sleep Timer",
+    subtitle: "Gentle fade-out as you drift off",
+    screenshotFile: "02_timer_modal.png",
+    accentColor: "#7C4DFF",
   },
   {
-    id: "sound-variants",
-    headline: "Sound Variants",
-    subtitle: "Choose from multiple variations",
-    screenshotFile: "screenshot_3.png",
-    accentColor: "#00BCD4",
+    id: "rain-variants",
+    headline: "Rain Variants",
+    subtitle: "From soft drops to car roof drips",
+    screenshotFile: "03_variant_picker_rain.png",
+    accentColor: "#4FC3F7",
   },
 ];
 
@@ -49,6 +56,14 @@ export const RemotionRoot: React.FC = () => {
           }}
         />
       ))}
+      <Composition
+        id="promo-video"
+        component={PromoVideo}
+        durationInFrames={VIDEO_DURATION_FRAMES}
+        fps={VIDEO_FPS}
+        width={VIDEO_WIDTH}
+        height={VIDEO_HEIGHT}
+      />
     </>
   );
 };

@@ -8,6 +8,24 @@ type Props = {
   accentColor: string;
 };
 
+// Koubou high-quality frame: 1470x3000
+// Screen area detected at: left=75, top=66, size=1320x2868
+const FRAME_W = 1470;
+const FRAME_H = 3000;
+const SCREEN_LEFT = 75;
+const SCREEN_TOP = 66;
+const SCREEN_W = 1320;
+const SCREEN_H = 2868;
+
+// Scale device to ~75% of canvas width for visible bezel + drop shadow
+const DEVICE_SCALE = (1320 * 0.75) / FRAME_W;
+const D_W = Math.round(FRAME_W * DEVICE_SCALE);
+const D_H = Math.round(FRAME_H * DEVICE_SCALE);
+const S_LEFT = Math.round(SCREEN_LEFT * DEVICE_SCALE);
+const S_TOP = Math.round(SCREEN_TOP * DEVICE_SCALE);
+const S_W = Math.round(SCREEN_W * DEVICE_SCALE);
+const S_H = Math.round(SCREEN_H * DEVICE_SCALE);
+
 export const AppStoreScreenshot: React.FC<Props> = ({
   headline,
   subtitle,
@@ -17,52 +35,41 @@ export const AppStoreScreenshot: React.FC<Props> = ({
   return (
     <div
       style={{
-        width: "100%",
-        height: "100%",
+        width: 1320,
+        height: 2868,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
         background: `
-          radial-gradient(ellipse 80% 50% at 50% 100%, ${accentColor}22 0%, transparent 70%),
-          radial-gradient(ellipse 60% 40% at 20% 50%, ${accentColor}15 0%, transparent 60%),
-          radial-gradient(ellipse 60% 40% at 80% 30%, ${accentColor}10 0%, transparent 60%),
-          linear-gradient(180deg, #0a0e1a 0%, #0d1526 40%, #0a1020 100%)
+          radial-gradient(ellipse 120% 40% at 50% 95%, ${accentColor}20 0%, transparent 60%),
+          radial-gradient(ellipse 60% 30% at 30% 60%, ${accentColor}08 0%, transparent 50%),
+          linear-gradient(180deg, #0d1117 0%, #111827 30%, #0f172a 60%, #0d1117 100%)
         `,
         overflow: "hidden",
         position: "relative",
       }}
     >
-      {/* Liquid glass orbs in background */}
+      {/* Ambient glow behind device */}
       <div
         style={{
           position: "absolute",
-          width: 600,
-          height: 600,
+          width: D_W + 200,
+          height: D_H * 0.5,
           borderRadius: "50%",
-          background: `radial-gradient(circle, ${accentColor}18 0%, transparent 70%)`,
-          filter: "blur(80px)",
-          top: -100,
-          right: -200,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          width: 500,
-          height: 500,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${accentColor}12 0%, transparent 70%)`,
-          filter: "blur(60px)",
-          bottom: 200,
-          left: -150,
+          background: `radial-gradient(circle, ${accentColor}18 0%, transparent 50%)`,
+          filter: "blur(100px)",
+          bottom: -80,
+          left: "50%",
+          transform: "translateX(-50%)",
+          pointerEvents: "none",
         }}
       />
 
-      {/* Headline Section */}
+      {/* Headline */}
       <div
         style={{
-          marginTop: 160,
+          marginTop: 140,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -72,86 +79,76 @@ export const AppStoreScreenshot: React.FC<Props> = ({
       >
         <h1
           style={{
-            fontSize: 96,
+            fontSize: 108,
             fontWeight: 800,
             color: "#FFFFFF",
             textAlign: "center",
             margin: 0,
             fontFamily:
-              '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif',
-            letterSpacing: "-1px",
-            textShadow: `0 0 60px ${accentColor}40, 0 2px 4px rgba(0,0,0,0.3)`,
+              '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", system-ui, sans-serif',
+            letterSpacing: "-1.5px",
+            lineHeight: 1.1,
           }}
         >
           {headline}
         </h1>
         <p
           style={{
-            fontSize: 44,
+            fontSize: 46,
             fontWeight: 500,
-            color: "rgba(255,255,255,0.65)",
+            color: "rgba(255,255,255,0.5)",
             textAlign: "center",
             margin: 0,
             fontFamily:
-              '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif',
-            letterSpacing: "0.5px",
+              '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif',
+            letterSpacing: "0.3px",
           }}
         >
           {subtitle}
         </p>
       </div>
 
-      {/* Device Frame with Liquid Glass effect */}
+      {/* Device with drop shadow and glow */}
       <div
         style={{
-          marginTop: 80,
+          marginTop: 70,
           position: "relative",
+          width: D_W,
+          height: D_H,
           zIndex: 2,
-          display: "flex",
-          justifyContent: "center",
+          filter: `
+            drop-shadow(0 25px 50px rgba(0,0,0,0.7))
+            drop-shadow(0 0 100px ${accentColor}12)
+          `,
         }}
       >
-        {/* Glow behind device */}
-        <div
+        {/* Screenshot inside screen area */}
+        <Img
+          src={staticFile(`screenshots/${screenshotFile}`)}
           style={{
             position: "absolute",
-            width: "80%",
-            height: "60%",
-            bottom: -50,
-            left: "10%",
-            background: `radial-gradient(ellipse, ${accentColor}25 0%, transparent 70%)`,
-            filter: "blur(50px)",
-            zIndex: -1,
+            left: S_LEFT,
+            top: S_TOP,
+            width: S_W,
+            height: S_H,
+            objectFit: "cover",
+            objectPosition: "top center",
+            borderRadius: S_W * 0.045,
           }}
         />
 
-        {/* Glass card container */}
-        <div
+        {/* High-quality device frame overlay */}
+        <Img
+          src={staticFile("iphone_frame.png")}
           style={{
-            padding: 16,
-            borderRadius: 70,
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            boxShadow: `
-              0 20px 60px rgba(0,0,0,0.4),
-              0 0 80px ${accentColor}15,
-              inset 0 1px 0 rgba(255,255,255,0.1)
-            `,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: D_W,
+            height: D_H,
+            zIndex: 3,
           }}
-        >
-          {/* Phone screenshot */}
-          <Img
-            src={staticFile(`screenshots/${screenshotFile}`)}
-            style={{
-              width: 900,
-              height: "auto",
-              borderRadius: 56,
-              display: "block",
-            }}
-          />
-        </div>
+        />
       </div>
     </div>
   );
