@@ -214,25 +214,25 @@ async function main() {
 
     for (const compId of screenshots) {
       const { headline, subtitle } = texts[compId];
+      const localePath = path.join(__dirname, "public", "screenshots", locale, screenshotFiles[compId]);
+      const hasLocaleShot = fs.existsSync(localePath);
+      // Use locale-specific screenshot path if available (resolves via staticFile("screenshots/locale/file.png"))
+      const screenshotFileForRender = hasLocaleShot
+        ? `${locale}/${screenshotFiles[compId]}`
+        : screenshotFiles[compId];
+
       const composition = await selectComposition({
         serveUrl: bundled,
         id: compId,
         inputProps: {
           headline,
           subtitle,
-          screenshotFile: screenshotFiles[compId], // placeholder for composition selection
+          screenshotFile: screenshotFileForRender,
           accentColor: accentColors[compId],
         },
       });
 
       const outputPath = path.join(localeDir, `${compId}.png`);
-      // Use locale-specific screenshot if available, else fall back to default
-      const localeScreenshot = `${locale}/${screenshotFiles[compId]}`;
-      const defaultScreenshot = screenshotFiles[compId];
-      const screenshotExists = fs.existsSync(
-        path.join(__dirname, "public", "screenshots", locale, screenshotFiles[compId])
-      );
-      const screenshotFile = screenshotExists ? localeScreenshot : defaultScreenshot;
 
       await renderStill({
         composition,
@@ -242,7 +242,7 @@ async function main() {
         inputProps: {
           headline,
           subtitle,
-          screenshotFile,
+          screenshotFile: screenshotFileForRender,
           accentColor: accentColors[compId],
         },
       });

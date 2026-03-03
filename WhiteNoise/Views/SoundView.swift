@@ -12,6 +12,7 @@ struct SoundView: View {
     let viewModel: SoundViewModel
     let layout: AdaptiveLayout
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.layoutDirection) private var layoutDirection
     @Environment(\.hapticService) private var hapticService
 
     // MARK: - Slider Geometry (View-layer concern)
@@ -132,7 +133,8 @@ struct SoundView: View {
             .onTapGesture { location in
                 guard isInteractive, maxWidth > 0 else { return }
                 hapticService.impact(style: .light)
-                sliderWidth = max(0, min(location.x, maxWidth))
+                let tapX = layoutDirection == .rightToLeft ? maxWidth - location.x : location.x
+                sliderWidth = max(0, min(tapX, maxWidth))
                 lastDragValue = sliderWidth
                 viewModel.volume = Float(sliderWidth / maxWidth)
             }
@@ -266,7 +268,8 @@ private extension SoundView {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 guard isInteractive, maxWidth > 0 else { return }
-                let newWidth = value.translation.width + lastDragValue
+                let delta = layoutDirection == .rightToLeft ? -value.translation.width : value.translation.width
+                let newWidth = delta + lastDragValue
                 sliderWidth = min(max(0, newWidth), maxWidth)
                 let progress = maxWidth > 0 ? sliderWidth / maxWidth : 0
                 viewModel.volume = Float(min(max(0, progress), 1.0))
