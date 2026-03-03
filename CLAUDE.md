@@ -151,3 +151,4 @@ The codebase must adhere to SOLID principles:
 - Observability & diagnostics
 
 All code changes must be validated against the principles defined in `.specify/memory/constitution.md`.
+@ASC.md

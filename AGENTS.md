@@ -26,3 +26,7 @@
 - Write imperative, present-tense commit titles (e.g. `Add adaptive iPad UI layout`). Optional square-bracket tags like `[fix]` are acceptable when scoped.
 - Before opening a PR, run the build and test commands above, update relevant docs (`README.md`, `MEMORY_BANK.md`, architecture notes), and note manual QA performed.
 - PR descriptions should outline motivation, key changes, linked issues, and attach UI screenshots or recordings when visuals shift.
+
+## asc cli reference
+
+See `ASC.md` for the command catalog and workflows.
