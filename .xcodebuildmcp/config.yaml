@@ -10,5 +10,5 @@ sessionDefaults:
   configuration: Release
   simulatorName: iPhone 16 Pro Max
   simulatorId: E07C37DD-8D4D-492A-9155-26565D58A8AE
-  bundleId: ruslan.whiteNoise.WhiteNoise
   simulatorPlatform: iOS Simulator
+  bundleId: ruslan.whiteNoise.WhiteNoise
