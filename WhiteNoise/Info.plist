@@ -7,7 +7,7 @@
 	<key>REVENUECAT_ENTITLEMENT_ID</key>
 	<string>$(REVENUECAT_ENTITLEMENT_ID)</string>
 	<key>REVENUECAT_LOG_LEVEL</key>
-	<string>debug</string>
+	<string>$(REVENUECAT_LOG_LEVEL)</string>
 	<key>SENTRY_DSN</key>
 	<string>$(SENTRY_DSN)</string>
 	<key>FIREBASE_API_KEY</key>
@@ -26,5 +26,7 @@
 	</array>
 	<key>NSApplicationCrashOnExceptions</key>
 	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

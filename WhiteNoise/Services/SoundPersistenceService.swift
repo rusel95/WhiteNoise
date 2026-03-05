@@ -29,7 +29,7 @@ final class SoundPersistenceService: SoundPersistenceServiceProtocol {
             let soundData = try JSONEncoder().encode(sound)
             userDefaults.set(soundData, forKey: Keys.sound(sound.id))
         } catch {
-            print("Failed to save sound: \(error)")
+            LoggingService.log("Failed to save sound: \(error)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "SoundPersistenceService failed to encode sound",
@@ -48,7 +48,7 @@ final class SoundPersistenceService: SoundPersistenceServiceProtocol {
         do {
             return try JSONDecoder().decode(Sound.self, from: data)
         } catch {
-            print("Failed to load sound: \(error)")
+            LoggingService.log("Failed to load sound: \(error)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "SoundPersistenceService failed to decode sound",
@@ -79,6 +79,6 @@ final class SoundPersistenceService: SoundPersistenceServiceProtocol {
             userDefaults.removeObject(forKey: key)
         }
         
-        print("🧹 Cleared \(soundKeys.count) cached sounds from UserDefaults")
+        LoggingService.log("🧹 Cleared \(soundKeys.count) cached sounds from UserDefaults")
     }
 }

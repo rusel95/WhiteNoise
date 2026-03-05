@@ -38,7 +38,7 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
     
     func loadSounds() -> [Sound] {
         guard let url = Bundle.main.url(forResource: filename, withExtension: fileExtension) else {
-            print("❌ Failed to find \(filename).\(fileExtension) in bundle")
+            LoggingService.log("❌ Failed to find \(filename).\(fileExtension) in bundle")
             TelemetryService.captureNonFatal(
                 message: "SoundConfigurationLoader missing configuration file",
                 level: .error,
@@ -67,13 +67,13 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
                 let defaultVolume: Float = {
                     switch soundData.name.lowercased() {
                     case "rain":
-                        print("🎵 SoundConfigurationLoader: Setting rain default volume to 70%")
+                        LoggingService.log("🎵 SoundConfigurationLoader: Setting rain default volume to 70%")
                         return 0.7  // 70%
                     case "bonfire":
-                        print("🎵 SoundConfigurationLoader: Setting birds default volume to 20%")
+                        LoggingService.log("🎵 SoundConfigurationLoader: Setting birds default volume to 20%")
                         return 0.5  // 20%
                     case "thunderstorm":
-                        print("🎵 SoundConfigurationLoader: Setting thunder default volume to 30%")
+                        LoggingService.log("🎵 SoundConfigurationLoader: Setting thunder default volume to 30%")
                         return 0.1  // 30%
                     default:
                         return AppConstants.Audio.defaultVolume
@@ -99,7 +99,7 @@ final class SoundConfigurationLoader: SoundConfigurationLoaderProtocol {
                 }
             }
         } catch {
-            print("❌ Failed to load sound configuration: \(error)")
+            LoggingService.log("❌ Failed to load sound configuration: \(error)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "SoundConfigurationLoader failed to decode configuration",

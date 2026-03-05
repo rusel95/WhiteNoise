@@ -29,7 +29,7 @@ class SoundFactory: SoundFactoryProtocol {
                     finalVolume = savedVolume
                 } else {
                     finalVolume = sound.volume
-                    print("🎚️ Using default volume for \(sound.name): volume=\(finalVolume))")
+                    LoggingService.log("🎚️ Using default volume for \(sound.name): volume=\(finalVolume))")
                 }
 
                 // Find matching variant or use first available
@@ -37,14 +37,14 @@ class SoundFactory: SoundFactoryProtocol {
                 if let savedVariantName = savedVariantName,
                    let matchingVariant = sound.soundVariants.first(where: { $0.name == savedVariantName }) {
                     finalVariant = matchingVariant
-                    print("✅ Migrated \(sound.name): volume=\(finalVolume), variant=\(matchingVariant.name)")
+                    LoggingService.log("✅ Migrated \(sound.name): volume=\(finalVolume), variant=\(matchingVariant.name)")
                 } else if !sound.soundVariants.isEmpty {
                     finalVariant = sound.soundVariants.first
                     let variantName = finalVariant?.name ?? "none"
-                    print("🔄 Migrated \(sound.name): volume=\(finalVolume), variant=\(variantName) (default)")
+                    LoggingService.log("🔄 Migrated \(sound.name): volume=\(finalVolume), variant=\(variantName) (default)")
                 } else {
                     finalVariant = nil
-                    print("⚠️ Migrated \(sound.name): volume=\(finalVolume), no variants available")
+                    LoggingService.log("⚠️ Migrated \(sound.name): volume=\(finalVolume), no variants available")
                 }
 
                 return try Sound(
@@ -65,7 +65,7 @@ class SoundFactory: SoundFactoryProtocol {
                         "variantsCount": sound.soundVariants.count
                     ]
                 )
-                print("❌ SoundFactory - Failed to migrate \(sound.name): \(error.localizedDescription)")
+                LoggingService.log("❌ SoundFactory - Failed to migrate \(sound.name): \(error.localizedDescription)")
                 return nil
             } catch {
                 // Capture unexpected errors
@@ -75,7 +75,7 @@ class SoundFactory: SoundFactoryProtocol {
                     level: .error,
                     extra: ["soundName": sound.name]
                 )
-                print("❌ SoundFactory - Unexpected error migrating \(sound.name): \(error)")
+                LoggingService.log("❌ SoundFactory - Unexpected error migrating \(sound.name): \(error)")
                 return nil
             }
         }

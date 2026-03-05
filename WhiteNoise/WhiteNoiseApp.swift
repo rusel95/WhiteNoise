@@ -14,28 +14,25 @@ import SwiftUI
 struct WhiteNoiseApp: App {
     init() {
         // Initialize Sentry for error tracking
+        let sentryDsn = Bundle.main.object(forInfoDictionaryKey: "SENTRY_DSN") as? String
         SentrySDK.start { options in
-            options.dsn = "https://c8cf829b48cb5afa4c6d0ef6a8fb72e8@o1271632.ingest.us.sentry.io/4510221384810496"
+            options.dsn = sentryDsn
+            options.sendDefaultPii = false
 
-            // Adds IP for users.
-            // For more information, visit: https://docs.sentry.io/platforms/apple/data-management/data-collected/
-            options.sendDefaultPii = true
-
-            // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-            // We recommend adjusting this value in production.
+            #if DEBUG
             options.tracesSampleRate = 1.0
-
-            // Configure profiling. Visit https://docs.sentry.io/platforms/apple/profiling/ to learn more.
             options.configureProfiling = {
-                $0.sessionSampleRate = 1.0 // We recommend adjusting this value in production.
+                $0.sessionSampleRate = 1.0
                 $0.lifecycle = .trace
             }
+            #else
+            options.tracesSampleRate = 0.1
+            options.configureProfiling = {
+                $0.sessionSampleRate = 0.05
+                $0.lifecycle = .trace
+            }
+            #endif
 
-            // Uncomment the following lines to add more data to your events
-            // options.attachScreenshot = true // This adds a screenshot to the error events
-            // options.attachViewHierarchy = true // This adds the view hierarchy to the error events
-
-            // Enable experimental logging features
             options.experimental.enableLogs = true
         }
 

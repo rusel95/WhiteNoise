@@ -24,21 +24,21 @@ struct PaywallSheetView: View {
                         coordinator.handlePaywallDismissed()
                     }
                     .onPurchaseCompleted { customerInfo in
-                        print("✅ PaywallSheetView - Purchase completed, dismissing sheet")
+                        LoggingService.log("✅ PaywallSheetView - Purchase completed, dismissing sheet")
                         coordinator.handlePurchaseCompleted(with: customerInfo)
                         coordinator.isPaywallPresented = false
                     }
                     .onPurchaseFailure { error in
-                        print("⚠️ PaywallSheetView - Purchase failed: \(error.localizedDescription)")
+                        LoggingService.log("⚠️ PaywallSheetView - Purchase failed: \(error.localizedDescription)")
                     }
                     .onPurchaseCancelled {
-                        print("⚠️ PaywallSheetView - Purchase cancelled by user")
+                        LoggingService.log("⚠️ PaywallSheetView - Purchase cancelled by user")
                     }
                     .onRestoreCompleted { customerInfo in
                         coordinator.handleRestoreCompleted(with: customerInfo)
                     }
                     .onRestoreFailure { error in
-                        print("⚠️ PaywallSheetView - Restore failed: \(error.localizedDescription)")
+                        LoggingService.log("⚠️ PaywallSheetView - Restore failed: \(error.localizedDescription)")
                     }
             } else {
                 ProgressView()

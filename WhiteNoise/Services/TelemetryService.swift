@@ -152,6 +152,6 @@ private extension TelemetryService {
     }
 
     static func logToConsole(level: TelemetryLevel, message: String) {
-        print("\(level.consolePrefix) Telemetry - \(message)")
+        LoggingService.log("\(level.consolePrefix) Telemetry - \(message)")
     }
 }

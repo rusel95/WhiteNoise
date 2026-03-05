@@ -17,7 +17,6 @@ final class EntitlementsCoordinator: ObservableObject {
     @Published var isPaywallPresented: Bool = false
 
     private let trialReminderScheduler = TrialReminderScheduler()
-    private let defaults = UserDefaults.standard
     private let overrideKey = "whitenoise_entitlement_override_until"
     private let overrideDuration: TimeInterval = 600 // 10 minutes grace while awaiting customer info sync
     private var isRefreshing = false // Prevent concurrent refresh calls
@@ -35,16 +34,16 @@ final class EntitlementsCoordinator: ObservableObject {
             provided: offeringIdentifier,
             plistKey: "REVENUECAT_OFFERING_ID"
         )
-        print("🔑 EntitlementsCoordinator.init - Using entitlement identifier: '\(self.entitlementIdentifier)'")
+        LoggingService.log("🔑 EntitlementsCoordinator.init - Using entitlement identifier: '\(self.entitlementIdentifier)'")
     }
 
     func onAppLaunch() {
-        print("🎯 EntitlementsCoordinator.onAppLaunch")
+        LoggingService.log("🎯 EntitlementsCoordinator.onAppLaunch")
         Task { await refreshEntitlement(forceFetch: true) }
     }
 
     func onForeground() {
-        print("🎯 EntitlementsCoordinator.onForeground")
+        LoggingService.log("🎯 EntitlementsCoordinator.onForeground")
         // Force fetch on foreground to catch purchases made elsewhere (e.g., Settings app)
         Task { await refreshEntitlement(forceFetch: true) }
     }
@@ -54,7 +53,7 @@ final class EntitlementsCoordinator: ObservableObject {
         scheduleReminderIfNeeded(from: customerInfo)
         hasActiveEntitlement = true
         isPaywallPresented = false
-        print("✅ EntitlementsCoordinator.handlePurchaseCompleted - Override active, hiding paywall")
+        LoggingService.log("✅ EntitlementsCoordinator.handlePurchaseCompleted - Override active, hiding paywall")
         Task { await refreshEntitlement() }
     }
 
@@ -63,16 +62,16 @@ final class EntitlementsCoordinator: ObservableObject {
         scheduleReminderIfNeeded(from: customerInfo)
         hasActiveEntitlement = activeEntitlement(in: customerInfo)?.isActive == true
         isPaywallPresented = !hasActiveEntitlement && !isForceShowEnabled()
-        print("♻️ EntitlementsCoordinator.handleRestoreCompleted - Override active, refreshing")
+        LoggingService.log("♻️ EntitlementsCoordinator.handleRestoreCompleted - Override active, refreshing")
         Task { await refreshEntitlement() }
     }
 
     func handlePaywallDismissed() {
-        print("ℹ️ EntitlementsCoordinator.handlePaywallDismissed - User dismissed paywall")
+        LoggingService.log("ℹ️ EntitlementsCoordinator.handlePaywallDismissed - User dismissed paywall")
         // Don't auto-refresh after dismissal to avoid showing paywall again
         // Only refresh in force-show debug mode for testing purposes
         if isForceShowEnabled() {
-            print("🔧 EntitlementsCoordinator.handlePaywallDismissed - Force show enabled, refreshing for debug")
+            LoggingService.log("🔧 EntitlementsCoordinator.handlePaywallDismissed - Force show enabled, refreshing for debug")
             Task { await refreshEntitlement(forceFetch: true) }
         }
     }
@@ -85,7 +84,7 @@ final class EntitlementsCoordinator: ObservableObject {
     private func refreshEntitlement(forceFetch: Bool = false) async -> CustomerInfo? {
         // Prevent concurrent refreshes from causing race conditions
         guard !isRefreshing else {
-            print("⚠️ EntitlementsCoordinator.refreshEntitlement - Already refreshing, skipping")
+            LoggingService.log("⚠️ EntitlementsCoordinator.refreshEntitlement - Already refreshing, skipping")
             return nil
         }
 
@@ -95,7 +94,7 @@ final class EntitlementsCoordinator: ObservableObject {
         // When RevenueCat is not configured (missing/invalid API key), grant access
         // to avoid crashes and let users use the app without subscription enforcement
         guard RevenueCatService.isConfigured else {
-            print("⚠️ EntitlementsCoordinator.refreshEntitlement - RevenueCat not configured, granting access")
+            LoggingService.log("⚠️ EntitlementsCoordinator.refreshEntitlement - RevenueCat not configured, granting access")
             TelemetryService.captureNonFatal(
                 message: "EntitlementsCoordinator.refreshEntitlement - RevenueCat not configured, bypassing paywall",
                 level: .warning
@@ -113,14 +112,14 @@ final class EntitlementsCoordinator: ObservableObject {
                 trialReminderScheduler.ensureReminderScheduled(for: entitlement)
                 hasActiveEntitlement = true
                 isPaywallPresented = false
-                print("✅ EntitlementsCoordinator.refreshEntitlement - Premium active via customer info")
+                LoggingService.log("✅ EntitlementsCoordinator.refreshEntitlement - Premium active via customer info")
                 return customerInfo
             }
 
             if isEntitlementOverrideActive {
                 hasActiveEntitlement = true
                 isPaywallPresented = false
-                print("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active, keeping paywall hidden")
+                LoggingService.log("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active, keeping paywall hidden")
                 return customerInfo
             }
 
@@ -129,10 +128,10 @@ final class EntitlementsCoordinator: ObservableObject {
 
             try await loadOffering()
             isPaywallPresented = true
-            print("🔒 EntitlementsCoordinator.refreshEntitlement - Paywall shown (no entitlement)")
+            LoggingService.log("🔒 EntitlementsCoordinator.refreshEntitlement - Paywall shown (no entitlement)")
             return customerInfo
         } catch {
-            print("⚠️ EntitlementsCoordinator.refreshEntitlement - customer info fetch failed: \(error.localizedDescription)")
+            LoggingService.log("⚠️ EntitlementsCoordinator.refreshEntitlement - customer info fetch failed: \(error.localizedDescription)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "EntitlementsCoordinator.refreshEntitlement failed to fetch customer info",
@@ -145,7 +144,7 @@ final class EntitlementsCoordinator: ObservableObject {
             if isEntitlementOverrideActive {
                 hasActiveEntitlement = true
                 isPaywallPresented = false
-                print("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active during failure")
+                LoggingService.log("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active during failure")
             } else if isForceShowEnabled() || !isFailOpenEnabled() {
                 // In debug or when explicitly requested, try to show the paywall
                 // even if customer info failed, as long as we can load an offering.
@@ -153,11 +152,11 @@ final class EntitlementsCoordinator: ObservableObject {
                     try await loadOffering()
                     hasActiveEntitlement = false
                     isPaywallPresented = true
-                    print("🔒 EntitlementsCoordinator.refreshEntitlement - Showing paywall despite failure (debug)")
+                    LoggingService.log("🔒 EntitlementsCoordinator.refreshEntitlement - Showing paywall despite failure (debug)")
                 } catch {
                     hasActiveEntitlement = true
                     isPaywallPresented = false
-                    print("⚠️ EntitlementsCoordinator.refreshEntitlement - Fallback to fail-open after offering load failure")
+                    LoggingService.log("⚠️ EntitlementsCoordinator.refreshEntitlement - Fallback to fail-open after offering load failure")
                     TelemetryService.captureNonFatal(
                         error: error,
                         message: "EntitlementsCoordinator.refreshEntitlement fallback offering load failed",
@@ -186,7 +185,7 @@ final class EntitlementsCoordinator: ObservableObject {
                 if offeringToUse == nil {
                     // Fallback to current to keep debugging smooth when identifier mismatches.
                     offeringToUse = offerings.current
-                    print("⚠️ EntitlementsCoordinator.loadOffering - Offering \(identifier) not found, falling back to current offering")
+                    LoggingService.log("⚠️ EntitlementsCoordinator.loadOffering - Offering \(identifier) not found, falling back to current offering")
                 }
             } else {
                 offeringToUse = offerings.current
@@ -194,7 +193,7 @@ final class EntitlementsCoordinator: ObservableObject {
 
             guard let offering = offeringToUse else {
                 let identifier = offeringIdentifier ?? "current"
-                print("⚠️ EntitlementsCoordinator.loadOffering - No offering found for identifier \(identifier)")
+                LoggingService.log("⚠️ EntitlementsCoordinator.loadOffering - No offering found for identifier \(identifier)")
                 TelemetryService.captureNonFatal(
                     message: "EntitlementsCoordinator.loadOffering missing offering",
                     extra: ["requestedIdentifier": identifier]
@@ -203,7 +202,7 @@ final class EntitlementsCoordinator: ObservableObject {
             }
 
             if !offering.hasPaywall {
-                print("⚠️ EntitlementsCoordinator.loadOffering - Offering \(offering.identifier) has no configured paywall")
+                LoggingService.log("⚠️ EntitlementsCoordinator.loadOffering - Offering \(offering.identifier) has no configured paywall")
                 TelemetryService.captureNonFatal(
                     message: "EntitlementsCoordinator.loadOffering offering missing paywall",
                     extra: ["offeringIdentifier": offering.identifier]
@@ -211,10 +210,10 @@ final class EntitlementsCoordinator: ObservableObject {
             }
 
             currentOffering = offering
-            print("🧩 EntitlementsCoordinator.loadOffering - Loaded offering \(offering.identifier)")
+            LoggingService.log("🧩 EntitlementsCoordinator.loadOffering - Loaded offering \(offering.identifier)")
         } catch {
             currentOffering = nil
-            print("ℹ️ EntitlementsCoordinator.loadOffering - Failed to load offering: \(error.localizedDescription)")
+            LoggingService.log("ℹ️ EntitlementsCoordinator.loadOffering - Failed to load offering: \(error.localizedDescription)")
             TelemetryService.captureNonFatal(
                 error: error,
                 message: "EntitlementsCoordinator.loadOffering failed",
@@ -230,7 +229,7 @@ final class EntitlementsCoordinator: ObservableObject {
         guard let entitlement = info.entitlements[entitlementIdentifier], entitlement.isActive else {
             // Debug logging to help identify entitlement identifier mismatches
             let availableEntitlements = info.entitlements.all.map { "\($0.key):\($0.value.isActive ? "active" : "inactive")" }.joined(separator: ", ")
-            print("ℹ️ EntitlementsCoordinator - No active entitlement for '\(entitlementIdentifier)'. Available: [\(availableEntitlements)]")
+            LoggingService.log("ℹ️ EntitlementsCoordinator - No active entitlement for '\(entitlementIdentifier)'. Available: [\(availableEntitlements)]")
             return nil
         }
         return entitlement
@@ -245,12 +244,12 @@ final class EntitlementsCoordinator: ObservableObject {
     }
 
     private var entitlementOverrideUntil: Date? {
-        get { defaults.object(forKey: overrideKey) as? Date }
+        get { KeychainService.loadDate(forKey: overrideKey) }
         set {
             if let value = newValue {
-                defaults.set(value, forKey: overrideKey)
+                KeychainService.saveDate(value, forKey: overrideKey)
             } else {
-                defaults.removeObject(forKey: overrideKey)
+                KeychainService.deleteValue(forKey: overrideKey)
             }
         }
     }
@@ -265,13 +264,13 @@ final class EntitlementsCoordinator: ObservableObject {
     private func activateEntitlementOverride(duration: TimeInterval? = nil) {
         entitlementOverrideUntil = Date().addingTimeInterval(duration ?? overrideDuration)
         if let until = entitlementOverrideUntil {
-            print("⏱️ EntitlementsCoordinator - Activated override until \(until)")
+            LoggingService.log("⏱️ EntitlementsCoordinator - Activated override until \(until)")
         }
     }
 
     private func clearEntitlementOverride() {
         entitlementOverrideUntil = nil
-        print("⏱️ EntitlementsCoordinator - Cleared entitlement override")
+        LoggingService.log("⏱️ EntitlementsCoordinator - Cleared entitlement override")
     }
 
     private func isForceShowEnabled() -> Bool {

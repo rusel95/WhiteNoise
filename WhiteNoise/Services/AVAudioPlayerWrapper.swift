@@ -64,15 +64,15 @@ final class AVAudioPlayerFactory: AudioPlayerFactoryProtocol {
         for format in supportedFormats {
             url = Bundle.main.url(forResource: filename, withExtension: format)
             if url != nil {
-                print("🎵 Found audio file: \(filename).\(format)")
+                LoggingService.log("🎵 Found audio file: \(filename).\(format)")
                 break
             } else {
-                print("⚠️ Not found: \(filename).\(format)")
+                LoggingService.log("⚠️ Not found: \(filename).\(format)")
             }
         }
 
         guard let audioURL = url else {
-            print("❌ No audio file found for: \(filename) in formats: \(supportedFormats)")
+            LoggingService.log("❌ No audio file found for: \(filename) in formats: \(supportedFormats)")
             TelemetryService.captureNonFatal(
                 message: "AVAudioPlayerFactory missing audio asset",
                 level: .error,

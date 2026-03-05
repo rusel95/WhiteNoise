@@ -19,7 +19,7 @@ enum RevenueCatService {
     static func configure() {
         #if os(iOS)
         guard let rawKey = Bundle.main.object(forInfoDictionaryKey: "REVENUECAT_API_KEY") as? String else {
-            print("⚠️ RevenueCatService.configure - Missing REVENUECAT_API_KEY (Info.plist)")
+            LoggingService.log("⚠️ RevenueCatService.configure - Missing REVENUECAT_API_KEY (Info.plist)")
             TelemetryService.captureNonFatal(
                 message: "RevenueCatService.configure - Missing API key",
                 level: .error
@@ -30,7 +30,7 @@ enum RevenueCatService {
         let key = rawKey.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !key.isEmpty else {
-            print("⚠️ RevenueCatService.configure - Empty REVENUECAT_API_KEY (Info.plist)")
+            LoggingService.log("⚠️ RevenueCatService.configure - Empty REVENUECAT_API_KEY (Info.plist)")
             TelemetryService.captureNonFatal(
                 message: "RevenueCatService.configure - Empty API key",
                 level: .error
@@ -40,7 +40,7 @@ enum RevenueCatService {
 
         // Validate key format (should be appl_xxxxxxxxxxxxxxxxxxxxxxx)
         guard key.hasPrefix("appl_"), !key.contains("your_"), !key.contains("placeholder") else {
-            print("⚠️ RevenueCatService.configure - Invalid API key format")
+            LoggingService.log("⚠️ RevenueCatService.configure - Invalid API key format")
             TelemetryService.captureNonFatal(
                 message: "RevenueCatService.configure - Invalid API key format",
                 level: .error,
@@ -49,7 +49,7 @@ enum RevenueCatService {
             return
         }
 
-        print("🎯 RevenueCatService.configure - Configuring RevenueCat SDK")
+        LoggingService.log("🎯 RevenueCatService.configure - Configuring RevenueCat SDK")
 
         let logLevelString = Bundle.main.object(forInfoDictionaryKey: "REVENUECAT_LOG_LEVEL") as? String
 
@@ -78,7 +78,7 @@ enum RevenueCatService {
 
         Purchases.configure(with: configuration)
         isConfigured = true
-        print("✅ RevenueCatService.configure - RevenueCat configured")
+        LoggingService.log("✅ RevenueCatService.configure - RevenueCat configured")
         #endif
     }
 }
