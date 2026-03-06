@@ -1,9 +1,7 @@
 ---
 name: ios-security-audit
-description: "Enterprise skill for iOS security auditing against OWASP MASVS v2.1.0 (24 controls, 8 categories). Use when reviewing iOS code for security vulnerabilities, auditing Keychain and storage usage, checking ATS and network configuration, detecting hardcoded secrets or weak cryptography, reviewing Objective-C runtime attack surface, validating certificate pinning, auditing WebView security, checking biometric auth implementation, assessing jailbreak detection, reviewing URL scheme handlers, or mapping compliance requirements (HIPAA, PCI DSS, GDPR, SOC 2). Covers both Swift and Objective-C codebases with detection patterns, vulnerable/secure code pairs, and MASVS control mappings."
 version: 1.0.0
-tags: [ios, security, owasp, masvs, audit, keychain, cryptography, network, compliance, vulnerability]
-platforms: [copilot, claude-code, cursor, codex]
+description: "Enterprise skill for iOS security auditing against OWASP MASVS v2.1.0 (24 controls, 8 categories). Use when reviewing iOS code for security vulnerabilities, auditing Keychain and storage usage, checking ATS and network configuration, detecting hardcoded secrets or weak cryptography, reviewing Objective-C runtime attack surface, validating certificate pinning, auditing WebView security, checking biometric auth implementation, assessing jailbreak detection, reviewing URL scheme handlers, or mapping compliance requirements (HIPAA, PCI DSS, GDPR, SOC 2). Covers both Swift and Objective-C codebases with detection patterns, vulnerable/secure code pairs, and MASVS control mappings."
 ---
 
 # iOS Security Audit
@@ -258,6 +256,15 @@ Before finalizing the audit report, verify:
 [ ] No duplicate findings for the same root cause
 [ ] Summary includes total count by severity and top recommendations
 ```
+
+## Companion Skills
+
+> **If the audit uncovers concurrency-related vulnerabilities:** load the appropriate companion skill for fix patterns.
+
+| Finding type | Companion skill | Apply when |
+|---|---|---|
+| TOCTOU races, token refresh races, actor double-spend | `skills/ios/swift-concurrency/SKILL.md` | Fixing async security bugs, serializing token refresh with actors, TOCTOU prevention |
+| Data races in `DispatchQueue` code, unprotected shared state | `skills/ios/gcd-operationqueue/SKILL.md` | Fixing reader-writer races, adding barrier-based synchronization, thread-safe collections |
 
 ## References
 

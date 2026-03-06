@@ -15,14 +15,14 @@ Enterprise-grade security auditing skill for iOS codebases aligned with OWASP MA
 ## Install
 
 ```bash
-npx openskills add ios-security-audit
+npx skills add git@git.epam.com:epm-ease/research/agent-skills.git --skill ios-security-audit
 ```
 
 Verify by asking your AI assistant to "run a security audit on this iOS project".
 
 ## Testing From a Feature Branch
 
-The default `npx openskills add` installs from the `main` branch. To test a skill before it's merged:
+To test a skill before it's merged:
 
 ```bash
 # 1. Clone the repo (or use an existing clone)
