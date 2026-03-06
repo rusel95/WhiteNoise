@@ -11,7 +11,7 @@ import MessageUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject var entitlements: EntitlementsCoordinator
+    @Environment(EntitlementsCoordinator.self) private var entitlements
     @AppStorage("isDarkMode") private var isDarkMode = true
     @State private var showMailView = false
     @State private var result: Result<MFMailComposeResult, Error>?

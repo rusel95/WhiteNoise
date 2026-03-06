@@ -14,6 +14,7 @@ struct ContentView: View {
     var body: some View {
         WhiteNoisesView(viewModel: viewModel)
             .task { await viewModel.bootstrap() }
+            .onDisappear { viewModel.cleanup() }
     }
 }
 

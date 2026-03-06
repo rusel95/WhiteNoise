@@ -12,7 +12,7 @@ import RevenueCatUI
 
 /// Hosts the RevenueCat paywall inside a SwiftUI sheet and forwards events to the coordinator.
 struct PaywallSheetView: View {
-    @ObservedObject var coordinator: EntitlementsCoordinator
+    let coordinator: EntitlementsCoordinator
 
     var body: some View {
         Group {

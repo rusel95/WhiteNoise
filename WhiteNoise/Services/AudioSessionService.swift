@@ -6,7 +6,7 @@
 //
 
 import AVFoundation
-import Combine
+import Observation
 
 // MARK: - Protocol
 
@@ -20,17 +20,19 @@ protocol AudioSessionManaging: AnyObject {
     func reconfigure() async
 }
 
-@MainActor
-class AudioSessionService: ObservableObject, AudioSessionManaging {
-    @Published private(set) var isInterrupted = false {
+@Observable @MainActor
+final class AudioSessionService: AudioSessionManaging {
+    private(set) var isInterrupted = false {
         didSet { onInterruptionChanged?(isInterrupted) }
     }
+    @ObservationIgnored
     var onInterruptionChanged: ((Bool) -> Void)?
 
-    private var cancellables = Set<AnyCancellable>()
+    @ObservationIgnored
+    private var interruptionTask: Task<Void, Never>?
 
     deinit {
-        cancellables.removeAll()
+        interruptionTask?.cancel()
     }
 
     init() {
@@ -109,11 +111,11 @@ class AudioSessionService: ObservableObject, AudioSessionManaging {
     
     private func setupInterruptionHandling() {
         #if os(iOS)
-        NotificationCenter.default.publisher(for: AVAudioSession.interruptionNotification)
-            .sink { [weak self] notification in
+        interruptionTask = Task { [weak self] in
+            for await notification in NotificationCenter.default.notifications(named: AVAudioSession.interruptionNotification) {
                 self?.handleInterruption(notification)
             }
-            .store(in: &cancellables)
+        }
         #endif
     }
     

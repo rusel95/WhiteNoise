@@ -52,11 +52,13 @@ final class WhiteNoisesViewModel {
     @ObservationIgnored
     var wasPlayingBeforeInterruption = false
     @ObservationIgnored
-    nonisolated(unsafe) var lifecycleTask: Task<Void, Never>?
+    var lifecycleTask: Task<Void, Never>?
     @ObservationIgnored
-    nonisolated(unsafe) var foregroundTask: Task<Void, Never>?
+    var foregroundTask: Task<Void, Never>?
     @ObservationIgnored
-    nonisolated(unsafe) var playPauseTask: Task<Void, Never>?
+    var playPauseTask: Task<Void, Never>?
+    @ObservationIgnored
+    private var preloadTask: Task<Void, Never>?
 
     // MARK: - Initialization
     init(
@@ -94,10 +96,14 @@ final class WhiteNoisesViewModel {
         loadSounds()
     }
 
-    deinit {
+    func cleanup() {
         playPauseTask?.cancel()
         lifecycleTask?.cancel()
         foregroundTask?.cancel()
+        preloadTask?.cancel()
+        for soundViewModel in soundsViewModels {
+            soundViewModel.cleanup()
+        }
     }
 
     // MARK: - Internal State Mutators (for cross-file extensions)
@@ -157,13 +163,14 @@ final class WhiteNoisesViewModel {
             soundsViewModels.append(soundViewModel)
         }
 
-        Task.detached(priority: .background) { [weak self] in
+        preloadTask = Task.detached(priority: .background) { [weak self] in
             try? await Task.sleep(nanoseconds: AppConstants.Audio.preloadDelayNanoseconds)
             guard let self = self else { return }
             let soundsToPreload = await MainActor.run {
                 self.soundsViewModels.filter { $0.sound.volume > 0 }
             }
             for soundViewModel in soundsToPreload {
+                guard !Task.isCancelled else { break }
                 await soundViewModel.preloadAudio()
             }
         }

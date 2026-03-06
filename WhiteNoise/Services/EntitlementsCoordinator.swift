@@ -6,15 +6,15 @@
 //
 
 import Foundation
+import Observation
 import RevenueCat
-import SwiftUI
 
 /// Coordinates subscription entitlements, paywall presentation, and trial reminders.
-@MainActor
-final class EntitlementsCoordinator: ObservableObject {
-    @Published private(set) var hasActiveEntitlement: Bool = false
-    @Published var currentOffering: Offering?
-    @Published var isPaywallPresented: Bool = false
+@Observable @MainActor
+final class EntitlementsCoordinator {
+    private(set) var hasActiveEntitlement: Bool = false
+    var currentOffering: Offering?
+    var isPaywallPresented: Bool = false
 
     private let trialReminderScheduler = TrialReminderScheduler()
     private let overrideKey = "whitenoise_entitlement_override_until"

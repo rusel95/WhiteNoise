@@ -49,22 +49,23 @@ struct WhiteNoiseApp: App {
 
 
 struct RootView: View {
-    @StateObject private var entitlements = EntitlementsCoordinator()
+    @State private var entitlements = EntitlementsCoordinator()
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("isDarkMode") private var isDarkMode = true
 
     var body: some View {
+        @Bindable var entitlements = entitlements
         ContentView()
-            .environmentObject(entitlements)
+            .environment(entitlements)
             .preferredColorScheme(isDarkMode ? .dark : .light)
-            .onAppear { entitlements.onAppLaunch() }
+            .onAppear { self.entitlements.onAppLaunch() }
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
-                    entitlements.onForeground()
+                    self.entitlements.onForeground()
                 }
             }
             .sheet(isPresented: $entitlements.isPaywallPresented) {
-                PaywallSheetView(coordinator: entitlements)
+                PaywallSheetView(coordinator: self.entitlements)
             }
     }
 }

@@ -76,13 +76,13 @@ final class SoundViewModel: Identifiable {
     @ObservationIgnored
     private var isAudioLoaded = false
     @ObservationIgnored
-    private nonisolated(unsafe) var audioLoadingTask: Task<Void, Never>?
+    private var audioLoadingTask: Task<Void, Never>?
     @ObservationIgnored
-    private nonisolated(unsafe) var volumePersistenceTask: Task<Void, Never>?
+    private var volumePersistenceTask: Task<Void, Never>?
     @ObservationIgnored
-    nonisolated(unsafe) var volumeChangeTask: Task<Void, Never>?
+    var volumeChangeTask: Task<Void, Never>?
     @ObservationIgnored
-    private nonisolated(unsafe) var variantChangeTask: Task<Void, Never>?
+    private var variantChangeTask: Task<Void, Never>?
     
     // MARK: - Initialization
     init(
@@ -108,11 +108,12 @@ final class SoundViewModel: Identifiable {
         )
     }
     
-    deinit {
+    func cleanup() {
         audioLoadingTask?.cancel()
         volumePersistenceTask?.cancel()
         volumeChangeTask?.cancel()
         variantChangeTask?.cancel()
+        fadeOperation.cancel()
     }
     
     // MARK: - Public Methods

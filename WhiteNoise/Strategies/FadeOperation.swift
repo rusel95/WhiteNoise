@@ -13,13 +13,15 @@ final class FadeOperation {
     // MARK: - Properties
 
     private let fadeContext: FadeContext
+    private let clock: any Clock<Duration>
     private var fadeTask: Task<Void, Never>?
     private var operationId: UInt64 = 0  // Track current operation to detect cancellation
-    
+
     // MARK: - Initialization
-    
-    init(fadeType: FadeType = .linear) {
+
+    init(fadeType: FadeType = .linear, clock: any Clock<Duration> = ContinuousClock()) {
         self.fadeContext = FadeContext(fadeType: fadeType)
+        self.clock = clock
     }
     
     // MARK: - Public Methods
@@ -134,7 +136,7 @@ final class FadeOperation {
             player.volume = volume
             
             if step < steps {
-                try? await Task.sleep(nanoseconds: UInt64(stepDuration * 1_000_000_000))
+                try? await clock.sleep(for: .milliseconds(Int(stepDuration * 1000)))
             }
         }
         

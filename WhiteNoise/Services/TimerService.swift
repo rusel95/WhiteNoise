@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Combine
+import Observation
 
 // MARK: - Protocol
 
@@ -27,23 +27,33 @@ protocol TimerServiceProtocol: AnyObject {
     func stop()
 }
 
-@MainActor
-class TimerService: ObservableObject, TimerServiceProtocol {
-    @Published var mode: TimerMode = .off
-    @Published var remainingTime: String = ""
-    @Published private(set) var isActive = false
-    
+@Observable @MainActor
+final class TimerService: TimerServiceProtocol {
+    var mode: TimerMode = .off
+    var remainingTime: String = ""
+    private(set) var isActive = false
+
     private(set) var remainingSeconds: Int = 0
+    @ObservationIgnored
     private var timerTask: Task<Void, Never>?
+    @ObservationIgnored
     private var isPaused = false
-    
+    @ObservationIgnored
+    private let clock: any Clock<Duration>
+
     var hasRemainingTime: Bool {
         return remainingSeconds > 0 && !mode.isOff
     }
 
+    @ObservationIgnored
     var onTimerExpired: (() async -> Void)?
+    @ObservationIgnored
     var onTimerTick: ((Int) -> Void)?
-    
+
+    init(clock: any Clock<Duration> = ContinuousClock()) {
+        self.clock = clock
+    }
+
     deinit {
         timerTask?.cancel()
     }
@@ -144,9 +154,9 @@ class TimerService: ObservableObject, TimerServiceProtocol {
 
     private func startCountdownTask() {
         let currentMode = mode
-        timerTask = Task { [weak self] in
+        timerTask = Task { [weak self, clock] in
             while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: AppConstants.Timer.updateInterval)
+                try? await clock.sleep(for: .seconds(1))
                 guard !Task.isCancelled else { break }
 
                 guard let self = self else {
