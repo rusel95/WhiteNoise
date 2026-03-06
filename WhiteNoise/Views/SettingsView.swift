@@ -14,6 +14,7 @@ struct SettingsView: View {
     @Environment(EntitlementsCoordinator.self) private var entitlements
     @AppStorage("isDarkMode") private var isDarkMode = true
     @State private var showMailView = false
+    @State private var showShareSheet = false
     @State private var result: Result<MFMailComposeResult, Error>?
 
     private var theme: ThemeColors {
@@ -74,6 +75,7 @@ struct SettingsView: View {
                         darkModeRow
                         languageRow
                         subscriptionRow
+                        shareAppRow
                         feedbackRow
 
                         // Version Info
@@ -181,6 +183,28 @@ struct SettingsView: View {
         }
     }
 
+    private var shareAppRow: some View {
+        Button {
+            showShareSheet = true
+        } label: {
+            GlassSettingsRow(
+                icon: "square.and.arrow.up",
+                iconColor: theme.primary,
+                title: String(localized: "Share App")
+            ) {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(theme.textTertiary)
+            }
+        }
+        .buttonStyle(.plain)
+        .sheet(isPresented: $showShareSheet) {
+            let appURL = URL(string: "https://apps.apple.com/app/id\(Bundle.main.object(forInfoDictionaryKey: "APP_STORE_ID") as? String ?? "")")!
+            ShareSheet(items: [appURL])
+                .presentationDetents([.medium])
+        }
+    }
+
     private var feedbackRow: some View {
         Button {
             if MFMailComposeViewController.canSendMail() {
@@ -203,6 +227,18 @@ struct SettingsView: View {
         }
         .buttonStyle(.plain)
     }
+}
+
+// MARK: - Share Sheet Helper
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 // MARK: - Mail View Helper

@@ -23,8 +23,14 @@ final class EntitlementsCoordinator {
 
     private let entitlementIdentifier: String
     private let offeringIdentifier: String?
+    let engagementService: EngagementService
 
-    init(entitlementIdentifier: String? = nil, offeringIdentifier: String? = nil) {
+    init(
+        entitlementIdentifier: String? = nil,
+        offeringIdentifier: String? = nil,
+        engagementService: EngagementService = EngagementService()
+    ) {
+        self.engagementService = engagementService
         self.entitlementIdentifier = Self.resolveValue(
             provided: entitlementIdentifier,
             plistKey: "REVENUECAT_ENTITLEMENT_ID",
@@ -38,6 +44,7 @@ final class EntitlementsCoordinator {
     }
 
     func onAppLaunch() {
+        engagementService.recordSessionStart()
         LoggingService.log("🎯 EntitlementsCoordinator.onAppLaunch")
         Task { await refreshEntitlement(forceFetch: true) }
     }
@@ -61,23 +68,9 @@ final class EntitlementsCoordinator {
         activateEntitlementOverride()
         scheduleReminderIfNeeded(from: customerInfo)
         hasActiveEntitlement = activeEntitlement(in: customerInfo)?.isActive == true
-        isPaywallPresented = !hasActiveEntitlement && !isForceShowEnabled()
+        isPaywallPresented = !hasActiveEntitlement
         LoggingService.log("♻️ EntitlementsCoordinator.handleRestoreCompleted - Override active, refreshing")
         Task { await refreshEntitlement() }
-    }
-
-    func handlePaywallDismissed() {
-        LoggingService.log("ℹ️ EntitlementsCoordinator.handlePaywallDismissed - User dismissed paywall")
-        // Don't auto-refresh after dismissal to avoid showing paywall again
-        // Only refresh in force-show debug mode for testing purposes
-        if isForceShowEnabled() {
-            LoggingService.log("🔧 EntitlementsCoordinator.handlePaywallDismissed - Force show enabled, refreshing for debug")
-            Task { await refreshEntitlement(forceFetch: true) }
-        }
-    }
-
-    func handlePaywallRenderingFailure() {
-        isPaywallPresented = false
     }
 
     @discardableResult
@@ -124,11 +117,20 @@ final class EntitlementsCoordinator {
             }
 
             trialReminderScheduler.cancelReminder()
+
+            guard engagementService.hasMetPaywallThreshold else {
+                // User hasn't engaged enough yet — let them keep using the app
+                hasActiveEntitlement = true
+                isPaywallPresented = false
+                LoggingService.log("🆓 EntitlementsCoordinator.refreshEntitlement - Engagement threshold not met, granting free access")
+                return customerInfo
+            }
+
             hasActiveEntitlement = false
 
             try await loadOffering()
             isPaywallPresented = true
-            LoggingService.log("🔒 EntitlementsCoordinator.refreshEntitlement - Paywall shown (no entitlement)")
+            LoggingService.log("🔒 EntitlementsCoordinator.refreshEntitlement - Paywall shown (engagement threshold met)")
             return customerInfo
         } catch {
             LoggingService.log("⚠️ EntitlementsCoordinator.refreshEntitlement - customer info fetch failed: \(error.localizedDescription)")
@@ -145,7 +147,7 @@ final class EntitlementsCoordinator {
                 hasActiveEntitlement = true
                 isPaywallPresented = false
                 LoggingService.log("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active during failure")
-            } else if isForceShowEnabled() || !isFailOpenEnabled() {
+            } else if (isForceShowEnabled() || !isFailOpenEnabled()) && engagementService.hasMetPaywallThreshold {
                 // In debug or when explicitly requested, try to show the paywall
                 // even if customer info failed, as long as we can load an offering.
                 do {

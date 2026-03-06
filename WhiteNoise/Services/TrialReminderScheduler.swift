@@ -18,6 +18,9 @@ final class TrialReminderScheduler {
     private let reminderIdentifier = "whitenoise_trial_reminder"
     private let scheduledDateKey = "trialReminderScheduledDate"
 
+    /// Preferred hour (local time) to deliver the reminder notification.
+    private let preferredDeliveryHour = 10
+
     func scheduleReminderIfNeeded(for entitlement: EntitlementInfo) {
         guard let reminderDate = reminderDate(for: entitlement) else {
             cancelReminder()
@@ -28,7 +31,7 @@ final class TrialReminderScheduler {
 
         let identifier = reminderIdentifier
         Task { [weak self] in
-            guard let self = self else {
+            guard let self else {
                 TelemetryService.captureNonFatal(
                     message: "TrialReminderScheduler.getNotificationSettings lost self"
                 )
@@ -60,7 +63,7 @@ final class TrialReminderScheduler {
             case .authorized, .provisional:
                 self.createReminder(at: reminderDate)
             default:
-                break
+                LoggingService.log("TrialReminderScheduler: notifications denied by user, skipping")
             }
         }
     }
@@ -85,11 +88,11 @@ final class TrialReminderScheduler {
 
     private func createReminder(at date: Date) {
         let content = UNMutableNotificationContent()
-        content.title = "Trial Ending Soon"
-        content.body = "Your WhiteNoise trial ends tomorrow. Start your subscription to keep relaxing sounds playing without interruption."
+        content.title = String(localized: "Trial Ending Soon")
+        content.body = String(localized: "Your WhiteNoise trial ends tomorrow. Subscribe now to keep your relaxing sounds playing.")
         content.sound = .default
 
-        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         let request = UNNotificationRequest(identifier: reminderIdentifier, content: content, trigger: trigger)
 
@@ -101,6 +104,7 @@ final class TrialReminderScheduler {
             do {
                 try await notificationCenter.add(request)
                 defaults.set(date, forKey: dateKey)
+                LoggingService.log("TrialReminderScheduler: scheduled reminder for \(date)")
             } catch {
                 TelemetryService.captureNonFatal(
                     error: error,
@@ -114,13 +118,27 @@ final class TrialReminderScheduler {
         }
     }
 
+    /// Returns a date at `preferredDeliveryHour` (local time) on the day before the trial expires,
+    /// or `nil` if the trial is not active or the reminder date has already passed.
     private func reminderDate(for entitlement: EntitlementInfo) -> Date? {
         guard entitlement.periodType == .trial,
               let expiresAt = entitlement.expirationDate else {
             return nil
         }
 
-        guard let reminderDate = Calendar.current.date(byAdding: .day, value: -1, to: expiresAt),
+        let calendar = Calendar.current
+
+        // Get the day before expiry
+        guard let dayBefore = calendar.date(byAdding: .day, value: -1, to: expiresAt) else {
+            return nil
+        }
+
+        // Schedule at preferredDeliveryHour on that day (local time)
+        var components = calendar.dateComponents([.year, .month, .day], from: dayBefore)
+        components.hour = preferredDeliveryHour
+        components.minute = 0
+
+        guard let reminderDate = calendar.date(from: components),
               reminderDate > Date() else {
             return nil
         }
@@ -130,6 +148,6 @@ final class TrialReminderScheduler {
 
     private func isReminderScheduled(for date: Date) -> Bool {
         guard let storedDate = defaults.object(forKey: scheduledDateKey) as? Date else { return false }
-        return abs(storedDate.timeIntervalSince(date)) < 1
+        return abs(storedDate.timeIntervalSince(date)) < 60
     }
 }

@@ -11,6 +11,7 @@ import RevenueCat
 import RevenueCatUI
 
 /// Hosts the RevenueCat paywall inside a SwiftUI sheet and forwards events to the coordinator.
+/// Non-dismissable — the user must subscribe or restore to continue.
 struct PaywallSheetView: View {
     let coordinator: EntitlementsCoordinator
 
@@ -19,26 +20,22 @@ struct PaywallSheetView: View {
             if let offering = coordinator.currentOffering {
                 PaywallView(offering: offering)
                     .preferredColorScheme(.dark)
-                    .onRequestedDismissal {
-                        coordinator.isPaywallPresented = false
-                        coordinator.handlePaywallDismissed()
-                    }
                     .onPurchaseCompleted { customerInfo in
-                        LoggingService.log("✅ PaywallSheetView - Purchase completed, dismissing sheet")
+                        LoggingService.log("PaywallSheetView - Purchase completed, dismissing sheet")
                         coordinator.handlePurchaseCompleted(with: customerInfo)
                         coordinator.isPaywallPresented = false
                     }
                     .onPurchaseFailure { error in
-                        LoggingService.log("⚠️ PaywallSheetView - Purchase failed: \(error.localizedDescription)")
+                        LoggingService.log("PaywallSheetView - Purchase failed: \(error.localizedDescription)")
                     }
                     .onPurchaseCancelled {
-                        LoggingService.log("⚠️ PaywallSheetView - Purchase cancelled by user")
+                        LoggingService.log("PaywallSheetView - Purchase cancelled by user")
                     }
                     .onRestoreCompleted { customerInfo in
                         coordinator.handleRestoreCompleted(with: customerInfo)
                     }
                     .onRestoreFailure { error in
-                        LoggingService.log("⚠️ PaywallSheetView - Restore failed: \(error.localizedDescription)")
+                        LoggingService.log("PaywallSheetView - Restore failed: \(error.localizedDescription)")
                     }
             } else {
                 ProgressView()
@@ -47,5 +44,6 @@ struct PaywallSheetView: View {
                     .preferredColorScheme(.dark)
             }
         }
+        .interactiveDismissDisabled(true)
     }
 }

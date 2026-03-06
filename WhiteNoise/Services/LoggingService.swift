@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import os.log
 
 enum LoggingService {
+    private static let osLog = OSLog(subsystem: Bundle.main.bundleIdentifier ?? "WhiteNoise", category: "app")
     /// PERFORMANCE FIX: Logs only in DEBUG builds to reduce overhead in production
     static func log(_ items: Any..., separator: String = " ", terminator: String = "\n") {
         #if DEBUG
@@ -16,10 +18,11 @@ enum LoggingService {
         #endif
     }
 
-    /// Always logs regardless of build configuration (use sparingly for critical errors)
+    /// Logs regardless of build configuration — uses os_log with private visibility
+    /// so messages are redacted in non-debug environments (device console, sysdiagnose).
     static func logAlways(_ items: Any..., separator: String = " ", terminator: String = "\n") {
         let message = items.map { "\($0)" }.joined(separator: separator)
-        print(message, terminator: terminator)
+        os_log("%{private}s", log: Self.osLog, type: .error, message)
     }
 
     /// Logs with a specific prefix emoji for categorization

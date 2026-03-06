@@ -28,5 +28,7 @@
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>APP_STORE_ID</key>
+	<string>$(APP_STORE_ID)</string>
 </dict>
 </plist>

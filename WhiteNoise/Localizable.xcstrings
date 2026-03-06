@@ -17982,6 +17982,9 @@
         }
       }
     },
+    "Share App" : {
+
+    },
     "Sleep Timer" : {
       "localizations" : {
         "ar" : {
@@ -21641,6 +21644,9 @@
         }
       }
     },
+    "Trial Ending Soon" : {
+
+    },
     "Turn Off Timer" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -23470,6 +23476,9 @@
           }
         }
       }
+    },
+    "Your WhiteNoise trial ends tomorrow. Subscribe now to keep your relaxing sounds playing." : {
+
     }
   },
   "version" : "1.0"

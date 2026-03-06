@@ -7,7 +7,7 @@
 
 import Foundation
 import Sentry
-
+import StoreKit
 import SwiftUI
 
 @main
@@ -51,6 +51,7 @@ struct WhiteNoiseApp: App {
 struct RootView: View {
     @State private var entitlements = EntitlementsCoordinator()
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
     @AppStorage("isDarkMode") private var isDarkMode = true
 
     var body: some View {
@@ -58,7 +59,10 @@ struct RootView: View {
         ContentView()
             .environment(entitlements)
             .preferredColorScheme(isDarkMode ? .dark : .light)
-            .onAppear { self.entitlements.onAppLaunch() }
+            .onAppear {
+                self.entitlements.onAppLaunch()
+                requestReviewIfNeeded()
+            }
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     self.entitlements.onForeground()
@@ -67,5 +71,14 @@ struct RootView: View {
             .sheet(isPresented: $entitlements.isPaywallPresented) {
                 PaywallSheetView(coordinator: self.entitlements)
             }
+    }
+
+    private func requestReviewIfNeeded() {
+        guard entitlements.engagementService.shouldRequestReview else { return }
+        entitlements.engagementService.markReviewRequested()
+        // Delay slightly so the UI is fully visible before the prompt appears
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            requestReview()
+        }
     }
 }
