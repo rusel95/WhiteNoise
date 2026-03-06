@@ -19,11 +19,7 @@ Enterprise-grade concurrency skill for Grand Central Dispatch and OperationQueue
 ## Install
 
 ```bash
-# Install the skills repository
-npx openskills install git@git.epam.com:epm-ease/research/agent-skills.git
-
-# Install this specific skill
-npx openskills add gcd-operationqueue
+npx skills add git@git.epam.com:epm-ease/research/agent-skills.git --skill gcd-operationqueue
 ```
 
 Verify installation by asking your AI agent to review concurrent code — it should detect deadlock patterns, recommend proper lock selection, and reference `dispatchPrecondition`.
@@ -40,3 +36,7 @@ Verify installation by asking your AI agent to review concurrent code — it sho
 - Debugging concurrency issues with Thread Sanitizer and Instruments
 - Migrating specific GCD patterns to Swift Concurrency
 - Establishing concurrency standards across a team
+
+## Author
+
+[Ruslan Popesku](https://git.epam.com/Ruslan_Popesku)

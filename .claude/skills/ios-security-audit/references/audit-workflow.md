@@ -63,16 +63,27 @@ After completing all scans (CRITICAL → HIGH → MEDIUM/LOW), compile findings 
 
 ## MASVS Coverage Matrix
 
-| Category | Controls Checked | Findings | Notes |
-| -------- | ---------------- | -------- | ----- |
-| STORAGE | 2/2 | X | |
-| CRYPTO | 2/2 | X | |
-| AUTH | 3/3 | X | |
-| NETWORK | 2/2 | X | |
-| PLATFORM | 3/3 | X | |
-| CODE | 4/4 | X | |
-| RESILIENCE | 4/4 | X | L2/R only |
-| PRIVACY | 4/4 | X | |
+> **Required in every audit report.** Fill in actual finding counts per severity.
+
+Status icons: ✅ zero findings | ✅ L1 zero L1 findings (RESILIENCE: L2/R not applicable) | ⚠️ HIGH or MEDIUM present, no CRITICAL | 🔴 CRITICAL present
+
+| Category | Controls | CRITICAL | HIGH | MEDIUM | LOW | Status |
+| -------- | -------- | -------- | ---- | ------ | --- | ------ |
+| STORAGE | 2/2 | 0 | 0 | 0 | 0 | ✅ |
+| CRYPTO | 2/2 | 0 | 0 | 0 | 0 | ✅ |
+| AUTH | 3/3 | 0 | 0 | 0 | 0 | ✅ |
+| NETWORK | 2/2 | 0 | 0 | 0 | 0 | ✅ |
+| PLATFORM | 3/3 | 0 | 0 | 0 | 0 | ✅ |
+| CODE | 4/4 | 0 | 0 | 0 | 0 | ✅ |
+| RESILIENCE | 4/4 | 0 | 0 | 0 | 0 | ✅ L1 |
+| PRIVACY | 4/4 | 0 | 0 | 0 | 0 | ✅ |
+
+**Status rules:**
+
+- Any CRITICAL > 0 → 🔴
+- No CRITICAL but any HIGH or MEDIUM > 0 → ⚠️
+- All zeros, RESILIENCE for L1 app → ✅ L1
+- All zeros → ✅
 
 ## Recommendations
 

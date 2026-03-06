@@ -1,13 +1,10 @@
 ---
 name: swiftui-mvvm-architecture
-description: "Production-first enterprise skill for SwiftUI MVVM architecture with @Observable (iOS 17+). Guides iterative refactoring of legacy SwiftUI codebases to modern MVVM through phased, low-risk PRs tracked in a `refactoring/` directory. Also applies when creating new screens, migrating from ObservableObject, setting up Router navigation, implementing DI, building networking layers, or writing ViewModel tests. Covers ViewState enum, @MainActor isolation, constructor injection, typed routes, and phased refactoring workflow."
-# Approach: Production-First Iterative Refactoring
-
-This SwiftUI MVVM skill is built for **production enterprise codebases** where stability and reviewability matter more than speed. Architecture changes are delivered through **iterative refactoring** — small, focused PRs (≤200 lines, single concern) tracked in a `refactoring/` directory with per-feature plan files. Every issue gets a full description (location, severity, problem, fix). New findings are logged as tasks, never mixed into ongoing PRs. Critical safety issues ship first; cosmetic improvements come last. This enables teams to adopt modern MVVM standards without disrupting feature delivery or destabilizing production.
 version: 1.0.0
-tags: [swiftui, mvvm, observable, ios, architecture, enterprise, navigation, testing, di]
-platforms: [copilot, claude-code, cursor]
+description: "Production-first enterprise skill for SwiftUI MVVM architecture with @Observable (iOS 17+). Guides iterative refactoring of legacy SwiftUI codebases to modern MVVM through phased, low-risk PRs tracked in a `refactoring/` directory. Also applies when creating new screens, migrating from ObservableObject, setting up Router navigation, implementing DI, building networking layers, or writing ViewModel tests. Covers ViewState enum, @MainActor isolation, constructor injection, typed routes, and phased refactoring workflow."
 ---
+
+> **Approach: Production-First Iterative Refactoring** — This skill is built for production enterprise codebases where stability and reviewability matter more than speed. Architecture changes are delivered through iterative refactoring — small, focused PRs (≤200 lines, single concern) tracked in a `refactoring/` directory. Critical safety issues ship first; cosmetic improvements come last.
 
 # SwiftUI MVVM Architecture (iOS 17+)
 
@@ -219,6 +216,17 @@ Before finalizing generated or refactored code, verify ALL:
 □ PR scope — changes within defined scope, new findings go to `refactoring/discovered.md`
 □ File size — new files ≤ 400 lines; existing oversized files have a split task logged in `refactoring/`
 ```
+
+## Companion Skills
+
+> **Before generating async ViewModel, Task, or actor code:** determine the project's concurrency approach. If unclear from context, ask the user.
+
+| Project's concurrency stack | Companion skill | Apply when |
+|---|---|---|
+| `async/await`, actors, Swift 6, `@MainActor` | `skills/ios/swift-concurrency/SKILL.md` | Writing async ViewModel methods, Task creation, actor-isolated state |
+| `DispatchQueue`, `OperationQueue` (legacy or hybrid) | `skills/ios/gcd-operationqueue/SKILL.md` | Writing queue-based networking, background work, thread-safe state |
+
+**If unclear, ask:** "Does this project use Swift Concurrency (async/await) or GCD for async operations?"
 
 ## References
 

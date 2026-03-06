@@ -1,6 +1,6 @@
 ---
 name: ios-security-audit
-version: 1.0.0
+version: 1.1.1
 description: "Enterprise skill for iOS security auditing against OWASP MASVS v2.1.0 (24 controls, 8 categories). Use when reviewing iOS code for security vulnerabilities, auditing Keychain and storage usage, checking ATS and network configuration, detecting hardcoded secrets or weak cryptography, reviewing Objective-C runtime attack surface, validating certificate pinning, auditing WebView security, checking biometric auth implementation, assessing jailbreak detection, reviewing URL scheme handlers, or mapping compliance requirements (HIPAA, PCI DSS, GDPR, SOC 2). Covers both Swift and Objective-C codebases with detection patterns, vulnerable/secure code pairs, and MASVS control mappings."
 ---
 
@@ -91,6 +91,7 @@ Does the app handle financial, health, government, or payment data?
 11. **Map compliance** — For regulated apps, verify HIPAA/PCI/GDPR/SOC2 requirements → Read `references/compliance-mapping.md`
 12. **Check App Store rejection risks** — Verify UIWebView, privacy manifest, ATT, entitlements → Read `references/appstore-rejections.md`
 13. **Generate report** — Output findings using the report template → Read `references/audit-workflow.md`
+14. **Output MASVS Coverage Matrix** — Always the final section of every report. Fill all 8 rows with real counts and status icons. This step is mandatory even if the user did not explicitly request it.
 
 ## Finding Report Template
 
@@ -155,23 +156,78 @@ Certificate pinning, jailbreak detection, and encryption at rest are L2/R requir
 
 **When:** User requests "security audit", "security review", or "find vulnerabilities"
 
-1. **Discover and propose scope** — Unless the user specified a target:
-   - Scan for `.xcodeproj`/`.xcworkspace` to list targets
-   - Scan for `Podfile`/`Package.swift`/`Cartfile` to list dependencies
-   - Count `.swift` and `.m`/`.mm` files per target
-   - Present options: Main target only / All targets / Main + dependencies / Specific target
-   - Recommend "Main target only" for first audit, "Main + dependencies" for supply chain review
-2. Determine testing profile (L1/L2/R) based on app category
-3. Read `references/critical-patterns.md` — scan selected scope for CRITICAL patterns
-4. Read `references/plist-audit.md` — audit Info.plist and entitlements
-5. Read `references/high-patterns.md` — scan for HIGH severity patterns
-6. If Objective-C files present → Read `references/objc-specific.md`
-7. If L2/regulated → Read `references/compliance-mapping.md`
-8. Read `references/medium-low-patterns.md` — scan for defense-in-depth gaps
-9. For L2/R apps: audit resilience — jailbreak/debugger/Frida detection layers
-10. Read `references/appstore-rejections.md` — check App Store rejection risks (AS1-AS9)
-11. Compile findings using the report template → Read `references/audit-workflow.md`
-12. Summarize: total findings by severity, rejection risks, top 3 recommendations, MASVS coverage
+#### Phase 0: Discover & Scope Gate (MANDATORY — do not skip, do not start scanning yet)
+
+1. **Discover project structure:**
+   - Scan for `.xcodeproj`/`.xcworkspace` — list all targets (main app, extensions, widgets, watch app)
+   - Scan for `Podfile`/`Package.swift`/`Cartfile` — list dependencies and count them
+   - Count `.swift` files and `.m`/`.mm` files per target separately
+   - Detect languages: Swift-only / ObjC-only / Mixed
+
+2. **Present the Scope Menu — ask the user to choose BEFORE proceeding:**
+
+   Output exactly this block (fill in real numbers from discovery):
+
+   ```
+   ## 🔍 iOS Security Audit — Scope Selection
+
+   **Project:** [App name]
+   **Targets found:** [list: MainApp (42 .swift), ShareExtension (8 .swift), ...]
+   **Dependencies:** [N pods / N SPM packages]
+   **Languages:** [Swift-only / Mixed Swift+ObjC]
+
+   ### Target scope — which code to scan?
+
+   | Option | Scope | Files | Est. time | Est. tokens |
+   |--------|-------|-------|-----------|-------------|
+   | A | Main target only | ~N files | fast (~5 min) | ~15–25k |
+   | B | All targets (incl. extensions) | ~N files | medium (~10 min) | ~30–50k |
+   | C | Main target + dependencies | ~N files | slow (~20 min) | ~60–100k |
+   | D | Specific target (tell me which) | ? | varies | varies |
+
+   **Recommended:** A for first audit, C for supply chain review.
+
+   ### MASVS depth — how thorough?
+
+   | Option | Coverage | What's included | Est. tokens (delta) |
+   |--------|----------|-----------------|---------------------|
+   | 1 | Critical only | CRITICAL patterns + Info.plist | baseline |
+   | 2 | Essential (recommended) | + HIGH patterns + NETWORK + AUTH | +8–12k |
+   | 3 | Full MASVS (all 8 categories) | + MEDIUM/LOW + RESILIENCE + PRIVACY | +15–25k |
+   | 4 | Full MASVS + compliance mapping | + HIPAA/PCI/GDPR gaps | +20–35k |
+
+   **Recommended:** Option 2 for most apps, Option 3 for regulated/fintech/health apps.
+
+   ### Testing profile
+
+   | Option | Profile | When |
+   |--------|---------|------|
+   | L1 | Standard | General-purpose apps |
+   | L2 | Enhanced | Finance, health, government, payment |
+   | R  | Resilience | Apps requiring anti-tampering/obfuscation |
+
+   **Reply with your choices, e.g.: A2L1 or B3L2**
+   ```
+
+3. **Wait for user response. Do not begin scanning until scope is confirmed.**
+
+#### Phase 1: Audit (after scope confirmed)
+
+4. Determine testing profile (L1/L2/R) from user choice or app category
+5. Read `references/critical-patterns.md` — scan selected scope for CRITICAL patterns
+6. Read `references/plist-audit.md` — audit Info.plist and entitlements
+7. If MASVS depth ≥ 2: Read `references/high-patterns.md` — scan for HIGH severity patterns
+8. If Objective-C files present → Read `references/objc-specific.md`
+9. If MASVS depth ≥ 3: Read `references/medium-low-patterns.md` — scan for defense-in-depth gaps
+10. If L2/R and depth ≥ 3: audit resilience — jailbreak/debugger/Frida detection layers
+11. If depth = 4: Read `references/compliance-mapping.md` — HIPAA/PCI/GDPR/SOC2 gaps
+12. Read `references/appstore-rejections.md` — check App Store rejection risks (AS1-AS9)
+
+#### Phase 2: Report
+
+13. Compile findings using the report template → Read `references/audit-workflow.md`
+14. **Output the MASVS Coverage Matrix** — mandatory final section. Fill all 8 rows with real counts and status icons. Mark categories not audited (due to scope choice) as `—`. Use the template from `references/audit-workflow.md`.
+15. Summarize: total findings by severity, rejection risks, top 3 recommendations
 
 ### Workflow: Targeted Pattern Check
 

@@ -17,11 +17,7 @@ Enterprise-grade SwiftUI MVVM architecture with @Observable (iOS 17+). Takes a *
 ## Install
 
 ```bash
-# Install the skills repository
-npx openskills install git@git.epam.com:epm-ease/research/agent-skills.git
-
-# Install this specific skill
-npx openskills add swiftui-mvvm-architecture
+npx skills add git@git.epam.com:epm-ease/research/agent-skills.git --skill swiftui-mvvm-architecture
 ```
 
 Verify installation by asking your AI agent to refactor a SwiftUI view — it should follow @Observable ViewModel + Router patterns and reference the `refactoring/` directory.
@@ -35,3 +31,7 @@ Verify installation by asking your AI agent to refactor a SwiftUI view — it sh
 - Building async/await networking layers
 - Writing ViewModel unit tests
 - Diagnosing unnecessary view redraws or performance issues
+
+## Author
+
+[Ruslan Popesku](https://git.epam.com/Ruslan_Popesku)

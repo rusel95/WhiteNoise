@@ -1,13 +1,10 @@
 ---
 name: mvvm-uikit-architecture
-description: "Production-first enterprise skill for UIKit MVVM architecture (iOS 13+). Guides iterative refactoring of legacy UIKit MVC codebases to modern MVVM through phased, low-risk PRs tracked in a `refactoring/` directory. Also applies when creating new screens, setting up Coordinator navigation, implementing Combine bindings, migrating GCD completion handlers, building DI with factories, adopting DiffableDataSource, or writing ViewModel tests. Covers ViewState enum, Combine @Published + sink, GCD patterns, Coordinator lifecycle, constructor injection, programmatic Auto Layout, and phased refactoring workflow."
-# Approach: Production-First Iterative Refactoring
-
-This UIKit MVVM skill is built for **production enterprise codebases** where stability and reviewability matter more than speed. Architecture changes are delivered through **iterative refactoring** — small, focused PRs (≤200 lines, single concern) tracked in a `refactoring/` directory with per-feature plan files. Every issue gets a full description (location, severity, problem, fix). New findings are logged as tasks, never mixed into ongoing PRs. Critical safety issues ship first; cosmetic improvements come last. This enables teams to adopt modern MVVM standards without disrupting feature delivery or destabilizing production.
 version: 1.0.0
-tags: [uikit, mvvm, combine, ios, architecture, enterprise, coordinator, testing, di, gcd]
-platforms: [copilot, claude-code, cursor]
+description: "Production-first enterprise skill for UIKit MVVM architecture (iOS 13+). Guides iterative refactoring of legacy UIKit MVC codebases to modern MVVM through phased, low-risk PRs tracked in a `refactoring/` directory. Also applies when creating new screens, setting up Coordinator navigation, implementing Combine bindings, migrating GCD completion handlers, building DI with factories, adopting DiffableDataSource, or writing ViewModel tests. Covers ViewState enum, Combine @Published + sink, GCD patterns, Coordinator lifecycle, constructor injection, programmatic Auto Layout, and phased refactoring workflow."
 ---
+
+> **Approach: Production-First Iterative Refactoring** — This skill is built for production enterprise codebases where stability and reviewability matter more than speed. Architecture changes are delivered through iterative refactoring — small, focused PRs (≤200 lines, single concern) tracked in a `refactoring/` directory. Critical safety issues ship first; cosmetic improvements come last.
 
 # UIKit MVVM Architecture (iOS 13+)
 
@@ -259,6 +256,18 @@ Before finalizing generated or refactored code, verify ALL:
 □ PR scope — changes within defined scope, new findings go to `refactoring/discovered.md`
 □ File size — new files ≤ 400 lines; existing oversized files have a split task logged
 ```
+
+## Companion Skills
+
+> **Before generating async ViewModel or migrating completion handlers:** determine the project's concurrency approach. If unclear from context, ask the user.
+
+| Project's concurrency stack | Companion skill | Apply when |
+|---|---|---|
+| `async/await`, actors, Swift 6 (migrating or greenfield) | `skills/ios/swift-concurrency/SKILL.md` | Migrating completion handlers, writing async ViewModel methods, actor-based state |
+| `DispatchQueue`, `OperationQueue` (staying or auditing existing) | `skills/ios/gcd-operationqueue/SKILL.md` | Reviewing existing queue code, writing queue-based concurrency, thread-safe collections |
+| Mixed (GCD stays, new code gets async/await) | Both skills | Apply GCD rules to existing code, concurrency rules to new code |
+
+**If unclear, ask:** "Is the team migrating to Swift Concurrency or keeping GCD/OperationQueue?"
 
 ## References
 

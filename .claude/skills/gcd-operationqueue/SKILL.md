@@ -1,9 +1,7 @@
 ---
 name: gcd-operationqueue
-description: "Enterprise skill for GCD and OperationQueue concurrency on Apple platforms (iOS, macOS, watchOS, tvOS, visionOS). Use when reviewing or writing DispatchQueue code, fixing deadlocks, preventing thread explosion, implementing thread-safe collections, creating AsyncOperation subclasses, using DispatchGroup or DispatchSemaphore, setting up reader-writer locks with barriers, selecting lock types (os_unfair_lock, NSLock, OSAllocatedUnfairLock), debugging data races with Thread Sanitizer, profiling with Instruments, or migrating GCD patterns to Swift Concurrency. Covers queue creation, QoS selection, target queue hierarchies, DispatchSource timers, DispatchIO, priority inversion prevention, and enterprise production patterns for Core Data, networking, and background tasks."
 version: 1.0.0
-tags: [gcd, dispatch, operationqueue, concurrency, ios, macos, apple, thread-safety, enterprise, deadlock, data-race, migration]
-platforms: [copilot, claude-code, cursor]
+description: "Enterprise skill for GCD and OperationQueue concurrency on Apple platforms (iOS, macOS, watchOS, tvOS, visionOS). Use when reviewing or writing DispatchQueue code, fixing deadlocks, preventing thread explosion, implementing thread-safe collections, creating AsyncOperation subclasses, using DispatchGroup or DispatchSemaphore, setting up reader-writer locks with barriers, selecting lock types (os_unfair_lock, NSLock, OSAllocatedUnfairLock), debugging data races with Thread Sanitizer, profiling with Instruments, or migrating GCD patterns to Swift Concurrency. Covers queue creation, QoS selection, target queue hierarchies, DispatchSource timers, DispatchIO, priority inversion prevention, and enterprise production patterns for Core Data, networking, and background tasks."
 ---
 
 # GCD & OperationQueue Concurrency
@@ -214,6 +212,15 @@ Before finalizing generated or refactored concurrent code, verify ALL:
 [] Swift Concurrency coexistence -- no semaphore.wait() in async contexts
 [] Background tasks -- endBackgroundTask called on every path
 ```
+
+## Companion Skills
+
+> **If the task involves migrating GCD to modern concurrency or building new async features:** load the appropriate companion skill.
+
+| Scenario | Companion skill | Apply when |
+|---|---|---|
+| Migrating GCD patterns to `async/await` or actors | `skills/ios/swift-concurrency/SKILL.md` | Converting completion handlers, replacing DispatchQueue with actors, adopting Swift 6 |
+| GCD used in UIKit MVVM ViewModels | `skills/ios/mvvm-uikit-architecture/SKILL.md` | Refactoring Massive ViewControllers, extracting ViewModels, setting up Combine bindings |
 
 ## References
 
