@@ -8,15 +8,9 @@ type Props = {
   accentColor: string;
 };
 
-// iPad Pro 13-inch (M4) App Store screenshot canvas: 2064×2752
-// If public/ipad_frame.png exists, it will be used as device frame overlay.
-// Frame dimensions should match the ipad_frame.png source resolution.
-// For a generic frameless layout we use the full canvas directly.
-
-// Frameless layout — scale the phone screenshot to fill a centered panel.
-// Replace with actual iPad frame constants once ipad_frame.png is available.
-const CANVAS_W = 2064;
-const CANVAS_H = 2752;
+// iPad Pro 13-inch (M4) App Store screenshot canvas: 2048×2732 (ASC required)
+const CANVAS_W = 2048;
+const CANVAS_H = 2732;
 
 export const AppStoreScreenshotIPad: React.FC<Props> = ({
   headline,
