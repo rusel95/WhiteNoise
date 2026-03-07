@@ -183,18 +183,26 @@ const accentColors = {
   "rain-variants": "#4FC3F7",
 };
 
-// Parse CLI args: --locale=en-US or --all
+// Parse CLI args: --locale=en-US, --all, --device=ipad
 const args = process.argv.slice(2);
 const localeArg = args.find((a) => a.startsWith("--locale="));
+const deviceArg = args.find((a) => a.startsWith("--device="));
 const renderAll = args.includes("--all");
+const isIpad = deviceArg === "--device=ipad";
 const targetLocales = localeArg
   ? [localeArg.split("=")[1]]
   : renderAll
     ? Object.keys(locales)
     : ["en-US"];
 
+// iPad compositions use "ipad-{id}" prefix and output to output/ipad/{locale}/
+const compPrefix = isIpad ? "ipad-" : "";
+const deviceOutputDir = isIpad
+  ? path.join(outputDir, "ipad")
+  : outputDir;
+
 async function main() {
-  console.log("Bundling Remotion project...");
+  console.log(`Bundling Remotion project... [device: ${isIpad ? "iPad" : "iPhone"}]`);
   const bundled = await bundle({
     entryPoint: path.join(__dirname, "src/index.ts"),
     publicDir: path.join(__dirname, "public"),
@@ -209,21 +217,23 @@ async function main() {
       continue;
     }
 
-    const localeDir = path.join(outputDir, locale);
+    const localeDir = path.join(deviceOutputDir, locale);
     fs.mkdirSync(localeDir, { recursive: true });
 
     for (const compId of screenshots) {
       const { headline, subtitle } = texts[compId];
       const localePath = path.join(__dirname, "public", "screenshots", locale, screenshotFiles[compId]);
       const hasLocaleShot = fs.existsSync(localePath);
-      // Use locale-specific screenshot path if available (resolves via staticFile("screenshots/locale/file.png"))
+      // Use locale-specific screenshot path if available
       const screenshotFileForRender = hasLocaleShot
         ? `${locale}/${screenshotFiles[compId]}`
         : screenshotFiles[compId];
 
+      const fullCompId = `${compPrefix}${compId}`;
+
       const composition = await selectComposition({
         serveUrl: bundled,
-        id: compId,
+        id: fullCompId,
         inputProps: {
           headline,
           subtitle,
@@ -255,6 +265,10 @@ async function main() {
   console.log(
     `\nRendered ${totalRendered} screenshots for ${targetLocales.length} locale(s)`
   );
+  if (isIpad) {
+    console.log(`Output: output/ipad/`);
+    console.log(`Upload: python3 upload_screenshots.py --device-type IPAD_PRO_3GEN_129`);
+  }
 }
 
 main().catch((err) => {

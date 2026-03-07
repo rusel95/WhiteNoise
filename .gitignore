@@ -134,13 +134,19 @@ sentry.properties
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
 
-# Remotion screenshots project
+# Screenshots project (React/Remotion/koubou rendering)
 screenshots/node_modules/
 screenshots/output/
 screenshots/.remotion/
+screenshots/**/*.tmp.yaml
 
-# AI agent artifacts
+# AI agent / IDE artifacts
 .agents/
 .agent/
 .windsurf/
+.specify/
 skills-lock.json
+
+# Release artifacts
+build/export/
+*.ipa

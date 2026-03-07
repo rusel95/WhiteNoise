@@ -1,10 +1,15 @@
 import { Composition } from "remotion";
 import { AppStoreScreenshot } from "./AppStoreScreenshot";
+import { AppStoreScreenshotIPad } from "./AppStoreScreenshotIPad";
 import { PromoVideo } from "./PromoVideo";
 
 // iPhone 6.7" (iPhone 16 Pro Max) App Store screenshot dimensions
 const SCREENSHOT_WIDTH = 1320;
 const SCREENSHOT_HEIGHT = 2868;
+
+// iPad Pro 13-inch (M4) App Store screenshot dimensions
+const IPAD_SCREENSHOT_WIDTH = 2064;
+const IPAD_SCREENSHOT_HEIGHT = 2752;
 
 // Video dimensions (App Preview for iPhone 6.7")
 const VIDEO_WIDTH = 1290;
@@ -48,6 +53,23 @@ export const RemotionRoot: React.FC = () => {
           fps={1}
           width={SCREENSHOT_WIDTH}
           height={SCREENSHOT_HEIGHT}
+          defaultProps={{
+            headline: data.headline,
+            subtitle: data.subtitle,
+            screenshotFile: data.screenshotFile,
+            accentColor: data.accentColor,
+          }}
+        />
+      ))}
+      {screenshotData.map((data) => (
+        <Composition
+          key={`ipad-${data.id}`}
+          id={`ipad-${data.id}`}
+          component={AppStoreScreenshotIPad}
+          durationInFrames={1}
+          fps={1}
+          width={IPAD_SCREENSHOT_WIDTH}
+          height={IPAD_SCREENSHOT_HEIGHT}
           defaultProps={{
             headline: data.headline,
             subtitle: data.subtitle,
