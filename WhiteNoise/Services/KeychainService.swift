@@ -33,7 +33,10 @@ enum KeychainService {
             kSecAttrAccount: key,
             kSecAttrService: bundleIdentifier
         ]
-        SecItemDelete(query as CFDictionary)
+        let status = SecItemDelete(query as CFDictionary)
+        if status != errSecSuccess && status != errSecItemNotFound {
+            LoggingService.log("⚠️ KeychainService.deleteValue - Failed for key '\(key)', status: \(status)")
+        }
     }
 
     // MARK: - Private
@@ -52,9 +55,14 @@ enum KeychainService {
         ]
 
         // Try to update first, then add
-        let status = SecItemUpdate(query as CFDictionary, [kSecValueData: data] as CFDictionary)
-        if status == errSecItemNotFound {
-            SecItemAdd(query as CFDictionary, nil)
+        let updateStatus = SecItemUpdate(query as CFDictionary, [kSecValueData: data] as CFDictionary)
+        if updateStatus == errSecItemNotFound {
+            let addStatus = SecItemAdd(query as CFDictionary, nil)
+            if addStatus != errSecSuccess {
+                LoggingService.log("⚠️ KeychainService.save - SecItemAdd failed for key '\(key)', status: \(addStatus)")
+            }
+        } else if updateStatus != errSecSuccess {
+            LoggingService.log("⚠️ KeychainService.save - SecItemUpdate failed for key '\(key)', status: \(updateStatus)")
         }
     }
 

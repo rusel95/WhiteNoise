@@ -260,8 +260,6 @@ struct MailView: UIViewControllerRepresentable {
             _result = result
         }
 
-        deinit {}
-
         func mailComposeController(
             _ controller: MFMailComposeViewController,
             didFinishWith result: MFMailComposeResult,

@@ -101,7 +101,13 @@ final class EngagementService: EngagementServiceProtocol {
 
         listeningTimer = Task { [weak self] in
             while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                do {
+                    try await Task.sleep(nanoseconds: 1_000_000_000)
+                } catch is CancellationError {
+                    return
+                } catch {
+                    return
+                }
                 guard !Task.isCancelled, let self else { return }
                 self.totalListeningSeconds += 1
             }

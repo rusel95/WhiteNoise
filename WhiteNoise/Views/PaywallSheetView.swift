@@ -243,15 +243,17 @@ struct PaywallSheetView: View {
             .font(.system(size: 13, weight: .medium))
             .foregroundStyle(theme.textSecondary)
 
-            Link(String(localized: "Terms"),
-                 destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
-                .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(theme.textSecondary)
+            if let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") {
+                Link(String(localized: "Terms"), destination: termsURL)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(theme.textSecondary)
+            }
 
-            Link(String(localized: "Privacy"),
-                 destination: URL(string: "https://www.apple.com/legal/privacy/")!)
-                .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(theme.textSecondary)
+            if let privacyURL = URL(string: "https://www.apple.com/legal/privacy/") {
+                Link(String(localized: "Privacy"), destination: privacyURL)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(theme.textSecondary)
+            }
         }
         .padding(.top, 16)
     }
@@ -273,8 +275,12 @@ struct PaywallSheetView: View {
                 LoggingService.log("PaywallSheetView - Purchase cancelled by user")
             }
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = String(localized: "Something went wrong. Please try again.")
             AnalyticsService.capture(.purchaseFailed(error: error.localizedDescription))
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "PaywallSheetView - Purchase failed"
+            )
             LoggingService.log("PaywallSheetView - Purchase failed: \(error.localizedDescription)")
         }
 
@@ -289,7 +295,12 @@ struct PaywallSheetView: View {
             let customerInfo = try await Purchases.shared.restorePurchases()
             coordinator.handleRestoreCompleted(with: customerInfo)
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = String(localized: "Restore failed. Please try again.")
+            AnalyticsService.capture(.restoreFailed(error: error.localizedDescription))
+            TelemetryService.captureNonFatal(
+                error: error,
+                message: "PaywallSheetView - Restore failed"
+            )
             LoggingService.log("PaywallSheetView - Restore failed: \(error.localizedDescription)")
         }
 
@@ -305,29 +316,25 @@ struct PaywallSheetView: View {
         case .week: return String(localized: "week")
         case .month: return period.value == 1 ? String(localized: "month") : String(localized: "\(period.value) months")
         case .year: return String(localized: "year")
-        @unknown default: return ""
+        @unknown default:
+            LoggingService.log("⚠️ PaywallSheetView.periodLabel - Unknown subscription period unit")
+            return ""
         }
     }
 
     private func trialLabel(for discount: StoreProductDiscount) -> String {
         let period = discount.subscriptionPeriod
+        let value = period.value
+        let unitName: String
         switch period.unit {
-        case .day:
-            return period.value == 1
-                ? String(localized: "Includes 1 day free trial")
-                : String(localized: "Includes \(period.value) day free trial")
-        case .week:
-            return period.value == 1
-                ? String(localized: "Includes 1 week free trial")
-                : String(localized: "Includes \(period.value) week free trial")
-        case .month:
-            return period.value == 1
-                ? String(localized: "Includes 1 month free trial")
-                : String(localized: "Includes \(period.value) month free trial")
-        case .year:
-            return String(localized: "Includes \(period.value) year free trial")
+        case .day: unitName = String(localized: "day")
+        case .week: unitName = String(localized: "week")
+        case .month: unitName = String(localized: "month")
+        case .year: unitName = String(localized: "year")
         @unknown default:
+            LoggingService.log("⚠️ PaywallSheetView.trialLabel - Unknown subscription period unit")
             return ""
         }
+        return String(localized: "Includes \(value) \(unitName) free trial")
     }
 }

@@ -135,10 +135,7 @@ sentry.properties
 .github/instructions/codacy.instructions.md
 
 # Screenshots project (React/Remotion/koubou rendering)
-screenshots/node_modules/
-screenshots/output/
-screenshots/.remotion/
-screenshots/**/*.tmp.yaml
+screenshots/
 
 # Remotion
 .remotion/
@@ -155,4 +152,3 @@ skills-lock.json
 
 # Release artifacts
 build/export/
-*.ipa

@@ -31,6 +31,7 @@ enum AnalyticsEvent {
     case purchaseFailed(error: String)
     case purchaseCancelled
     case restoreCompleted(hasEntitlement: Bool)
+    case restoreFailed(error: String)
 
     // Settings
     case settingsOpened
@@ -58,6 +59,7 @@ enum AnalyticsEvent {
         case .purchaseFailed: return "purchase_failed"
         case .purchaseCancelled: return "purchase_cancelled"
         case .restoreCompleted: return "restore_completed"
+        case .restoreFailed: return "restore_failed"
         case .settingsOpened: return "settings_opened"
         case .darkModeToggled: return "dark_mode_toggled"
         case .shareAppTapped: return "share_app_tapped"
@@ -97,6 +99,8 @@ enum AnalyticsEvent {
             return [:]
         case .restoreCompleted(let hasEntitlement):
             return ["has_entitlement": hasEntitlement]
+        case .restoreFailed(let error):
+            return ["error": error]
         case .settingsOpened:
             return [:]
         case .darkModeToggled(let isOn):

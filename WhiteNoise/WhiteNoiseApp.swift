@@ -16,6 +16,9 @@ struct WhiteNoiseApp: App {
     init() {
         // Initialize Sentry for error tracking
         let sentryDsn = Bundle.main.object(forInfoDictionaryKey: "SENTRY_DSN") as? String
+        if sentryDsn == nil || sentryDsn?.isEmpty == true {
+            LoggingService.log("⚠️ WhiteNoiseApp - SENTRY_DSN missing or empty, error tracking disabled")
+        }
         SentrySDK.start { options in
             options.dsn = sentryDsn
             options.sendDefaultPii = false
@@ -43,6 +46,8 @@ struct WhiteNoiseApp: App {
            !posthogKey.isEmpty {
             let posthogConfig = PostHogConfig(apiKey: posthogKey, host: posthogHost)
             PostHogSDK.shared.setup(posthogConfig)
+        } else {
+            LoggingService.log("⚠️ WhiteNoiseApp - POSTHOG_API_KEY or POSTHOG_HOST missing, analytics disabled")
         }
 
         // Initialize RevenueCat for subscriptions

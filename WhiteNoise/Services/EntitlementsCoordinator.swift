@@ -21,6 +21,7 @@ final class EntitlementsCoordinator {
     private let overrideKey = "whitenoise_entitlement_override_until"
     private let overrideDuration: TimeInterval = 600 // 10 minutes grace while awaiting customer info sync
     private var isRefreshing = false // Prevent concurrent refresh calls
+    @ObservationIgnored private var refreshTask: Task<CustomerInfo?, Never>?
 
     private let entitlementIdentifier: String
     private let offeringIdentifier: String?
@@ -41,23 +42,22 @@ final class EntitlementsCoordinator {
     func onAppLaunch() {
         engagementService.recordSessionStart()
         LoggingService.log("🎯 EntitlementsCoordinator.onAppLaunch")
-        Task { await refreshEntitlement(forceFetch: true) }
+        scheduleRefresh(forceFetch: true)
     }
 
     func onForeground() {
         LoggingService.log("🎯 EntitlementsCoordinator.onForeground")
         // Force fetch on foreground to catch purchases made elsewhere (e.g., Settings app)
-        Task { await refreshEntitlement(forceFetch: true) }
+        scheduleRefresh(forceFetch: true)
     }
 
     func handlePurchaseCompleted(with customerInfo: CustomerInfo) {
         activateEntitlementOverride()
         scheduleReminderIfNeeded(from: customerInfo)
-        hasActiveEntitlement = true
-        isPaywallPresented = false
+        grantAccess()
         AnalyticsService.capture(.purchaseCompleted(offering: currentOffering?.identifier))
         LoggingService.log("✅ EntitlementsCoordinator.handlePurchaseCompleted - Override active, hiding paywall")
-        Task { await refreshEntitlement() }
+        scheduleRefresh()
     }
 
     func handleRestoreCompleted(with customerInfo: CustomerInfo) {
@@ -68,7 +68,7 @@ final class EntitlementsCoordinator {
         isPaywallPresented = !hasActiveEntitlement && !isForceShowEnabled()
         AnalyticsService.capture(.restoreCompleted(hasEntitlement: isActive))
         LoggingService.log("♻️ EntitlementsCoordinator.handleRestoreCompleted - Override active, refreshing")
-        Task { await refreshEntitlement() }
+        scheduleRefresh()
     }
 
     func handlePaywallDismissed() {
@@ -78,11 +78,25 @@ final class EntitlementsCoordinator {
         // Only refresh in force-show debug mode for testing purposes
         if isForceShowEnabled() {
             LoggingService.log("🔧 EntitlementsCoordinator.handlePaywallDismissed - Force show enabled, refreshing for debug")
-            Task { await refreshEntitlement(forceFetch: true) }
+            scheduleRefresh(forceFetch: true)
         }
     }
 
     func handlePaywallRenderingFailure() {
+        isPaywallPresented = false
+        LoggingService.log("⚠️ EntitlementsCoordinator.handlePaywallRenderingFailure - Paywall rendering failed, dismissing")
+        TelemetryService.captureNonFatal(
+            message: "EntitlementsCoordinator.handlePaywallRenderingFailure - Paywall rendering failed"
+        )
+    }
+
+    private func scheduleRefresh(forceFetch: Bool = false) {
+        refreshTask?.cancel()
+        refreshTask = Task { await refreshEntitlement(forceFetch: forceFetch) }
+    }
+
+    private func grantAccess() {
+        hasActiveEntitlement = true
         isPaywallPresented = false
     }
 
@@ -105,8 +119,7 @@ final class EntitlementsCoordinator {
                 message: "EntitlementsCoordinator.refreshEntitlement - RevenueCat not configured, bypassing paywall",
                 level: .warning
             )
-            hasActiveEntitlement = true
-            isPaywallPresented = false
+            grantAccess()
             return nil
         }
 
@@ -116,15 +129,13 @@ final class EntitlementsCoordinator {
             if let entitlement = activeEntitlement(in: customerInfo) {
                 clearEntitlementOverride()
                 trialReminderScheduler.ensureReminderScheduled(for: entitlement)
-                hasActiveEntitlement = true
-                isPaywallPresented = false
+                grantAccess()
                 LoggingService.log("✅ EntitlementsCoordinator.refreshEntitlement - Premium active via customer info")
                 return customerInfo
             }
 
             if isEntitlementOverrideActive {
-                hasActiveEntitlement = true
-                isPaywallPresented = false
+                grantAccess()
                 LoggingService.log("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active, keeping paywall hidden")
                 return customerInfo
             }
@@ -132,8 +143,7 @@ final class EntitlementsCoordinator {
             trialReminderScheduler.cancelReminder()
 
             guard engagementService.hasMetPaywallThreshold || isForceShowEnabled() else {
-                hasActiveEntitlement = true
-                isPaywallPresented = false
+                grantAccess()
                 LoggingService.log("🆓 EntitlementsCoordinator.refreshEntitlement - Engagement threshold not met, granting access")
                 return customerInfo
             }
@@ -157,8 +167,7 @@ final class EntitlementsCoordinator {
                 ]
             )
             if isEntitlementOverrideActive {
-                hasActiveEntitlement = true
-                isPaywallPresented = false
+                grantAccess()
                 LoggingService.log("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active during failure")
             } else if (isForceShowEnabled() || !isFailOpenEnabled()) && engagementService.hasMetPaywallThreshold {
                 // In debug or when explicitly requested, try to show the paywall
@@ -169,8 +178,7 @@ final class EntitlementsCoordinator {
                     isPaywallPresented = true
                     LoggingService.log("🔒 EntitlementsCoordinator.refreshEntitlement - Showing paywall despite failure (debug)")
                 } catch {
-                    hasActiveEntitlement = true
-                    isPaywallPresented = false
+                    grantAccess()
                     LoggingService.log("⚠️ EntitlementsCoordinator.refreshEntitlement - Fallback to fail-open after offering load failure")
                     TelemetryService.captureNonFatal(
                         error: error,
@@ -182,8 +190,8 @@ final class EntitlementsCoordinator {
                     )
                 }
             } else {
-                hasActiveEntitlement = true
-                isPaywallPresented = false
+                grantAccess()
+                LoggingService.log("⚠️ EntitlementsCoordinator.refreshEntitlement - Fail-open: granting access after customer info failure")
             }
             return nil
         }
