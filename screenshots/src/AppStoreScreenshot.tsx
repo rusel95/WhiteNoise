@@ -17,8 +17,8 @@ const SCREEN_TOP = 66;
 const SCREEN_W = 1320;
 const SCREEN_H = 2868;
 
-// Scale device to ~75% of canvas width for visible bezel + drop shadow
-const DEVICE_SCALE = (1320 * 0.75) / FRAME_W;
+// Scale device to ~92% of canvas width
+const DEVICE_SCALE = (1320 * 0.92) / FRAME_W;
 const D_W = Math.round(FRAME_W * DEVICE_SCALE);
 const D_H = Math.round(FRAME_H * DEVICE_SCALE);
 const S_LEFT = Math.round(SCREEN_LEFT * DEVICE_SCALE);
@@ -69,7 +69,7 @@ export const AppStoreScreenshot: React.FC<Props> = ({
       {/* Headline */}
       <div
         style={{
-          marginTop: 140,
+          marginTop: 80,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -111,7 +111,7 @@ export const AppStoreScreenshot: React.FC<Props> = ({
       {/* Device with drop shadow and glow */}
       <div
         style={{
-          marginTop: 70,
+          marginTop: 40,
           position: "relative",
           width: D_W,
           height: D_H,

@@ -11,7 +11,8 @@ const SCREENSHOT_HEIGHT = 2868;
 const IPAD_SCREENSHOT_WIDTH = 2048;
 const IPAD_SCREENSHOT_HEIGHT = 2732;
 
-// Video dimensions (App Preview for iPhone 6.7")
+// App Preview dimensions for iPhone 6.7" — iPhone 15 Pro Max native (1290×2796).
+// Note: screenshot canvas above uses iPhone 16 Pro Max (1320×2868).
 const VIDEO_WIDTH = 1290;
 const VIDEO_HEIGHT = 2796;
 const VIDEO_FPS = 30;

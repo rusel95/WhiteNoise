@@ -201,6 +201,16 @@ const deviceOutputDir = isIpad
   ? path.join(outputDir, "ipad")
   : outputDir;
 
+// Validate locale argument before doing any expensive work
+if (localeArg) {
+  const requestedLocale = localeArg.split("=")[1];
+  if (!locales[requestedLocale]) {
+    console.error(`Error: Unknown locale "${requestedLocale}".`);
+    console.error(`Available locales: ${Object.keys(locales).join(", ")}`);
+    process.exit(1);
+  }
+}
+
 async function main() {
   console.log(`Bundling Remotion project... [device: ${isIpad ? "iPad" : "iPhone"}]`);
   const bundled = await bundle({
@@ -218,7 +228,12 @@ async function main() {
     }
 
     const localeDir = path.join(deviceOutputDir, locale);
-    fs.mkdirSync(localeDir, { recursive: true });
+    try {
+      fs.mkdirSync(localeDir, { recursive: true });
+    } catch (err) {
+      console.error(`Error: Could not create output directory ${localeDir}: ${err.message}`);
+      process.exit(1);
+    }
 
     for (const compId of screenshots) {
       const { headline, subtitle } = texts[compId];
@@ -231,16 +246,23 @@ async function main() {
 
       const fullCompId = `${compPrefix}${compId}`;
 
-      const composition = await selectComposition({
-        serveUrl: bundled,
-        id: fullCompId,
-        inputProps: {
-          headline,
-          subtitle,
-          screenshotFile: screenshotFileForRender,
-          accentColor: accentColors[compId],
-        },
-      });
+      let composition;
+      try {
+        composition = await selectComposition({
+          serveUrl: bundled,
+          id: fullCompId,
+          inputProps: {
+            headline,
+            subtitle,
+            screenshotFile: screenshotFileForRender,
+            accentColor: accentColors[compId],
+          },
+        });
+      } catch {
+        console.error(`Error: Composition "${fullCompId}" not found in Remotion registry.`);
+        console.error(`Check src/index.ts to ensure all compositions are registered.`);
+        process.exit(1);
+      }
 
       const outputPath = path.join(localeDir, `${compId}.png`);
 
@@ -267,11 +289,16 @@ async function main() {
   );
   if (isIpad) {
     console.log(`Output: output/ipad/`);
-    console.log(`Upload: python3 upload_screenshots.py --device-type IPAD_PRO_3GEN_129`);
+    console.log(`Upload: python3 upload_screenshots.py --device-type <type>  (see upload_screenshots.py --help)`);
   }
 }
 
 main().catch((err) => {
-  console.error(err);
+  console.error("Render failed:", err.message || err);
+  if (err.message?.includes("Cannot find module")) {
+    console.error("Hint: Run `npm install` in the screenshots directory.");
+  } else if (err.message?.includes("Could not find composition")) {
+    console.error("Hint: Verify composition IDs in src/index.ts match the names in render.mjs.");
+  }
   process.exit(1);
 });

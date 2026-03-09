@@ -18,8 +18,12 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ASC locale ID → (asc-locale, our-output-folder)
-# Version: 1.4.4  (ID: 1e4c1d43-6908-48c6-bf7b-61bb36644569)
-# Refresh with: asc localizations list --version VERSION_ID --output json
+# LOCALE_MAP is version-specific. These UUIDs are localization IDs for:
+#   App: WhiteNoise  |  Version: 1.4.4  |  Platform: IOS
+# They MUST be regenerated for every new App Store version before uploading.
+# Regenerate with:
+#   asc localizations list --version <VERSION_ID> --output json
+# then rebuild this map from the returned 'id' fields.
 LOCALE_MAP: dict[str, tuple[str, str]] = {
     "444d36d0-71b6-4f61-8105-c7bca3eec569": ("ru",      "ru"),
     "559c2503-9ffa-4ea0-b3b7-8949b8db09cb": ("it",      "it"),
@@ -85,12 +89,12 @@ def upload_one(loc_id: str, asc_locale: str, our_folder: str | None,
 
     folder = os.path.join(SCRIPT_DIR, output_root, our_folder)
     if not os.path.isdir(folder):
-        return [f"SKIP  {asc_locale} (folder {output_root}/{our_folder} missing)"]
+        return [f"WARN  {asc_locale} (folder {output_root}/{our_folder} missing — run render.mjs first)"]
 
     for filename in SCREENSHOTS:
         path = os.path.join(folder, filename)
         if not os.path.exists(path):
-            results.append(f"SKIP  {asc_locale}/{filename} (file missing)")
+            results.append(f"WARN  {asc_locale}/{filename} (file missing)")
             continue
 
         cmd = [
@@ -108,7 +112,7 @@ def upload_one(loc_id: str, asc_locale: str, our_folder: str | None,
         if proc.returncode == 0:
             results.append(f"OK    {asc_locale}/{filename}")
         else:
-            err = (proc.stderr or proc.stdout).strip().splitlines()[0] if (proc.stderr or proc.stdout) else "unknown"
+            err = (proc.stderr or proc.stdout).strip() or "unknown"
             results.append(f"ERROR {asc_locale}/{filename}: {err}")
 
     return results
@@ -130,6 +134,7 @@ def main():
         print("(dry-run mode)")
     print()
 
+    error_count = 0
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = {
             pool.submit(upload_one, loc_id, asc_locale, our_folder,
@@ -137,9 +142,19 @@ def main():
             for loc_id, (asc_locale, our_folder) in LOCALE_MAP.items()
         }
         for future in as_completed(futures):
-            for line in future.result():
-                print(line)
+            locale = futures[future]
+            try:
+                for line in future.result():
+                    print(line)
+                    if line.startswith("ERROR"):
+                        error_count += 1
+            except Exception as exc:
+                print(f"ERROR  {locale}: unexpected exception: {exc}")
+                error_count += 1
 
+    if error_count > 0:
+        print(f"\n{error_count} upload(s) failed.")
+        sys.exit(1)
     print("\nDone.")
 
 

@@ -18,9 +18,10 @@ export const AppStoreScreenshotIPad: React.FC<Props> = ({
   screenshotFile,
   accentColor,
 }) => {
-  // App screenshot panel: centered, ~70% of canvas width, respects aspect ratio
-  const panelW = Math.round(CANVAS_W * 0.72);
-  // Use iPhone screenshot aspect (1320×2868 ≈ 0.46) for the inner image
+  // App screenshot panel: ~92% of canvas width
+  const panelW = Math.round(CANVAS_W * 0.92);
+  // Use iPhone screenshot aspect (1320×2868) — panelH intentionally exceeds canvas height
+  // so overflow:hidden on the root clips to the top portion of the app UI (the most relevant content)
   const panelH = Math.round(panelW * (2868 / 1320));
 
   return (
@@ -60,11 +61,11 @@ export const AppStoreScreenshotIPad: React.FC<Props> = ({
       {/* Headline + subtitle */}
       <div
         style={{
-          marginTop: 180,
+          marginTop: 90,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 28,
+          gap: 20,
           zIndex: 2,
           paddingLeft: 80,
           paddingRight: 80,
@@ -104,7 +105,7 @@ export const AppStoreScreenshotIPad: React.FC<Props> = ({
       {/* App screenshot panel with rounded corners + drop shadow */}
       <div
         style={{
-          marginTop: 90,
+          marginTop: 50,
           position: "relative",
           width: panelW,
           height: panelH,

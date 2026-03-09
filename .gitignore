@@ -140,6 +140,9 @@ screenshots/output/
 screenshots/.remotion/
 screenshots/**/*.tmp.yaml
 
+# Remotion
+.remotion/
+
 # AI agent / IDE artifacts
 .agents/
 .agent/
