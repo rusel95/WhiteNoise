@@ -290,3 +290,8 @@ struct MailView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: Context) {}
 }
+
+#Preview {
+    SettingsView()
+        .environment(EntitlementsCoordinator())
+}

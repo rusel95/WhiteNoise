@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA11223344556677ENG00002 /* EngagementServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556677ENG00001 /* EngagementServiceTests.swift */; };
 		1405A3C9D091405DB881E8C7 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED363219C064C9CAEA1F528 /* KeychainService.swift */; };
 		3BD1267615B97628E7E51259 /* GlassDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */; };
 		74349A542A26413C00AB0EF5 /* WhiteNoiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74349A532A26413C00AB0EF5 /* WhiteNoiseApp.swift */; };
@@ -17,7 +16,6 @@
 		78201BA8BCA54DF599C4FA5E /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = A21DA2181FD246BB9FB23FEC /* Sentry */; };
 		850656A52E835B680014A941 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 850656A42E835B680014A941 /* RevenueCat */; };
 		850AD41F2E8C192E0047D214 /* TelemetryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AD41E2E8C192E0047D214 /* TelemetryService.swift */; };
-		F66EB88B4B1F4A52BBE3B757 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07675DE8CE144859AADF3ECA /* AnalyticsService.swift */; };
 		850C1EAD2E7B256E00545D95 /* RevenueCatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */; };
 		850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */; };
 		850C1EB62E7B55C200545D95 /* PaywallSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C1EB62E7B5EFA00545D95 /* PaywallSheetView.swift */; };
@@ -41,8 +39,6 @@
 		851396A82E79B01900552A9D /* AGENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 851396982E79B01900552A9D /* AGENT.md */; };
 		8554D20E2F5EF6E400CF86BE /* PostHog in Frameworks */ = {isa = PBXBuildFile; productRef = 8554D20D2F5EF6E400CF86BE /* PostHog */; };
 		85709F372ED6612000740A9B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85709F362ED6612000740A9B /* SettingsView.swift */; };
-		858B370B2EA6544B003818E5 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		859C90952E8940E9008D9088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		85A1813C2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813B2E78618200E26988 /* 471891__hargissssound__spring-birds-2019-processed-loop.m4a */; };
 		85A1813D2E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A181392E78618200E26988 /* 160893__ecfike__quiet-spring-woodland-ambience.m4a */; };
 		85A1813E2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 85A1813A2E78618200E26988 /* 422048__nimlos__forest_cicada_loop.m4a */; };
@@ -80,6 +76,8 @@
 		85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C702E4353F6002AB6F9 /* TimerService.swift */; };
 		85F61C802E4353FE002AB6F9 /* WhiteNoisesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */; };
 		85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */; };
+		PAYVM00200000000000000001 /* PaywallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = PAYVM00100000000000000001 /* PaywallViewModel.swift */; };
+		PRVHLP0200000000000000001 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = PRVHLP0100000000000000001 /* PreviewHelpers.swift */; };
 		85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */; };
 		85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C852E435402002AB6F9 /* TimerPickerView.swift */; };
 		85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C822E435402002AB6F9 /* ContentView.swift */; };
@@ -89,10 +87,22 @@
 		85LOCALEBF2F0EB54100123456 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 85LOCALE2F0EB54100123456 /* Localizable.xcstrings */; };
 		95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2002F00000100000001 /* TimerServiceTests.swift */; };
 		95E0C2052F00000300000001 /* EngagementService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2042F00000300000001 /* EngagementService.swift */; };
-		F0C2720A7E064778882D8B71 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CEA3B7A2028441AAACD8CB4C /* PrivacyInfo.xcprivacy */; };
+		AA11223344556677ENG00002 /* EngagementServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556677ENG00001 /* EngagementServiceTests.swift */; };
 		AA11223344556677SNAP0004 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556677SNAP0003 /* ScreenshotTests.swift */; };
 		AA11223344556677SNAP0005 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = AA11223344556677SNAP0002 /* SnapshotTesting */; };
+		F0C2720A7E064778882D8B71 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CEA3B7A2028441AAACD8CB4C /* PrivacyInfo.xcprivacy */; };
+		F66EB88B4B1F4A52BBE3B757 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07675DE8CE144859AADF3ECA /* AnalyticsService.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA11223344556677SNAP0007 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74349A482A26413C00AB0EF5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 74349A4F2A26413C00AB0EF5;
+			remoteInfo = WhiteNoise;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		74CD168C2A45EC29004FE649 /* Embed Foundation Extensions */ = {
@@ -107,18 +117,8 @@
 		};
 /* End PBXCopyFilesBuildPhase section */
 
-/* Begin PBXContainerItemProxy section */
-		AA11223344556677SNAP0007 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74349A482A26413C00AB0EF5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 74349A4F2A26413C00AB0EF5;
-			remoteInfo = WhiteNoise;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		AA11223344556677ENG00001 /* EngagementServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementServiceTests.swift; sourceTree = "<group>"; };
+		07675DE8CE144859AADF3ECA /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		0D86E300FE2F4B08A649FD3F /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		137AAF30261241989D025E58 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		2E430DD4B89B469688CA83DF /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -134,7 +134,6 @@
 		74CD166E2A45DCB7004FE649 /* WhiteNoise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhiteNoise.entitlements; sourceTree = "<group>"; };
 		74CD16772A45EC27004FE649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = Library/Frameworks/WidgetKit.framework; sourceTree = DEVELOPER_DIR; };
 		74CD16792A45EC27004FE649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		07675DE8CE144859AADF3ECA /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		850AD41E2E8C192E0047D214 /* TelemetryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryService.swift; sourceTree = "<group>"; };
 		850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatService.swift; sourceTree = "<group>"; };
 		850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementsCoordinator.swift; sourceTree = "<group>"; };
@@ -196,6 +195,8 @@
 		85F61C6F2E4353F6002AB6F9 /* SoundPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPersistenceService.swift; sourceTree = "<group>"; };
 		85F61C702E4353F6002AB6F9 /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
 		85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
+		PAYVM00100000000000000001 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
+		PRVHLP0100000000000000001 /* PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/PreviewHelpers.swift; sourceTree = "<group>"; };
 		85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesViewModel.swift; sourceTree = "<group>"; };
 		85F61C822E435402002AB6F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		85F61C842E435402002AB6F9 /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
@@ -206,9 +207,10 @@
 		85LOCALE2F0EB54100123456 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
 		95E0C2042F00000300000001 /* EngagementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementService.swift; sourceTree = "<group>"; };
+		AA11223344556677ENG00001 /* EngagementServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementServiceTests.swift; sourceTree = "<group>"; };
+		AA11223344556677SNAP0003 /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
 		BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GlassDesignSystem.swift; sourceTree = "<group>"; };
 		CEA3B7A2028441AAACD8CB4C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		AA11223344556677SNAP0003 /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,7 +287,8 @@
 				74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */,
 				74349A592A26413F00AB0EF5 /* Preview Content */,
 				6CED74548EFAA3036F01E0E6 /* Theme */,
-			);
+			
+				PRVHLP0100000000000000001 /* PreviewHelpers.swift */,);
 			path = WhiteNoise;
 			sourceTree = "<group>";
 		};
@@ -485,7 +488,8 @@
 				85B1A0052EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift */,
 				85B1A0072EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift */,
 				85B1A0092EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift */,
-			);
+			
+				PAYVM00100000000000000001 /* PaywallViewModel.swift */,);
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
@@ -784,7 +788,9 @@
 				85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */,
 				85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */,
 				3BD1267615B97628E7E51259 /* GlassDesignSystem.swift in Sources */,
-			);
+			
+				PAYVM00200000000000000001 /* PaywallViewModel.swift in Sources */,
+				PRVHLP0200000000000000001 /* PreviewHelpers.swift in Sources */,);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		95E0C1FD2F00000100000001 /* Sources */ = {
@@ -955,7 +961,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Hush;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hush Sleep";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 Ruslan Popesku. All rights reserved.";
@@ -1002,7 +1008,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Hush;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hush Sleep";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 Ruslan Popesku. All rights reserved.";
@@ -1035,6 +1041,7 @@
 		95E0C2072F00000100000001 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1049,13 +1056,13 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhiteSoundRuslan1234.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhiteSoundRuslan1234";
-				BUNDLE_LOADER = "$(TEST_HOST)";
 			};
 			name = Debug;
 		};
 		95E0C2082F00000100000001 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1070,7 +1077,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhiteSoundRuslan1234.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhiteSoundRuslan1234";
-				BUNDLE_LOADER = "$(TEST_HOST)";
 			};
 			name = Release;
 		};
@@ -1123,20 +1129,20 @@
 				minimumVersion = 3.45.1;
 			};
 		};
-		CBCD7C2CC4F14FC282DC58CF /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/getsentry/sentry-cocoa/";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.0;
-			};
-		};
 		AA11223344556677SNAP0001 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.17.0;
+			};
+		};
+		CBCD7C2CC4F14FC282DC58CF /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -9,20 +9,23 @@ import SwiftUI
 import RevenueCat
 
 struct PaywallSheetView: View {
-    let coordinator: EntitlementsCoordinator
+    @State private var viewModel: PaywallViewModel
 
     @Environment(\.colorScheme) private var colorScheme
-    @State private var isPurchasing = false
-    @State private var isRestoring = false
-    @State private var errorMessage: String?
 
     private var theme: ThemeColors {
         ThemeColors(colorScheme: colorScheme)
     }
 
-    private var package: Package? {
-        coordinator.currentOffering?.availablePackages.first
+    init(coordinator: EntitlementsCoordinator) {
+        _viewModel = State(initialValue: PaywallViewModel(coordinator: coordinator))
     }
+
+    #if DEBUG
+    init(viewModel: PaywallViewModel) {
+        _viewModel = State(initialValue: viewModel)
+    }
+    #endif
 
     var body: some View {
         ZStack {
@@ -46,7 +49,7 @@ struct PaywallSheetView: View {
                 .padding(.bottom, 40)
             }
 
-            if isPurchasing || isRestoring {
+            if viewModel.isBusy {
                 Color.black.opacity(0.4)
                     .ignoresSafeArea()
                 ProgressView()
@@ -55,7 +58,7 @@ struct PaywallSheetView: View {
             }
         }
         .preferredColorScheme(.dark)
-        .interactiveDismissDisabled(isPurchasing || isRestoring)
+        .interactiveDismissDisabled(viewModel.isBusy)
     }
 
     // MARK: - Dismiss Handle
@@ -64,8 +67,7 @@ struct PaywallSheetView: View {
         HStack {
             Spacer()
             Button {
-                coordinator.isPaywallPresented = false
-                coordinator.handlePaywallDismissed()
+                viewModel.dismissPaywall()
             } label: {
                 ZStack {
                     Circle()
@@ -118,7 +120,7 @@ struct PaywallSheetView: View {
     private var featuresSection: some View {
         VStack(spacing: 12) {
             featureRow(icon: "waveform.circle.fill", color: Color(hex: "00BCD4"),
-                       title: String(localized: "All 9 Sounds"), subtitle: String(localized: "Mix any combination"))
+                       title: String(localized: "All Sounds"), subtitle: String(localized: "Mix any combination"))
             featureRow(icon: "moon.stars.fill", color: Color(hex: "7C4DFF"),
                        title: String(localized: "Sleep Timer"), subtitle: String(localized: "Auto fade-out up to 8 hours"))
             featureRow(icon: "slider.horizontal.3", color: Color(hex: "F0B254"),
@@ -159,14 +161,13 @@ struct PaywallSheetView: View {
 
     private var pricingSection: some View {
         VStack(spacing: 6) {
-            if let pkg = package {
-                let product = pkg.storeProduct
-                Text(product.localizedPriceString + " / " + periodLabel(for: product))
+            if let priceText = viewModel.priceText {
+                Text(priceText)
                     .font(.system(size: 22, weight: .bold, design: .rounded))
                     .foregroundStyle(theme.textPrimary)
 
-                if let intro = product.introductoryDiscount {
-                    Text(trialLabel(for: intro))
+                if let trialText = viewModel.trialText {
+                    Text(trialText)
                         .font(.system(size: 15, weight: .medium))
                         .foregroundStyle(Color(hex: "7C4DFF"))
                 }
@@ -175,7 +176,7 @@ struct PaywallSheetView: View {
                     .tint(theme.textSecondary)
             }
 
-            if let error = errorMessage {
+            if let error = viewModel.errorMessage {
                 Text(error)
                     .font(.system(size: 13))
                     .foregroundStyle(theme.error)
@@ -190,10 +191,10 @@ struct PaywallSheetView: View {
 
     private var ctaButton: some View {
         Button {
-            Task { await purchase() }
+            Task { await viewModel.purchase() }
         } label: {
             HStack(spacing: 8) {
-                if let intro = package?.storeProduct.introductoryDiscount, intro.price == 0 {
+                if viewModel.hasFreeTrial {
                     Text(String(localized: "Start Free Trial"))
                         .font(.system(size: 17, weight: .bold))
                 } else {
@@ -214,7 +215,7 @@ struct PaywallSheetView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             .shadow(color: Color(hex: "7C4DFF").opacity(0.4), radius: 12, y: 6)
         }
-        .disabled(isPurchasing || isRestoring || package == nil)
+        .disabled(viewModel.isBusy || !viewModel.isReady)
         .padding(.top, 20)
     }
 
@@ -222,9 +223,8 @@ struct PaywallSheetView: View {
 
     private var legalText: some View {
         Group {
-            if let pkg = package {
-                let product = pkg.storeProduct
-                Text(String(localized: "Auto-renews every \(periodLabel(for: product)) unless cancelled at least 24h before the period ends. Billed to your Apple ID. Manage in Settings."))
+            if let text = viewModel.legalText {
+                Text(text)
                     .font(.system(size: 11))
                     .foregroundStyle(theme.textTertiary)
                     .multilineTextAlignment(.center)
@@ -238,7 +238,7 @@ struct PaywallSheetView: View {
     private var footerLinks: some View {
         HStack(spacing: 20) {
             Button(String(localized: "Restore Purchases")) {
-                Task { await restore() }
+                Task { await viewModel.restore() }
             }
             .font(.system(size: 13, weight: .medium))
             .foregroundStyle(theme.textSecondary)
@@ -257,84 +257,10 @@ struct PaywallSheetView: View {
         }
         .padding(.top, 16)
     }
-
-    // MARK: - Purchase Logic
-
-    private func purchase() async {
-        guard let pkg = package else { return }
-        isPurchasing = true
-        errorMessage = nil
-
-        do {
-            let result = try await Purchases.shared.purchase(package: pkg)
-            if !result.userCancelled {
-                coordinator.handlePurchaseCompleted(with: result.customerInfo)
-                coordinator.isPaywallPresented = false
-            } else {
-                AnalyticsService.capture(.purchaseCancelled)
-                LoggingService.log("PaywallSheetView - Purchase cancelled by user")
-            }
-        } catch {
-            errorMessage = String(localized: "Something went wrong. Please try again.")
-            AnalyticsService.capture(.purchaseFailed(error: error.localizedDescription))
-            TelemetryService.captureNonFatal(
-                error: error,
-                message: "PaywallSheetView - Purchase failed"
-            )
-            LoggingService.log("PaywallSheetView - Purchase failed: \(error.localizedDescription)")
-        }
-
-        isPurchasing = false
-    }
-
-    private func restore() async {
-        isRestoring = true
-        errorMessage = nil
-
-        do {
-            let customerInfo = try await Purchases.shared.restorePurchases()
-            coordinator.handleRestoreCompleted(with: customerInfo)
-        } catch {
-            errorMessage = String(localized: "Restore failed. Please try again.")
-            AnalyticsService.capture(.restoreFailed(error: error.localizedDescription))
-            TelemetryService.captureNonFatal(
-                error: error,
-                message: "PaywallSheetView - Restore failed"
-            )
-            LoggingService.log("PaywallSheetView - Restore failed: \(error.localizedDescription)")
-        }
-
-        isRestoring = false
-    }
-
-    // MARK: - Helpers
-
-    private func periodLabel(for product: StoreProduct) -> String {
-        guard let period = product.subscriptionPeriod else { return "" }
-        switch period.unit {
-        case .day: return period.value == 7 ? String(localized: "week") : String(localized: "\(period.value) days")
-        case .week: return String(localized: "week")
-        case .month: return period.value == 1 ? String(localized: "month") : String(localized: "\(period.value) months")
-        case .year: return String(localized: "year")
-        @unknown default:
-            LoggingService.log("⚠️ PaywallSheetView.periodLabel - Unknown subscription period unit")
-            return ""
-        }
-    }
-
-    private func trialLabel(for discount: StoreProductDiscount) -> String {
-        let period = discount.subscriptionPeriod
-        let value = period.value
-        let unitName: String
-        switch period.unit {
-        case .day: unitName = String(localized: "day")
-        case .week: unitName = String(localized: "week")
-        case .month: unitName = String(localized: "month")
-        case .year: unitName = String(localized: "year")
-        @unknown default:
-            LoggingService.log("⚠️ PaywallSheetView.trialLabel - Unknown subscription period unit")
-            return ""
-        }
-        return String(localized: "Includes \(value) \(unitName) free trial")
-    }
 }
+
+#if DEBUG
+#Preview {
+    PaywallSheetView(viewModel: PaywallViewModel())
+}
+#endif
