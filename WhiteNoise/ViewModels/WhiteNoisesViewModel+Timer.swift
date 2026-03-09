@@ -31,12 +31,7 @@ extension WhiteNoisesViewModel {
             timerService.stop()
             setRemainingTimerTime("")
 
-            if remaining == 0 && !previousMode.isOff {
-                AnalyticsService.capture(.timerCompleted(
-                    mode: previousMode.displayText,
-                    durationSeconds: previousMode.totalSeconds
-                ))
-            } else if !previousMode.isOff {
+            if remaining > 0 && !previousMode.isOff {
                 AnalyticsService.capture(.timerCancelled(
                     mode: previousMode.displayText,
                     remainingSeconds: remaining

@@ -70,15 +70,16 @@ struct RootView: View {
             .preferredColorScheme(isDarkMode ? .dark : .light)
             .onAppear {
                 self.entitlements.onAppLaunch()
-                if self.entitlements.engagementService.shouldRequestReview {
-                    requestReview()
-                    self.entitlements.engagementService.markReviewRequested()
-                }
             }
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     self.entitlements.onForeground()
                     AnalyticsService.capture(.appForegrounded)
+
+                    if self.entitlements.engagementService.shouldRequestReview {
+                        requestReview()
+                        self.entitlements.engagementService.markReviewRequested()
+                    }
                 }
             }
             .sheet(isPresented: $entitlements.isPaywallPresented) {
