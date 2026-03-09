@@ -7,7 +7,7 @@
 
 import Foundation
 import Sentry
-
+import StoreKit
 import SwiftUI
 
 @main
@@ -51,6 +51,7 @@ struct WhiteNoiseApp: App {
 struct RootView: View {
     @State private var entitlements = EntitlementsCoordinator()
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
     @AppStorage("isDarkMode") private var isDarkMode = true
 
     var body: some View {
@@ -58,7 +59,13 @@ struct RootView: View {
         ContentView()
             .environment(entitlements)
             .preferredColorScheme(isDarkMode ? .dark : .light)
-            .onAppear { self.entitlements.onAppLaunch() }
+            .onAppear {
+                self.entitlements.onAppLaunch()
+                if self.entitlements.engagementService.shouldRequestReview {
+                    requestReview()
+                    self.entitlements.engagementService.markReviewRequested()
+                }
+            }
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     self.entitlements.onForeground()

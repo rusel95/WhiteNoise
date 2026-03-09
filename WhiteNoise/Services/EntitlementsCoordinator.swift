@@ -16,6 +16,7 @@ final class EntitlementsCoordinator {
     var currentOffering: Offering?
     var isPaywallPresented: Bool = false
 
+    let engagementService = EngagementService()
     private let trialReminderScheduler = TrialReminderScheduler()
     private let overrideKey = "whitenoise_entitlement_override_until"
     private let overrideDuration: TimeInterval = 600 // 10 minutes grace while awaiting customer info sync
@@ -38,6 +39,7 @@ final class EntitlementsCoordinator {
     }
 
     func onAppLaunch() {
+        engagementService.recordSessionStart()
         LoggingService.log("🎯 EntitlementsCoordinator.onAppLaunch")
         Task { await refreshEntitlement(forceFetch: true) }
     }
@@ -124,6 +126,14 @@ final class EntitlementsCoordinator {
             }
 
             trialReminderScheduler.cancelReminder()
+
+            guard engagementService.hasMetPaywallThreshold || isForceShowEnabled() else {
+                hasActiveEntitlement = true
+                isPaywallPresented = false
+                LoggingService.log("🆓 EntitlementsCoordinator.refreshEntitlement - Engagement threshold not met, granting access")
+                return customerInfo
+            }
+
             hasActiveEntitlement = false
 
             try await loadOffering()
@@ -145,7 +155,7 @@ final class EntitlementsCoordinator {
                 hasActiveEntitlement = true
                 isPaywallPresented = false
                 LoggingService.log("⏱️ EntitlementsCoordinator.refreshEntitlement - Override active during failure")
-            } else if isForceShowEnabled() || !isFailOpenEnabled() {
+            } else if (isForceShowEnabled() || !isFailOpenEnabled()) && engagementService.hasMetPaywallThreshold {
                 // In debug or when explicitly requested, try to show the paywall
                 // even if customer info failed, as long as we can load an offering.
                 do {

@@ -2,6 +2,8 @@ import { Composition } from "remotion";
 import { AppStoreScreenshot } from "./AppStoreScreenshot";
 import { AppStoreScreenshotIPad } from "./AppStoreScreenshotIPad";
 import { PromoVideo } from "./PromoVideo";
+import { AppIconConcept } from "./AppIconConcept";
+import { HushLogoTransparent } from "./HushLogoTransparent";
 
 // iPhone 6.7" (iPhone 16 Pro Max) App Store screenshot dimensions
 const SCREENSHOT_WIDTH = 1320;
@@ -79,6 +81,27 @@ export const RemotionRoot: React.FC = () => {
           }}
         />
       ))}
+      {/* App Icon Concepts — 1024×1024 */}
+      {(["sound-wave", "shh-finger", "sleeping-cloud", "ripple", "wave-h"] as const).map((v) => (
+        <Composition
+          key={`icon-${v}`}
+          id={`icon-${v}`}
+          component={AppIconConcept}
+          durationInFrames={1}
+          fps={1}
+          width={1024}
+          height={1024}
+          defaultProps={{ variant: v }}
+        />
+      ))}
+      <Composition
+        id="hush-logo-transparent"
+        component={HushLogoTransparent}
+        durationInFrames={1}
+        fps={1}
+        width={1200}
+        height={1200}
+      />
       <Composition
         id="promo-video"
         component={PromoVideo}

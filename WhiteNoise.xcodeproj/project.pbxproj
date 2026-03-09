@@ -87,6 +87,7 @@
 		85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C8E2E435410002AB6F9 /* FadeOperation.swift */; };
 		85LOCALEBF2F0EB54100123456 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 85LOCALE2F0EB54100123456 /* Localizable.xcstrings */; };
 		95E0C2012F00000100000001 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2002F00000100000001 /* TimerServiceTests.swift */; };
+		95E0C2052F00000300000001 /* EngagementService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E0C2042F00000300000001 /* EngagementService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -190,6 +191,7 @@
 		85LOCALE2F0EB54100123456 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		95E0C2002F00000100000001 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
 		BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GlassDesignSystem.swift; sourceTree = "<group>"; };
+		95E0C2042F00000300000001 /* EngagementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,6 +441,7 @@
 				850C1EAE2E7B4F5500545D95 /* EntitlementsCoordinator.swift */,
 				6ED363219C064C9CAEA1F528 /* KeychainService.swift */,
 				850C1EAC2E7B256E00545D95 /* RevenueCatService.swift */,
+				95E0C2042F00000300000001 /* EngagementService.swift */,
 				85E4A0B02E9C8B1F0046A9D3 /* TrialReminderScheduler.swift */,
 				85F61C662E4353F6002AB6F9 /* AudioPlayerProtocol.swift */,
 				85AD4DBA2ED6423100C48EDB /* LoggingService.swift */,
@@ -743,6 +746,7 @@
 				85F61C912E435410002AB6F9 /* FadeOperation.swift in Sources */,
 				85709F372ED6612000740A9B /* SettingsView.swift in Sources */,
 				850C1EAF2E7B4F5500545D95 /* EntitlementsCoordinator.swift in Sources */,
+				95E0C2052F00000300000001 /* EngagementService.swift in Sources */,
 				85E4A0B12E9C8B1F0046A9D3 /* TrialReminderScheduler.swift in Sources */,
 				85F61C7B2E4353F6002AB6F9 /* SoundConfigurationLoader.swift in Sources */,
 				85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */,
@@ -907,7 +911,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 144;
+				CURRENT_PROJECT_VERSION = 145;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -915,7 +919,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
+				INFOPLIST_KEY_CFBundleDisplayName = Hush;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 Ruslan Popesku. All rights reserved.";
@@ -954,7 +958,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 144;
+				CURRENT_PROJECT_VERSION = 145;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -962,7 +966,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhiteNoise/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "White Sound";
+				INFOPLIST_KEY_CFBundleDisplayName = Hush;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 Ruslan Popesku. All rights reserved.";
