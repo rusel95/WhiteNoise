@@ -55,6 +55,7 @@ final class EntitlementsCoordinator {
         scheduleReminderIfNeeded(from: customerInfo)
         hasActiveEntitlement = true
         isPaywallPresented = false
+        AnalyticsService.capture(.purchaseCompleted(offering: currentOffering?.identifier))
         LoggingService.log("✅ EntitlementsCoordinator.handlePurchaseCompleted - Override active, hiding paywall")
         Task { await refreshEntitlement() }
     }
@@ -62,13 +63,16 @@ final class EntitlementsCoordinator {
     func handleRestoreCompleted(with customerInfo: CustomerInfo) {
         activateEntitlementOverride()
         scheduleReminderIfNeeded(from: customerInfo)
-        hasActiveEntitlement = activeEntitlement(in: customerInfo)?.isActive == true
+        let isActive = activeEntitlement(in: customerInfo)?.isActive == true
+        hasActiveEntitlement = isActive
         isPaywallPresented = !hasActiveEntitlement && !isForceShowEnabled()
+        AnalyticsService.capture(.restoreCompleted(hasEntitlement: isActive))
         LoggingService.log("♻️ EntitlementsCoordinator.handleRestoreCompleted - Override active, refreshing")
         Task { await refreshEntitlement() }
     }
 
     func handlePaywallDismissed() {
+        AnalyticsService.capture(.paywallDismissed)
         LoggingService.log("ℹ️ EntitlementsCoordinator.handlePaywallDismissed - User dismissed paywall")
         // Don't auto-refresh after dismissal to avoid showing paywall again
         // Only refresh in force-show debug mode for testing purposes
@@ -138,6 +142,7 @@ final class EntitlementsCoordinator {
 
             try await loadOffering()
             isPaywallPresented = true
+            AnalyticsService.capture(.paywallShown(offering: currentOffering?.identifier))
             LoggingService.log("🔒 EntitlementsCoordinator.refreshEntitlement - Paywall shown (no entitlement)")
             return customerInfo
         } catch {
@@ -209,14 +214,6 @@ final class EntitlementsCoordinator {
                     extra: ["requestedIdentifier": identifier]
                 )
                 throw PaywallLoadingError.offeringNotFound
-            }
-
-            if !offering.hasPaywall {
-                LoggingService.log("⚠️ EntitlementsCoordinator.loadOffering - Offering \(offering.identifier) has no configured paywall")
-                TelemetryService.captureNonFatal(
-                    message: "EntitlementsCoordinator.loadOffering offering missing paywall",
-                    extra: ["offeringIdentifier": offering.identifier]
-                )
             }
 
             currentOffering = offering

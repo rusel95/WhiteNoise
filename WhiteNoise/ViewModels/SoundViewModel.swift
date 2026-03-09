@@ -290,8 +290,15 @@ final class SoundViewModel: Identifiable {
     }
     
     private func handleSoundVariantChange(_ newVariant: Sound.SoundVariant) async {
+        let previousVariant = sound.selectedSoundVariant.name
         sound.selectedSoundVariant = newVariant
         persistenceService.save(sound)
+
+        AnalyticsService.capture(.soundVariantChanged(
+            name: sound.name,
+            from: previousVariant,
+            to: newVariant.name
+        ))
         
         let wasPlaying = player?.isPlaying ?? false
         player?.stop()

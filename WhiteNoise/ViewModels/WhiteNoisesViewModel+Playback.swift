@@ -43,6 +43,12 @@ extension WhiteNoisesViewModel {
             setPlayingState(true)
         }
 
+        let activeSounds = soundsViewModels.filter { $0.isPlaying && $0.volume > 0 }
+        AnalyticsService.capture(.playbackStarted(
+            soundCount: activeSounds.count,
+            soundNames: activeSounds.map(\.sound.name)
+        ))
+
         updateNowPlayingInfo()
     }
 
@@ -67,6 +73,11 @@ extension WhiteNoisesViewModel {
             setPlayingState(false)
         }
 
+        AnalyticsService.capture(.playbackPaused(
+            soundCount: soundsViewModels.filter { $0.volume > 0 }.count,
+            listeningSeconds: 0
+        ))
+
         updateNowPlayingInfo()
     }
 
@@ -84,8 +95,18 @@ extension WhiteNoisesViewModel {
         if isPlaying {
             if volume > 0 {
                 await soundViewModel.playSound()
+                AnalyticsService.capture(.soundToggled(
+                    name: soundViewModel.sound.name,
+                    variant: soundViewModel.sound.selectedSoundVariant.name,
+                    isOn: true
+                ))
             } else {
                 await soundViewModel.pauseSound()
+                AnalyticsService.capture(.soundToggled(
+                    name: soundViewModel.sound.name,
+                    variant: soundViewModel.sound.selectedSoundVariant.name,
+                    isOn: false
+                ))
             }
             updateNowPlayingInfo()
         }

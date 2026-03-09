@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PostHog
 import Sentry
 import StoreKit
 import SwiftUI
@@ -34,6 +35,14 @@ struct WhiteNoiseApp: App {
             #endif
 
             options.experimental.enableLogs = true
+        }
+
+        // Initialize PostHog for analytics
+        if let posthogKey = Bundle.main.object(forInfoDictionaryKey: "POSTHOG_API_KEY") as? String,
+           let posthogHost = Bundle.main.object(forInfoDictionaryKey: "POSTHOG_HOST") as? String,
+           !posthogKey.isEmpty {
+            let posthogConfig = PostHogConfig(apiKey: posthogKey, host: posthogHost)
+            PostHogSDK.shared.setup(posthogConfig)
         }
 
         // Initialize RevenueCat for subscriptions
@@ -69,6 +78,7 @@ struct RootView: View {
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     self.entitlements.onForeground()
+                    AnalyticsService.capture(.appForegrounded)
                 }
             }
             .sheet(isPresented: $entitlements.isPaywallPresented) {

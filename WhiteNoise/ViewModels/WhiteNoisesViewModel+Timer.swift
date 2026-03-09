@@ -12,6 +12,11 @@ extension WhiteNoisesViewModel {
             timerService.start(mode: newMode)
             setRemainingTimerTime(timerService.remainingTime)
 
+            AnalyticsService.capture(.timerStarted(
+                mode: newMode.displayText,
+                durationSeconds: newMode.totalSeconds
+            ))
+
             if !isPlaying {
                 setPlayingState(true)
                 playPauseTask?.cancel()
@@ -21,8 +26,23 @@ extension WhiteNoisesViewModel {
             }
             updateNowPlayingInfo()
         } else {
+            let previousMode = timerService.mode
+            let remaining = timerService.remainingSeconds
             timerService.stop()
             setRemainingTimerTime("")
+
+            if remaining == 0 && !previousMode.isOff {
+                AnalyticsService.capture(.timerCompleted(
+                    mode: previousMode.displayText,
+                    durationSeconds: previousMode.totalSeconds
+                ))
+            } else if !previousMode.isOff {
+                AnalyticsService.capture(.timerCancelled(
+                    mode: previousMode.displayText,
+                    remainingSeconds: remaining
+                ))
+            }
+
             updateNowPlayingInfo()
         }
     }

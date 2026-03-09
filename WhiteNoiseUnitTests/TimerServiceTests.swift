@@ -3,46 +3,44 @@
 //  WhiteNoiseUnitTests
 //
 //  Basic unit tests for TimerService lifecycle and tick behavior.
-//  Note: Add a Unit Test target in Xcode and include this file.
-//  FIXME: Test target needs WhiteNoise as a dependency to run these tests
 //
 
 import XCTest
-// @testable import WhiteNoise  // Uncomment when test target is properly configured
+@testable import WhiteSoundRuslan1234
 
+@MainActor
 final class TimerServiceTests: XCTestCase {
     func testStartPauseResumeStop() async throws {
-        let svc = await MainActor.run { TimerService() }
+        let svc = TimerService()
 
-        // Start a short timer (use fiveMinutes but only wait a couple of seconds)
-        await MainActor.run { svc.start(mode: .fiveMinutes) }
-        XCTAssertTrue(await MainActor.run { svc.isActive })
-        let startRemaining = await MainActor.run { svc.remainingSeconds }
+        // Start a short timer
+        svc.start(mode: .fiveMinutes)
+        XCTAssertTrue(svc.isActive)
+        let startRemaining = svc.remainingSeconds
         XCTAssertEqual(startRemaining, TimerService.TimerMode.fiveMinutes.totalSeconds)
 
         // Wait ~2 seconds and verify time decreased
         try await Task.sleep(nanoseconds: 2_200_000_000)
-        let after2s = await MainActor.run { svc.remainingSeconds }
+        let after2s = svc.remainingSeconds
         XCTAssertLessThan(after2s, startRemaining, "Timer should count down")
 
         // Pause and verify it holds steady after 1s
-        await MainActor.run { svc.pause() }
-        let paused = await MainActor.run { svc.remainingSeconds }
+        svc.pause()
+        let paused = svc.remainingSeconds
         try await Task.sleep(nanoseconds: 1_200_000_000)
-        let pausedAfter = await MainActor.run { svc.remainingSeconds }
+        let pausedAfter = svc.remainingSeconds
         XCTAssertEqual(paused, pausedAfter, "Paused timer should not change remaining seconds")
 
         // Resume and verify it moves again
-        await MainActor.run { svc.resume() }
+        svc.resume()
         try await Task.sleep(nanoseconds: 1_200_000_000)
-        let resumedAfter = await MainActor.run { svc.remainingSeconds }
+        let resumedAfter = svc.remainingSeconds
         XCTAssertLessThan(resumedAfter, pausedAfter, "Resumed timer should continue counting down")
 
         // Stop and verify state cleared
-        await MainActor.run { svc.stop() }
-        XCTAssertFalse(await MainActor.run { svc.isActive })
-        XCTAssertEqual(await MainActor.run { svc.remainingSeconds }, 0)
-        XCTAssertEqual(await MainActor.run { svc.remainingTime }, "")
+        svc.stop()
+        XCTAssertFalse(svc.isActive)
+        XCTAssertEqual(svc.remainingSeconds, 0)
+        XCTAssertEqual(svc.remainingTime, "")
     }
 }
-

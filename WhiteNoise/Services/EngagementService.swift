@@ -72,6 +72,7 @@ final class EngagementService: EngagementServiceProtocol {
     /// Call once per app launch to increment the session counter.
     func recordSessionStart() {
         sessionCount += 1
+        AnalyticsService.capture(.appLaunched(sessionNumber: sessionCount))
         LoggingService.log(
             "EngagementService: session \(sessionCount), "
             + "total listening \(totalListeningSeconds)s, "

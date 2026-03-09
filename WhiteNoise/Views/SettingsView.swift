@@ -145,7 +145,13 @@ struct SettingsView: View {
             iconColor: theme.primary,
             title: String(localized: "Dark Mode")
         ) {
-            Toggle("", isOn: $isDarkMode)
+            Toggle("", isOn: Binding(
+                get: { isDarkMode },
+                set: { newValue in
+                    isDarkMode = newValue
+                    AnalyticsService.capture(.darkModeToggled(isOn: newValue))
+                }
+            ))
                 .toggleStyle(SwitchToggleStyle(tint: theme.primary))
                 .labelsHidden()
         }
@@ -189,6 +195,7 @@ struct SettingsView: View {
     private var shareAppRow: some View {
         Button {
             showShareSheet = true
+            AnalyticsService.capture(.shareAppTapped)
         } label: {
             GlassSettingsRow(
                 icon: "square.and.arrow.up",
@@ -205,6 +212,7 @@ struct SettingsView: View {
 
     private var feedbackRow: some View {
         Button {
+            AnalyticsService.capture(.feedbackTapped)
             if MFMailComposeViewController.canSendMail() {
                 showMailView = true
             } else {
