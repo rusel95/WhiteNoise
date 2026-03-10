@@ -10,7 +10,16 @@ extension WhiteNoisesViewModel {
     func setupRemoteCommands() {
         // Timer service callbacks
         timerService.onTimerExpired = { [weak self] in
+            let completedMode = self?.timerService.mode
             await self?.pauseSounds(fadeDuration: AppConstants.Animation.fadeOut)
+
+            if let mode = completedMode, !mode.isOff {
+                AnalyticsService.capture(.timerCompleted(
+                    mode: mode.displayText,
+                    durationSeconds: mode.totalSeconds
+                ))
+            }
+
             self?.timerMode = .off
             self?.setRemainingTimerTime("")
         }

@@ -544,11 +544,7 @@ private struct TimerOptionButtonStyle: ButtonStyle {
     }
 }
 
-// MARK: - Preview
-
-struct TimerPickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        TimerPickerView(timerMode: .constant(.thirtyMinutes))
-            .preferredColorScheme(.dark)
-    }
+#Preview {
+    TimerPickerView(timerMode: .constant(.thirtyMinutes))
+        .preferredColorScheme(.dark)
 }

@@ -10,6 +10,10 @@
 	<string>$(REVENUECAT_LOG_LEVEL)</string>
 	<key>SENTRY_DSN</key>
 	<string>$(SENTRY_DSN)</string>
+	<key>POSTHOG_API_KEY</key>
+	<string>$(POSTHOG_API_KEY)</string>
+	<key>POSTHOG_HOST</key>
+	<string>$(POSTHOG_HOST)</string>
 	<key>FIREBASE_API_KEY</key>
 	<string>$(FIREBASE_API_KEY)</string>
 	<key>FIREBASE_GCM_SENDER_ID</key>
