@@ -37,6 +37,41 @@ struct NoOpSoundPersistenceService: SoundPersistenceServiceProtocol {
     func clearAll() {}
 }
 
+// MARK: - Preview Paywall Presenter
+
+@Observable @MainActor
+final class PreviewPaywallPresenter: PaywallPresenting {
+    let hasFreeTrial: Bool
+    let priceText: String?
+    let monthlyPriceText: String?
+    let trialText: String?
+    let ctaText: String
+    let legalText: String?
+    var isBusy: Bool { false }
+    var isReady: Bool { true }
+    var errorMessage: String?
+
+    init(
+        hasFreeTrial: Bool = true,
+        priceText: String? = "$24.99 / 3 months",
+        monthlyPriceText: String? = "$8.33/mo",
+        trialText: String? = "Includes 1 week free trial",
+        ctaText: String = "Start trial – then $24.99/3 months",
+        legalText: String? = "Auto-renews every 3 months unless cancelled at least 24h before the period ends. Billed to your Apple ID. Manage in Settings."
+    ) {
+        self.hasFreeTrial = hasFreeTrial
+        self.priceText = priceText
+        self.monthlyPriceText = monthlyPriceText
+        self.trialText = trialText
+        self.ctaText = ctaText
+        self.legalText = legalText
+    }
+
+    func purchase() async {}
+    func restore() async {}
+    func dismissPaywall() {}
+}
+
 // MARK: - Preview Sound
 
 enum PreviewData {

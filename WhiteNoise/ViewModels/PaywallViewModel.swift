@@ -6,10 +6,28 @@
 //
 
 import Foundation
+import Observation
 import RevenueCat
 
+@MainActor
+protocol PaywallPresenting: Observable {
+    var hasFreeTrial: Bool { get }
+    var priceText: String? { get }
+    var monthlyPriceText: String? { get }
+    var trialText: String? { get }
+    var ctaText: String { get }
+    var legalText: String? { get }
+    var isBusy: Bool { get }
+    var isReady: Bool { get }
+    var errorMessage: String? { get }
+
+    func purchase() async
+    func restore() async
+    func dismissPaywall()
+}
+
 @Observable @MainActor
-final class PaywallViewModel {
+final class PaywallViewModel: PaywallPresenting {
 
     // MARK: - Properties
 
@@ -17,41 +35,18 @@ final class PaywallViewModel {
     private(set) var isRestoring = false
     private(set) var errorMessage: String?
 
-    private let coordinator: EntitlementsCoordinator?
-    private let mockPriceText: String?
-    private let mockTrialText: String?
-    private let mockLegalText: String?
-    private let mockHasFreeTrial: Bool
+    private let coordinator: EntitlementsCoordinator
 
     // MARK: - Init
 
     init(coordinator: EntitlementsCoordinator) {
         self.coordinator = coordinator
-        self.mockPriceText = nil
-        self.mockTrialText = nil
-        self.mockLegalText = nil
-        self.mockHasFreeTrial = false
     }
-
-    #if DEBUG
-    init(
-        priceText: String = "$4.99 / month",
-        trialText: String? = "Includes 3 day free trial",
-        legalText: String = "Auto-renews every month unless cancelled at least 24h before the period ends. Billed to your Apple ID. Manage in Settings.",
-        hasFreeTrial: Bool = true
-    ) {
-        self.coordinator = nil
-        self.mockPriceText = priceText
-        self.mockTrialText = trialText
-        self.mockLegalText = legalText
-        self.mockHasFreeTrial = hasFreeTrial
-    }
-    #endif
 
     // MARK: - Computed Properties
 
     var package: Package? {
-        coordinator?.currentOffering?.availablePackages.first
+        coordinator.currentOffering?.availablePackages.first
     }
 
     var isBusy: Bool {
@@ -59,30 +54,52 @@ final class PaywallViewModel {
     }
 
     var isReady: Bool {
-        mockPriceText != nil || package != nil
+        package != nil
     }
 
     var hasFreeTrial: Bool {
-        if mockPriceText != nil { return mockHasFreeTrial }
         guard let intro = package?.storeProduct.introductoryDiscount else { return false }
         return intro.price == 0
     }
 
     var priceText: String? {
-        if let mock = mockPriceText { return mock }
         guard let pkg = package else { return nil }
         let product = pkg.storeProduct
         return product.localizedPriceString + " / " + periodLabel(for: product)
     }
 
     var trialText: String? {
-        if mockPriceText != nil { return mockTrialText }
         guard let intro = package?.storeProduct.introductoryDiscount else { return nil }
         return trialLabel(for: intro)
     }
 
+    var monthlyPriceText: String? {
+        guard let pkg = package else { return nil }
+        let product = pkg.storeProduct
+        if let pricePerMonth = product.pricePerMonth,
+           let formatted = product.priceFormatter?.string(from: pricePerMonth) {
+            return formatted + String(localized: "/mo")
+        }
+        return nil
+    }
+
+    var trialDurationText: String? {
+        guard let intro = package?.storeProduct.introductoryDiscount, intro.price == 0 else { return nil }
+        return trialPeriodText(for: intro)
+    }
+
+    var ctaText: String {
+        guard let pkg = package else { return String(localized: "Subscribe Now") }
+        let product = pkg.storeProduct
+        if hasFreeTrial {
+            let price = product.localizedPriceString
+            let period = periodLabel(for: product)
+            return String(localized: "Start trial – then \(price)/\(period)")
+        }
+        return String(localized: "Subscribe Now")
+    }
+
     var legalText: String? {
-        if let mock = mockLegalText { return mock }
         guard let pkg = package else { return nil }
         let period = periodLabel(for: pkg.storeProduct)
         return String(localized: "Auto-renews every \(period) unless cancelled at least 24h before the period ends. Billed to your Apple ID. Manage in Settings.")
@@ -91,7 +108,7 @@ final class PaywallViewModel {
     // MARK: - Actions
 
     func purchase() async {
-        guard let coordinator, let pkg = package else { return }
+        guard let pkg = package else { return }
         isPurchasing = true
         errorMessage = nil
 
@@ -120,7 +137,6 @@ final class PaywallViewModel {
     }
 
     func restore() async {
-        guard let coordinator else { return }
         isRestoring = true
         errorMessage = nil
 
@@ -143,8 +159,8 @@ final class PaywallViewModel {
     }
 
     func dismissPaywall() {
-        coordinator?.isPaywallPresented = false
-        coordinator?.handlePaywallDismissed()
+        coordinator.isPaywallPresented = false
+        coordinator.handlePaywallDismissed()
     }
 
     // MARK: - Private Helpers
@@ -159,6 +175,18 @@ final class PaywallViewModel {
         @unknown default:
             LoggingService.log("PaywallViewModel.periodLabel - Unknown subscription period unit")
             return ""
+        }
+    }
+
+    private func trialPeriodText(for discount: StoreProductDiscount) -> String {
+        let period = discount.subscriptionPeriod
+        let value = period.value
+        switch period.unit {
+        case .day: return value == 1 ? String(localized: "1 day") : String(localized: "\(value) days")
+        case .week: return value == 1 ? String(localized: "1 week") : String(localized: "\(value) weeks")
+        case .month: return value == 1 ? String(localized: "1 month") : String(localized: "\(value) months")
+        case .year: return value == 1 ? String(localized: "1 year") : String(localized: "\(value) years")
+        @unknown default: return ""
         }
     }
 

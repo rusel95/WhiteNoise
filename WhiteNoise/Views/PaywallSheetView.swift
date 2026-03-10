@@ -6,10 +6,9 @@
 //
 
 import SwiftUI
-import RevenueCat
 
-struct PaywallSheetView: View {
-    @State private var viewModel: PaywallViewModel
+struct PaywallSheetView<ViewModel: PaywallPresenting>: View {
+    @State private var viewModel: ViewModel
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -17,15 +16,9 @@ struct PaywallSheetView: View {
         ThemeColors(colorScheme: colorScheme)
     }
 
-    init(coordinator: EntitlementsCoordinator) {
-        _viewModel = State(initialValue: PaywallViewModel(coordinator: coordinator))
-    }
-
-    #if DEBUG
-    init(viewModel: PaywallViewModel) {
+    init(viewModel: ViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
-    #endif
 
     var body: some View {
         ZStack {
@@ -39,7 +32,13 @@ struct PaywallSheetView: View {
                     dismissHandle
                     logoSection
                     headlineSection
-                    featuresSection
+
+                    if viewModel.hasFreeTrial {
+                        trialTimelineSection
+                    } else {
+                        featuresSection
+                    }
+
                     pricingSection
                     ctaButton
                     legalText
@@ -103,19 +102,123 @@ struct PaywallSheetView: View {
 
     private var headlineSection: some View {
         VStack(spacing: 8) {
-            Text(String(localized: "Unlock Full Access"))
-                .font(.system(size: 28, weight: .bold, design: .rounded))
-                .foregroundStyle(theme.textPrimary)
+            if viewModel.hasFreeTrial {
+                Text(String(localized: "How your free trial works"))
+                    .font(.system(size: 26, weight: .bold, design: .rounded))
+                    .foregroundStyle(theme.textPrimary)
+            } else {
+                Text(String(localized: "Unlock Full Access"))
+                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .foregroundStyle(theme.textPrimary)
 
-            Text(String(localized: "Enjoy all sounds without limits"))
-                .font(.system(size: 16, weight: .regular))
-                .foregroundStyle(theme.textSecondary)
+                Text(String(localized: "Enjoy all sounds without limits"))
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundStyle(theme.textSecondary)
+            }
         }
         .multilineTextAlignment(.center)
         .padding(.top, 20)
     }
 
-    // MARK: - Features
+    // MARK: - Trial Timeline
+
+    private var trialTimelineSection: some View {
+        VStack(spacing: 0) {
+            timelineStep(
+                icon: "lock.open.fill",
+                color: Color(hex: "7C4DFF"),
+                title: String(localized: "All Access"),
+                subtitle: String(localized: "Unlock all sounds and features"),
+                isFirst: true
+            )
+
+            timelineStep(
+                icon: "bell.fill",
+                color: Color(hex: "7C4DFF").opacity(0.7),
+                title: String(localized: "We'll remind you 1 day before it ends"),
+                subtitle: String(localized: "You'll get a notification before any charge"),
+                isFirst: false
+            )
+
+            timelineStep(
+                icon: "star.fill",
+                color: Color(hex: "4A90D9"),
+                title: String(localized: "After trial"),
+                subtitle: viewModel.priceText.map { _ in
+                    String(localized: "You can cancel anytime before")
+                } ?? "",
+                isFirst: false,
+                isLast: true
+            )
+        }
+        .padding(16)
+        .glassCard(cornerRadius: 20, opacity: 0.5)
+        .padding(.top, 28)
+    }
+
+    private func timelineStep(
+        icon: String,
+        color: Color,
+        title: String,
+        subtitle: String,
+        isFirst: Bool,
+        isLast: Bool = false
+    ) -> some View {
+        HStack(alignment: .top, spacing: 14) {
+            // Timeline line + circle
+            VStack(spacing: 0) {
+                if !isFirst {
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color(hex: "7C4DFF").opacity(0.6), color.opacity(0.4)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(width: 2, height: 16)
+                }
+
+                ZStack {
+                    Circle()
+                        .fill(color.opacity(0.2))
+                        .frame(width: 36, height: 36)
+                    Image(systemName: icon)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(color)
+                }
+
+                if !isLast {
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [color.opacity(0.4), Color(hex: "4A90D9").opacity(0.3)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(width: 2)
+                        .frame(maxHeight: .infinity)
+                }
+            }
+            .frame(width: 36)
+
+            // Text
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title)
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundStyle(theme.textPrimary)
+                Text(subtitle)
+                    .font(.system(size: 13))
+                    .foregroundStyle(theme.textSecondary)
+            }
+            .padding(.vertical, isFirst ? 0 : 4)
+
+            Spacer()
+        }
+    }
+
+    // MARK: - Features (shown when no trial)
 
     private var featuresSection: some View {
         VStack(spacing: 12) {
@@ -166,6 +269,12 @@ struct PaywallSheetView: View {
                     .font(.system(size: 22, weight: .bold, design: .rounded))
                     .foregroundStyle(theme.textPrimary)
 
+                if let monthlyPrice = viewModel.monthlyPriceText {
+                    Text("(\(monthlyPrice))")
+                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                        .foregroundStyle(theme.textSecondary)
+                }
+
                 if let trialText = viewModel.trialText {
                     Text(trialText)
                         .font(.system(size: 15, weight: .medium))
@@ -193,27 +302,20 @@ struct PaywallSheetView: View {
         Button {
             Task { await viewModel.purchase() }
         } label: {
-            HStack(spacing: 8) {
-                if viewModel.hasFreeTrial {
-                    Text(String(localized: "Start Free Trial"))
-                        .font(.system(size: 17, weight: .bold))
-                } else {
-                    Text(String(localized: "Subscribe Now"))
-                        .font(.system(size: 17, weight: .bold))
-                }
-            }
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 16)
-            .background(
-                LinearGradient(
-                    colors: [Color(hex: "7C4DFF"), Color(hex: "5E35B1")],
-                    startPoint: .leading,
-                    endPoint: .trailing
+            Text(viewModel.ctaText)
+                .font(.system(size: 17, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(
+                    LinearGradient(
+                        colors: [Color(hex: "7C4DFF"), Color(hex: "5E35B1")],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
                 )
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .shadow(color: Color(hex: "7C4DFF").opacity(0.4), radius: 12, y: 6)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .shadow(color: Color(hex: "7C4DFF").opacity(0.4), radius: 12, y: 6)
         }
         .disabled(viewModel.isBusy || !viewModel.isReady)
         .padding(.top, 20)
@@ -259,8 +361,16 @@ struct PaywallSheetView: View {
     }
 }
 
+// MARK: - Production Convenience Init
+
+extension PaywallSheetView where ViewModel == PaywallViewModel {
+    init(coordinator: EntitlementsCoordinator) {
+        self.init(viewModel: PaywallViewModel(coordinator: coordinator))
+    }
+}
+
 #if DEBUG
 #Preview {
-    PaywallSheetView(viewModel: PaywallViewModel())
+    PaywallSheetView(viewModel: PreviewPaywallPresenter())
 }
 #endif
