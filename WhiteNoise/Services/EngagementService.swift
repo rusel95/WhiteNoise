@@ -26,6 +26,10 @@ final class EngagementService: EngagementServiceProtocol {
         self.defaults = defaults
     }
 
+    deinit {
+        listeningTimer?.cancel()
+    }
+
     private enum Keys {
         static let sessionCount = "engagement_session_count"
         static let totalListeningSeconds = "engagement_total_listening_seconds"
@@ -74,7 +78,7 @@ final class EngagementService: EngagementServiceProtocol {
         sessionCount += 1
         AnalyticsService.capture(.appLaunched(sessionNumber: sessionCount))
         LoggingService.log(
-            "EngagementService: session \(sessionCount), "
+            "📊 EngagementService: session \(sessionCount), "
             + "total listening \(totalListeningSeconds)s, "
             + "threshold met: \(hasMetPaywallThreshold)"
         )

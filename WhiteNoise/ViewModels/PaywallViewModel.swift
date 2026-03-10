@@ -116,10 +116,9 @@ final class PaywallViewModel: PaywallPresenting {
             let result = try await Purchases.shared.purchase(package: pkg)
             if !result.userCancelled {
                 coordinator.handlePurchaseCompleted(with: result.customerInfo)
-                coordinator.isPaywallPresented = false
             } else {
                 AnalyticsService.capture(.purchaseCancelled)
-                LoggingService.log("PaywallViewModel - Purchase cancelled by user")
+                LoggingService.log("🛒 PaywallViewModel - Purchase cancelled by user")
             }
         } catch is CancellationError {
             // Silent — user navigated away
@@ -130,7 +129,7 @@ final class PaywallViewModel: PaywallPresenting {
                 error: error,
                 message: "PaywallViewModel - Purchase failed"
             )
-            LoggingService.log("PaywallViewModel - Purchase failed: \(error.localizedDescription)")
+            LoggingService.log("❌ PaywallViewModel - Purchase failed: \(error.localizedDescription)")
         }
 
         isPurchasing = false
@@ -152,7 +151,7 @@ final class PaywallViewModel: PaywallPresenting {
                 error: error,
                 message: "PaywallViewModel - Restore failed"
             )
-            LoggingService.log("PaywallViewModel - Restore failed: \(error.localizedDescription)")
+            LoggingService.log("❌ PaywallViewModel - Restore failed: \(error.localizedDescription)")
         }
 
         isRestoring = false
@@ -168,7 +167,9 @@ final class PaywallViewModel: PaywallPresenting {
     private func periodLabel(for product: StoreProduct) -> String {
         guard let period = product.subscriptionPeriod else { return "" }
         switch period.unit {
-        case .day: return period.value == 7 ? String(localized: "week") : String(localized: "\(period.value) days")
+        case .day:
+            if period.value == 7 { return String(localized: "week") }
+            return period.value == 1 ? String(localized: "day") : String(localized: "\(period.value) days")
         case .week: return String(localized: "week")
         case .month: return period.value == 1 ? String(localized: "month") : String(localized: "\(period.value) months")
         case .year: return String(localized: "year")

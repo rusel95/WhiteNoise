@@ -17,6 +17,8 @@ struct SettingsView: View {
     @State private var showShareSheet = false
     @State private var result: Result<MFMailComposeResult, Error>?
 
+    private let appStoreURL = URL(string: "https://apps.apple.com/app/id6449785515")!
+
     private var theme: ThemeColors {
         ThemeColors(colorScheme: colorScheme)
     }
@@ -96,7 +98,7 @@ struct SettingsView: View {
             MailView(result: $result)
         }
         .sheet(isPresented: $showShareSheet) {
-            ShareSheet(items: [URL(string: "https://apps.apple.com/app/id6449785515")!])
+            ShareSheet(items: [appStoreURL])
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
     }

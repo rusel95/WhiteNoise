@@ -186,6 +186,7 @@ if $SKIP_UPLOAD; then
     echo "Skipping upload (--skip-upload)."
 else
     echo "Exporting IPA..."
+    rm -rf "$EXPORT_PATH"
     run xcodebuild -exportArchive \
         -archivePath "$ARCHIVE_PATH" \
         -exportPath "$EXPORT_PATH" \

@@ -16,7 +16,7 @@ import SnapshotTesting
 final class ScreenshotTests: XCTestCase {
 
     // Set to true to record new reference snapshots, then flip back to false.
-    private let isRecording = true
+    private let isRecording = false
 
     // MARK: - Main Screen (WhiteNoisesView)
 
