@@ -52,6 +52,12 @@ if ! command -v asc &>/dev/null; then
     exit 1
 fi
 
+if ! command -v jq &>/dev/null; then
+    echo "Error: jq not found (required to parse ASC responses)."
+    echo "Install: brew install jq"
+    exit 1
+fi
+
 # ── step 1: version bump ──────────────────────────────────────────────────────
 echo ""
 echo "── Step 1: Version Bump ─────────────────────────────────────────────────"
@@ -186,20 +192,22 @@ if $SKIP_UPLOAD; then
     echo "Skipping upload (--skip-upload)."
 else
     echo "Exporting IPA..."
-    rm -rf "$EXPORT_PATH"
+    run rm -rf "$EXPORT_PATH"
     run xcodebuild -exportArchive \
         -archivePath "$ARCHIVE_PATH" \
         -exportPath "$EXPORT_PATH" \
         -exportOptionsPlist "$EXPORT_OPTIONS" \
         -allowProvisioningUpdates
 
-    IPA_PATH=$(find "$EXPORT_PATH" -name "*.ipa" | head -1)
-    if [[ -z "$IPA_PATH" ]]; then
-        echo "Error: No .ipa file found in $EXPORT_PATH"
-        echo "The export step may have failed. Check xcodebuild output."
-        exit 1
+    if ! $DRY_RUN; then
+        IPA_PATH=$(find "$EXPORT_PATH" -name "*.ipa" | head -1)
+        if [[ -z "$IPA_PATH" ]]; then
+            echo "Error: No .ipa file found in $EXPORT_PATH"
+            echo "The export step may have failed. Check xcodebuild output."
+            exit 1
+        fi
+        echo "IPA: $IPA_PATH"
     fi
-    echo "IPA: $IPA_PATH"
 
     echo "Uploading to App Store Connect..."
     # asc publish handles upload + attaches build to the version
