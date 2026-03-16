@@ -35,13 +35,15 @@ final class PaywallViewModel: PaywallPresenting {
     private(set) var isRestoring = false
     private(set) var errorMessage: String?
 
-    private let coordinator: EntitlementsCoordinator
+    private let coordinator: any EntitlementsCoordinating
 
     // MARK: - Init
 
-    init(coordinator: EntitlementsCoordinator) {
+    init(coordinator: any EntitlementsCoordinating) {
         self.coordinator = coordinator
     }
+
+    deinit {}
 
     // MARK: - Computed Properties
 
@@ -174,7 +176,7 @@ final class PaywallViewModel: PaywallPresenting {
         case .month: return period.value == 1 ? String(localized: "month") : String(localized: "\(period.value) months")
         case .year: return String(localized: "year")
         @unknown default:
-            LoggingService.log("PaywallViewModel.periodLabel - Unknown subscription period unit")
+            LoggingService.log("⚠️ PaywallViewModel.periodLabel - Unknown subscription period unit")
             return ""
         }
     }
@@ -201,7 +203,7 @@ final class PaywallViewModel: PaywallPresenting {
         case .month: unitName = String(localized: "month")
         case .year: unitName = String(localized: "year")
         @unknown default:
-            LoggingService.log("PaywallViewModel.trialLabel - Unknown subscription period unit")
+            LoggingService.log("⚠️ PaywallViewModel.trialLabel - Unknown subscription period unit")
             return ""
         }
         return String(localized: "Includes \(value) \(unitName) free trial")
