@@ -16,7 +16,7 @@ final class EntitlementsCoordinator {
     var currentOffering: Offering?
     var isPaywallPresented: Bool = false
 
-    let engagementService = EngagementService()
+    let engagementService: any EngagementServiceProtocol
     private let trialReminderScheduler = TrialReminderScheduler()
     private let overrideKey = "whitenoise_entitlement_override_until"
     private let overrideDuration: TimeInterval = 600 // 10 minutes grace while awaiting customer info sync
@@ -26,7 +26,12 @@ final class EntitlementsCoordinator {
     private let entitlementIdentifier: String
     private let offeringIdentifier: String?
 
-    init(entitlementIdentifier: String? = nil, offeringIdentifier: String? = nil) {
+    init(
+        entitlementIdentifier: String? = nil,
+        offeringIdentifier: String? = nil,
+        engagementService: any EngagementServiceProtocol = EngagementService()
+    ) {
+        self.engagementService = engagementService
         self.entitlementIdentifier = Self.resolveValue(
             provided: entitlementIdentifier,
             plistKey: "REVENUECAT_ENTITLEMENT_ID",
@@ -36,6 +41,7 @@ final class EntitlementsCoordinator {
             provided: offeringIdentifier,
             plistKey: "REVENUECAT_OFFERING_ID"
         )
+
         LoggingService.log("🔑 EntitlementsCoordinator.init - Using entitlement identifier: '\(self.entitlementIdentifier)'")
     }
 
