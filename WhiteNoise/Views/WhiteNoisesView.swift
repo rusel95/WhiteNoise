@@ -113,6 +113,7 @@ struct WhiteNoisesView: View {
         Button {
             hapticService.impact(style: .light)
             showSettings = true
+            AnalyticsService.capture(.settingsOpened)
         } label: {
             Image(systemName: "gearshape.fill")
                 .font(.system(size: layout.isRegular ? 26 : 22, weight: .semibold))

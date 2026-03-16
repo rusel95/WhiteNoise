@@ -1,6 +1,6 @@
 ---
 name: mvvm-uikit-architecture
-version: 1.0.0
+version: 1.0.1
 description: "Production-first enterprise skill for UIKit MVVM architecture (iOS 13+). Guides iterative refactoring of legacy UIKit MVC codebases to modern MVVM through phased, low-risk PRs tracked in a `refactoring/` directory. Also applies when creating new screens, setting up Coordinator navigation, implementing Combine bindings, migrating GCD completion handlers, building DI with factories, adopting DiffableDataSource, or writing ViewModel tests. Covers ViewState enum, Combine @Published + sink, GCD patterns, Coordinator lifecycle, constructor injection, programmatic Auto Layout, and phased refactoring workflow."
 ---
 
@@ -263,8 +263,8 @@ Before finalizing generated or refactored code, verify ALL:
 
 | Project's concurrency stack | Companion skill | Apply when |
 |---|---|---|
-| `async/await`, actors, Swift 6 (migrating or greenfield) | `skills/ios/swift-concurrency/SKILL.md` | Migrating completion handlers, writing async ViewModel methods, actor-based state |
-| `DispatchQueue`, `OperationQueue` (staying or auditing existing) | `skills/ios/gcd-operationqueue/SKILL.md` | Reviewing existing queue code, writing queue-based concurrency, thread-safe collections |
+| `async/await`, actors, Swift 6 (migrating or greenfield) | `skills/swift-concurrency/SKILL.md` | Migrating completion handlers, writing async ViewModel methods, actor-based state |
+| `DispatchQueue`, `OperationQueue` (staying or auditing existing) | `skills/gcd-operationqueue/SKILL.md` | Reviewing existing queue code, writing queue-based concurrency, thread-safe collections |
 | Mixed (GCD stays, new code gets async/await) | Both skills | Apply GCD rules to existing code, concurrency rules to new code |
 
 **If unclear, ask:** "Is the team migrating to Swift Concurrency or keeping GCD/OperationQueue?"

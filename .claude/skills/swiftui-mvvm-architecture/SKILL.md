@@ -1,6 +1,6 @@
 ---
 name: swiftui-mvvm-architecture
-version: 1.0.0
+version: 1.0.1
 description: "Production-first enterprise skill for SwiftUI MVVM architecture with @Observable (iOS 17+). Guides iterative refactoring of legacy SwiftUI codebases to modern MVVM through phased, low-risk PRs tracked in a `refactoring/` directory. Also applies when creating new screens, migrating from ObservableObject, setting up Router navigation, implementing DI, building networking layers, or writing ViewModel tests. Covers ViewState enum, @MainActor isolation, constructor injection, typed routes, and phased refactoring workflow."
 ---
 
@@ -223,8 +223,8 @@ Before finalizing generated or refactored code, verify ALL:
 
 | Project's concurrency stack | Companion skill | Apply when |
 |---|---|---|
-| `async/await`, actors, Swift 6, `@MainActor` | `skills/ios/swift-concurrency/SKILL.md` | Writing async ViewModel methods, Task creation, actor-isolated state |
-| `DispatchQueue`, `OperationQueue` (legacy or hybrid) | `skills/ios/gcd-operationqueue/SKILL.md` | Writing queue-based networking, background work, thread-safe state |
+| `async/await`, actors, Swift 6, `@MainActor` | `skills/swift-concurrency/SKILL.md` | Writing async ViewModel methods, Task creation, actor-isolated state |
+| `DispatchQueue`, `OperationQueue` (legacy or hybrid) | `skills/gcd-operationqueue/SKILL.md` | Writing queue-based networking, background work, thread-safe state |
 
 **If unclear, ask:** "Does this project use Swift Concurrency (async/await) or GCD for async operations?"
 

@@ -59,6 +59,8 @@ final class WhiteNoisesViewModel {
     var playPauseTask: Task<Void, Never>?
     @ObservationIgnored
     private var preloadTask: Task<Void, Never>?
+    @ObservationIgnored
+    var playbackStartedAt: Date?
 
     // MARK: - Initialization
     init(

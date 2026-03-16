@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import PostHog
 import Sentry
-
+import StoreKit
 import SwiftUI
 
 @main
@@ -15,6 +16,9 @@ struct WhiteNoiseApp: App {
     init() {
         // Initialize Sentry for error tracking
         let sentryDsn = Bundle.main.object(forInfoDictionaryKey: "SENTRY_DSN") as? String
+        if sentryDsn == nil || sentryDsn?.isEmpty == true {
+            LoggingService.log("⚠️ WhiteNoiseApp - SENTRY_DSN missing or empty, error tracking disabled")
+        }
         SentrySDK.start { options in
             options.dsn = sentryDsn
             options.sendDefaultPii = false
@@ -36,6 +40,16 @@ struct WhiteNoiseApp: App {
             options.experimental.enableLogs = true
         }
 
+        // Initialize PostHog for analytics
+        if let posthogKey = Bundle.main.object(forInfoDictionaryKey: "POSTHOG_API_KEY") as? String,
+           let posthogHost = Bundle.main.object(forInfoDictionaryKey: "POSTHOG_HOST") as? String,
+           !posthogKey.isEmpty {
+            let posthogConfig = PostHogConfig(apiKey: posthogKey, host: posthogHost)
+            PostHogSDK.shared.setup(posthogConfig)
+        } else {
+            LoggingService.log("⚠️ WhiteNoiseApp - POSTHOG_API_KEY or POSTHOG_HOST missing, analytics disabled")
+        }
+
         // Initialize RevenueCat for subscriptions
         RevenueCatService.configure()
     }
@@ -51,6 +65,7 @@ struct WhiteNoiseApp: App {
 struct RootView: View {
     @State private var entitlements = EntitlementsCoordinator()
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
     @AppStorage("isDarkMode") private var isDarkMode = true
 
     var body: some View {
@@ -58,10 +73,18 @@ struct RootView: View {
         ContentView()
             .environment(entitlements)
             .preferredColorScheme(isDarkMode ? .dark : .light)
-            .onAppear { self.entitlements.onAppLaunch() }
+            .onAppear {
+                self.entitlements.onAppLaunch()
+            }
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     self.entitlements.onForeground()
+                    AnalyticsService.capture(.appForegrounded)
+
+                    if self.entitlements.engagementService.shouldRequestReview {
+                        requestReview()
+                        self.entitlements.engagementService.markReviewRequested()
+                    }
                 }
             }
             .sheet(isPresented: $entitlements.isPaywallPresented) {

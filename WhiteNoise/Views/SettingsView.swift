@@ -14,7 +14,10 @@ struct SettingsView: View {
     @Environment(EntitlementsCoordinator.self) private var entitlements
     @AppStorage("isDarkMode") private var isDarkMode = true
     @State private var showMailView = false
+    @State private var showShareSheet = false
     @State private var result: Result<MFMailComposeResult, Error>?
+
+    private let appStoreURL = URL(string: "https://apps.apple.com/app/id6449785515")!
 
     private var theme: ThemeColors {
         ThemeColors(colorScheme: colorScheme)
@@ -74,6 +77,7 @@ struct SettingsView: View {
                         darkModeRow
                         languageRow
                         subscriptionRow
+                        shareAppRow
                         feedbackRow
 
                         // Version Info
@@ -92,6 +96,9 @@ struct SettingsView: View {
         .presentationDragIndicator(.visible)
         .sheet(isPresented: $showMailView) {
             MailView(result: $result)
+        }
+        .sheet(isPresented: $showShareSheet) {
+            ShareSheet(items: [appStoreURL])
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
     }
@@ -140,7 +147,13 @@ struct SettingsView: View {
             iconColor: theme.primary,
             title: String(localized: "Dark Mode")
         ) {
-            Toggle("", isOn: $isDarkMode)
+            Toggle("", isOn: Binding(
+                get: { isDarkMode },
+                set: { newValue in
+                    isDarkMode = newValue
+                    AnalyticsService.capture(.darkModeToggled(isOn: newValue))
+                }
+            ))
                 .toggleStyle(SwitchToggleStyle(tint: theme.primary))
                 .labelsHidden()
         }
@@ -181,8 +194,27 @@ struct SettingsView: View {
         }
     }
 
+    private var shareAppRow: some View {
+        Button {
+            showShareSheet = true
+            AnalyticsService.capture(.shareAppTapped)
+        } label: {
+            GlassSettingsRow(
+                icon: "square.and.arrow.up",
+                iconColor: theme.primary,
+                title: String(localized: "Share App")
+            ) {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(theme.textTertiary)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
     private var feedbackRow: some View {
         Button {
+            AnalyticsService.capture(.feedbackTapped)
             if MFMailComposeViewController.canSendMail() {
                 showMailView = true
             } else {
@@ -205,6 +237,18 @@ struct SettingsView: View {
     }
 }
 
+// MARK: - Share Sheet Helper
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+
 // MARK: - Mail View Helper
 
 struct MailView: UIViewControllerRepresentable {
@@ -217,8 +261,6 @@ struct MailView: UIViewControllerRepresentable {
         init(result: Binding<Result<MFMailComposeResult, Error>?>) {
             _result = result
         }
-
-        deinit {}
 
         func mailComposeController(
             _ controller: MFMailComposeViewController,
@@ -249,4 +291,9 @@ struct MailView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: Context) {}
+}
+
+#Preview {
+    SettingsView()
+        .environment(EntitlementsCoordinator())
 }

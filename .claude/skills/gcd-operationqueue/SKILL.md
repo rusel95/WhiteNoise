@@ -1,6 +1,6 @@
 ---
 name: gcd-operationqueue
-version: 1.0.0
+version: 1.0.1
 description: "Enterprise skill for GCD and OperationQueue concurrency on Apple platforms (iOS, macOS, watchOS, tvOS, visionOS). Use when reviewing or writing DispatchQueue code, fixing deadlocks, preventing thread explosion, implementing thread-safe collections, creating AsyncOperation subclasses, using DispatchGroup or DispatchSemaphore, setting up reader-writer locks with barriers, selecting lock types (os_unfair_lock, NSLock, OSAllocatedUnfairLock), debugging data races with Thread Sanitizer, profiling with Instruments, or migrating GCD patterns to Swift Concurrency. Covers queue creation, QoS selection, target queue hierarchies, DispatchSource timers, DispatchIO, priority inversion prevention, and enterprise production patterns for Core Data, networking, and background tasks."
 ---
 
@@ -219,8 +219,8 @@ Before finalizing generated or refactored concurrent code, verify ALL:
 
 | Scenario | Companion skill | Apply when |
 |---|---|---|
-| Migrating GCD patterns to `async/await` or actors | `skills/ios/swift-concurrency/SKILL.md` | Converting completion handlers, replacing DispatchQueue with actors, adopting Swift 6 |
-| GCD used in UIKit MVVM ViewModels | `skills/ios/mvvm-uikit-architecture/SKILL.md` | Refactoring Massive ViewControllers, extracting ViewModels, setting up Combine bindings |
+| Migrating GCD patterns to `async/await` or actors | `skills/swift-concurrency/SKILL.md` | Converting completion handlers, replacing DispatchQueue with actors, adopting Swift 6 |
+| GCD used in UIKit MVVM ViewModels | `skills/mvvm-uikit-architecture/SKILL.md` | Refactoring Massive ViewControllers, extracting ViewModels, setting up Combine bindings |
 
 ## References
 

@@ -281,3 +281,14 @@ private extension SoundView {
             }
     }
 }
+
+#if DEBUG
+#Preview {
+    SoundView(
+        viewModel: PreviewData.sampleSoundViewModel,
+        layout: AdaptiveLayout(horizontalSizeClass: .compact)
+    )
+    .frame(width: 170, height: 180)
+    .padding()
+}
+#endif

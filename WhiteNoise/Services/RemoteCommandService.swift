@@ -209,7 +209,7 @@ final class RemoteCommandService: RemoteCommandHandling {
         #if os(iOS)
         // Use app icon from asset catalog with Swift generated asset symbol
         let artwork: MPMediaItemArtwork? = {
-            let image = UIImage.launchScreenIcon
+            let image = UIImage.hushLogo
             return MPMediaItemArtwork(boundsSize: RemoteCommandConstants.artworkSize) { _ in image }
         }()
         

@@ -52,7 +52,7 @@
             "name": "white noise",
             "icon": {
                 "type": "custom",
-                "value": "1024-Logo"
+                "value": "HushLogo"
             },
             "variants": [
                 { "name": "soft", "filename": "249313__jarredgibb__white-noise-20dbfs-30-second" },
