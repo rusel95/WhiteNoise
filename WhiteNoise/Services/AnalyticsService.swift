@@ -124,8 +124,4 @@ enum AnalyticsService {
     static func capture(_ event: AnalyticsEvent) {
         PostHogSDK.shared.capture(event.name, properties: event.properties)
     }
-
-    static func identify(userId: String, properties: [String: Any] = [:]) {
-        PostHogSDK.shared.identify(userId, userProperties: properties)
-    }
 }
