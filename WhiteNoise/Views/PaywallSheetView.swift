@@ -364,7 +364,7 @@ struct PaywallSheetView<ViewModel: PaywallPresenting>: View {
 // MARK: - Production Convenience Init
 
 extension PaywallSheetView where ViewModel == PaywallViewModel {
-    init(coordinator: EntitlementsCoordinator) {
+    init(coordinator: any EntitlementsCoordinating) {
         self.init(viewModel: PaywallViewModel(coordinator: coordinator))
     }
 }
