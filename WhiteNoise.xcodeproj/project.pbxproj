@@ -76,8 +76,6 @@
 		85F61C7C2E4353F6002AB6F9 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C702E4353F6002AB6F9 /* TimerService.swift */; };
 		85F61C802E4353FE002AB6F9 /* WhiteNoisesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */; };
 		85F61C812E4353FE002AB6F9 /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */; };
-		PAYVM00200000000000000001 /* PaywallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = PAYVM00100000000000000001 /* PaywallViewModel.swift */; };
-		PRVHLP0200000000000000001 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = PRVHLP0100000000000000001 /* PreviewHelpers.swift */; };
 		85F61C882E435402002AB6F9 /* WhiteNoisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C862E435402002AB6F9 /* WhiteNoisesView.swift */; };
 		85F61C892E435402002AB6F9 /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C852E435402002AB6F9 /* TimerPickerView.swift */; };
 		85F61C8A2E435402002AB6F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F61C822E435402002AB6F9 /* ContentView.swift */; };
@@ -92,6 +90,8 @@
 		AA11223344556677SNAP0005 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = AA11223344556677SNAP0002 /* SnapshotTesting */; };
 		F0C2720A7E064778882D8B71 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CEA3B7A2028441AAACD8CB4C /* PrivacyInfo.xcprivacy */; };
 		F66EB88B4B1F4A52BBE3B757 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07675DE8CE144859AADF3ECA /* AnalyticsService.swift */; };
+		PAYVM00200000000000000001 /* PaywallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = PAYVM00100000000000000001 /* PaywallViewModel.swift */; };
+		PRVHLP0200000000000000001 /* Helpers/PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = PRVHLP0100000000000000001 /* Helpers/PreviewHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -195,8 +195,6 @@
 		85F61C6F2E4353F6002AB6F9 /* SoundPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPersistenceService.swift; sourceTree = "<group>"; };
 		85F61C702E4353F6002AB6F9 /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
 		85F61C7D2E4353FE002AB6F9 /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
-		PAYVM00100000000000000001 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
-		PRVHLP0100000000000000001 /* PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/PreviewHelpers.swift; sourceTree = "<group>"; };
 		85F61C7E2E4353FE002AB6F9 /* WhiteNoisesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteNoisesViewModel.swift; sourceTree = "<group>"; };
 		85F61C822E435402002AB6F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		85F61C842E435402002AB6F9 /* SoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundView.swift; sourceTree = "<group>"; };
@@ -211,6 +209,8 @@
 		AA11223344556677SNAP0003 /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
 		BB66DDEBAEFE916E664211BF /* GlassDesignSystem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GlassDesignSystem.swift; sourceTree = "<group>"; };
 		CEA3B7A2028441AAACD8CB4C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		PAYVM00100000000000000001 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
+		PRVHLP0100000000000000001 /* Helpers/PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/PreviewHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,8 +287,8 @@
 				74ABCD162A5E8FBB00123456 /* LaunchScreen.storyboard */,
 				74349A592A26413F00AB0EF5 /* Preview Content */,
 				6CED74548EFAA3036F01E0E6 /* Theme */,
-			
-				PRVHLP0100000000000000001 /* PreviewHelpers.swift */,);
+				PRVHLP0100000000000000001 /* Helpers/PreviewHelpers.swift */,
+			);
 			path = WhiteNoise;
 			sourceTree = "<group>";
 		};
@@ -488,8 +488,8 @@
 				85B1A0052EDD000100A1B1C1 /* WhiteNoisesViewModel+RemoteCommands.swift */,
 				85B1A0072EDD000100A1B1C1 /* WhiteNoisesViewModel+Lifecycle.swift */,
 				85B1A0092EDD000100A1B1C1 /* WhiteNoisesViewModel+NowPlaying.swift */,
-			
-				PAYVM00100000000000000001 /* PaywallViewModel.swift */,);
+				PAYVM00100000000000000001 /* PaywallViewModel.swift */,
+			);
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
@@ -788,9 +788,9 @@
 				85F61C5C2E4353D9002AB6F9 /* AppConstants.swift in Sources */,
 				85F61C622E4353E8002AB6F9 /* Sound.swift in Sources */,
 				3BD1267615B97628E7E51259 /* GlassDesignSystem.swift in Sources */,
-			
 				PAYVM00200000000000000001 /* PaywallViewModel.swift in Sources */,
-				PRVHLP0200000000000000001 /* PreviewHelpers.swift in Sources */,);
+				PRVHLP0200000000000000001 /* Helpers/PreviewHelpers.swift in Sources */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		95E0C1FD2F00000100000001 /* Sources */ = {
@@ -953,7 +953,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 145;
+				CURRENT_PROJECT_VERSION = 146;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -1000,7 +1000,7 @@
 				CODE_SIGN_ENTITLEMENTS = WhiteNoise/WhiteNoise.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 145;
+				CURRENT_PROJECT_VERSION = 146;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WhiteNoise/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
