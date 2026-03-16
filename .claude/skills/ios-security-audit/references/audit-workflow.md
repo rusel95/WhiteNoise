@@ -117,17 +117,16 @@ Full security audits on large codebases consume significant tokens. Use a tiered
 
 | Phase | Recommended Model | Why |
 |-------|------------------|-----|
-| Pattern scanning (CRITICAL) | **Haiku** | Grep-based detection — string matching, regex patterns. Fast, cheap, high-confidence. |
-| Pattern scanning (HIGH) | **Haiku** | Same rationale — pattern matches with simple context checks. |
+| Pattern scanning (CRITICAL/HIGH) | **Sonnet** | Grep-based detection with context — string matching, regex patterns, simple context checks. |
 | Contextual analysis | **Sonnet** | Data-flow reasoning, false-positive filtering, cross-file analysis. |
-| Report compilation | **Haiku** | Template filling, formatting, aggregation. |
+| Report compilation | **Sonnet** | Template filling, formatting, aggregation. |
 | Compliance mapping (L2) | **Sonnet** | Requires understanding regulatory requirements against implementation. |
 | Fix code generation | **Sonnet / Opus** | Secure replacement code must be correct — use the most capable model available. |
 
 **Practical approach for large projects (500+ Swift files):**
 
 1. Run `scripts/quick-scan.sh` first (zero token cost — local grep)
-2. Feed quick-scan output to **Haiku** for triage and CRITICAL/HIGH report
+2. Feed quick-scan output to **Sonnet** for triage and CRITICAL/HIGH report
 3. Use **Sonnet** for contextual HIGH findings requiring data-flow analysis
 4. Use **Sonnet/Opus** for fix generation and compliance mapping
 

@@ -77,7 +77,9 @@ Apple's recommendation: **Use a fixed number of serial queue hierarchies equal t
 3. **UI support** queue (image processing, layout computation)
 4. **Media** queue (if applicable — audio, video processing)
 
-Use target queue hierarchies to funnel work (see `references/queue-creation.md`).
+Use target queue hierarchies to funnel work (see `queue-creation.md`).
+
+**Low Power Mode warning:** iOS may **halt `.background` QoS work entirely** when Low Power Mode is active. Any work queued with `.background` — either on a named queue or via `DispatchQueue.global(.background)` — can stop executing. If the work is user-observable or required for app correctness, use `.utility` or higher.
 
 ---
 
@@ -170,7 +172,7 @@ DispatchQueue.concurrentPerform(iterations: items.count) { i in
 
 ### Target Queue Hierarchy (Architectural)
 
-Funnel multiple subsystem queues through a limited set of root queues (see `references/queue-creation.md`). This prevents thread explosion at the architecture level.
+Funnel multiple subsystem queues through a limited set of root queues (see `queue-creation.md`). This prevents thread explosion at the architecture level.
 
 ---
 

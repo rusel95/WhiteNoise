@@ -1,7 +1,8 @@
 ---
 name: ios-security-audit
-version: 1.1.2
 description: "Enterprise skill for iOS security auditing against OWASP MASVS v2.1.0 (24 controls, 8 categories). Use when reviewing iOS code for security vulnerabilities, auditing Keychain and storage usage, checking ATS and network configuration, detecting hardcoded secrets or weak cryptography, reviewing Objective-C runtime attack surface, validating certificate pinning, auditing WebView security, checking biometric auth implementation, assessing jailbreak detection, reviewing URL scheme handlers, or mapping compliance requirements (HIPAA, PCI DSS, GDPR, SOC 2). Covers both Swift and Objective-C codebases with detection patterns, vulnerable/secure code pairs, and MASVS control mappings."
+metadata:
+  version: 1.1.2
 ---
 
 # iOS Security Audit
@@ -80,7 +81,7 @@ Does the app handle financial, health, government, or payment data?
      - **Main target + dependencies** — audits third-party code too (useful for supply chain review)
      - **Specific target** — user specifies which target to audit
 2. **Identify testing profile** — Determine L1/L2/R from app category and data sensitivity
-3. **Run quick scan** — Execute `scripts/quick-scan.sh` or grep for CRITICAL patterns first
+3. **Run quick scan** — For maximum coverage, use both: run `scripts/quick-scan.sh` locally (whole-repo grep, zero tokens, deterministic) AND use your own search tools to scan for CRITICAL patterns. The script catches literals across every file regardless of depth; agent search catches patterns requiring multi-file context or semantic understanding. Neither alone is sufficient.
 4. **Audit Info.plist** — Check ATS, URL schemes, permissions, privacy keys → Read `references/plist-audit.md`
 5. **Audit storage** — Search for UserDefaults with sensitive keys, Keychain accessibility levels, file protection
 6. **Audit cryptography** — Detect deprecated algorithms, weak randomness, hardcoded keys/IVs
@@ -120,35 +121,6 @@ Does the app handle financial, health, government, or payment data?
 | C4 | Hardcoded crypto keys | Byte arrays or string literals used as encryption key parameters |
 | C5 | Insecure deserialization | `NSKeyedUnarchiver.unarchiveObject(` — use `unarchivedObject(ofClass:from:)` |
 | C6 | Hardcoded/zero IVs | `Data(repeating: 0, count:` or string literals used as IV/nonce |
-
-## Do's — Always Follow
-
-1. **Start with CRITICAL patterns** — Scan for hardcoded secrets, UserDefaults misuse, and disabled ATS before deeper analysis. These are high-confidence, low-false-positive findings.
-2. **Report the MASVS control** — Every finding must map to a MASVS control and, where available, a MASWE weakness ID for traceability.
-3. **Provide both vulnerable and secure code** — Every finding includes the problematic code and a concrete, copy-pasteable fix.
-4. **Detect language per file** — Apply Objective-C runtime checks only to `.m`/`.mm` files. Apply Swift-specific patterns to `.swift` files. Never mix detection strategies.
-5. **Cross-reference Info.plist with code** — ATS exceptions, URL schemes, and entitlements must be validated against actual code behavior.
-6. **Consider the testing profile** — L1 issues are always relevant. L2 and R issues only apply when the app handles sensitive/regulated data.
-7. **Flag false positives explicitly** — If a pattern matches but context makes it safe (e.g., `UserDefaults` for non-sensitive preferences), note it as informational rather than a finding.
-
-## Don'ts — Avoid These Audit Mistakes
-
-### Never: Flag non-sensitive UserDefaults usage
-```swift
-// ✅ This is SAFE — user preference, not sensitive data
-UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
-```
-Only flag UserDefaults when keys suggest sensitive data (password, token, secret, credential, session, auth).
-
-### Never: Flag SHA-1/MD5 used for non-security checksums
-```swift
-// ✅ Acceptable — file integrity check, not cryptographic security
-let checksum = Insecure.MD5.hash(data: fileData)
-```
-Flag only when used for password hashing, signature verification, or HMAC.
-
-### Never: Demand L2 controls for L1 apps
-Certificate pinning, jailbreak detection, and encryption at rest are L2/R requirements. Flag as informational for general-purpose apps, not as findings.
 
 ## Workflows
 
@@ -261,8 +233,8 @@ Certificate pinning, jailbreak detection, and encryption at rest are L2/R requir
 
 Full audits on large codebases (500+ Swift files) consume significant tokens. Use a tiered approach:
 
-1. **Run `scripts/quick-scan.sh` first** — zero token cost, local grep for CRITICAL/HIGH patterns
-2. **Use Haiku for pattern scanning** — grep-based CRITICAL/HIGH detection, report template filling
+1. **Run `scripts/quick-scan.sh` first** — zero token cost, whole-repo grep for CRITICAL/HIGH patterns across every file. Paste output into the conversation.
+2. **Agent scans in parallel with own tools** — grep-based CRITICAL/HIGH detection using search tools covers patterns requiring context the script misses (multi-line calls, indirect key references, data-flow). Both together = maximum depth.
 3. **Use Sonnet for contextual analysis** — data-flow reasoning, false-positive filtering, cross-file checks
 4. **Use Sonnet/Opus for fix generation** — secure replacement code must be correct
 
@@ -326,12 +298,13 @@ Before finalizing the audit report, verify:
 
 | Reference | When to Read |
 |-----------|-------------|
+| `references/rules.md` | Do's and Don'ts quick reference: priority rules and critical audit anti-patterns |
 | [references/critical-patterns.md](references/critical-patterns.md) | Every audit — CRITICAL detection patterns with vulnerable/secure code pairs |
 | [references/high-patterns.md](references/high-patterns.md) | Every audit — HIGH severity patterns with context requirements |
 | [references/medium-low-patterns.md](references/medium-low-patterns.md) | Full audits — defense-in-depth and best practice checks |
 | [references/objc-specific.md](references/objc-specific.md) | When Objective-C files are present — runtime attack surface |
 | [references/plist-audit.md](references/plist-audit.md) | Every audit — Info.plist and entitlements security checks |
 | [references/compliance-mapping.md](references/compliance-mapping.md) | L2/regulated apps — HIPAA, PCI DSS, GDPR, SOC 2, FDA 21 CFR Part 11 requirements |
-| [references/audit-workflow.md](references/audit-workflow.md) | Audit report template, cost optimization (Haiku/Sonnet tiers), and structured remediation tracking |
+| [references/audit-workflow.md](references/audit-workflow.md) | Audit report template, cost optimization (Sonnet tiers), and structured remediation tracking |
 | [references/appstore-rejections.md](references/appstore-rejections.md) | Pre-release — App Store rejection patterns (UIWebView, privacy manifest, ATT, ATS, entitlements) |
 | [references/masvs-mapping.md](references/masvs-mapping.md) | Reference — MASVS control to detection pattern mapping |

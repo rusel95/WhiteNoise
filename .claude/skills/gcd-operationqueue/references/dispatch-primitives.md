@@ -36,7 +36,7 @@ group.notify(queue: .main) {
 
 1. **Every `enter()` must have exactly one `leave()`** — missing leave = notify never fires; extra leave = `EXC_BAD_INSTRUCTION` crash
 2. **Always use `defer { group.leave() }`** inside the async callback, right after enter logic, to guarantee balance on every code path (success, error, early return)
-3. **Never use `group.wait()` on main thread** — use `group.notify` instead (see `references/deadlocks.md` Pattern 5)
+3. **Never use `group.wait()` on main thread** — use `group.notify` instead (see `deadlocks.md`, Pattern 5)
 
 ### Timeout Pattern
 

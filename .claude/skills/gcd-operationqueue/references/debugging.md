@@ -86,7 +86,7 @@ func accessCache() {
 | `.notOnQueue(.main)` | Expensive computation that must not block UI |
 | `.onQueue(specificQueue)` | Methods that must only be called from a specific queue |
 
-**Best practice:** Add `dispatchPrecondition` at the top of every public method that has a queue requirement. Catches violations immediately during development.
+**Best practice:** Add `dispatchPrecondition` at every **API boundary** — the top of every public or internal method that has a queue requirement. This ensures violations are caught at the call site (during development) rather than buried in a hard-to-reproduce crash. Since the assertion is stripped in release builds, there is zero production overhead.
 
 ---
 

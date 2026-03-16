@@ -124,7 +124,7 @@ final class ViewModel {
 
 **Context matters**: For **new features**, aim for ≤ 400 lines from the start. For **refactoring PRs**, do NOT force a split just to hit a number — a file split is its own task. Cascading a split into an unrelated migration PR bloats the diff and defeats small-PR discipline.
 
-**Fix**: See `references/file-organization.md` for full patterns:
+**Fix**: See `file-organization.md` for full patterns:
 - **ViewModel**: Split by extension files (`VM+Search.swift`, `VM+CRUD.swift`), or extract child ViewModels for sub-features with their own lifecycle.
 - **View**: Extract subviews into separate files (`FeatureHeader.swift`, `ItemRow.swift`), one concern per file.
 - **Shared logic**: Move reusable business logic to helper/service classes.

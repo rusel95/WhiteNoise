@@ -1,7 +1,8 @@
 ---
 name: mvvm-uikit-architecture
-version: 1.0.1
 description: "Production-first enterprise skill for UIKit MVVM architecture (iOS 13+). Guides iterative refactoring of legacy UIKit MVC codebases to modern MVVM through phased, low-risk PRs tracked in a `refactoring/` directory. Also applies when creating new screens, setting up Coordinator navigation, implementing Combine bindings, migrating GCD completion handlers, building DI with factories, adopting DiffableDataSource, or writing ViewModel tests. Covers ViewState enum, Combine @Published + sink, GCD patterns, Coordinator lifecycle, constructor injection, programmatic Auto Layout, and phased refactoring workflow."
+metadata:
+  version: 1.0.1
 ---
 
 > **Approach: Production-First Iterative Refactoring** — This skill is built for production enterprise codebases where stability and reviewability matter more than speed. Architecture changes are delivered through iterative refactoring — small, focused PRs (≤200 lines, single concern) tracked in a `refactoring/` directory. Critical safety issues ship first; cosmetic improvements come last.
@@ -26,7 +27,7 @@ Service Layer        → URLSession, persistence. Injected via protocol. May use
 
 ```
 Is there business logic, networking, or complex state?
-├── YES → Create a ViewModel (ObservableObject with @Published)
+├── YES → Create a ViewModel (see "Which binding mechanism" below for Combine vs closures)
 └── NO → Is it a container/flow controller (tab bar, navigation)?
     ├── YES → Coordinator manages it, no ViewModel needed
     └── NO → No ViewModel needed unless it simplifies testing
@@ -72,81 +73,6 @@ Is there more than one navigation flow (auth + main, tabs)?
     └── ViewModel signals navigation via closures, never UIKit imports
 ```
 
-## Do's — Always Follow
-
-1. **Keep ViewModels free of UIKit imports** — ViewModel imports only Foundation. No UIView, UIColor, UIImage references. This ensures testability on any platform.
-2. **Use `ViewState<T>` enum for async data** — prevents impossible states (loading AND error simultaneously). Never use separate `isLoading` + `error` + `data` booleans.
-3. **Bind in `viewDidLoad`, never in `init`** — at `viewDidLoad`, all outlets are connected and the view hierarchy is loaded. During `init`, views don't exist yet.
-4. **Inject dependencies via constructor with protocol types** — enables testing, prevents singleton coupling. `init(viewModel: ProfileViewModel)`.
-5. **Use `private(set) var` for ViewModel state** — ViewController can observe but not write. Enforces unidirectional data flow.
-6. **Always use `[weak self]` in `sink` closures** — the retain cycle path is `self → cancellables Set → AnyCancellable → closure → self`.
-7. **Use Coordinator pattern for navigation** — ViewModels signal navigation intent through closures. VCs never instantiate other VCs.
-8. **Cancel Tasks in `deinit`** — UIKit does NOT auto-cancel Tasks like SwiftUI's `.task` modifier. Store `Task` references and cancel in `deinit`.
-9. **Keep new files ≤ 400 lines** — split large VCs into child VCs; split large ViewModels by extension files (`VM+Feature.swift`). For existing files over 400 lines, add a split task to the feature's `refactoring/` plan.
-
-## Don'ts — Critical Anti-Patterns
-
-### Never: ViewModel imports UIKit
-
-```swift
-// ❌ Couples ViewModel to platform, breaks unit testing
-import UIKit
-class BadVM { var icon: UIImage = UIImage(systemName: "star")! }
-
-// ✅ Platform-agnostic types only
-import Foundation
-class GoodVM: ObservableObject { @Published private(set) var iconName: String = "star" }
-```
-
-### Never: Networking in ViewController
-
-```swift
-// ❌ Business logic in VC, untestable
-override func viewDidLoad() {
-    super.viewDidLoad()
-    URLSession.shared.dataTask(with: url) { data, _, _ in
-        DispatchQueue.main.async { self.tableView.reloadData() }
-    }.resume()
-}
-
-// ✅ ViewModel handles data, VC observes
-override func viewDidLoad() {
-    super.viewDidLoad()
-    setupBindings()
-    viewModel.fetch()
-}
-```
-
-### Never: Missing `[weak self]` in sink closures
-
-```swift
-// ❌ RETAIN CYCLE — self → cancellables → AnyCancellable → closure → self
-viewModel.$posts
-    .sink { posts in self.renderPosts(posts) }
-    .store(in: &cancellables)
-
-// ✅ SAFE
-viewModel.$posts
-    .receive(on: DispatchQueue.main)
-    .sink { [weak self] posts in self?.renderPosts(posts) }
-    .store(in: &cancellables)
-```
-
-### Never: Force-unwrapped dependencies
-
-```swift
-// ❌ Runtime crash when not set
-var service: NetworkService!
-
-// ✅ Constructor injection with protocol
-private let service: NetworkServiceProtocol
-init(service: NetworkServiceProtocol) { self.service = service }
-```
-
-### Never: ViewController instantiating other ViewControllers
-
-VCs should not know about other VCs. Navigation is Coordinator's responsibility. This ensures screens are reusable in different flows.
-
 ## Workflows
 
 > **Default workflow**: Analyze & Refactor (below). New screen creation applies the same patterns but from a clean slate. In production enterprise codebases, most work is iterative modernization — not greenfield.
@@ -169,7 +95,7 @@ VCs should not know about other VCs. Navigation is Coordinator's responsibility.
 **When:** Building a new feature screen from scratch. Apply enterprise patterns from the start.
 
 1. Define the data model and repository protocol (`references/testing.md` for mock pattern)
-2. Create ViewModel: `ObservableObject` with `@Published private(set) var state: ViewState<T>` — zero UIKit imports
+2. Create ViewModel: plain class with `private(set) var state: ViewState<T>` — zero UIKit imports (use `@Published` + Combine or closures per the binding mechanism decision tree)
 3. Add `// MARK: -` sections: Properties, Init, Actions, Computed Properties
 4. Create the ViewController with constructor injection: `init(viewModel: MyViewModel)`
 5. Wire Combine bindings in `setupBindings()` called from `viewDidLoad`
@@ -273,6 +199,7 @@ Before finalizing generated or refactored code, verify ALL:
 
 | Reference | When to Read |
 |-----------|-------------|
+| `references/rules.md` | Do's and Don'ts quick reference: priority rules and critical anti-patterns |
 | `references/binding-mechanisms.md` | Combine @Published + sink, closures, async/await, Input/Output pattern, decision matrix |
 | `references/coordinator-navigation.md` | Coordinator protocol, hierarchy, memory management, back button handling, deep linking |
 | `references/viewcontroller-lifecycle.md` | VC lifecycle, ViewState enum, DiffableDataSource, VC containment, keyboard handling |

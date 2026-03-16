@@ -104,6 +104,8 @@ final class SafeCache {
 
 Concurrent reads via `sync`, exclusive writes via `async(flags: .barrier)`. **Barriers on global queues are silently ignored** — no compiler warning, no runtime error.
 
+**`DispatchQueue.global()` identity hazard:** `DispatchQueue.global(.background)` is NOT guaranteed to return the same queue object on every call — the system may return different backing queue instances. This means you cannot safely use a `global()` queue as the identity key for a barrier: two barrier calls intended for the same logical queue may land on different objects and execute concurrently. **Always use a custom named concurrent queue for barriers.**
+
 ```swift
 final class ThreadSafeArray<Element> {
     // MUST be custom concurrent queue — barriers are ignored on global queues

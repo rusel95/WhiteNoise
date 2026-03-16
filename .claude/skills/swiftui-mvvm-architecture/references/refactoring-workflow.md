@@ -277,7 +277,7 @@ Six months later: crystal clear. File, line, exact symptom, exact fix.
 | Bug fix | 50 | Single focused fix |
 | File split (View or ViewModel) | 0 net | Extract extensions / subviews — dedicated PR, not mid-refactor |
 
-If a PR exceeds these limits, split it. If a file exceeds 1000 lines, log a dedicated split task in the plan — see `references/file-organization.md`. Do NOT force a file split inside an unrelated refactoring PR.
+If a PR exceeds these limits, split it. If a file exceeds 1000 lines, log a dedicated split task in the plan — see `file-organization.md`. Do NOT force a file split inside an unrelated refactoring PR.
 
 ## Rules
 

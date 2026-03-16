@@ -5,7 +5,7 @@ Enterprise-grade skill for Swift Concurrency on Apple platforms. Prevents the mo
 ## What This Skill Changes
 
 | Without Skill | With Skill |
-|---------------|------------|
+| --- | --- |
 | AI uses `DispatchSemaphore.wait()` in async contexts (deadlocks cooperative pool) | Continuation-based bridging with `withCheckedThrowingContinuation`, cooperative pool awareness |
 | AI uses `@unchecked Sendable` to silence compiler (hides data races) | `sending` parameter, `Mutex<State>`, actor wrapping — compiler-verified safety |
 | AI assumes actor state unchanged after `await` (reentrancy bugs) | Re-check-after-await pattern, in-flight Task coalescing for deduplication |
@@ -42,11 +42,81 @@ Verify installation by asking your AI agent to review async/await code — it sh
 Ask your AI agent to run any of these workflows:
 
 | Workflow | What It Does |
-|----------|-------------|
+| --- | --- |
 | **Audit Existing Codebase** | Scans for crash patterns, Sendable violations, actor reentrancy, AsyncStream leaks, and security issues. Creates a severity-ranked refactoring plan. |
 | **Migrate Module to Strict Concurrency** | Bottom-up migration to `SWIFT_STRICT_CONCURRENCY=complete` or Swift 6 mode. Audits third-party SDKs, fixes global state, enables per-target flags. |
 | **Create New Concurrent Feature** | Guides isolation model selection, concurrency structure, Sendable compliance, cancellation, and deterministic testing from scratch. |
 | **Fix Production Crash** | Classifies crash type (continuation, deadlock, watchdog, reentrancy), reproduces with targeted test, applies fix with TSan verification. |
+
+## Benchmark Results
+
+Tested on **24 scenarios** (8 topics × 3 difficulty tiers) with **73 assertions**.
+
+### Results Summary
+
+| Model | With Skill | Without Skill | Delta |
+| --- | --- | --- | --- |
+| **GPT-5.4** | 100% | 82.2% | **+17.8%** |
+| **Gemini 3.1 Pro** | 100% | 64.4% | **+35.6%** |
+
+### Tiered Results (GPT-5.4)
+
+| Difficulty | With Skill | Without Skill | Delta |
+| --- | --- | --- | --- |
+| Simple | 22/22 (100%) | 18/22 (81.8%) | **+18.2%** |
+| Medium | 24/24 (100%) | 22/24 (91.7%) | **+8.3%** |
+| Complex | 27/27 (100%) | 20/27 (74.1%) | **+25.9%** |
+| **Total** | **73/73 (100%)** | **60/73 (82.2%)** | **+17.8%** |
+
+### Tiered Results (Gemini 3.1 Pro)
+
+| Difficulty | With Skill | Without Skill | Delta |
+| --- | --- | --- | --- |
+| Simple | 22/22 (100%) | 18/22 (81.8%) | **+18.2%** |
+| Medium | 24/24 (100%) | 19/24 (79.2%) | **+20.8%** |
+| Complex | 27/27 (100%) | 10/27 (37.0%) | **+63.0%** |
+| **Total** | **73/73 (100%)** | **47/73 (64.4%)** | **+35.6%** |
+
+**Interpretation:** The baseline is already strong on mainstream Swift Concurrency guidance without the skill, especially on medium-difficulty prompts. The remaining uplift comes from the skill's more Apple-specific and migration-specific details: exact cooperative-pool sizing guidance, `withDiscardingTaskGroup`, `sending`, precise cancellation-handler constraints, and Swift 6 migration nuances like `SWIFT_STRICT_CONCURRENCY=complete` versus full Swift 6 language mode.
+
+**Gemini 3.1 Pro note:** Gemini shows a larger delta (+35.6%) despite matching on simple evals. The gap widens sharply at complex tier (37.0% without skill) — the 26 missed assertions concentrate on cooperative-pool sizing, `withDiscardingTaskGroup`, `sending` parameter, cancellation handler constraints, and security-specific concurrency patterns (TOCTOU at `await` points, `withTaskCancellationHandler` for biometrics).
+
+### Key Discriminating Assertions — GPT-5.4
+
+| Topic | Assertion | Why It Matters |
+| --- | --- | --- |
+| cooperative-pool | Pool capped at roughly CPU-core count | Explains why blocked async threads deadlock faster on device |
+| cooperative-pool | Throttle child tasks to `ProcessInfo.processInfo.activeProcessorCount` | Prevents cooperative-pool exhaustion and watchdog kills |
+| actor-isolation | In-flight task coalescing with `[URL: Task<Data, Error>]` | Fixes duplicate fetches caused by actor reentrancy |
+| sendable | Public types are not inferred Sendable across module boundaries | Prevents misleading cross-module API design assumptions |
+| sendable | `sending` parameter as a transfer alternative | Uses a Swift 6 ownership tool instead of unsafe sharing |
+| asyncstream | `onTermination` cleanup for observers and location streams | Prevents infinite producers and leaked system resources |
+| asyncstream | `withDiscardingTaskGroup` for `Void` child tasks | Avoids hidden TaskGroup memory accumulation |
+| cancellation | Synchronous cancellation-handler constraint | Prevents invalid async cleanup inside `withTaskCancellationHandler` |
+| migration | `SWIFT_STRICT_CONCURRENCY=complete` vs Swift 6 mode | Keeps staged migration realistic instead of turning warnings into errors too early |
+| security-concurrency | `withTaskCancellationHandler` + `context.invalidate()` for biometrics | Prevents continuation hangs during cancellation |
+
+### Key Discriminating Assertions — Gemini 3.1 Pro (26 total)
+
+Gemini 3.1 Pro has a stronger simple/medium baseline (81.8%/79.2%) but only 37% on complex tier. The 26 gaps reveal the same cooperative-pool and cancellation specifics, plus additional Swift 6 migration nuances:
+
+| Topic | ID | Assertion | Why It Matters |
+| --- | --- | --- | --- |
+| actor-isolation | AI3.1 | `Task.detached` strips `@MainActor` isolation — use `Task {}` to inherit | Prevents accidental off-main-actor mutations |
+| actor-isolation | AI3.2 | `deinit` is `nonisolated`; accessing `@MainActor` property from `deinit` unsafe in Swift 6 | Critical Swift 6 rule for teardown code |
+| actor-isolation | AI2.2 | In-flight Task coalescing with `[URL: Task<Data, Error>]` | Fixes duplicate fetches caused by actor reentrancy |
+| asyncstream | AS3.1 | `withDiscardingTaskGroup` for Void results to avoid accumulation | Prevents hidden memory growth in long-running services |
+| asyncstream | AS3.3 | Throttle concurrent tasks to `activeProcessorCount` | Prevents pool exhaustion under high concurrency |
+| cancellation | CN3.2 | `withTaskCancellationHandler` to trigger `cancelUpload` on Task cancel | Enables clean resource teardown when caller cancels |
+| cancellation | CN3.3 | Cancellation handler must be **synchronous** and may be called from any thread | Prevents invalid async cleanup inside the handler |
+| cooperative-pool | CP3.1–CP3.4 | `Data(contentsOf:)` blocks cooperative pool; throttle with `activeProcessorCount` | Blocking I/O inside TaskGroup causes watchdog kills |
+| migration | MI1.1 | `SWIFT_STRICT_CONCURRENCY=complete` (warnings) vs Swift 6 mode (errors) | Allows staged adoption without breaking the build |
+| security | SC3.4 | `withTaskCancellationHandler` + `context.invalidate()` to prevent continuation hangs | Biometric auth must be explicitly cancelled |
+
+> Raw data:
+> `swift-concurrency-workspace/iteration-1/benchmark-gpt-5-4-tiered.json`
+>
+> `swift-concurrency-workspace/iteration-1/benchmark-gemini-3-1-pro-tiered.json`
 
 ## Author
 

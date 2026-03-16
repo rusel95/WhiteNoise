@@ -1,7 +1,8 @@
 ---
 name: swift-concurrency
-version: 1.0.0
-description: "Enterprise skill for Swift Concurrency on Apple platforms (iOS, macOS, watchOS, tvOS, visionOS). Use when writing or reviewing async/await code, diagnosing data races, fixing actor reentrancy or isolation bugs, debugging cooperative pool deadlocks, preventing continuation misuse (double-resume crash, leaked continuation hang), migrating to strict concurrency (SWIFT_STRICT_CONCURRENCY=complete), adopting Swift 6 or Swift 6.2, handling Sendable conformance and sending parameters, using TaskGroup or AsyncStream correctly, fixing concurrency-related security vulnerabilities (TOCTOU, token refresh races), converting callback-based code to async/await, implementing actor isolation patterns, resolving Sendable conformance issues, or setting up Thread Sanitizer CI pipelines. Covers cooperative thread pool mechanics, actor reentrancy mitigation, Swift 6.2 Approachable Concurrency (@concurrent, nonisolated nonsending by default, MainActor default isolation), backward compatibility, Combine bridging, and enterprise migration strategies."
+description: "Enterprise skill for Swift Concurrency on Apple platforms (iOS, macOS, watchOS, tvOS, visionOS). Use when writing or reviewing async/await code, diagnosing data races, fixing actor reentrancy or isolation bugs, debugging cooperative pool deadlocks, preventing continuation misuse (double-resume crash, leaked continuation hang), migrating to strict concurrency (SWIFT_STRICT_CONCURRENCY=complete), adopting Swift 6 or Swift 6.2, handling Sendable conformance and sending parameters, using TaskGroup or AsyncStream correctly, fixing concurrency-related security vulnerabilities (TOCTOU, token refresh races), converting callback-based code to async/await, implementing actor isolation patterns, resolving Sendable conformance issues, or setting up Thread Sanitizer CI pipelines. Covers cooperative thread pool mechanics, actor reentrancy, Swift 6.2 Approachable Concurrency, Combine bridging, and enterprise migration strategies."
+metadata:
+  version: 1.1.0
 ---
 
 # Swift Concurrency
@@ -62,121 +63,6 @@ Does the API block the current thread?
 +-- NO  -> Is the work CPU-bound and takes >1ms?
     +-- YES -> Use @concurrent func (Swift 6.2+) or nonisolated func on dedicated queue
     +-- NO  -> Safe in async context
-```
-
-## Do's -- Always Follow
-
-1. **Enable strict concurrency checking** -- `SWIFT_STRICT_CONCURRENCY=complete` in build settings. Warnings now become errors in Swift 6 mode. (`references/compiler-flags-ci.md`)
-2. **Resume every continuation exactly once on every code path** -- use `withCheckedThrowingContinuation` (not Unsafe). Missing resume = permanent hang. Double resume = `EXC_BREAKPOINT`. (`references/crash-patterns.md`)
-3. **Use actors for shared mutable state, @MainActor for UI state** -- actors provide compile-time isolation. Never access actor-isolated state without `await` or `assumeIsolated`. (`references/actor-isolation.md`)
-4. **Prefer Mutex for synchronous short critical sections** -- actors force async access. `Mutex<State>` (Swift 6+, iOS 18+) or `NSLock` allows synchronous lock without suspension. (`references/advanced-patterns.md`)
-5. **Use withDiscardingTaskGroup for fire-and-forget child tasks** -- regular TaskGroup accumulates child task results in memory until iterated. Discarding variant releases immediately. (`references/asyncstream-memory.md`)
-6. **Always call continuation.finish() on AsyncStream** -- use `onTermination` handler to detect consumer cancellation. Missing `finish()` leaks the stream and all captured resources. (`references/asyncstream-memory.md`)
-7. **Inject Clock protocol for time-dependent code** -- `ContinuousClock` in production, `ImmediateClock` or custom `TestClock` in tests. Never use `Task.sleep(nanoseconds:)` directly. (`references/testing-debugging.md`)
-8. **Mark public types with explicit Sendable conformance** -- the compiler does not infer Sendable for public types even if all stored properties are Sendable. (`references/sendable-transfer.md`)
-
-## Don'ts -- Critical Anti-Patterns
-
-> Severity: 🔴 crash/data loss, 🟠 data race/corruption, 🟡 hang/deadlock, 🟢 best practice violation
-
-### Never: Block the cooperative thread pool 🟡
-
-```swift
-// DEADLOCK -- cooperative pool has only CPU-core-count threads (4-10 on iPhones)
-func fetchSync() async -> Data {
-    let semaphore = DispatchSemaphore(value: 0)
-    URLSession.shared.dataTask(with: url) { data, _, _ in
-        result = data; semaphore.signal()
-    }.resume()
-    semaphore.wait() // Blocks cooperative thread; pool starves under load
-}
-
-// FIX: Use continuation
-func fetch() async throws -> Data {
-    try await withCheckedThrowingContinuation { continuation in
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if let error { continuation.resume(throwing: error); return }
-            continuation.resume(returning: data!)
-        }.resume()
-    }
-}
-```
-
-### Never: Use @unchecked Sendable to silence compiler 🟠
-
-```swift
-// RUNTIME CRASH -- compiler trusts you, data race at runtime
-final class TokenStore: @unchecked Sendable {
-    var token: String = "" // No synchronization
-}
-
-// FIX: Use actor for async access or Mutex for sync access
-actor TokenStore {
-    private var token: String = ""
-    func update(_ newToken: String) { token = newToken }
-    func current() -> String { token }
-}
-```
-
-### Never: Assume state unchanged after await in actor 🟠
-
-```swift
-// BUG -- actor reentrancy: state changes between check and use
-actor Cache {
-    var store: [URL: Data] = [:]
-    func data(for url: URL) async -> Data {
-        if store[url] == nil {
-            store[url] = await download(url) // Duplicate downloads
-        }
-        return store[url]!
-    }
-}
-
-// FIX: Re-check after await, coalesce in-flight requests
-actor Cache {
-    var store: [URL: Data] = [:]
-    private var inFlight: [URL: Task<Data, Error>] = [:]
-    func data(for url: URL) async throws -> Data {
-        if let cached = store[url] { return cached }
-        if let task = inFlight[url] { return try await task.value }
-        let task = Task { try await download(url) }
-        inFlight[url] = task
-        defer { inFlight[url] = nil }
-        let data = try await task.value
-        store[url] = data
-        return data
-    }
-}
-```
-
-### Never: Access @MainActor state from deinit 🔴
-
-```swift
-// WARNING -- deinit is always nonisolated, runs on any thread
-@MainActor final class ViewModel {
-    var timer: Timer?
-    deinit { timer?.invalidate() } // Compiler warning in Swift 6
-}
-
-// FIX: Explicit cleanup method called from .onDisappear or coordinator
-@MainActor final class ViewModel {
-    var timer: Timer?
-    func cleanup() { timer?.invalidate(); timer = nil }
-}
-```
-
-### Never: Use MainActor.run {} for isolation 🟢
-
-```swift
-// ANTI-PATTERN -- runtime hop, compiler cannot verify isolation
-func update() async {
-    await MainActor.run { label.text = "Done" }
-}
-
-// FIX: Static @MainActor annotation -- compiler-verified
-@MainActor func update() {
-    label.text = "Done"
-}
 ```
 
 ## Workflows
@@ -281,14 +167,20 @@ Before finalizing generated or refactored concurrent code, verify ALL:
 
 | Reference | When to Read |
 |-----------|-------------|
+| `references/rules.md` | Do's and Don'ts quick reference: priority rules and critical anti-patterns |
 | `references/crash-patterns.md` | Production crash patterns: continuation misuse, cooperative pool deadlocks, TaskGroup OOM, watchdog kills, release-only crashes |
 | `references/actor-isolation.md` | Task.init inherits isolation, compile-time isolation, nonisolated deinit, isolated deinit (Swift 6.1+), split isolation, assumeIsolated, actors as advanced tools |
 | `references/sendable-transfer.md` | sending keyword, region-based isolation, @unchecked Sendable risks, public type inference, @preconcurrency scope |
 | `references/asyncstream-memory.md` | Infinite sequence leaks, continuation.finish(), backpressure policies, withDiscardingTaskGroup, Task.detached stripping |
 | `references/swift-6-2-changes.md` | Approachable Concurrency: caller isolation, @concurrent, MainActor default, @preconcurrency runtime crashes |
 | `references/migration-strategy.md` | Bottom-up module migration, third-party SDK blockers, global singleton conversion, actor hopping overhead |
-| `references/testing-debugging.md` | withMainSerialExecutor, Clock injection, TSan, Instruments, deterministic tests, timeouts |
 | `references/security-concurrency.md` | Token refresh serialization, TOCTOU at await, Keychain serialization, sensitive data, actor double-spend |
 | `references/compiler-flags-ci.md` | SWIFT_STRICT_CONCURRENCY, SPM per-target flags, Swift 6.2 feature flags, SwiftLint rules, CI pipeline |
 | `references/advanced-patterns.md` | Mutex vs actors, async let vs TaskGroup, isolated parameters, withTaskCancellationHandler, .task modifier, task-locals |
 | `references/refactoring-workflow.md` | refactoring/ directory protocol, per-feature plans, severity ordering, PR sizing, verification checklist |
+| `references/diagnostics-fix-mapping.md` | Compiler error → fix mapping: "Sending risks data races", "non-sendable capture", "static property not safe", isolation errors |
+| `references/cancellation-patterns.md` | Cooperative cancellation, withTaskCancellationHandler, CancellationError handling, timeout patterns, SwiftUI .task |
+| `references/memory-retain-cycles.md` | Task retain cycles, weak self patterns, async sequence retention, isolated deinit, testing for leaks |
+| `references/core-data-concurrency.md` | NSManagedObject not Sendable, DAO pattern, NSManagedObjectID, actor-isolated context, @MainActor conflicts |
+| `references/testing-async.md` | Swift Testing async, confirmation(), Clock injection, withMainSerialExecutor, TSan, deterministic tests |
+| `references/testing-debugging.md` | withMainSerialExecutor, Clock injection, TSan, Instruments, deterministic tests, timeouts |

@@ -120,7 +120,7 @@ for item in largeDataset {
 }
 ```
 
-Also set `.workItem` autorelease frequency on queues that do batch work (see `references/queue-creation.md`).
+Also set `.workItem` autorelease frequency on queues that do batch work (see `queue-creation.md`).
 
 ---
 

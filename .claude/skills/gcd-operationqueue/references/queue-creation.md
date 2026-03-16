@@ -33,7 +33,7 @@ let concurrent = DispatchQueue(label: "com.app.processing", attributes: .concurr
 
 **Rules:**
 
-- Never use `.background` for user-visible work — iOS aggressively throttles it
+- Never use `.background` for user-visible work — iOS aggressively throttles it, and **in Low Power Mode iOS may halt `.background` work entirely**
 - Never use `.userInteractive` for anything that takes > 16ms
 - When in doubt, use `.userInitiated` for user-triggered work
 - `.utility` is correct for network downloads with progress bars
@@ -46,8 +46,8 @@ let concurrent = DispatchQueue(label: "com.app.processing", attributes: .concurr
 
 1. **No label** — crashes show `com.apple.root.default-qos`, useless for debugging
 2. **No control** — you can't set `maxConcurrentOperationCount`, can't pause, can't cancel
-3. **Thread explosion** — every `global().async` can spawn a new thread (see `references/thread-explosion.md`)
-4. **No barriers** — barriers on global queues are silently ignored (see `references/thread-safety.md`)
+3. **Thread explosion** — every `global().async` can spawn a new thread (see `thread-explosion.md`)
+4. **No barriers** — barriers on global queues are silently ignored (see `thread-safety.md`)
 
 ```swift
 // BAD — scattered throughout codebase
