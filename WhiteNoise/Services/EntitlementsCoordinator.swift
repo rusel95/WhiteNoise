@@ -9,9 +9,24 @@ import Foundation
 import Observation
 import RevenueCat
 
+// MARK: - Protocol
+
+/// Defines the subset of EntitlementsCoordinator that PaywallViewModel needs,
+/// enabling protocol-based dependency injection and unit-testability.
+@MainActor
+protocol EntitlementsCoordinating: AnyObject {
+    var currentOffering: Offering? { get }
+    var isPaywallPresented: Bool { get set }
+    func handlePurchaseCompleted(with customerInfo: CustomerInfo)
+    func handleRestoreCompleted(with customerInfo: CustomerInfo)
+    func handlePaywallDismissed()
+}
+
+// MARK: - Implementation
+
 /// Coordinates subscription entitlements, paywall presentation, and trial reminders.
 @Observable @MainActor
-final class EntitlementsCoordinator {
+final class EntitlementsCoordinator: EntitlementsCoordinating {
     private(set) var hasActiveEntitlement: Bool = false
     var currentOffering: Offering?
     var isPaywallPresented: Bool = false
