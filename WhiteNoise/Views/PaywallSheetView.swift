@@ -345,13 +345,13 @@ struct PaywallSheetView<ViewModel: PaywallPresenting>: View {
             .font(.system(size: 13, weight: .medium))
             .foregroundStyle(theme.textSecondary)
 
-            if let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") {
+            if let termsURL = URL(string: "https://rusel95.github.io/rusel95-apps-legal/WhiteNoise/terms-of-service.html") {
                 Link(String(localized: "Terms"), destination: termsURL)
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(theme.textSecondary)
             }
 
-            if let privacyURL = URL(string: "https://www.apple.com/legal/privacy/") {
+            if let privacyURL = URL(string: "https://rusel95.github.io/rusel95-apps-legal/WhiteNoise/privacy-policy.html") {
                 Link(String(localized: "Privacy"), destination: privacyURL)
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(theme.textSecondary)
