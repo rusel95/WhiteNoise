@@ -1,4 +1,19 @@
 {
   "mcpServers": {
+    "grepai": {
+      "command": "/opt/homebrew/bin/grepai",
+      "args": [
+        "mcp-serve",
+        "/Users/Ruslan_Popesku/Desktop/WhiteNoise"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "grepai_index_status",
+        "grepai_search",
+        "grepai_trace_callers",
+        "grepai_trace_callees",
+        "grepai_trace_graph"
+      ]
+    }
   }
 }

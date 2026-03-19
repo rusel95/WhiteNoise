@@ -149,3 +149,4 @@ skills-lock.json
 
 # MCP server config (contains API keys)
 .mcp.json
+.grepai/

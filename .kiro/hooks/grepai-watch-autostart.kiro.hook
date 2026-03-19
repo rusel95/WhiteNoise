@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "GrepAI Watch Autostart",
+  "description": "Starts grepai watch in background after each agent session if not already running",
+  "version": "1",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "pgrep -f \"grepai watch\" > /dev/null || nohup /opt/homebrew/bin/grepai watch /Users/Ruslan_Popesku/Desktop/WhiteNoise > /tmp/grepai-watch-whitenoise.log 2>&1 &",
+    "timeout": 10
+  }
+}
