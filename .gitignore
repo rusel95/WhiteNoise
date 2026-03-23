@@ -145,6 +145,7 @@ screenshots/
 .agent/
 .windsurf/
 .specify/
+.grepai/
 skills-lock.json
 
 # MCP server config (contains API keys)
