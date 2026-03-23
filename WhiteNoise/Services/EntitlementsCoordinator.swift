@@ -225,11 +225,22 @@ final class EntitlementsCoordinator: EntitlementsCoordinating {
 
             var offeringToUse: Offering?
             if let identifier = offeringIdentifier, !identifier.isEmpty {
-                offeringToUse = offerings.offering(identifier: identifier)
-                if offeringToUse == nil {
-                    // Fallback to current to keep debugging smooth when identifier mismatches.
+                let found = offerings.offering(identifier: identifier)
+                if let found, !found.availablePackages.isEmpty {
+                    offeringToUse = found
+                } else {
+                    if found != nil {
+                        // Offering exists but has no purchasable packages — fall back to current.
+                        LoggingService.log("⚠️ EntitlementsCoordinator.loadOffering - Offering \(identifier) has no packages, falling back to current offering")
+                        TelemetryService.captureNonFatal(
+                            message: "EntitlementsCoordinator.loadOffering offering has no packages",
+                            extra: ["offeringIdentifier": identifier]
+                        )
+                    } else {
+                        // Fallback to current to keep debugging smooth when identifier mismatches.
+                        LoggingService.log("⚠️ EntitlementsCoordinator.loadOffering - Offering \(identifier) not found, falling back to current offering")
+                    }
                     offeringToUse = offerings.current
-                    LoggingService.log("⚠️ EntitlementsCoordinator.loadOffering - Offering \(identifier) not found, falling back to current offering")
                 }
             } else {
                 offeringToUse = offerings.current
